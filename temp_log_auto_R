@@ -1,5 +1,7 @@
 #!/usr/bin/Rscript
 
+# from terminal window call using $ Rscript <filename>
+
 # to get log data
 # connect to Dragemaskinen
 # ssh steinmb@10.0.0.16
@@ -9,7 +11,7 @@
 # from local scp steinmb@10.0.0.16:/Users/steinmb/Downloads/temp.log ~/Downloads
 
 # read logfile into dataframe called "log"
-log<-read.csv("~/Downloads/temp2.log",header=F)
+log<-read.csv("temp2.log",header=F)
 
 # rename columns
 colnames(log)<-c("datestamp","temp1","temp2")
