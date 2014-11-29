@@ -1,7 +1,5 @@
 #!/usr/bin/Rscript
 
-# from terminal window call using $ Rscript <filename>
-
 # to get log data
 # connect to Dragemaskinen
 # ssh steinmb@10.0.0.16
