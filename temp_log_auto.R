@@ -8,17 +8,18 @@
 # from Dragemaskinen scp pi@192.168.1.2:/home/pi/temp.log ~/Downloads/
 # from local scp steinmb@10.0.0.16:/Users/steinmb/Downloads/temp.log ~/Downloads
 
-# read logfile into dataframe called "log"
-log<-read.csv("temp2.log",header=F)
+# Read logfile into dataframe called "log".
+log<-read.csv("temp2.log", header = F)
 
-# rename columns
-colnames(log)<-c("datestamp","temp1","temp2")
+# Rename columns.
+colnames(log)<-c("datestamp", "temp1", "temp2")
 
-# create new column in log called "datetime" using datestamp read as POSIX date-time factor
+# Create new column in log called "datetime" using datestamp read as POSIX
+# date-time factor.
 log$datetime<-as.POSIXct(log$datestamp, format="%Y-%m-%d %H:%M:%S")
 
-# generate plot
-png("~/Downloads/temp_log_plot2.png",height=800,width=800,res=100)
+# Generate plot.
+png("temp_log_plot2.png", height=800, width=800, res=100)
 par(mar=c(10,5,5,4)+1)
 plot(temp1~datetime,data=log,las=2,type="n",xaxt="n",xlab="",ylab="temp, degC",ylim=c(18,36),yaxp=c(18,36,9))
 points(temp1~datetime,data=log,type="l",col="red")
