@@ -24,15 +24,58 @@ log$datetime<-as.POSIXct(log$datestamp, format="%Y-%m-%d %H:%M:%S")
 
 # Setup and define plot device.
 png("temp_log_plot2.png", plot_width, plot_height, res = 100)
-par(mar=c(10,5,5,4)+1)
+par(mar = c(10,5,5,4) + 1)
 
 # Generate plot.
-plot(temp1~datetime,data=log,las=2,type="n",xaxt="n",xlab="",ylab="temp, degC",ylim=c(18,36),yaxp=c(18,36,9))
-points(temp1~datetime,data=log,type="l",col="red")
-points(temp2~datetime,data=log,type="l",col="darkgreen")
-axis.POSIXct(1,log$datetime,labels=T,las=2,format="%Y/%m/%d %H:%M:%S",at=log$datetime[seq(1, length(log$datetime), 10000)])
+plot(
+  temp1~datetime,data = log,
+  las = 2,
+  type = "n",
+  xaxt = "n",
+  xlab = "",
+  ylab = "temp, degC",
+  ylim = c(18,36),
+  yaxp = c(18,36,9)
+)
 
-legend("bottomright",c("ambient","gjæringskar"),pch=22,col=c("red","darkgreen"),pt.bg=c("red","darkgreen"),bty="n",cex=1.5)
-legend("topleft","Øl-Pi temperaturmålinger",bty="n",cex=1.5)
+points(
+  temp1~datetime,
+  data = log,
+  type = "l",
+  col = "red"
+)
+
+points(
+  temp2~datetime,
+  data = log,
+  type = "l",
+  col = "darkgreen"
+)
+
+axis.POSIXct(
+  1,
+  log$datetime,
+  labels = T,
+  las = 2,
+  format = "%Y/%m/%d %H:%M:%S",
+  at = log$datetime[seq(1, length(log$datetime), 10000)]
+)
+
+legend(
+  "bottomright",
+  c("ambient", "gjæringskar"),
+  pch = 22,
+  col = c("red", "darkgreen"),
+  pt.bg = c("red", "darkgreen"),
+  bty = "n",
+  cex = 1.5
+)
+
+legend(
+  "topleft",
+  "Øl-Pi temperaturmålinger",
+  bty = "n",
+  cex = 1.5
+)
 
 dev.off()
