@@ -13,14 +13,17 @@ plot_height <- 800
 plot_width <- 1200
 
 # Read logfile into dataframe.
-log<-read.csv("temp2.log", header = F)
+log<-read.csv("bar.log", header = F)
 
 # Rename columns.
 colnames(log)<-c("datestamp", "temp1")
 
+# Find number of temperatur sensors.
+sensorer = ncol(log)/2
+
 # Create new column in log called "datetime" using datestamp read as POSIX
 # date-time factor.
-log$datetime<-as.POSIXct(log$datestamp, format="%Y-%m-%d %H:%M:%S")
+log$datetime<-as.POSIXct(log$datestamp, format = "%Y-%m-%d %H:%M:%S")
 
 # Setup and define plot device.
 png("temp_log_plot2.png", plot_width, plot_height, res = 100)
@@ -28,7 +31,8 @@ par(mar = c(10,5,5,4) + 1)
 
 # Generate plot.
 plot(
-  temp1~datetime,data = log,
+  temp1~datetime,
+  data = log,
   las = 2,
   type = "n",
   xaxt = "n",
@@ -45,12 +49,14 @@ points(
   col = "red"
 )
 
-points(
-  temp2~datetime,
-  data = log,
-  type = "l",
-  col = "darkgreen"
-)
+if (sensorer > 1) {
+  points(
+    temp2~datetime,
+    data = log,
+    type = "l",
+    col = "darkgreen"
+  )
+}
 
 axis.POSIXct(
   1,
