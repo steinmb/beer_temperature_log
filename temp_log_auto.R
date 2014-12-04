@@ -9,8 +9,19 @@
 # from local scp steinmb@10.0.0.16:/Users/steinmb/Downloads/temp.log ~/Downloads
 
 # Configuration
+args <- commandArgs(TRUE) # Enable reading arguments from shell.
 plot_height <- 800
 plot_width <- 1200
+min_temp <- as.numeric(args[1])
+max_temp <- as.numeric(args[2])
+
+if (is.na(min_temp)) {
+  min_temp <- 17
+}
+
+if (is.na(max_temp)) {
+  max_temp <- 24
+}
 
 # Read logfile into dataframe.
 log<-read.csv("bar.log", header = F)
@@ -38,8 +49,8 @@ plot(
   xaxt = "n",
   xlab = "",
   ylab = "temp, degC",
-  ylim = c(18,36),
-  yaxp = c(18,36,9)
+  ylim = c(min_temp, max_temp),
+  yaxp = c(min_temp, max_temp, 9)
 )
 
 
@@ -95,4 +106,5 @@ legend(
   cex = 1.5
 )
 
+# Close file after we are done writing.
 dev.off()
