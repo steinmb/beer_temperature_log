@@ -35,18 +35,22 @@ if (is.na(max_temp)) {
 # Read logfile into a dataframe.
 log<-read.csv(temp_log, header = F)
 
+# Find number of temperatur sensors.
+sensorer = ncol(log)/2
+
 # Rename columns.
-colnames(log)<-c("datestamp", "temp1")
+if (sensorer > 1) {
+  colnames(log)<-c("datestamp", "temp1", "temp2")
+} else {
+  colnames(log)<-c("datestamp", "temp1")
+}
 
 # Alter date and time to POSIX standard.
 log$datestamp <- as.POSIXct(log$datestamp)
 
-# Find number of temperatur sensors.
-sensorer = ncol(log)/2
-
 # Setup and define plot device.
 png("temp_log_plot2.png", plot_width, plot_height, res = 100)
-par(mar = c(10,5,5,4) + 1)
+par(mar = c(10,5,5,4) + 0.1)
 
 # Generate plot.
 plot(
@@ -61,13 +65,19 @@ plot(
   yaxp = c(min_temp, max_temp, 9)
 )
 
-
 if (sensorer > 1) {
   points(
     temp2~datestamp,
     data = log,
     type = "l",
     col = "darkgreen"
+  )
+
+  points(
+    temp1~datestamp,
+    data = log,
+    type = "l",
+    col = "red"
   )
 
   legend(
