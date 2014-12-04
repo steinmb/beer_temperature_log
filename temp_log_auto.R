@@ -12,8 +12,17 @@
 args <- commandArgs(TRUE) # Enable reading arguments from shell.
 plot_height <- 800
 plot_width <- 1200
-min_temp <- as.numeric(args[1])
-max_temp <- as.numeric(args[2])
+temp_log <- args[1]
+min_temp <- as.numeric(args[2])
+max_temp <- as.numeric(args[3])
+
+if (is.na(temp_log)) {
+  temp_log <- "demo/demo.csv"
+  cat("Name of temperatur file not defined, loading demo data\n")
+  cat("Usage:\n  Rscript <this_file> temp_log <min_temperatur> <max_temperatur>\n")
+  cat("Basic example:\n  Rscript temp_log_auto.R temperatur.log\n")
+  cat("Advanced example:\n  Rscript temp_log_auto.R temperatur.log 17.5 22\n")
+}
 
 if (is.na(min_temp)) {
   min_temp <- 17
@@ -23,8 +32,8 @@ if (is.na(max_temp)) {
   max_temp <- 24
 }
 
-# Read logfile into dataframe.
-log<-read.csv("bar.log", header = F)
+# Read logfile into a dataframe.
+log<-read.csv(temp_log, header = F)
 
 # Rename columns.
 colnames(log)<-c("datestamp", "temp1")
