@@ -25,11 +25,11 @@ if (is.na(temp_log)) {
 }
 
 if (is.na(min_temp)) {
-  min_temp <- 17
+  min_temp <- 17 # Default value if nothing is given on start.
 }
 
 if (is.na(max_temp)) {
-  max_temp <- 24
+  max_temp <- 24 # Default value if nothing is given on start.
 }
 
 # Read logfile into a dataframe.
@@ -38,12 +38,11 @@ log<-read.csv(temp_log, header = F)
 # Rename columns.
 colnames(log)<-c("datestamp", "temp1")
 
+# Alter date and time to POSIX standard.
+log$datestamp <- as.POSIXct(log$datestamp)
+
 # Find number of temperatur sensors.
 sensorer = ncol(log)/2
-
-# Workaround: Create new column in log called "datetime" using datestamp read as
-# POSIX date-time factor.
-log$datetime<-as.POSIXct(log$datestamp, format = "%Y-%m-%d %H:%M:%S")
 
 # Setup and define plot device.
 png("temp_log_plot2.png", plot_width, plot_height, res = 100)
@@ -51,7 +50,7 @@ par(mar = c(10,5,5,4) + 1)
 
 # Generate plot.
 plot(
-  temp1~datetime,
+  temp1~datestamp,
   data = log,
   las = 2,
   type = "n",
@@ -65,7 +64,7 @@ plot(
 
 if (sensorer > 1) {
   points(
-    temp2~datetime,
+    temp2~datestamp,
     data = log,
     type = "l",
     col = "darkgreen"
@@ -82,7 +81,7 @@ if (sensorer > 1) {
   )
 } else {
   points(
-    temp1~datetime,
+    temp1~datestamp,
     data = log,
     type = "l",
     col = "red"
@@ -101,11 +100,11 @@ if (sensorer > 1) {
 
 axis.POSIXct(
   1,
-  log$datetime,
+  log$datestamp,
   labels = T,
   las = 2,
   format = "%Y/%m/%d %H:%M:%S",
-  at = log$datetime[seq(1, length(log$datetime), 10000)]
+  at = log$datestamp[seq(1, length(log$datestamp), 10000)]
 )
 
 legend(
