@@ -67,7 +67,7 @@ if (!ggplotLibrary) {
 
 if (ggplotLibrary) {
   source(plotggplot.r)
-  writeLines("ggplot yay!")
+  plotggplot()
 }
 
 # Close file after we are done writing.
