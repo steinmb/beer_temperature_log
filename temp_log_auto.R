@@ -1,13 +1,6 @@
 #!/usr/local/bin/Rscript
 
-# to get log data
-# connect to Dragemaskinen
-# ssh steinmb@10.0.0.16
-# then connect to Øl-Pi
-# ssh pi@192.168.1.2 # raspberry
-# from Dragemaskinen scp pi@192.168.1.2:/home/pi/temp.log ~/Downloads/
-# from local scp steinmb@10.0.0.16:/Users/steinmb/Downloads/temp.log ~/Downloads
-#
+# Hint:
 # Convert raw data logs. Some temperatur logs might have lines terminated
 # only by LF not CRLF. Running them through this awk command take care of that:
 # awk '{printf "%s\r\n", $0}' log_file > new_log_file.
