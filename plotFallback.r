@@ -37,7 +37,8 @@ plotFallback <- function() {
       bty = "n",
       cex = 1.5
     )
-  } else {
+  }
+  else {
     points(
       temp1~datestamp,
       data = log,
