@@ -17,11 +17,11 @@ ggplotLibrary <- try(library(ggplot), silent = TRUE)
 
 if (inherits(ggplotLibrary, "try-error")) {
   writeLines("There was an error. ggplot library missing")
+  ggplotLibrary <- FALSE
 } else {
   writeLines("Everything worked fine!")
+  ggplotLibrary <- TRUE
 }
-
-source("plotFallback.r")
 
 # Configuration
 args <- commandArgs(TRUE) # Enable reading arguments from shell.
@@ -67,7 +67,15 @@ log$datestamp <- as.POSIXct(log$datestamp)
 png("temp_log_plot2.png", plot_width, plot_height, res = 100)
 par(mar = c(10, 5, 5, 4) + 0.1)
 
-plotFallback()
+if (!ggplotLibrary) {
+  source("plotFallback.r")
+  plotFallback()
+}
+
+if (ggplotLibrary) {
+  source(plotggplot.r)
+  writeLines("ggplot yay!")
+}
 
 # Close file after we are done writing.
 dev.off()
