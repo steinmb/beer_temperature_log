@@ -1,4 +1,4 @@
-#!/usr/bin/Rscript
+#!/usr/local/bin/Rscript
 
 # to get log data
 # connect to Dragemaskinen
@@ -11,6 +11,17 @@
 # Convert raw data logs. Some temperatur logs might have lines terminated
 # only by LF not CRLF. Running them through this awk command take care of that:
 # awk '{printf "%s\r\n", $0}' log_file > new_log_file.
+
+# Libraries and includes.
+ggplotLibrary <- try(library(ggplot), silent = TRUE)
+
+if (inherits(ggplotLibrary, "try-error")) {
+  writeLines("There was an error. ggplot library missing")
+} else {
+  writeLines("Everything worked fine!")
+}
+
+source("plotFallback.r")
 
 # Configuration
 args <- commandArgs(TRUE) # Enable reading arguments from shell.
@@ -56,77 +67,7 @@ log$datestamp <- as.POSIXct(log$datestamp)
 png("temp_log_plot2.png", plot_width, plot_height, res = 100)
 par(mar = c(10,5,5,4) + 0.1)
 
-# Generate plot.
-plot(
-  temp1~datestamp,
-  data = log,
-  las = 2,
-  type = "n",
-  xaxt = "n",
-  xlab = "",
-  ylab = "temp, degC",
-  ylim = c(min_temp, max_temp),
-  yaxp = c(min_temp, max_temp, 9)
-)
-
-if (sensorer > 1) {
-  points(
-    temp2~datestamp,
-    data = log,
-    type = "l",
-    col = "darkgreen"
-  )
-
-  points(
-    temp1~datestamp,
-    data = log,
-    type = "l",
-    col = "red"
-  )
-
-  legend(
-    "bottomright",
-    c("ambient", "gjæringskar"),
-    pch = 22,
-    col = c("red", "darkgreen"),
-    pt.bg = c("red", "darkgreen"),
-    bty = "n",
-    cex = 1.5
-  )
-} else {
-  points(
-    temp1~datestamp,
-    data = log,
-    type = "l",
-    col = "red"
-  )
-
-  legend(
-    "bottomright",
-    c("gjæringskar"),
-    pch = 22,
-    col = "red",
-    pt.bg = "red",
-    bty = "n",
-    cex = 1.5
-  )
-}
-
-axis.POSIXct(
-  1,
-  log$datestamp,
-  labels = T,
-  las = 2,
-  format = "%Y/%m/%d %H:%M:%S",
-  at = log$datestamp[seq(1, length(log$datestamp), 10000)]
-)
-
-legend(
-  "topleft",
-  "Øl-Pi temperaturmålinger",
-  bty = "n",
-  cex = 1.5
-)
+plotFallback()
 
 # Close file after we are done writing.
 dev.off()
