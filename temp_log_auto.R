@@ -60,6 +60,8 @@ if (sensorer == 2) {
 }
 
 # Alter date and time to POSIX standard.
+log$datestamp <- as.POSIXct(log$datestamp)
+
 if (!ggplotLibrary) {
   cat("Plotting using fallback methode.\n")
   png(
