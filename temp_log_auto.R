@@ -62,7 +62,12 @@ if (sensorer == 2) {
 log$datestamp <- as.POSIXct(log$datestamp)
 
 # Setup and define plot device.
-png("temp_log_plot2.png", plot_width, plot_height, res = 100)
+png(
+  filename = "temp_log_plot2.png",
+  width = plot_width,
+  height = plot_height,
+  res = 100
+)
 par(mar = c(10, 5, 5, 4) + 0.1)
 
 if (!ggplotLibrary) {
