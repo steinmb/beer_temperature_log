@@ -18,6 +18,7 @@ if (inherits(ggplotLibrary, "try-error")) {
 
 # Configuration
 args <- commandArgs(TRUE) # Enable reading arguments from shell.
+plot_filename <- "temp_log_plot2.png"
 plot_height <- 800
 plot_width <- 1200
 temp_log <- args[1]
@@ -61,19 +62,18 @@ if (sensorer == 2) {
 # Alter date and time to POSIX standard.
 log$datestamp <- as.POSIXct(log$datestamp)
 
-# Setup and define plot device.
-png(
-  filename = "temp_log_plot2.png",
-  width = plot_width,
-  height = plot_height,
-  res = 100
-)
-par(mar = c(10, 5, 5, 4) + 0.1)
-
 if (!ggplotLibrary) {
   cat("Plotting using fallback methode.\n")
+  png(
+    filename = plot_filename,
+    width = plot_width,
+    height = plot_height,
+    res = 100
+  )
+  par(mar = c(10, 5, 5, 4) + 0.1)
   source("plotFallback.r")
   plotFallback(log, sensorer)
+  dev.off() #Cleaning up. Close device(s) after we are done using it.
 }
 
 if (ggplotLibrary) {
@@ -82,8 +82,10 @@ if (ggplotLibrary) {
   log.2 <- log
   log.2$measurement <- "und"
   colnames(log.2) <- c("datestamp", "temp", "measurement")
-  plotggplot(log.2, sensorer)
+  tempPlot <- plotggplot(log.2, sensorer)
+  ggsave(
+    filename = plot_filename,
+    dpi = 150,
+    plot = tempPlot
+  )
 }
-
-# Cleaning up. Close device(s) after we are done using it.
-dev.off()
