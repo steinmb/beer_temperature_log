@@ -49,12 +49,12 @@ sensorer = ncol(log) - 1
 
 # Rename columns.
 if (sensorer == 1) {
-  cat("Data from", sensorer, "probe found.\n")
+  cat("Data from", sensorer, "probe(s) found.\n")
   colnames(log) <- c("datestamp", "temp1")
 }
 
 if (sensorer == 2) {
-  cat("Data from", sensorer, "probe found.\n")
+  cat("Data from", sensorer, "probe(s) found.\n")
   head(log, n = 10)
   colnames(log) <- c("datestamp", "temp1", "temp2")
 }
@@ -63,7 +63,7 @@ if (sensorer == 2) {
 log$datestamp <- as.POSIXct(log$datestamp)
 
 if (!ggplotLibrary) {
-  cat("Plotting using fallback methode.\n")
+  cat("Plotting using fallback method.\n")
   png(
     filename = plot_filename,
     width = plot_width,
