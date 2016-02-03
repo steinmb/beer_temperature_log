@@ -47,9 +47,14 @@ log <- read.csv(temp_log, header = F)
 sensorer = ncol(log) / 2
 
 # Rename columns.
-if (sensorer > 1) {
+if (sensorer == 2) {
+  cat("Data from", sensorer, "probe found.\n")
+  head(log, n = 10)
   colnames(log) <- c("datestamp", "temp1", "temp2")
-} else {
+}
+
+if (sensorer == 1) {
+  cat("Data from", sensorer, "probe found.\n")
   colnames(log) <- c("datestamp", "temp1")
 }
 
@@ -62,13 +67,17 @@ par(mar = c(10, 5, 5, 4) + 0.1)
 
 if (!ggplotLibrary) {
   source("plotFallback.r")
-  plotFallback()
+  plotFallback(sensorer)
 }
 
 if (ggplotLibrary) {
   source("plotggplot.r")
-  plotggplot()
+  log.2 <- log
+  log.2$measurement <- "und"
+  colnames(log.2) <- c("datestamp", "temp", "measurement")
+  log.2$datestamp <- as.POSIXct(log.2$datestamp)
+  plotggplot(sensorer)
 }
-
-# Close file after we are done writing.
+f
+# Cleaning up. Close device(s) after we are done using it.
 dev.off()

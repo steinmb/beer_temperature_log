@@ -1,7 +1,7 @@
-# Generate plot by using the ggplot library.
+# Generate plot by using the ggplot2 plotting system.
 
-plotggplot <- function() {
-  if (sensorer > 1) {
+plotggplot <- function(sensorer = 0) {
+  if (sensorer == 1) {
     plot <- ggplot(data = log.2) +
     geom_line(aes(x = as.POSIXct(datestamp), y = temp, colour = measurement)) +
     xlab("") +
@@ -10,7 +10,8 @@ plotggplot <- function() {
     ggtitle("Brewpi temperature log") +
     theme(legend.position = c(0.8, 0.1))
   }
-  else {
+
+  if (sensorer == 2) {
     plot <- ggplot(data = log.2) +
     geom_line (aes(x = as.POSIXct(datestamp), y = temp, colour = measurement)) +
     xlab ("") +
@@ -18,5 +19,9 @@ plotggplot <- function() {
     theme_bw () +
     ggtitle ("Brewpi temperature log") +
     theme (legend.position = c(0.8, 0.1))
+  }
+
+  if (sensorer == 0) {
+    writeLines("No sensors found. Giving up.")
   }
 }
