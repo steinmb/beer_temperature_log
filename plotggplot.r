@@ -3,7 +3,7 @@
 plotggplot <- function(log = "und", sensorer = 0) {
   if (sensorer == 1) {
     result <- ggplot(data = log) +
-      geom_line(aes(x = as.POSIXct(datestamp), y = temp, colour = measurement)) +
+      geom_line(aes(x = datestamp, y = temp, colour = measurement)) +
       xlab("") +
       ylab("temperature, degrees Celsius") +
       theme_bw() +
@@ -13,7 +13,7 @@ plotggplot <- function(log = "und", sensorer = 0) {
 
   if (sensorer == 2) {
     result <- ggplot(data = log) +
-      geom_line (aes(x = as.POSIXct(datestamp), y = temp, colour = measurement)) +
+      geom_line (aes(x = datestamp, y = temp, colour = measurement)) +
       xlab ("") +
       ylab ("ambient temperature, degrees Celsius") +
       theme_bw () +
