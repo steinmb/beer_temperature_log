@@ -8,7 +8,7 @@ plotggplot <- function(log = "und", sensorer = 0) {
       ylab("temperature, degrees Celsius") +
       theme_bw() +
       ggtitle("Brewpi temperature log") +
-      theme(legend.position = c(0.8, 0.1))
+      theme(legend.position = "right")
   }
 
   if (sensorer == 2) {
@@ -18,7 +18,7 @@ plotggplot <- function(log = "und", sensorer = 0) {
       ylab ("ambient temperature, degrees Celsius") +
       theme_bw () +
       ggtitle ("Brewpi temperature log") +
-      theme (legend.position = c(0.8, 0.1))
+      theme (legend.position = "right")
   }
 
   if (sensorer == 0) {
