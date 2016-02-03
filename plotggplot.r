@@ -1,6 +1,6 @@
 # Generate plot by using the ggplot2 plotting system.
 
-plotggplot <- function(sensorer = 0) {
+plotggplot <- function(log.2 = "und", sensorer = 0) {
   if (sensorer == 1) {
     plot <- ggplot(data = log.2) +
     geom_line(aes(x = as.POSIXct(datestamp), y = temp, colour = measurement)) +

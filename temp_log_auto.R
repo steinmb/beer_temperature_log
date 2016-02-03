@@ -47,15 +47,15 @@ log <- read.csv(temp_log, header = F)
 sensorer = ncol(log) / 2
 
 # Rename columns.
+if (sensorer == 1) {
+  cat("Data from", sensorer, "probe found.\n")
+  colnames(log) <- c("datestamp", "temp1")
+}
+
 if (sensorer == 2) {
   cat("Data from", sensorer, "probe found.\n")
   head(log, n = 10)
   colnames(log) <- c("datestamp", "temp1", "temp2")
-}
-
-if (sensorer == 1) {
-  cat("Data from", sensorer, "probe found.\n")
-  colnames(log) <- c("datestamp", "temp1")
 }
 
 # Alter date and time to POSIX standard.
@@ -66,18 +66,19 @@ png("temp_log_plot2.png", plot_width, plot_height, res = 100)
 par(mar = c(10, 5, 5, 4) + 0.1)
 
 if (!ggplotLibrary) {
+  cat("Plotting using fallback methode.\n")
   source("plotFallback.r")
-  plotFallback(sensorer)
+  plotFallback(log, sensorer)
 }
 
 if (ggplotLibrary) {
+  cat("Plotting using ggplot2.\n")
   source("plotggplot.r")
   log.2 <- log
   log.2$measurement <- "und"
   colnames(log.2) <- c("datestamp", "temp", "measurement")
-  log.2$datestamp <- as.POSIXct(log.2$datestamp)
-  plotggplot(sensorer)
+  plotggplot(log.2, sensorer)
 }
-f
+
 # Cleaning up. Close device(s) after we are done using it.
 dev.off()

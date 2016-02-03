@@ -1,6 +1,6 @@
 # Fallback plot. Used if ggplot is not installed.
 # Generate plot.
-plotFallback <- function(sensorer = 0) {
+plotFallback <- function(log = "und", sensorer = 0) {
   plot(
     temp1~datestamp,
     data = log,
