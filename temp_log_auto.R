@@ -6,13 +6,13 @@
 # awk '{printf "%s\r\n", $0}' log_file > new_log_file.
 
 # Libraries and includes.
-ggplotLibrary <- try(library(ggplot), silent = TRUE)
+ggplotLibrary <- try(library(ggplot2), silent = TRUE)
 
 if (inherits(ggplotLibrary, "try-error")) {
   writeLines("There was an error. ggplot library missing")
   ggplotLibrary <- FALSE
 } else {
-  writeLines("Everything worked fine!")
+  writeLines("ggplot2 plotting system found (http://ggplot2.org)")
   ggplotLibrary <- TRUE
 }
 
@@ -66,7 +66,7 @@ if (!ggplotLibrary) {
 }
 
 if (ggplotLibrary) {
-  source(plotggplot.r)
+  source("plotggplot.r")
   plotggplot()
 }
 
