@@ -79,10 +79,9 @@ if (!ggplotLibrary) {
 if (ggplotLibrary) {
   cat("Plotting using ggplot2.\n")
   source("plotggplot.r")
-  log.2 <- log
-  log.2$measurement <- "und"
-  colnames(log.2) <- c("datestamp", "temp", "measurement")
-  tempPlot <- plotggplot(log.2, sensorer)
+  log$measurement <- "und"
+  colnames(log) <- c("datestamp", "temp", "measurement")
+  tempPlot <- plotggplot(log, sensorer)
   ggsave(
     filename = plot_filename,
     dpi = 150,

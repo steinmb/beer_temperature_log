@@ -1,8 +1,8 @@
 # Generate plot by using the ggplot2 plotting system.
 
-plotggplot <- function(log.2 = "und", sensorer = 0) {
+plotggplot <- function(log = "und", sensorer = 0) {
   if (sensorer == 1) {
-    result <- ggplot(data = log.2) +
+    result <- ggplot(data = log) +
       geom_line(aes(x = as.POSIXct(datestamp), y = temp, colour = measurement)) +
       xlab("") +
       ylab("temperature, degrees Celsius") +
@@ -12,7 +12,7 @@ plotggplot <- function(log.2 = "und", sensorer = 0) {
   }
 
   if (sensorer == 2) {
-    result <- ggplot(data = log.2) +
+    result <- ggplot(data = log) +
       geom_line (aes(x = as.POSIXct(datestamp), y = temp, colour = measurement)) +
       xlab ("") +
       ylab ("ambient temperature, degrees Celsius") +
