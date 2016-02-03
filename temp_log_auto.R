@@ -26,7 +26,7 @@ min_temp <- as.numeric(args[2])
 max_temp <- as.numeric(args[3])
 
 if (is.na(temp_log)) {
-  temp_log <- "demo/demo.csv"
+  result <- try(temp_log <- "demo/demo.csv")
   cat("Name of temperatur file not defined, loading demo data\n")
   cat("Usage:\n  Rscript <this_file> temp_log <min_temperatur> <max_temperatur>\n")
   cat("Basic example:\n  Rscript temp_log_auto.R temperatur.log\n")
@@ -45,7 +45,7 @@ if (is.na(max_temp)) {
 log <- read.csv(temp_log, header = F)
 
 # Find number of temperatur sensors.
-sensorer = ncol(log) / 2
+sensorer = ncol(log) - 1
 
 # Rename columns.
 if (sensorer == 1) {
@@ -60,8 +60,6 @@ if (sensorer == 2) {
 }
 
 # Alter date and time to POSIX standard.
-log$datestamp <- as.POSIXct(log$datestamp)
-
 if (!ggplotLibrary) {
   cat("Plotting using fallback methode.\n")
   png(
