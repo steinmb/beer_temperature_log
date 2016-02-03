@@ -27,7 +27,7 @@ max_temp <- as.numeric(args[3])
 
 if (is.na(temp_log)) {
   temp_log <- "demo/demo.csv"
-  cat("Name of temperatur file not defined, loading demo data\n")
+  cat("Name of temperature file not defined, loading demo data\n")
   cat("Usage:\n  Rscript <this_file> temp_log <min_temperatur> <max_temperatur>\n")
   cat("Basic example:\n  Rscript temp_log_auto.R temperatur.log\n")
   cat("Advanced example:\n  Rscript temp_log_auto.R temperatur.log 17.5 22\n")
