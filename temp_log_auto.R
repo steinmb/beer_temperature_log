@@ -7,13 +7,18 @@
 
 # Libraries and includes.
 ggplotLibrary <- try(library(ggplot2), silent = TRUE)
+reshapeLibrary <- try(library(reshape2), silent = TRUE)
 
 if (inherits(ggplotLibrary, "try-error")) {
-  writeLines("There was an error. ggplot library missing")
+  writeLines("There was an error. ggplot2 library missing")
   ggplotLibrary <- FALSE
 } else {
   writeLines("ggplot2 plotting system found (http://ggplot2.org)")
   ggplotLibrary <- TRUE
+  if (inherits(reshapeLibrary, "try-error")) {
+    writeLines("There was an error. reshape2 library missing")   
+    ggplotLibrary <- FALSE
+  }
 }
 
 # Configuration
@@ -80,8 +85,7 @@ if (!ggplotLibrary) {
 if (ggplotLibrary) {
   cat("Plotting using ggplot2.\n")
   source("plotggplot.r")
-  log$measurement <- "und"
-  colnames(log) <- c("datestamp", "temp", "measurement")
+  colnames(log) <- c("datestamp", "ambient", "fermentering")
   tempPlot <- plotggplot(log, sensorer)
   ggsave(
     filename = plot_filename,
