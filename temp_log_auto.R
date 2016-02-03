@@ -85,7 +85,7 @@ if (!ggplotLibrary) {
 if (ggplotLibrary) {
   cat("Plotting using ggplot2.\n")
   source("plotggplot.r")
-  colnames(log) <- c("datestamp", "ambient", "fermentering")
+  colnames(log) <- c("datestamp", "ambient", "fermentation")
   tempPlot <- plotggplot(log, sensorer)
   ggsave(
     filename = plot_filename,
