@@ -34,11 +34,11 @@ if (is.na(temp_log)) {
 }
 
 if (is.na(min_temp)) {
-  min_temp <- 17 # Default value if nothing is given on start.
+  min_temp <- 14 # Default value if nothing is given on start.
 }
 
 if (is.na(max_temp)) {
-  max_temp <- 24 # Default value if nothing is given on start.
+  max_temp <- 19 # Default value if nothing is given on start.
 }
 
 # Read logfile into a dataframe.
@@ -68,7 +68,8 @@ if (!ggplotLibrary) {
     filename = plot_filename,
     width = plot_width,
     height = plot_height,
-    res = 100
+    res = 100,
+    bg = "transparent"
   )
   par(mar = c(10, 5, 5, 4) + 0.1)
   source("plotFallback.r")

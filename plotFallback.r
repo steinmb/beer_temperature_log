@@ -34,17 +34,17 @@ plotFallback <- function(log = "und", sensorer = 0) {
 
   if (sensorer == 2) {
     points(
-      temp2~datestamp,
-      data = log,
-      type = "l",
-      col = "darkgreen"
-    )
-
-    points(
       temp1~datestamp,
       data = log,
       type = "l",
       col = "red"
+    )
+
+    points(
+      temp2~datestamp,
+      data = log,
+      type = "l",
+      col = "darkgreen"
     )
 
     legend(
