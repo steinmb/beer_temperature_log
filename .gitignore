@@ -2,3 +2,5 @@
 .Rhistory
 .RData
 beer_temperature_log.Rproj
+.idea
+temp_log_plot2.png
