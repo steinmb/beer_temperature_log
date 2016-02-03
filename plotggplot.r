@@ -2,23 +2,23 @@
 
 plotggplot <- function(log = "und", sensorer = 0) {
   if (sensorer == 1) {
-    result <- ggplot(data = log) +
-      geom_line(aes(x = datestamp, y = temp, colour = measurement)) +
-      xlab("") +
-      ylab("temperature, degrees Celsius") +
-      theme_bw() +
+    log <- melt(log, id.vars = "datestamp")
+    result <- ggplot(data = log, aes(x = datestamp, y = value)) +
+      geom_line(aes(colour = variable)) +
+      xlab("Date") +
+      ylab("Temperature, degrees Celsius") +
       ggtitle("Brewpi temperature log") +
       theme(legend.position = "right")
   }
 
   if (sensorer == 2) {
-    result <- ggplot(data = log) +
-      geom_line (aes(x = datestamp, y = temp, colour = measurement)) +
-      xlab ("") +
-      ylab ("ambient temperature, degrees Celsius") +
-      theme_bw () +
-      ggtitle ("Brewpi temperature log") +
-      theme (legend.position = "right")
+    log <- melt(log, id.vars = "datestamp")
+    result <- ggplot(data = log, aes(x = datestamp, y = value)) +
+      geom_line(aes(colour = variable)) +
+      xlab("Date") +
+      ylab("Temperature, degrees Celsius") +
+      ggtitle("Brewpi temperature log") +
+      theme(legend.position = "right")
   }
 
   if (sensorer == 0) {
@@ -27,3 +27,4 @@ plotggplot <- function(log = "und", sensorer = 0) {
 
   return(result)
 }
+
