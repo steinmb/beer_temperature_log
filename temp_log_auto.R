@@ -23,7 +23,8 @@ if (inherits(ggplotLibrary, "try-error")) {
 
 # Configuration
 args <- commandArgs(TRUE) # Enable reading arguments from shell.
-plot_filename <- "temp_log_plot2.png"
+plot_directory <- "www"
+plot_filename <- "temperatur.png"
 plot_height <- 800
 plot_width <- 1200
 temp_log <- args[1]
@@ -79,15 +80,18 @@ if (!ggplotLibrary) {
   par(mar = c(10, 5, 5, 4) + 0.1)
   source("plotFallback.r")
   plotFallback(log, sensorer)
-  dev.off() #Cleaning up. Close device(s) after we are done using it.
+  dev.off() # Cleaning up. Close device(s) after we are done using it.
 }
 
+  filename <- paste(plot_directory, plot_filename, sep = "/")
+  filename
 if (ggplotLibrary) {
   cat("Plotting using ggplot2.\n")
   source("plotggplot.r")
   colnames(log) <- c("datestamp", "ambient", "fermentation")
   tempPlot <- plotggplot(log, sensorer)
   ggsave(
+    path = plot_directory,
     filename = plot_filename,
     dpi = 150,
     plot = tempPlot
