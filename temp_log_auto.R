@@ -25,8 +25,10 @@ if (inherits(ggplotLibrary, "try-error")) {
 args <- commandArgs(TRUE) # Enable reading arguments from shell.
 plot_directory <- "www"
 plot_filename <- "temperatur.png"
-plot_height <- 800
-plot_width <- 1200
+plot_height <- 21.1666
+plot_width <- 49.3888
+resolution <- 150
+units <- "cm"
 temp_log <- args[1]
 min_temp <- as.numeric(args[2])
 max_temp <- as.numeric(args[3])
@@ -72,9 +74,10 @@ if (!ggplotLibrary) {
   cat("Plotting using fallback method.\n")
   png(
     filename = plot_filename,
+    units = units,
     width = plot_width,
     height = plot_height,
-    res = 100,
+    res = resolution,
     bg = "transparent"
   )
   par(mar = c(10, 5, 5, 4) + 0.1)
@@ -93,7 +96,10 @@ if (ggplotLibrary) {
   ggsave(
     path = plot_directory,
     filename = plot_filename,
-    dpi = 150,
+    units = units,
+    width = plot_width,
+    height = plot_height,
+    dpi = resolution,
     plot = tempPlot
   )
 }
