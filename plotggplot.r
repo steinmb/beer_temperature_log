@@ -9,7 +9,7 @@ plotggplot <- function(log = "und", sensorer = 0) {
       ylab("Temperature, degrees Celsius") +
       ggtitle("Brewpi temperature log") +
       theme(legend.position = "right") +
-      scale_colour_discrete(name="Sensor")
+      scale_colour_discrete(name = "Sensor")
   }
 
   if (sensorer == 2) {
@@ -20,7 +20,7 @@ plotggplot <- function(log = "und", sensorer = 0) {
       ylab("Temperature, degrees Celsius") +
       ggtitle("Brewpi temperature log") +
       theme(legend.position = "right") +
-      scale_colour_discrete(name="Sensor")
+      scale_colour_discrete(name = "Sensor")
   }
 
   if (sensorer == 0) {
