@@ -34,7 +34,7 @@ $line = explode(",", $line);
   <div class="header">
     <h1 class="title">Gjæring</h1>
     <?php
-      print '<p class="temp"> Messured: ' . $line[0] . ' <span class="ambient"> Ambient: ' . $line[1] . '</span><span class="fermentor"> Fermentor: ' . $line[2] . '</span></p>';
+      print '<p class="temp"> Measured: ' . $line[0] . ' <span class="ambient"> Ambient: ' . $line[1] . '</span><span class="fermentor"> Fermentor: ' . $line[2] . '</span></p>';
     ?>
   </div>
 
