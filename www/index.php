@@ -19,7 +19,7 @@ $line = $data[count($data)-1];
     h1.title { width: 60%; float: left; font-size: 1.5em; margin: 0; z-index: 3; }
     .title {}
     .temp { width: 30%; float: right; }
-    img { height: auto; width: 100%; z-index: 1; }
+    img { height: 95%; width: auto; z-index: 1; }
     .content { }
   </style>
 
