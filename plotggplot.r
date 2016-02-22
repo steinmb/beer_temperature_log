@@ -6,8 +6,7 @@ plotggplot <- function(log = "und", sensorer = 0) {
     result <- ggplot(data = log, aes(x = datestamp, y = value, colour = variable)) +
       geom_line() +
       xlab("Date") +
-      ylab("Temperature, degrees Celsius") +
-      ggtitle("Brewpi temperature log") +
+      ylab("Temperature, degrees Celsius")
       theme(legend.position = "right") +
       scale_colour_discrete(name = "Sensor")
   }
@@ -18,8 +17,7 @@ plotggplot <- function(log = "und", sensorer = 0) {
       geom_line() +
       xlab("Date") +
       ylab("Temperature, degrees Celsius") +
-      ggtitle("Brewpi temperature log") +
-      theme(legend.position = "right") +
+      theme(legend.position = "right", panel.background = element_rect(fill = NA)) +
       scale_colour_discrete(name = "Sensor")
   }
 
