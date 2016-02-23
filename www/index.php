@@ -3,10 +3,45 @@
  * Test
  */
 
-$file = '/home/pi/temperatur/temp.log'; 
+#$file = '/home/pi/temperatur/temp.log';
+$file = '../demo/demo.csv';
 $data = file($file);
+$samples = 20; // Number of samples to test on.
+$total_lines = count($data);
+
+$sensors = array('time', 'ambient', 'fermentor1');
+$readings = array();
+$ambient = 0;
+$fermentor1 = 0;
+
+
 $line = $data[count($data)-1];
 $line = explode(",", $line);
+$samples_run = $samples;
+
+while ($total_lines > $total_lines - $samples_run) {
+  $reading = explode(",", $data[$total_lines - $samples_run]);
+  $readings[] = array('Date' => $reading[0], 'Ambient' => $reading[1], 'Fermentor 1' => $reading[2]);
+  $samples_run--;
+}
+
+foreach ($readings as $reading) {
+  $ambient = $ambient + $reading['Ambient'];
+  $fermentor1 = $fermentor1 + $reading['Fermentor 1'];
+}
+
+if (($line[1] * $samples) / $ambient > 1) {
+  $ambient_trend = 'Climbing';
+} else {
+  $ambient_trend = 'Falling';
+}
+
+if (($line[2] * $samples) / $fermentor1 > 1) {
+  $fermentor1_trend = 'Climbing';
+} else {
+  $fermentor1_trend = 'Falling';
+}
+
 ?>
 
 <html>
@@ -34,7 +69,7 @@ $line = explode(",", $line);
   <div class="header">
     <h1 class="title">Brewpi temperature log</h1>
     <?php
-      print '<p class="temp"> Measured: ' . $line[0] . ' <span class="ambient"> Ambient: ' . $line[1] . '</span><span class="fermentor"> Fermentor: ' . $line[2] . '</span></p>';
+      print '<p class="temp"> Measured: ' . $line[0] . ' <span class="ambient"> Ambient: ' . $line[1] . ' ' . print $ambient_trend . '</span><span class="fermentor"> Fermentor: ' . $line[2] . ' ' . print $fermentor1_trend . '</span></p>';
     ?>
   </div>
 
