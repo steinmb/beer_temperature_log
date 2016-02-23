@@ -1,10 +1,9 @@
 <?php
 /**
- * Test
+ * Create www interface.
  */
 
-#$file = '/home/pi/temperatur/temp.log';
-$file = '../demo/demo.csv';
+$file = '/home/pi/temperatur/temp.log';
 $data = file($file);
 $samples = 20; // Number of samples to test on.
 $total_lines = count($data);
