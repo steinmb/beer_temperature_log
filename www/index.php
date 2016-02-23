@@ -57,9 +57,9 @@ $fermentor1_status = '<span class="fermentor"> Fermentor: ' . $line[2] . ' ' . $
     .temp { font-style: italic; margin: 0; text-align: right; }
     .ambient { color: red; padding-left: 1em; }
     .fermentor { color: green; padding-left: 1em; }
-    h1.title { width: 30%; float: left; font-size: 1.3em; margin: 0; z-index: 3; }
+    h1.title { width: 20%; float: left; texit-transform: uppercase; margin: 0; z-index: 3; }
     .title {}
-    .temp { width: 60%; float: right; }
+    .temp { width: 70%; float: right; }
     img { height: 95%; width: auto; z-index: 1; }
     .content { }
   </style>
