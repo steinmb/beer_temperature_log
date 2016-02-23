@@ -19,7 +19,7 @@ $line = explode(",", $line);
     .temp { font-style: italic; margin: 0; text-align: right; }
     .ambient { color: red; padding-left: 1em; }
     .fermentor { color: green; padding-left: 1em; }
-    h1.title { width: 30%; float: left; font-size: 1.5em; margin: 0; z-index: 3; }
+    h1.title { width: 30%; float: left; font-size: 1.3em; margin: 0; z-index: 3; }
     .title {}
     .temp { width: 60%; float: right; }
     img { height: 95%; width: auto; z-index: 1; }
@@ -32,7 +32,7 @@ $line = explode(",", $line);
 <body>
 
   <div class="header">
-    <h1 class="title">Gjæring</h1>
+    <h1 class="title">Brewpi temperature log</h1>
     <?php
       print '<p class="temp"> Measured: ' . $line[0] . ' <span class="ambient"> Ambient: ' . $line[1] . '</span><span class="fermentor"> Fermentor: ' . $line[2] . '</span></p>';
     ?>
