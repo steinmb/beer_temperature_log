@@ -17,7 +17,12 @@ plotggplot <- function(log = "und", sensorer = 0) {
       geom_line() +
       xlab("Date") +
       ylab("Temperature, degrees Celsius") +
-      theme(legend.position = "right", panel.background = element_rect(fill = NA)) +
+      theme(
+        legend.position = "right",
+        panel.background = element_rect(fill = '#EFEFEF'),
+        panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = '#666666'),
+        panel.grid.minor = element_line(size = 0.25, linetype = 'solid', colour = '#999999')
+      ) +
       scale_colour_discrete(name = "Sensor")
   }
 
