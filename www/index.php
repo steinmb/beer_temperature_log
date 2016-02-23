@@ -42,6 +42,10 @@ if (($line[2] * $samples) / $fermentor1 > 1) {
   $fermentor1_trend = 'Falling';
 }
 
+$sample_time = 'Measured: ' . $line[0];
+$ambient_status = '<span class="ambient"> Ambient: ' . $line[1] . ' ' . $ambient_trend . '</span>';
+$fermentor1_status = '<span class="fermentor"> Fermentor: ' . $line[2] . ' ' . $fermentor1_trend . '</span>';
+
 ?>
 
 <html>
@@ -69,7 +73,7 @@ if (($line[2] * $samples) / $fermentor1 > 1) {
   <div class="header">
     <h1 class="title">Brewpi temperature log</h1>
     <?php
-      print '<p class="temp"> Measured: ' . $line[0] . ' <span class="ambient"> Ambient: ' . $line[1] . ' ' . print $ambient_trend . '</span><span class="fermentor"> Fermentor: ' . $line[2] . ' ' . print $fermentor1_trend . '</span></p>';
+      print '<p class="temp">' . $sample_time . $ambient_status . $fermentor1_status . '</p>';
     ?>
   </div>
 
