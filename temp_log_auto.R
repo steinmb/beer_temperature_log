@@ -103,3 +103,5 @@ if (ggplotLibrary) {
     plot = tempPlot
   )
 }
+summary(log)
+
