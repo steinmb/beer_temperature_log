@@ -3,6 +3,8 @@
  * Create www interface.
  */
 
+define('BREW_ROOT', getcwd());
+
 $file = '/home/pi/temperatur/temp.log';
 $data = file($file);
 $samples = 20; // Number of samples to test on.
@@ -20,7 +22,7 @@ $samples_run = $samples;
 
 while ($total_lines > $total_lines - $samples_run) {
   $reading = explode(",", $data[$total_lines - $samples_run]);
-  $readings[] = array('Date' => $reading[0], 'Ambient' => $reading[1], 'Fermentor 1' => $reading[2]);
+  $readings[] = array('Date' => $reading[0], 'Ambient' => $reading[2], 'Fermentor 1' => $readin[1]);
   $samples_run--;
 }
 
