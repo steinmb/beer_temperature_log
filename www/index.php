@@ -6,15 +6,17 @@
 define('BREW_ROOT', getcwd());
 require_once BREW_ROOT . '/includes/bootstrap.inc';
 
-$file = '/home/pi/temperatur/temp.log';
-$data = file($file);
-$sensors = array('time', 'ambient', 'fermentor1');
 $ambient = 0;
 $fermentor1 = 0;
 
+//$data = readLogFile('/home/pi/temperatur/temp.log');
+$data = readLogFile('../temp.log'); // Demo/test log file.
+
 $ambient_trend = trend($fermentor1, $ambient, $data);
 $fermentor1_trend = trend($fermentor1, $ambient, $data);
-$status = '<p class="temp">' . $sample_time . $ambient_status . $fermentor1_status . '</p>';
+
+$status = createStatusMessage();
+print('<pre>' . $status . '</pre>');
 
 ?>
 <html>
