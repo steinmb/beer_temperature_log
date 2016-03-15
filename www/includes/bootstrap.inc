@@ -7,58 +7,56 @@
 
 class BrewData
 {
-    public $ambient_trend = '';
-    public $fermentor1_trend = '';
-    public $ambient_status = '';
-    public $sample_time = '';
-    public $fermentor1_status = '';
+    public $logFile;
+    public $ambient_trend;
+    public $fermentor1_trend;
+    public $ambient_status;
+    public $sample_time;
+    public $fermentor1_status;
     public $line = [0, 0, 0];
-    public $ambient = '';
-    public $fermentor1 = '';
-    public $trend = '';
+    public $ambient;
+    public $fermentor1;
+    public $trend;
     public $samples = 20;
     public $samples_run = 20;
-    public $readings = array();
-//    public $data = $line;
-//    public $sensors = array('time', 'ambient', 'fermentor1');
-//    public $sample_time = 'Measured: ' . $line[0];
+    public $readings;
 
-    public function trend($line)
+    public function __construct(LogFile $logFile)
     {
-
-        while ($total_lines > $total_lines - $samples_run) {
-            $reading = explode(",", $data[$total_lines - $samples_run]);
-            $readings[] = array('Date' => $reading[0], 'Ambient' => $reading[2], 'Fermentor 1' => $reading[1]);
-            $samples_run--;
-        }
-
-        foreach ($readings as $reading) {
-            $ambient = $ambient + $reading['Ambient'];
-            $fermentor1 = $fermentor1 + $reading['Fermentor 1'];
-        }
-
-        if (($line[1] * $samples) / $ambient > 1) {
-            $ambient_trend = 'Climbing';
-        } else {
-            $ambient_trend = 'Falling';
-        }
-
-        if (($line[2] * $samples) / $fermentor1 > 1) {
-            $fermentor1_trend = 'Climbing';
-        } else {
-            $fermentor1_trend = 'Falling';
-        }
-
-        return $trend;
+        $this->logFile = $logFile;
     }
 
-    public function readLogFile($fileName)
+    public function trend()
     {
-        $data = file($fileName);
-        $line = $data[count($data) - 1];
-        $line = explode(",", $line);
+        $lastSamples = array_slice($this->logFile->structuredData, -$this->samples, $this->samples);
+        foreach ($lastSamples as $lastSample) {
+            foreach ($lastSample as $key => $item) {
+                if ($key !== 0) {
+                    $sensor[$key][] = str_replace("\r\n", '', $item);
+                }
+            }
+            $trend = $sensor;
+        }
 
-        return $data;
+        foreach(($sensor[1]) as $foo) {
+            print $foo;
+        }
+        print sizeof($sensor[1]);
+//        print sizeof($sensor);
+
+//        if (($sensor * count($sensor)) / $ambient > 1) {
+//            $ambient_trend = 'Climbing';
+//        } else {
+//            $ambient_trend = 'Falling';
+//        }
+//
+//        if (($line[2] * $samples) / $fermentor1 > 1) {
+//            $fermentor1_trend = 'Climbing';
+//        } else {
+//            $fermentor1_trend = 'Falling';
+//        }
+
+        return $trend;
     }
 
     public function createStatusMessage()
