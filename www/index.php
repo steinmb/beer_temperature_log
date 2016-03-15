@@ -5,18 +5,25 @@
 
 define('BREW_ROOT', getcwd());
 require_once BREW_ROOT . '/includes/bootstrap.inc';
+require_once BREW_ROOT . '/includes/logFile.php';
 
-$ambient = 0;
-$fermentor1 = 0;
+$logFile = new logFile();
+$BrewData = new BrewData;
+
+print '<pre>';
+print_r($logFile->getStructedData());
+print_r($logFile->getLines());
+//print_r($logFile);
+print_r($BrewData);
+print '</pre>';
 
 //$data = readLogFile('/home/pi/temperatur/temp.log');
-$data = readLogFile('../temp.log'); // Demo/test log file.
-
-$ambient_trend = trend($fermentor1, $ambient, $data);
-$fermentor1_trend = trend($fermentor1, $ambient, $data);
-
-$status = createStatusMessage();
-print('<pre>' . $status . '</pre>');
+//$data = readLogFile('../temp.log'); // Demo/test log file.
+//$ambient_trend = trend($data);
+//$fermentor1_trend = trend($data);
+//$status = createStatusMessage();
+//
+//print('<pre>' . $status . '</pre>');
 
 ?>
 <html>
