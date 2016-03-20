@@ -7,7 +7,7 @@
 
 class BrewData
 {
-    public $logFile;
+    protected $logFile;
     public $ambient_trend;
     public $fermentor1_trend;
     public $ambient_status;
@@ -28,7 +28,7 @@ class BrewData
 
     public function trend()
     {
-        $lastSamples = array_slice($this->logFile->structuredData, -$this->samples, $this->samples);
+        $lastSamples = array_slice($this->logFile->getStructuredData(), -$this->samples, $this->samples);
         foreach ($lastSamples as $lastSample) {
             foreach ($lastSample as $key => $item) {
                 if ($key !== 0) {
@@ -37,12 +37,6 @@ class BrewData
             }
             $trend = $sensor;
         }
-
-        foreach(($sensor[1]) as $foo) {
-            print $foo;
-        }
-        print sizeof($sensor[1]);
-//        print sizeof($sensor);
 
 //        if (($sensor * count($sensor)) / $ambient > 1) {
 //            $ambient_trend = 'Climbing';
