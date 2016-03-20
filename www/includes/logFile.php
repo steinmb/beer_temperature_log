@@ -2,32 +2,44 @@
 
 /**
  * Created by PhpStorm.
- * User: steinmb
- * Date: 15/03/16
- * Time: 16:56
  */
-class logFile
+class LogFile
 {
     protected $fileName = BREW_ROOT . '/../../temperatur/temp.log';
-    protected $line = '';
+    private $totalLines = 0;
+    private $structuredData;
+    private $sensors = 0;
 
     public function __construct()
     {
-        $this->data = file($this->fileName);
+        $data = file($this->fileName);
+        $this->totalLines = count($data);
+
+        foreach ($data as $item) {
+            $this->structuredData[] = explode(',', $item);
+        }
+
+        foreach ($this->structuredData as $samples) {
+            foreach ($samples as $key => $row) {
+                if ($this->sensors < $key) {
+                    $this->sensors = $key;
+                }
+            }
+        }
     }
 
-    public function getStructedData()
+    public function getSensors()
     {
-        $line = $this->data[count($this->data) - 1];
-        $line = explode(",", $line);
-
-        return $line;
+        return $this->sensors;
     }
 
-    public function getLines()
+    public function getTotalLines()
     {
-        $total_lines = count($this->data);
+        return $this->totalLines;
+    }
 
-        return $total_lines;
+    public function getStructuredData()
+    {
+        return $this->structuredData;
     }
 }
