@@ -11,21 +11,7 @@ $logFile = new LogFile();
 $brewData = new BrewData($logFile);
 
 print '<pre>';
-//print_r($logFile->getStructedData());
-//print_r($logFile->getLines());
-//print_r($logFile);
-//print_r($brewData);
-$brewData->trend();
-//print $logFile->$totalLines;
 print '</pre>';
-
-//$data = readLogFile('/home/pi/temperatur/temp.log');
-//$data = readLogFile('../temp.log'); // Demo/test log file.
-//$ambient_trend = trend($data);
-//$fermentor1_trend = trend($data);
-//$status = createStatusMessage();
-//
-//print('<pre>' . $status . '</pre>');
 
 ?>
 <html>
