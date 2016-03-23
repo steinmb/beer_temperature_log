@@ -8,6 +8,7 @@
 class BrewData
 {
     protected $logFile;
+    protected $sensor;
     public $ambient_trend;
     public $fermentor1_trend;
     public $ambient_status;
@@ -20,6 +21,7 @@ class BrewData
     public $samples = 20;
     public $samples_run = 20;
     public $readings;
+
 
     public function __construct(LogFile $logFile)
     {
@@ -60,5 +62,23 @@ class BrewData
         $status .= '<p class="temp">' . $sample_time . $ambient_status . $fermentor1_status . '</p>';
 
         return $status;
+    }
+
+    public function getSensor()
+    {
+        $this->sensor = array();
+        $i = 1;
+        while ($this->logFile->getSensors() >= $i) {
+//            $data = new Sensor(array_column($this->logFile->getStructuredData(), $i));
+            $this->sensor[] = new Sensor(array_column($this->logFile->getStructuredData(), $i), $i);
+            $i++;
+        }
+
+        foreach ($this->logFile->getStructuredData() as $key => $items) {
+            foreach ($items as $key => $item) {
+            }
+        }
+
+        return $this->sensor;
     }
 }
