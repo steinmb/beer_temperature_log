@@ -5,7 +5,8 @@
 
 define('BREW_ROOT', getcwd());
 
-$file = '/home/pi/temperatur/temp.log';
+$file = BREW_ROOT . '/../temp.log';
+//$file = '/home/pi/temperatur/temp.log';
 $data = file($file);
 $samples = 20; // Number of samples to test on.
 $total_lines = count($data);
@@ -20,27 +21,63 @@ $line = $data[count($data)-1];
 $line = explode(",", $line);
 $samples_run = $samples;
 
+function trend(array $data) {
+    $trends = array();
+    $sensors = array('Ambient', 'Fermentor 1');
+    $y = array();
+    $yx = array();
+    $x2 = array();
+    $x = '';
+    foreach ($sensors as $sensor) {
+        foreach ($data as $key => $row) {
+            $y[] = 1000 * $row[$sensor];
+            $x = $key + 1;
+            $xy[] = $x * $y[$key];
+            $x2[] = $y[$key] * $y[$key];
+        }
+        $samples = $x;
+        $x = range(1, $x);
+        $xSummary = array_sum($x);
+        $ySummary = array_sum($y);
+        $xySummary = array_sum($yx);
+        $x2Summary = array_sum($x2);
+        $trends[$sensor] = ($samples * $xySummary - ($xSummary * $ySummary)) / (($samples * $x2Summary) - (sqrt($xSummary)));
+    }
+
+    return $trends;
+}
+
 while ($total_lines > $total_lines - $samples_run) {
   $reading = explode(",", $data[$total_lines - $samples_run]);
-  $readings[] = array('Date' => $reading[0], 'Ambient' => $reading[2], 'Fermentor 1' => $readin[1]);
+  $readings[] = array('Date' => $reading[0], 'Ambient' => str_replace("\r\n", '', $reading[2]), 'Fermentor 1' => str_replace("\r\n", '', $reading[1]));
   $samples_run--;
 }
+
+$trends = trend($readings);
 
 foreach ($readings as $reading) {
   $ambient = $ambient + $reading['Ambient'];
   $fermentor1 = $fermentor1 + $reading['Fermentor 1'];
 }
 
-if (($line[1] * $samples) / $ambient > 1) {
-  $ambient_trend = 'Climbing';
-} else {
-  $ambient_trend = 'Falling';
-}
+$ambient_trend = '';
+$fermentor1_trend = '';
+foreach ($trends as $sensor => $trend) {
+    if ($sensor == 'Ambient') {
+        if ($trend > 0) {
+            $ambient_trend = 'Climbing';
+        } else {
+            $ambient_trend = 'Falling';
+        }
+    }
 
-if (($line[2] * $samples) / $fermentor1 > 1) {
-  $fermentor1_trend = 'Climbing';
-} else {
-  $fermentor1_trend = 'Falling';
+    if ($sensor == 'Fermentor 1') {
+        if ($trend > 0) {
+            $fermentor1_trend = 'Climbing';
+        } else {
+            $fermentor1_trend = 'Falling';
+        }
+    }
 }
 
 $sample_time = 'Measured: ' . $line[0];
