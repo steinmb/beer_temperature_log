@@ -70,7 +70,11 @@ foreach ($trends as $sensor => $trend) {
     if ($sensor == 'Ambient') {
         if ($trend > 0) {
             $ambient_trend = 'Climbing';
-        } else {
+        }
+        elseif ($trend == 0) {
+            $ambient_trend = 'Stable';
+        }
+        else {
             $ambient_trend = 'Falling';
         }
     }
@@ -78,7 +82,12 @@ foreach ($trends as $sensor => $trend) {
     if ($sensor == 'Fermentor 1') {
         if ($trend > 0) {
             $fermentor1_trend = 'Climbing';
-        } else {
+        }
+        elseif ($trend == 0) {
+            $fermentor1_trend = 'Stable';
+        }
+        else
+        {
             $fermentor1_trend = 'Falling';
         }
     }
