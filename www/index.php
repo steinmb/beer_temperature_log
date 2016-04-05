@@ -5,9 +5,14 @@
 
 define('BREW_ROOT', getcwd());
 
-$file = BREW_ROOT . '/../temp.log';
-//$file = '/home/pi/temperatur/temp.log';
-$data = file($file);
+$file = BREW_ROOT . '/../../temperatur/temp.log';
+if (file_exists($file)) {
+    $data = file($file);
+}
+else {
+    die("No log file found. Giving up");
+}
+
 $samples = 20; // Number of samples to test on.
 $total_lines = count($data);
 $sensors = array('time', 'ambient', 'fermentor1');
