@@ -10,15 +10,10 @@ $file = BREW_ROOT . '/../temp.log';
 $data = file($file);
 $samples = 20; // Number of samples to test on.
 $total_lines = count($data);
-
 $sensors = array('time', 'ambient', 'fermentor1');
 $readings = array();
 $ambient = 0;
 $fermentor1 = 0;
-
-
-$line = $data[count($data)-1];
-$line = explode(",", $line);
 $samples_run = $samples;
 
 function trend(array $data) {
@@ -49,7 +44,11 @@ function trend(array $data) {
 
 while ($total_lines > $total_lines - $samples_run) {
   $reading = explode(",", $data[$total_lines - $samples_run]);
-  $readings[] = array('Date' => $reading[0], 'Ambient' => str_replace("\r\n", '', $reading[2]), 'Fermentor 1' => str_replace("\r\n", '', $reading[1]));
+  $readings[] = array(
+      'Date' => $reading[0],
+      'Ambient' => str_replace("\r\n", '', $reading[2]),
+      'Fermentor 1' => str_replace("\r\n", '', $reading[1]
+      ));
   $samples_run--;
 }
 
@@ -80,9 +79,11 @@ foreach ($trends as $sensor => $trend) {
     }
 }
 
-$sample_time = 'Measured: ' . $line[0];
-$ambient_status = '<span class="ambient"> Ambient: ' . $line[1] . ' ' . $ambient_trend . '</span>';
-$fermentor1_status = '<span class="fermentor"> Fermentor: ' . $line[2] . ' ' . $fermentor1_trend . '</span>';
+$lastSample = '';
+$lastSample = array_pop($readings);
+$sample_time = 'Measured: ' . $lastSample['Date'];
+$ambient_status = '<span class="ambient"> Ambient: ' .$lastSample['Ambient'] . ' ' . $ambient_trend . '</span>';
+$fermentor1_status = '<span class="fermentor"> Fermentor: ' . $lastSample['Fermentor 1'] . ' ' . $fermentor1_trend . '</span>';
 
 ?>
 
