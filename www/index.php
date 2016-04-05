@@ -13,7 +13,7 @@ else {
     die("No log file found. Giving up");
 }
 
-$samples = 20; // Number of samples to test on.
+$samples = 20; // Number of samples to calculate temperatur trends on.
 $total_lines = count($data);
 $sensors = array('time', 'ambient', 'fermentor1');
 $readings = array();
@@ -24,22 +24,22 @@ $samples_run = $samples;
 function trend(array $data) {
     $trends = array();
     $sensors = array('Ambient', 'Fermentor 1');
-    $y = array();
-    $yx = array();
-    $x2 = array();
     $x = '';
     foreach ($sensors as $sensor) {
+        $y = array();
+        $x2 = array();
+        $xy = array();
         foreach ($data as $key => $row) {
             $y[] = 1000 * $row[$sensor];
             $x = $key + 1;
             $xy[] = $x * $y[$key];
-            $x2[] = $y[$key] * $y[$key];
+            $x2[] = pow($x, 2);
         }
         $samples = $x;
         $x = range(1, $x);
         $xSummary = array_sum($x);
         $ySummary = array_sum($y);
-        $xySummary = array_sum($yx);
+        $xySummary = array_sum($xy);
         $x2Summary = array_sum($x2);
         $trends[$sensor] = ($samples * $xySummary - ($xSummary * $ySummary)) / (($samples * $x2Summary) - (sqrt($xSummary)));
     }
@@ -93,10 +93,10 @@ foreach ($trends as $sensor => $trend) {
     }
 }
 
-$lastSample = '';
+$lastSample = array();
 $lastSample = array_pop($readings);
 $sample_time = 'Measured: ' . $lastSample['Date'];
-$ambient_status = '<span class="ambient"> Ambient: ' .$lastSample['Ambient'] . ' ' . $ambient_trend . '</span>';
+$ambient_status = '<span class="ambient"> Ambient: ' . $lastSample['Ambient'] . ' ' . $ambient_trend . '</span>';
 $fermentor1_status = '<span class="fermentor"> Fermentor: ' . $lastSample['Fermentor 1'] . ' ' . $fermentor1_trend . '</span>';
 
 ?>
