@@ -8,16 +8,21 @@ require_once BREW_ROOT . '/includes/bootstrap.inc';
 require_once BREW_ROOT . '/includes/LogFile.php';
 require_once BREW_ROOT . '/includes/Sensor.php';
 
-$logFile = new LogFile();
-$brewData = new BrewData($logFile);
+//$logFile = new LogFile();
+
+$sensors = new Sensor();
+
+
+
+//$brewData = new BrewData($logFile);
 
 print '<pre>';
-$sensors = $brewData->getSensor();
+//$sensors = $brewData->getSensor();
 //print_r($foo);
-foreach ($sensors as $sensor) {
+//foreach ($sensors as $sensor) {
 //    print_r($item->getSensorData());
-    print("Sensor: {$sensor->getSensorID()}\n");
-}
+//    print("Sensor: {$sensor->getSensorID()}\n");
+//}
 //$foo = new ReflectionClass('LogFile');
 //$foo::export($foo);
 print '</pre>';

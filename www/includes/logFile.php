@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Created by PhpStorm.
+ * Read logged data into a structured array.
  */
 class LogFile
 {
     protected $fileName = BREW_ROOT . '/../../temperatur/temp.log';
     private $totalLines = 0;
-    private $structuredData;
-    private $sensors = 0;
+    private $structuredData = [];
 
     public function __construct()
     {
@@ -18,26 +17,11 @@ class LogFile
         foreach ($data as $item) {
             $this->structuredData[] = str_replace("\r\n", '', explode(',', $item));
         }
-
-        foreach ($this->structuredData as $samples) {
-            foreach ($samples as $key => $row) {
-                if ($this->sensors < $key) {
-                    $this->sensors = $key;
-                }
-            }
-        }
     }
 
-    public function getSensors()
-    {
-        return $this->sensors;
-    }
-
-    public function getTotalLines()
-    {
-        return $this->totalLines;
-    }
-
+  /**
+   * @return array of structured data.
+   */
     public function getStructuredData()
     {
         return $this->structuredData;
