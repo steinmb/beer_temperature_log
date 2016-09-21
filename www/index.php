@@ -7,10 +7,11 @@ define('BREW_ROOT', getcwd());
 require_once BREW_ROOT . '/includes/bootstrap.inc';
 require_once BREW_ROOT . '/includes/LogFile.php';
 require_once BREW_ROOT . '/includes/Sensor.php';
-
+require_once BREW_ROOT . '/includes/DataEntity.php';
 //$logFile = new LogFile();
 
 $sensors = new Sensor();
+$entities = $sensors->getEntities();
 
 
 
