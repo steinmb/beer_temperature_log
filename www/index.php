@@ -12,20 +12,13 @@ require_once BREW_ROOT . '/includes/DataEntity.php';
 
 $sensors = new Sensor();
 $entities = $sensors->getEntities();
+foreach ($entities as $entity) {
+  $sample = $entity->getLastReading();
+  print 'Sensor ' . $entity->getId() . ' ' . $sample['Date'] . ' ' . $sample['Sensor'] . '<br>';
+}
 
-
-
-//$brewData = new BrewData($logFile);
 
 print '<pre>';
-//$sensors = $brewData->getSensor();
-//print_r($foo);
-//foreach ($sensors as $sensor) {
-//    print_r($item->getSensorData());
-//    print("Sensor: {$sensor->getSensorID()}\n");
-//}
-//$foo = new ReflectionClass('LogFile');
-//$foo::export($foo);
 print '</pre>';
 
 

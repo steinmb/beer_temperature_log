@@ -49,14 +49,5 @@ class Sensor
         return $entities;
     }
 
-    public function getSensorID()
-    {
-        return $this->sensorID;
-    }
-
-    public function getSensors()
-    {
-      return $this->sensors;
-    }
 
 }

@@ -20,4 +20,15 @@ class DataEntity
     {
       $this->id = $id;
     }
+
+    public function getId()
+    {
+      return $this->id;
+    }
+
+    public function getLastReading()
+    {
+      $size = count($this->data) - 1;
+      return $this->data[$size];
+    }
 }
