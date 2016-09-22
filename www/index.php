@@ -14,9 +14,8 @@ $sensors = new Sensor();
 $entities = $sensors->getEntities();
 foreach ($entities as $entity) {
   $sample = $entity->getLastReading();
-  print 'Sensor ' . $entity->getId() . ' ' . $sample['Date'] . ' ' . $sample['Sensor'] . '<br>';
+  print 'Sensor ' . $entity->getId() . ' ' . $sample['Date'] . ' ' . $sample['Sensor'] . 'ºC<br>';
 }
-
 
 print '<pre>';
 print '</pre>';
