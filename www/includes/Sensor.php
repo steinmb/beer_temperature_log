@@ -11,10 +11,8 @@ class Sensor
     private $sensorData;
     private $sensors;
 
-    public function __construct()
+    public function __construct($data)
     {
-      $data = new logFile();
-
       foreach ($data->getStructuredData() as $entry) {
         $this->sensorData[0][] = [
           'Date' => $entry[0],
