@@ -3,15 +3,13 @@
 /**
  * Read logged data into a structured array.
  */
-class LogFile
+class DataSource
 {
-    protected $fileName = BREW_ROOT . '/../../temperatur/temp.log';
     private $totalLines = 0;
     private $structuredData = [];
 
-    public function __construct()
+    public function __construct($data)
     {
-        $data = file($this->fileName);
         $this->totalLines = count($data);
 
         foreach ($data as $item) {
@@ -30,7 +28,8 @@ class LogFile
   /**
    * @param array $structuredData
    */
-  public function setStructuredData($structuredData) {
-    $this->structuredData[] = $structuredData;
+  public function setStructuredData($structuredData)
+  {
+      $this->structuredData[] = $structuredData;
   }
 }
