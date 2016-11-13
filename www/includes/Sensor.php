@@ -3,7 +3,7 @@
 /**
  * Create sensor object based on existing data sources.
  *
- * @return array of sensors with attached data time tagged.
+ * @return array of sensors with sample date stamp.
  */
 
 class Sensor
@@ -38,7 +38,10 @@ class Sensor
 
     }
 
-    public function getEntities()
+  /**
+   * @return array
+   */
+  public function getEntities()
     {
       foreach ($this->sensorData as $index => $entry) {
         $entity = new DataEntity($entry);

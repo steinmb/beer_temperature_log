@@ -1,17 +1,21 @@
 <?php
 
 /**
- * Created by PhpStorm.
- * User: steinmb
- * Date: 21/09/16
- * Time: 23:59
+ * File DataEntity.php
+ *
+ * Create a data entity from a temperatur sesonr.
  */
+
 class DataEntity
 {
     private $id;
     private $data;
     private $trend;
 
+  /**
+   * DataEntity constructor.
+   * @param $data
+   */
     public function __construct($data)
     {
       $this->data = $data;

@@ -1,3 +1,11 @@
+h1 {
+    font-size: 1.3125em;
+}
+
+h2 {
+    font-size: 1.125em;
+}
+
 body {
     color: #333;
     background-color: #fff;
@@ -10,38 +18,26 @@ body {
     z-index: 3;
 }
 
-.temp {
-    font-style: italic;
-    margin: 0;
-    text-align: right;
-}
-
 .ambient {
     color: red;
-    padding-left: 1em;
 }
 
 .fermentor {
     color: green;
-    padding-left: 1em;
 }
 
-.title {
-    width: 25%;
-    float: left;
+h1.title {
+    background: #ffffff;
+    border: 1px solid #dddddd;
+    padding: 0.65625em;
+    position: absolute;
     text-transform: uppercase;
-    margin: 0;
-    z-index: 3;
-    font-size: 1.1em
-}
-
-.temp {
-    width: 75%;
-    float: right;
+    top: 0;
+    left: 40px;
 }
 
 img {
-    height: 95%;
-    width: auto;
+    height: auto;
+    width: 100%;
     z-index: 1;
 }
