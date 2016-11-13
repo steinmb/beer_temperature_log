@@ -26,11 +26,15 @@ body {
     color: green;
 }
 
+.content,
 h1.title {
-    background: #ffffff;
-    border: 1px solid #dddddd;
-    padding: 0.65625em;
-    position: absolute;
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  padding: 0.65625em;
+  position: absolute;
+}
+
+h1.title {
     text-transform: uppercase;
     top: 0;
     left: 40px;
@@ -40,4 +44,17 @@ img {
     height: auto;
     width: 100%;
     z-index: 1;
+}
+
+.content {
+  width: 17%;
+  bottom: 0;
+  right: 0;
+  height: auto;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
