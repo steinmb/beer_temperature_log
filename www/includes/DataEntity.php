@@ -42,9 +42,9 @@ class DataEntity
     }
 
   /**
-   * Get the last sample from temperatur log.
+   * Get the last sample from temperature log.
    *
-   * @return string of last temperatur sample.
+   * @return string of last temperature sample.
    */
     public function getLastReading()
     {
@@ -55,19 +55,26 @@ class DataEntity
 
   /**
    * Calculate trend of the last temperature readings.
+   *
+   * @param $time integer minutes to calculate latest trend from.
    */
-    public function calculateTrend()
+    public function calculateTrend($time = 15)
     {
         $x = '';
         $y = array();
         $x2 = array();
         $xy = array();
+        $last = $this->getLastReading();
 
-        foreach ($this->data as $key => $row) {
+        foreach (array_reverse($this->data) as $key => $row) {
           $y[] = 1000 * $row['Sensor'];
           $x = $key + 1;
           $xy[] = $x * $y[$key];
           $x2[] = pow($x, 2);
+
+          if (strtotime($row['Date']) <= strtotime($last['Date']) - ($time * 60)) {
+            break;
+          }
         }
 
         $samples = $x;

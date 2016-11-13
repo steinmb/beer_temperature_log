@@ -23,8 +23,9 @@ class Block
 
   public function renderBlock()
   {
+    $minutes = 20;
     $result = '';
-    $this->entity->calculateTrend();
+    $this->entity->calculateTrend($minutes);
     $sample = $this->entity->getLastReading();
 
     $result .= '<div class="block">';
@@ -32,7 +33,7 @@ class Block
     $result .= '<ul>';
     $result .= '<li>' . $sample['Date'] . '</li>';
     $result .= '<li>' . $sample['Sensor'] . 'ºC' . '</li>';
-    $result .= '<li>' . $this->entity->analyzeTrend() . ' (' . $this->entity->getTrend() . ')</li>';
+    $result .= '<li>' . $minutes . 'min ' . $this->entity->analyzeTrend() . ' (' . $this->entity->getTrend() . ')</li>';
     $result .= '</ul>';
     $result .= '</div>';
 
