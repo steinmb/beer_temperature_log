@@ -9,12 +9,10 @@
 class Sensor
 {
     private $sensorData;
-    private $sensorID;
     private $sensors;
 
     public function __construct()
     {
-
       $data = new logFile();
 
       foreach ($data->getStructuredData() as $entry) {
@@ -35,22 +33,23 @@ class Sensor
           }
         }
       }
-
     }
 
   /**
-   * @return array
+   * Create entities. One per entry found in data source.
+   *
+   * @return array of data objects.
    */
   public function getEntities()
-    {
-      foreach ($this->sensorData as $index => $entry) {
-        $entity = new DataEntity($entry);
-        $entity->setId($index);
-        $entities[] = $entity;
+  {
+    $entities = [];
 
-      }
-        return $entities;
+    foreach ($this->sensorData as $index => $entry) {
+      $entity = new DataEntity($entry);
+      $entity->setId($index);
+      $entities[] = $entity;
     }
 
-
+    return $entities;
+  }
 }

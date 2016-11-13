@@ -9,7 +9,7 @@ require_once BREW_ROOT . '/includes/LogFile.php';
 require_once BREW_ROOT . '/includes/Sensor.php';
 require_once BREW_ROOT . '/includes/DataEntity.php';
 require_once BREW_ROOT . '/includes/Block.php';
-//require_once BREW_ROOT . '/page.php';
+
 //$logFile = new LogFile();
 
 $sensors = new Sensor();
