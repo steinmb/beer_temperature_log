@@ -10,7 +10,7 @@ require_once BREW_ROOT . '/includes/Sensor.php';
 require_once BREW_ROOT . '/includes/DataEntity.php';
 require_once BREW_ROOT . '/includes/Block.php';
 
-$source = file($this->fileName);
+$source = file($fileName);
 $data = new DataSource($source);
 $sensors = new Sensor($data);
 $entities = $sensors->getEntities();
