@@ -8,6 +8,7 @@
 
 class OldSensor
 {
+  private $baseDirectory = '/sys/bus/w1/devices';
 
   /**
    * Scan one wire bus for attached sensors.
@@ -17,17 +18,25 @@ class OldSensor
   public function getSensors() {
     $sensors = array();
 
-    echo exec('sudo modprobe w1-gpio');
-    echo exec('sudo modprobe w1-therm');
-    $baseDirectory = '/sys/bus/w1/devices';
-    $content = dir($baseDirectory);
-    while (false !== ($entry = $content->read())) {
-      if (strstr($entry, '10-')) {
-        $sensors[] = $entry;
+    if (file_exists($this->baseDirectory)) {
+      $content = dir($this->baseDirectory);
+      while (FALSE !== ($entry = $content->read())) {
+        if (strstr($entry, '10-')) {
+          $sensors[] = $entry;
+        }
       }
     }
 
     return $sensors;
+  }
+
+  /**
+   * Initialize one wire GPIO bus.
+   */
+  public function initW1()
+  {
+    echo exec('sudo modprobe w1-gpio');
+    echo exec('sudo modprobe w1-therm');
   }
 
   /**

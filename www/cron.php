@@ -9,21 +9,21 @@
 /**
  * Read data to logfile.
  */
-$sensors = getSensors();
-$streams = getStreams($sensors);
-$logString = readSensors($streams);
+$w1gpio = new OldSensor();
+$sensors = $w1gpio->getSensors();
+if (!$sensors) {
+  exit;
+}
 
-if ($logString)
-  {
-    writeLogFile($logString);
+$logString = FALSE;
 
-    if (time() > $endTime)
-      {
-        $end = TRUE;
-      }
-else
-  {
-    print 'No sensors found. Giving up' . PHP_EOL;
-  }
+if ($sensors) {
+  $streams = $w1gpio->getStreams($sensors);
+  $logString = $w1gpio->readSensors($streams);
+}
 
-closeStreams($streams);
+if ($logString) {
+  writeLogFile($logString);
+}
+
+$w1gpio->closeStreams($streams);
