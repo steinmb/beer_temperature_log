@@ -84,7 +84,7 @@ class DataEntity
         $xySummary = array_sum($xy);
         $x2Summary = array_sum($x2);
 
-        $this->trend = ($samples * $xySummary - ($xSummary * $ySummary)) / (($samples * $x2Summary) - (sqrt($xSummary)));
+        $this->trend = (($samples * $x2Summary) - (sqrt($xSummary))) / ($samples * $xySummary - ($xSummary * $ySummary));
     }
 
 
