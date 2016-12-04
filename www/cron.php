@@ -4,7 +4,8 @@
  *
  * Cron that needs to be run periodic from crond.
  */
-
+define('BREW_ROOT', getcwd());
+require_once BREW_ROOT . '/includes/OldSensor.php';
 
 /**
  * Read data to logfile.
