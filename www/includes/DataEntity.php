@@ -69,21 +69,25 @@ class DataEntity
         foreach (array_reverse($this->data) as $key => $row) {
           $y[] = 1000 * $row['Sensor'];
           $x = $key + 1;
-          $xy[] = $x * $y[$key];
-          $x2[] = pow($x, 2);
+          $x2[] = pow($x, $x);
 
           if (strtotime($row['Date']) <= strtotime($last['Date']) - ($time * 60)) {
             break;
           }
         }
 
+        $y = array_reverse($y);
         $samples = $x;
         $x = range(1, $x);
+
+        foreach ($x as $key => $item) {
+          $xy[] = $item * $y[$key];
+        }
+
         $xSummary = array_sum($x);
         $ySummary = array_sum($y);
         $xySummary = array_sum($xy);
         $x2Summary = array_sum($x2);
-
         $this->trend = ($samples * $xySummary - ($xSummary * $ySummary)) / (($samples * $x2Summary) - (sqrt($xSummary)));
     }
 
@@ -93,17 +97,18 @@ class DataEntity
    *
    * @return float.
    */
-    public function getTrend() {
+    public function getTrend()
+    {
       return round($this->trend, 4);
     }
 
-  /**
   /**
    * Analyze trend index and calculate a human friendly label for it.
    *
    * @return string index label.
    */
-  public function analyzeTrend() {
+  public function analyzeTrend()
+  {
     $direction = 'increasing';
 
     if ($this->trend < 0 ) {
