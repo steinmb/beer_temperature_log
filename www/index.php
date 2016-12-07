@@ -4,7 +4,7 @@
  */
 
 define('BREW_ROOT', getcwd());
-$fileName = BREW_ROOT . '/../../temperatur/temp.log';
+$fileName = BREW_ROOT . '/' . '../../temperatur/temp.log';
 require_once BREW_ROOT . '/includes/dataSource.php';
 require_once BREW_ROOT . '/includes/Sensor.php';
 require_once BREW_ROOT . '/includes/DataEntity.php';

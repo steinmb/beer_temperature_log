@@ -23,7 +23,7 @@ class Block
 
   public function renderBlock()
   {
-    $minutes = 20;
+    $minutes = 10;
     $result = '';
     $this->entity->calculateTrend($minutes);
     $sample = $this->entity->getLastReading();
