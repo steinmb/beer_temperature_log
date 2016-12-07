@@ -10,7 +10,8 @@ require_once BREW_ROOT . '/includes/OldSensor.php';
 /**
  * Read data to logfile.
  */
-$w1gpio = new OldSensor();
+$w1gpio = new OldSensor('/sys/bus/w1/devices');
+
 $sensors = $w1gpio->getSensors();
 if (!$sensors) {
   exit;

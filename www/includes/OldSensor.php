@@ -8,14 +8,20 @@
 
 class OldSensor
 {
-  private $baseDirectory = '/sys/bus/w1/devices';
+  private $baseDirectory = '';
+
+  public function __construct($baseDirectory)
+  {
+    $this->baseDirectory = $baseDirectory;
+  }
 
   /**
    * Scan one wire bus for attached sensors.
    *
    * @return array $sensors of sensors found.
    */
-  public function getSensors() {
+  public function getSensors()
+  {
     $sensors = array();
 
     if (file_exists($this->baseDirectory)) {
@@ -45,11 +51,11 @@ class OldSensor
    * @param array $sensors
    * @return array
    */
-  public function getStreams(array $sensors) {
+  public function getStreams(array $sensors)
+  {
     $slaveFile = 'w1_slave';
-    $baseDirectory = '/sys/bus/w1/devices';
     foreach($sensors as $sensor) {
-      $streams[] = fopen($baseDirectory . '/' . $sensor . '/' . $slaveFile, 'r');
+      $streams[] = fopen($this->baseDirectory . '/' . $sensor . '/' . $slaveFile, 'r');
     }
 
     return $streams;
@@ -61,7 +67,8 @@ class OldSensor
    * @param array $streams
    * @return bool|string. Return false if no data if no streams.
    */
-  public function readSensors(array $streams) {
+  public function readSensors(array $streams)
+  {
     if (!$streams) {
       return FALSE;
     }
@@ -95,7 +102,8 @@ class OldSensor
    *
    * @param $logString
    */
-  public function writeLogFile($logString) {
+  public function writeLogFile($logString)
+  {
     $fileName = 'temp.log';
     $logFile = fopen($fileName, 'a');
     fwrite($logFile, $logString);
@@ -106,7 +114,8 @@ class OldSensor
    * Close all attached sensors.
    * @param array $streams
    */
-  public function closeStreams(array $streams) {
+  public function closeStreams(array $streams)
+  {
     if ($streams) {
       foreach($streams as $stream) {
         fclose($stream);
