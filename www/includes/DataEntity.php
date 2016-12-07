@@ -69,7 +69,7 @@ class DataEntity
         foreach (array_reverse($this->data) as $key => $row) {
           $y[] = 1000 * $row['Sensor'];
           $x = $key + 1;
-          $x2[] = pow($x, $x);
+          $x2[] = bcpow($x, $x);
 
           if (strtotime($row['Date']) <= strtotime($last['Date']) - ($time * 60)) {
             break;
@@ -87,8 +87,15 @@ class DataEntity
         $xSummary = array_sum($x);
         $ySummary = array_sum($y);
         $xySummary = array_sum($xy);
-        $x2Summary = array_sum($x2);
-        $this->trend = ($samples * $xySummary - ($xSummary * $ySummary)) / (($samples * $x2Summary) - (sqrt($xSummary)));
+
+        $x2Summary = 0;
+        foreach ($x2 as $item) {
+          $x2Summary = bcadd($x2Summary, $item, 10);
+        }
+
+        $vector1 = bcsub(bcmul($samples, $xySummary), bcmul($xSummary, $ySummary));
+        $vector2 = bcsub(bcmul($samples, $x2Summary), (bcsqrt($xSummary, 30)));
+        $this->trend = bcdiv($vector1, $vector2, 12);
     }
 
 
@@ -99,7 +106,7 @@ class DataEntity
    */
     public function getTrend()
     {
-      return round($this->trend, 4);
+      return $this->trend;
     }
 
   /**
