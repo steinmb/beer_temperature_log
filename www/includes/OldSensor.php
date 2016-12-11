@@ -9,6 +9,7 @@
 class OldSensor
 {
   private $baseDirectory = '';
+  private $slaveFile = 'w1_slave';
 
   public function __construct($baseDirectory)
   {
@@ -53,9 +54,9 @@ class OldSensor
    */
   public function getStreams(array $sensors)
   {
-    $slaveFile = 'w1_slave';
+    $streams = '';
     foreach($sensors as $sensor) {
-      $streams[] = fopen($this->baseDirectory . '/' . $sensor . '/' . $slaveFile, 'r');
+      $streams[] = fopen($this->baseDirectory . '/' . $sensor . '/' . $this->slaveFile, 'r');
     }
 
     return $streams;
@@ -76,7 +77,6 @@ class OldSensor
     $logString = '';
 
     foreach($streams as $key => $stream) {
-      $raw = '';
       $raw = stream_get_contents($stream, -1);
       $temp = strstr($raw, 't=');
       $temp = trim($temp, "t=");
