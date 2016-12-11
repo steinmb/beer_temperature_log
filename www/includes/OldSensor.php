@@ -17,9 +17,18 @@ class OldSensor
   }
 
   /**
+   * Initialize one wire GPIO bus by loading 1 wires drivers.
+   */
+  public function initW1()
+  {
+    echo exec('sudo modprobe w1-gpio');
+    echo exec('sudo modprobe w1-therm');
+  }
+
+  /**
    * Scan one wire bus for attached sensors.
    *
-   * @return array $sensors of sensors found.
+   * @return array $sensors of sensor ID found.
    */
   public function getSensors()
   {
@@ -38,19 +47,10 @@ class OldSensor
   }
 
   /**
-   * Initialize one wire GPIO bus.
-   */
-  public function initW1()
-  {
-    echo exec('sudo modprobe w1-gpio');
-    echo exec('sudo modprobe w1-therm');
-  }
-
-  /**
-   * Create data file pointers to attached sensors.
+   * Create file streams. One pr. attached sensor.
    *
-   * @param array $sensors
-   * @return array
+   * @param array $sensors ID.
+   * @return array of file stream pointers.
    */
   public function getStreams(array $sensors)
   {
@@ -63,10 +63,10 @@ class OldSensor
   }
 
   /**
-   * Read data from attached sensors.
+   * Read data from attached sensors and tag it with date information.
    *
-   * @param array $streams
-   * @return bool|string. Return false if no data if no streams.
+   * @param array $streams of resource streams.
+   * @return string $logString. Return FALSE if no streams is passed as argument.
    */
   public function readSensors(array $streams)
   {
@@ -78,17 +78,17 @@ class OldSensor
 
     foreach($streams as $key => $stream) {
       $raw = stream_get_contents($stream, -1);
-      $temp = strstr($raw, 't=');
-      $temp = trim($temp, "t=");
-      $temp = number_format($temp/1000, 3);
+      $temperatur = strstr($raw, 't=');
+      $temperatur = trim($temperatur, "t=");
+      $temperatur = number_format($temperatur/1000, 3);
       if ($key == 0) {
-        $logString = date('Y-m-d H:i:s') . ', ' . $temp;
+        $logString = date('Y-m-d H:i:s') . ', ' . $temperatur;
         print date('Y-m-d H:i:s');
-        print (' - Sensor' . $key . ' ' . $temp . 'ºC');
+        print (' - Sensor' . $key . ' ' . $temperatur . 'ºC');
       }
       else {
-        $logString .= ', ' . $temp;
-        print (' - Sensor' . $key . ' ' . $temp . 'ºC');
+        $logString .= ', ' . $temperatur;
+        print (' - Sensor' . $key . ' ' . $temperatur . 'ºC');
       }
     }
     $logString .= "\r\n";
