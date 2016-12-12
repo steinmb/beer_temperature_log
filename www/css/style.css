@@ -1,0 +1,60 @@
+h1 {
+    font-size: 1.3125em;
+}
+
+h2 {
+    font-size: 1.125em;
+}
+
+body {
+    color: #333;
+    background-color: #fff;
+    margin: 0 auto;
+}
+
+.header {
+    width: 100%;
+    display: inline-block;
+    z-index: 3;
+}
+
+.ambient {
+    color: red;
+}
+
+.fermentor {
+    color: green;
+}
+
+.content,
+h1.title {
+  background: #ffffff;
+  border: 1px solid #dddddd;
+  padding: 0.65625em;
+  position: absolute;
+}
+
+h1.title {
+    text-transform: uppercase;
+    top: 0;
+    left: 40px;
+}
+
+img {
+    height: auto;
+    width: 100%;
+    z-index: 1;
+}
+
+.content {
+  width: 17%;
+  bottom: 0;
+  right: 0;
+  height: auto;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
