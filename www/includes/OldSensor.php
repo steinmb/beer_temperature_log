@@ -78,6 +78,12 @@ class OldSensor
 
     foreach($streams as $key => $stream) {
       $raw = stream_get_contents($stream, -1);
+
+      if (!$temperatur = strstr($raw, 'YES')) {
+        print 'Sensor read error. CRC fail.' . PHP_EOL;
+        continue;
+      }
+
       $temperatur = strstr($raw, 't=');
       $temperatur = trim($temperatur, "t=");
       $temperatur = number_format($temperatur/1000, 3);
@@ -91,6 +97,11 @@ class OldSensor
         print (' - Sensor' . $key . ' ' . $temperatur . 'ºC');
       }
     }
+
+    if (!$logString) {
+      return FALSE;
+    }
+
     $logString .= "\r\n";
     print "\n";
 

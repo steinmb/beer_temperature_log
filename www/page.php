@@ -4,24 +4,28 @@
     <meta charset="UTF-8" http-equiv="refresh" content="180">
 
     <head>
-        <title>Gjæring</title>
+        <title>Ferment</title>
         <link>
     </head>
 
-    <body>
-    <img alt="temperatur log" src="temperatur.png">
+    <page>
+        <h1 class="title">Temperature log</h1>
 
-    <h1 class="title">Brewpi temperature log</h1>
+        <body>
+            <img alt="temperatur log" src="temperatur.png">
 
-        <div class="content">
-            <?php
-                foreach ($blocks as $block)
-                {
-                    print $block->render;
-                }
-            ?>
-        </div>
+            <div class="content">
 
-    </body>
+              <?php
+              foreach ($blocks as $block)
+              {
+                print $block->render;
+              }
+              ?>
+            </div>
+
+        </body>
+
+    </page>
 
 </html>
