@@ -63,10 +63,10 @@ class OldSensor
   }
 
   /**
-   * Read data from attached sensors and tag it with date information.
+   * Read data from attached sensors and attach datestamp.
    *
    * @param array $streams of resource streams.
-   * @return string $logString. Return FALSE if no streams is passed as argument.
+   * @return array $sensorData of with data. Empty if no valid data found.
    */
   public function readSensors(array $streams)
   {
@@ -74,38 +74,30 @@ class OldSensor
       return FALSE;
     }
 
-    $logString = '';
-
+    $sensorData = [];
     foreach($streams as $key => $stream) {
       $raw = stream_get_contents($stream, -1);
-
-      if (!$temperatur = strstr($raw, 'YES')) {
-        print 'Sensor read error. CRC fail.' . PHP_EOL;
-        continue;
-      }
-
-      $temperatur = strstr($raw, 't=');
-      $temperatur = trim($temperatur, "t=");
-      $temperatur = number_format($temperatur/1000, 3);
-      if ($key == 0) {
-        $logString = date('Y-m-d H:i:s') . ', ' . $temperatur;
-        print date('Y-m-d H:i:s');
-        print (' - Sensor' . $key . ' ' . $temperatur . 'ºC');
-      }
-      else {
-        $logString .= ', ' . $temperatur;
-        print (' - Sensor' . $key . ' ' . $temperatur . 'ºC');
+      $result = $this->parseData($raw);
+      if ($result) {
+        $sensorData[] = $result;
       }
     }
 
-    if (!$logString) {
+    return $sensorData;
+  }
+
+  private function parseData($temperatur)
+  {
+    if (!strstr($temperatur, 'YES')) {
+      print 'Sensor read error. CRC fail.' . PHP_EOL;
       return FALSE;
     }
 
-    $logString .= "\r\n";
-    print "\n";
+    $data = strstr($temperatur, 't=');
+    $data = trim($data, "t=");
+    $data = number_format($data/1000, 3);
 
-    return $logString;
+    return $data;
   }
 
   /**
@@ -115,6 +107,9 @@ class OldSensor
    */
   public function writeLogFile($logString)
   {
+    $logString = implode(', ', $logString);
+    $logString = date('Y-m-d H:i:s') . ', ' . $logString . "\r\n";
+
     $fileName = 'temp.log';
     $logFile = fopen($fileName, 'a');
     fwrite($logFile, $logString);
