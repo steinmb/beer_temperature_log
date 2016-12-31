@@ -81,6 +81,9 @@ class OldSensor
       if ($result) {
         $sensorData[] = $result;
       }
+      else {
+        $sensorData[] = '';
+      }
     }
 
     return $sensorData;
@@ -107,8 +110,10 @@ class OldSensor
    */
   public function writeLogFile($logString)
   {
+    $timestamp[] = date('Y-m-d H:i:s');
+    $logString = array_merge($timestamp, $logString);
     $logString = implode(', ', $logString);
-    $logString = date('Y-m-d H:i:s') . ', ' . $logString . "\r\n";
+    $logString = $logString . "\r\n";
 
     $fileName = 'temp.log';
     $logFile = fopen($fileName, 'a');
