@@ -47,36 +47,36 @@ class OldSensor
   }
 
   /**
-   * Create file streams. One pr. attached sensor.
+   * Read data from sensor.
    *
-   * @param array $sensors ID.
-   * @return array of file stream pointers.
+   * @param array $sensors of sensor ID.
+   *
+   * @return array of raw data from sensor.
    */
   public function getStreams(array $sensors)
   {
-    $streams = '';
+    $data = '';
     foreach($sensors as $sensor) {
-      $streams[] = fopen($this->baseDirectory . '/' . $sensor . '/' . $this->slaveFile, 'r');
+      $data[] = file_get_contents($this->baseDirectory . '/' . $sensor . '/' . $this->slaveFile);
     }
 
-    return $streams;
+    return $data;
   }
 
   /**
    * Read data from attached sensors and attach datestamp.
    *
-   * @param array $streams of resource streams.
+   * @param array $data of resource streams.
    * @return array $sensorData of with data. Empty if no valid data found.
    */
-  public function readSensors(array $streams)
+  public function readSensors(array $data)
   {
-    if (!$streams) {
+    if (!$data) {
       return FALSE;
     }
 
     $sensorData = [];
-    foreach($streams as $key => $stream) {
-      $raw = stream_get_contents($stream, -1);
+    foreach($data as $raw) {
       $result = $this->parseData($raw);
       if ($result) {
         $sensorData[] = $result;
@@ -89,14 +89,14 @@ class OldSensor
     return $sensorData;
   }
 
-  private function parseData($temperatur)
+  private function parseData($data)
   {
-    if (!strstr($temperatur, 'YES')) {
+    if (!strstr($data, 'YES')) {
       print 'Sensor read error. CRC fail.' . PHP_EOL;
       return FALSE;
     }
 
-    $data = strstr($temperatur, 't=');
+    $data = strstr($data, 't=');
     $data = trim($data, "t=");
     $data = number_format($data/1000, 3);
 
@@ -113,6 +113,7 @@ class OldSensor
     $timestamp[] = date('Y-m-d H:i:s');
     $logString = array_merge($timestamp, $logString);
     $logString = implode(', ', $logString);
+    print $logString . PHP_EOL;
     $logString = $logString . "\r\n";
 
     $fileName = 'temp.log';
@@ -125,13 +126,6 @@ class OldSensor
    * Close all attached sensors.
    * @param array $streams
    */
-  public function closeStreams(array $streams)
-  {
-    if ($streams) {
-      foreach($streams as $stream) {
-        fclose($stream);
-        print("Closing $stream. \n");
-      }
-    }
-  }
+  public function closeStreams(array $streams) {}
+
 }
