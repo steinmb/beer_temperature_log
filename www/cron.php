@@ -41,5 +41,3 @@ if ($sensors) {
 if ($logString) {
   $w1gpio->writeLogFile($logString);
 }
-
-$w1gpio->closeStreams($streams);

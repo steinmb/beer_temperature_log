@@ -122,10 +122,4 @@ class OldSensor
     fclose($logFile);
   }
 
-  /**
-   * Close all attached sensors.
-   * @param array $streams
-   */
-  public function closeStreams(array $streams) {}
-
 }
