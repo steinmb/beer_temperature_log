@@ -51,44 +51,33 @@ class OldSensor
    *
    * @param array $sensors of sensor ID.
    *
-   * @return array of raw data from sensor.
+   * @return array of parsed data from sensors.
    */
-  public function getStreams(array $sensors)
+  public function getData(array $sensors)
   {
     $data = '';
     foreach($sensors as $sensor) {
-      $data[] = file_get_contents($this->baseDirectory . '/' . $sensor . '/' . $this->slaveFile);
+      $rawData = file_get_contents($this->baseDirectory . '/' . $sensor . '/' . $this->slaveFile);
+      if ($rawData) {
+        $result = $this->parseData($rawData);
+        if ($result) {
+          $data[] = $result;
+        }
+        else {
+          $data[] = '';
+        }
+      }
     }
 
     return $data;
   }
 
   /**
-   * Read data from attached sensors and attach datestamp.
+   * Parse sensor raw data. Check for CRC fail and temperatur data.
+   * @param $data string of raw data from sensor.
    *
-   * @param array $data of resource streams.
-   * @return array $sensorData of with data. Empty if no valid data found.
+   * @return bool|string return parsed data. False if CRC fails.
    */
-  public function readSensors(array $data)
-  {
-    if (!$data) {
-      return FALSE;
-    }
-
-    $sensorData = [];
-    foreach($data as $raw) {
-      $result = $this->parseData($raw);
-      if ($result) {
-        $sensorData[] = $result;
-      }
-      else {
-        $sensorData[] = '';
-      }
-    }
-
-    return $sensorData;
-  }
-
   private function parseData($data)
   {
     if (!strstr($data, 'YES')) {
@@ -121,5 +110,4 @@ class OldSensor
     fwrite($logFile, $logString);
     fclose($logFile);
   }
-
 }

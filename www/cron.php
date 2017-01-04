@@ -34,8 +34,7 @@ if (!$sensors) {
 }
 
 if ($sensors) {
-  $streams = $w1gpio->getStreams($sensors);
-  $logString = $w1gpio->readSensors($streams);
+  $logString = $w1gpio->getData($sensors);
 }
 
 if ($logString) {
