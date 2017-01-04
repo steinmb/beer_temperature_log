@@ -6,3 +6,4 @@ www/temperatur.png
 beer_temperature_log.Rproj
 .idea
 temp_log_plot2.png
+www/test/*.log

@@ -20,7 +20,7 @@ if ($argc > 1) {
     $w1gpio = new OldSensor('./test');
     $log = new Logger();
     $log->setLogDirectory(BREW_ROOT . '/test/');
-    $log->setLogfile('temp.log');
+    $log->setLogfile('temperature.log');
   }
   else {
     echo 'Invalid argument. Valid arguments: --test' . PHP_EOL;
