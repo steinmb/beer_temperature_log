@@ -9,6 +9,7 @@ require_once BREW_ROOT . '/includes/OldSensor.php';
 require_once BREW_ROOT . '/includes/Logger.php';
 $w1gpio = '';
 $logString = FALSE;
+$log = '';
 
 /**
  * Check for runtime parameters and scan for attached sensors.
@@ -43,8 +44,8 @@ else {
 if ($logString) {
   if (!$log) {
     $log = new Logger();
-    $log->setLogDirectory(BREW_ROOT . '../brewlogs/');
-    $log->setLogfile('temp.log');
+    $log->setLogDirectory(BREW_ROOT . '/../../brewlogs/');
+    $log->setLogfile('temperature.log');
   }
   $log->writeLogFile($logString);
 }
