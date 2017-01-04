@@ -6,21 +6,18 @@
  * Read data from DS18x20 one wire digital thermometer and write data to log file.
  */
 
-class OldSensor
-{
+class OldSensor {
   private $baseDirectory = '';
   private $slaveFile = 'w1_slave';
 
-  public function __construct($baseDirectory)
-  {
+  public function __construct($baseDirectory) {
     $this->baseDirectory = $baseDirectory;
   }
 
   /**
    * Initialize one wire GPIO bus by loading 1 wires drivers.
    */
-  public function initW1()
-  {
+  public function initW1() {
     echo exec('sudo modprobe w1-gpio');
     echo exec('sudo modprobe w1-therm');
   }
@@ -30,8 +27,7 @@ class OldSensor
    *
    * @return array $sensors of sensor ID found.
    */
-  public function getSensors()
-  {
+  public function getSensors() {
     $sensors = array();
 
     if (file_exists($this->baseDirectory)) {
@@ -53,10 +49,9 @@ class OldSensor
    *
    * @return array of parsed data from sensors.
    */
-  public function getData(array $sensors)
-  {
+  public function getData(array $sensors) {
     $data = '';
-    foreach($sensors as $sensor) {
+    foreach ($sensors as $sensor) {
       $rawData = file_get_contents($this->baseDirectory . '/' . $sensor . '/' . $this->slaveFile);
       if ($rawData) {
         $result = $this->parseData($rawData);
@@ -78,8 +73,7 @@ class OldSensor
    *
    * @return bool|string return parsed data. False if CRC fails.
    */
-  private function parseData($data)
-  {
+  private function parseData($data) {
     if (!strstr($data, 'YES')) {
       print 'Sensor read error. CRC fail.' . PHP_EOL;
       return FALSE;
@@ -87,27 +81,8 @@ class OldSensor
 
     $data = strstr($data, 't=');
     $data = trim($data, "t=");
-    $data = number_format($data/1000, 3);
+    $data = number_format($data / 1000, 3);
 
     return $data;
-  }
-
-  /**
-   * Write data from sensors to log file.
-   *
-   * @param $logString
-   */
-  public function writeLogFile($logString)
-  {
-    $timestamp[] = date('Y-m-d H:i:s');
-    $logString = array_merge($timestamp, $logString);
-    $logString = implode(', ', $logString);
-    print $logString . PHP_EOL;
-    $logString = $logString . "\r\n";
-
-    $fileName = 'temp.log';
-    $logFile = fopen($fileName, 'a');
-    fwrite($logFile, $logString);
-    fclose($logFile);
   }
 }

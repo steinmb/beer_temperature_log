@@ -3,7 +3,7 @@
 /**
  * File DataEntity.php
  *
- * Create a data entity from a temperatur sesonr.
+ * Create a data entity from a temperature log.
  */
 
 class DataEntity

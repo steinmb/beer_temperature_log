@@ -6,6 +6,7 @@
  */
 define('BREW_ROOT', getcwd());
 require_once BREW_ROOT . '/includes/OldSensor.php';
+require_once BREW_ROOT . '/includes/Logger.php';
 $w1gpio = '';
 $logString = FALSE;
 
@@ -32,11 +33,11 @@ if (!$sensors) {
   echo 'No sensors detected. Giving up.' . PHP_EOL;
   exit;
 }
-
-if ($sensors) {
+else {
   $logString = $w1gpio->getData($sensors);
 }
 
 if ($logString) {
-  $w1gpio->writeLogFile($logString);
+  $log = new Logger();
+  $log->writeLogFile($logString);
 }
