@@ -18,6 +18,9 @@ if ($argc > 1) {
   if ($argv[1] == '--test') {
     echo 'Running in test mode.' . PHP_EOL;
     $w1gpio = new OldSensor('./test');
+    $log = new Logger();
+    $log->setLogDirectory(BREW_ROOT . '/test/');
+    $log->setLogfile('temp.log');
   }
   else {
     echo 'Invalid argument. Valid arguments: --test' . PHP_EOL;
@@ -38,6 +41,10 @@ else {
 }
 
 if ($logString) {
-  $log = new Logger();
+  if (!$log) {
+    $log = new Logger();
+    $log->setLogDirectory(BREW_ROOT . '../brewlogs/');
+    $log->setLogfile('temp.log');
+  }
   $log->writeLogFile($logString);
 }
