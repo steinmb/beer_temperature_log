@@ -10,16 +10,42 @@ require_once BREW_ROOT . '/includes/Sensor.php';
 require_once BREW_ROOT . '/includes/DataEntity.php';
 require_once BREW_ROOT . '/includes/Block.php';
 require_once BREW_ROOT . '/includes/OldSensor.php';
+$entities = FALSE;
 
-if (file_exists($fileName)) {
-  $source = file($fileName);
-  $data = new DataSource($source);
-  $sensors = new Sensor($data);
-  $entities = $sensors->getEntities();
+//if (file_exists($fileName)) {
+//  $source = file($fileName);
+//  $data = new DataSource($source);
+//  $sensors = new Sensor($data);
+//  $entities = $sensors->getEntities();
 
-  foreach ($entities as $entity) {
-    $blocks[] = new Block($entity);
+/**
+ * Check for runtime parameters and scan for attached sensors.
+ */
+if ($argc > 1) {
+
+  if ($argv[1] == '--test') {
+    echo 'Running in test mode.' . PHP_EOL;
+    $sensores = new Sensor('./test');
+    if ($sensores) {
+      $entities = $sensores->createEntities();
+    }
+//    $log->setLogDirectory(BREW_ROOT . '/test/');
+//    $log->setLogfile('temperature.log');
   }
-
-  include 'page.php';
+  else {
+    echo 'Invalid argument. Valid arguments: --test' . PHP_EOL;
+    exit;
+  }
 }
+else {
+  $w1gpio = new OldSensor('/sys/bus/w1/devices');
+}
+
+
+  if ($entities) {
+    foreach ($entities as $entity) {
+      $blocks[] = new Block($entity);
+    }
+    include 'page.php';
+  }
+//}
