@@ -8,44 +8,50 @@
 
 class Sensor
 {
-    private $sensorData;
-    private $sensors;
+  private $baseDirectory = '';
+  private $sensors;
 
-    public function __construct($data)
-    {
-      foreach ($data->getStructuredData() as $entry) {
-        $this->sensorData[0][] = [
-          'Date' => $entry[0],
-          'Sensor' => $entry[1],
-          ];
-        $this->sensorData[1][] = [
-          'Date' => $entry[0],
-          'Sensor' => $entry[2],
-          ];
-      }
+  public function __construct($baseDirectory)
+  {
+    $this->baseDirectory = $baseDirectory;
+    $this->getSensors();
+  }
 
-      foreach ($data->getStructuredData() as $samples) {
-        foreach ($samples as $key => $row) {
-          if ($this->sensors < $key) {
-            $this->sensors = $key;
-          }
+  /**
+   * Initialize one wire GPIO bus by loading 1 wires drivers.
+   */
+  public function initW1() {
+    echo exec('sudo modprobe w1-gpio');
+    echo exec('sudo modprobe w1-therm');
+  }
+
+  /**
+   * Scan one wire bus for attached sensors.
+   *
+   * @return array $sensors of sensor ID found.
+   */
+  public function getSensors() {
+    if (file_exists($this->baseDirectory)) {
+      $content = dir($this->baseDirectory);
+      while (FALSE !== ($entry = $content->read())) {
+        if (strstr($entry, '10-')) {
+          $this->sensors[] = $entry;
         }
       }
     }
+  }
 
   /**
-   * Create entities. One per entry found in data source.
+   * Create entities. One per data object pr. sensor found.
    *
    * @return array of data objects.
    */
-  public function getEntities()
+  public function createEntities()
   {
+    $type = 'temperature';
     $entities = [];
-
-    foreach ($this->sensorData as $index => $entry) {
-      $entity = new DataEntity($entry);
-      $entity->setId($index);
-      $entities[] = $entity;
+    foreach ($this->sensors as $sensor) {
+      $entities[] = new DataEntity($sensor, $type);
     }
 
     return $entities;
