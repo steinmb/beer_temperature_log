@@ -11,24 +11,17 @@ class DataEntity
     private $id;
     private $data;
     private $trend;
+    private $type;
 
   /**
    * DataEntity constructor.
-   * @param $data
+   * @param $id Sensor unique ID.
+   * @param $type Sensor type.
    */
-    public function __construct($data)
-    {
-      $this->data = $data;
-    }
-
-  /**
-   * Set the entity ID.
-   *
-   * @param $id
-   */
-    public function setId($id)
+    public function __construct($id, $type)
     {
       $this->id = $id;
+      $this->type = $type;
     }
 
   /**
