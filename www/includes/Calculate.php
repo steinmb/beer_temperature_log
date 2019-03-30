@@ -9,17 +9,10 @@
 class Calculate {
   private $data;
   private $trend;
+  private $lastReading;
 
-  /**
-   * Get the last sample from temperature log.
-   *
-   * @return string of last temperature sample.
-   */
-  public function getLastReading()
-  {
-    $lastReading = $this->data[count($this->data) - 1];
-
-    return $lastReading;
+  public function __construct($lastReading) {
+    $this->lastReading = $lastReading;
   }
 
   /**
@@ -33,7 +26,7 @@ class Calculate {
     $y = array();
     $x2 = array();
     $xy = array();
-    $last = $this->getLastReading();
+    $last = $this->lastReading;
 
     foreach (array_reverse($this->data) as $key => $row) {
       $y[] = 1000 * $row['Sensor'];
@@ -66,7 +59,6 @@ class Calculate {
     $vector2 = bcsub(bcmul($samples, $x2Summary), (bcsqrt($xSummary, 30)));
     $this->trend = bcdiv($vector1, $vector2, 12);
   }
-
 
   /**
    * Get entity trend data and round it down to 4 decimals.

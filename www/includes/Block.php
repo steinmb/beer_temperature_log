@@ -5,6 +5,8 @@
  * Create HTML markup of a data entity.
  */
 
+require_once BREW_ROOT . '/includes/Calculate.php';
+
 class Block
 {
   private $entity;
@@ -19,6 +21,7 @@ class Block
   {
     $this->entity = $entity;
     $this->render = $this->renderBlock();
+    $this->calculate = new Calculate();
   }
 
   public function renderBlock()

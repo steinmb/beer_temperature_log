@@ -27,8 +27,6 @@ class Sensor
 
   /**
    * Scan one wire bus for attached sensors.
-   *
-   * @return array $sensors of sensor ID found.
    */
   public function getSensors() {
     if (file_exists($this->baseDirectory)) {

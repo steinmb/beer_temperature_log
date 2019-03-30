@@ -1,15 +1,19 @@
 <?php
 
+
+
 /**
- * Logger class. Store temperature log.
- *
+ * Read and write data to data storage.
  */
+
 class Logger {
 
   private $logfile = '';
   private $directory;
 
- public function __construct() {}
+ public function __construct($logfile) {
+   $this->logfile = $logfile;
+ }
 
  public function setLogDirectory($directory) {
    $this->directory = $directory;
@@ -26,9 +30,9 @@ class Logger {
    *
    * @param string $logfile file of logfile.
    */
- public function setLogfile($logfile = 'temperatur.log') {
-   $this->logfile = $logfile;
- }
+   public function setLogfile($logfile) {
+     $this->logfile = $logfile;
+  }
 
   /**
    * Write data from sensors to log file.
@@ -46,5 +50,26 @@ class Logger {
     $handle = fopen($this->directory . $this->logfile, 'a');
     fwrite($handle, $logString);
     fclose($handle);
+  }
+
+  /**
+   * Read logfile.
+   */
+  public function getLogData()
+  {
+    $handle = fopen($this->directory . $this->logfile, 'r');
+    $data = fread($handle);
+  }
+
+  /**
+   * Get the last sample from temperature log.
+   *
+   * @return string of last temperature sample.
+   */
+  public function getLastReading()
+  {
+    $lastReading = $this->data[count($this->data) - 1];
+
+    return $lastReading;
   }
 }

@@ -14,8 +14,8 @@ class DataEntity
   /**
    * DataEntity constructor.
    *
-   * @param $id Sensor unique ID.
-   * @param $type Sensor type.
+   * @param $id string sensor unique ID.
+   * @param $type string sensor type.
    */
   public function __construct($id, $type)
   {

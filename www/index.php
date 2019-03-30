@@ -10,6 +10,7 @@ require_once BREW_ROOT . '/includes/Sensor.php';
 require_once BREW_ROOT . '/includes/DataEntity.php';
 require_once BREW_ROOT . '/includes/Block.php';
 require_once BREW_ROOT . '/includes/OldSensor.php';
+require_once BREW_ROOT . '/includes/Logger.php';
 $entities = FALSE;
 
 //if (file_exists($fileName)) {
@@ -29,6 +30,8 @@ if ($argc > 1) {
     if ($sensores) {
       $entities = $sensores->createEntities();
     }
+
+//    $log = new Logger('')
 //    $log->setLogDirectory(BREW_ROOT . '/test/');
 //    $log->setLogfile('temperature.log');
   }
@@ -44,6 +47,7 @@ else {
 
   if ($entities) {
     foreach ($entities as $entity) {
+      $log = new Logger($entity->getID());
       $blocks[] = new Block($entity);
     }
     include 'page.php';
