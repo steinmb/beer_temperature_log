@@ -22,7 +22,7 @@ $entities = false;
  */
 if ($argc > 1) {
 
-    if ($argv[1] == '--test') {
+    if ($argv[1] === '--test') {
         echo 'Running in test mode.' . PHP_EOL;
         $sensors = new Sensor('./test');
         if ($sensors) {
