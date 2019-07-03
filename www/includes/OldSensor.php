@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * @file OldSensor.php
@@ -9,83 +9,90 @@ declare(strict_types = 1);
 /**
  * Read data from Dallas DS18B20 one wire digital thermometer.
  */
-class OldSensor {
-  private $baseDirectory;
-  private $slaveFile = 'w1_slave';
+class OldSensor
+{
 
-  public function __construct($baseDirectory) {
-    $this->baseDirectory = $baseDirectory;
-  }
+    private $baseDirectory;
+    private $slaveFile = 'w1_slave';
 
-  /**
-   * Initialize one wire GPIO bus by loading 1 wires drivers.
-   */
-  public function initW1() {
-    echo exec('sudo modprobe w1-gpio');
-    echo exec('sudo modprobe w1-therm');
-  }
-
-  /**
-   * Scan one wire bus for attached sensors.
-   *
-   * @return array $sensors of sensor ID found.
-   */
-  public function getSensors() {
-    $sensors = array();
-
-    if (file_exists($this->baseDirectory)) {
-      $content = dir($this->baseDirectory);
-      while (FALSE !== ($entry = $content->read())) {
-        if (strstr($entry, '10-')) {
-          $sensors[] = $entry;
-        }
-      }
+    public function __construct($baseDirectory)
+    {
+        $this->baseDirectory = $baseDirectory;
     }
 
-    return $sensors;
-  }
-
-  /**
-   * Read data from sensor.
-   *
-   * @param array $sensors of sensor ID.
-   *
-   * @return array of parsed data from sensors.
-   */
-  public function getData(array $sensors) {
-    $data = [];
-    foreach ($sensors as $sensor) {
-      $rawData = file_get_contents($this->baseDirectory . '/' . $sensor . '/' . $this->slaveFile);
-      if ($rawData) {
-        $result = $this->parseData($rawData);
-        if ($result) {
-          $data[] = $result;
-        }
-        else {
-          $data[] = '';
-        }
-      }
+    /**
+     * Initialize one wire GPIO bus by loading 1 wires drivers.
+     */
+    public function initW1()
+    {
+        echo exec('sudo modprobe w1-gpio');
+        echo exec('sudo modprobe w1-therm');
     }
 
-    return $data;
-  }
+    /**
+     * Scan one wire bus for attached sensors.
+     *
+     * @return array $sensors of sensor ID found.
+     */
+    public function getSensors()
+    {
+        $sensors = [];
 
-  /**
-   * Parse sensor raw data. Check for CRC fail and temperatur data.
-   * @param $data string of raw data from sensor.
-   *
-   * @return bool|string return parsed data. False if CRC fails.
-   */
-  private function parseData($data) {
-    if (FALSE === strpos($data, 'YES')) {
-      print 'Sensor read error. CRC fail.' . PHP_EOL;
-      return FALSE;
+        if (file_exists($this->baseDirectory)) {
+            $content = dir($this->baseDirectory);
+            while (false !== ($entry = $content->read())) {
+                if (strstr($entry, '10-')) {
+                    $sensors[] = $entry;
+                }
+            }
+        }
+
+        return $sensors;
     }
 
-    $data = strstr($data, 't=');
-    $data = trim($data, "t=");
-    $data = number_format($data / 1000, 3);
+    /**
+     * Read data from sensor.
+     *
+     * @param array $sensors of sensor ID.
+     *
+     * @return array of parsed data from sensors.
+     */
+    public function getData(array $sensors)
+    {
+        $data = [];
+        foreach ($sensors as $sensor) {
+            $rawData = file_get_contents($this->baseDirectory . '/' . $sensor . '/' . $this->slaveFile);
+            if ($rawData) {
+                $result = $this->parseData($rawData);
+                if ($result) {
+                    $data[] = $result;
+                } else {
+                    $data[] = '';
+                }
+            }
+        }
 
-    return $data;
-  }
+        return $data;
+    }
+
+    /**
+     * Parse sensor raw data. Check for CRC fail and temperatur data.
+     *
+     * @param $data string of raw data from sensor.
+     *
+     * @return bool|string return parsed data. False if CRC fails.
+     */
+    private function parseData($data)
+    {
+        if (false === strpos($data, 'YES')) {
+            print 'Sensor read error. CRC fail.' . PHP_EOL;
+            return false;
+        }
+
+        $data = strstr($data, 't=');
+        $data = trim($data, "t=");
+        $data = number_format($data / 1000, 3);
+
+        return $data;
+    }
 }
