@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
- * Created by PhpStorm.
- * User: steinmb
- * Date: 23/01/2017
- * Time: 21:04
+ * @file
+ * Calculate data.
  */
 class Calculate {
   private $data;

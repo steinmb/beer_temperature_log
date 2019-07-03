@@ -1,5 +1,9 @@
 <?php
+
+declare(strict_types = 1);
+
 /**
+ * @file index.php
  * Create web interface interface.
  */
 

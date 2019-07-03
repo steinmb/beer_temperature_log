@@ -1,11 +1,14 @@
 <?php
 
+declare(strict_types = 1);
+
 /**
- * @file
- *
- * Read data from DS18x20 one wire digital thermometer and write data to log file.
+ * @file OldSensor.php
  */
 
+/**
+ * Read data from Dallas DS18B20 one wire digital thermometer.
+ */
 class OldSensor {
   private $baseDirectory = '';
   private $slaveFile = 'w1_slave';
@@ -50,7 +53,7 @@ class OldSensor {
    * @return array of parsed data from sensors.
    */
   public function getData(array $sensors) {
-    $data = '';
+    $data = [];
     foreach ($sensors as $sensor) {
       $rawData = file_get_contents($this->baseDirectory . '/' . $sensor . '/' . $this->slaveFile);
       if ($rawData) {
@@ -74,7 +77,7 @@ class OldSensor {
    * @return bool|string return parsed data. False if CRC fails.
    */
   private function parseData($data) {
-    if (!strstr($data, 'YES')) {
+    if (FALSE === strpos($data, 'YES')) {
       print 'Sensor read error. CRC fail.' . PHP_EOL;
       return FALSE;
     }

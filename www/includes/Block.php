@@ -1,6 +1,9 @@
 <?php
+
+declare(strict_types = 1);
+
 /**
- * File block.php.
+ * @file
  *
  * Create HTML markup of a data entity.
  */
