@@ -8,68 +8,75 @@ declare(strict_types = 1);
 
 class Logger {
 
-  private $logfile = '';
+  private $logfile;
   private $directory;
 
- public function __construct($logfile) {
-   $this->logfile = $logfile;
- }
+    public function __construct(string $logfile)
+    {
+        $this->logfile = $logfile;
+    }
 
- public function setLogDirectory($directory) {
-   $this->directory = $directory;
-   if (!file_exists($directory)) {
-     $result = mkdir($directory, 0755, TRUE);
-     if (!$result) {
-       die('Unable to create log directory. Giving up.');
-     }
-   }
- }
+    public function setLogDirectory($directory): void
+    {
+        $this->directory = $directory;
 
-  /**
-   * Define the name of the logfile.
-   *
-   * @param string $logfile file of logfile.
-   */
-   public function setLogfile($logfile) {
-     $this->logfile = $logfile;
-  }
+        if (!file_exists($directory)) {
+            $result = mkdir($directory, 0755, true);
 
-  /**
-   * Write data from sensors to log file.
-   *
-   * @param $logString
-   */
-  public function writeLogFile($logString)
-  {
-    $timestamp[] = date('Y-m-d H:i:s');
-    $logString = array_merge($timestamp, $logString);
-    $logString = implode(', ', $logString);
-    print $logString . PHP_EOL;
-    $logString = $logString . "\r\n";
+            if (!$result) {
+                die('Unable to create log directory. Giving up.');
+            }
+        }
+    }
 
-    $handle = fopen($this->directory . $this->logfile, 'a');
-    fwrite($handle, $logString);
-    fclose($handle);
-  }
+    /**
+     * Define the name of the logfile.
+     *
+     * @param string $logfile
+     *   file of logfile.
+     */
+    public function setLogfile($logfile): void
+    {
+        $this->logfile = $logfile;
+    }
 
-  /**
-   * Read logfile.
-   */
-  public function getLogData()
-  {
-    $handle = fopen($this->directory . $this->logfile, 'r');
-    $data = fread($handle);
-  }
+    /**
+     * Write data from sensors to log file.
+     *
+     * @param $logString
+     */
+    public function writeLogFile($logString): void
+    {
+        $timestamp[] = date('Y-m-d H:i:s');
+        $logString = array_merge($timestamp, $logString);
+        $logString = implode(', ', $logString);
+        print $logString . PHP_EOL;
+        $logString = $logString . "\r\n";
 
-  /**
-   * Get the last sample from temperature log.
-   *
-   * @return string of last temperature sample.
-   */
-  public function getLastReading()
-  {
-    $lastReading = $this->data[count($this->data) - 1];
+        $handle = fopen($this->directory . $this->logfile, 'a');
+        fwrite($handle, $logString);
+        fclose($handle);
+    }
 
-    return $lastReading;
-  }
+    /**
+     * Read logfile.
+     */
+    public function getLogData(): void
+    {
+        $handle = fopen($this->directory . $this->logfile, 'r');
+        $data = fread($handle);
+    }
+
+    /**
+     * Get the last sample from temperature log.
+     *
+     * @return string $lastReading
+     *  Return last log entry.
+     */
+    public function getLastReading(): string
+    {
+        $lastReading = $this->data[count($this->data) - 1];
+
+        return $lastReading;
+    }
 }
