@@ -40,9 +40,8 @@ if (!$sensors) {
   echo 'No sensors detected. Giving up.' . PHP_EOL;
   exit;
 }
-else {
-  $logString = $w1gpio->getData($sensors);
-}
+
+ $logString = $w1gpio->getData($sensors);
 
 if ($logString) {
   if (!$log) {
