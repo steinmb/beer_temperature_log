@@ -19,10 +19,10 @@ $log = '';
  */
 if ($argc > 1) {
 
-  if ($argv[1] == '--test') {
+  if ($argv[1] === '--test') {
     echo 'Running in test mode.' . PHP_EOL;
     $w1gpio = new OldSensor('./test');
-    $log = new Logger();
+    $log = new Logger('temperature.log');
     $log->setLogDirectory(BREW_ROOT . '/test/');
     $log->setLogfile('temperature.log');
   }
