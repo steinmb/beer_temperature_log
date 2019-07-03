@@ -30,9 +30,9 @@ if ($argc > 1) {
 
   if ($argv[1] == '--test') {
     echo 'Running in test mode.' . PHP_EOL;
-    $sensores = new Sensor('./test');
-    if ($sensores) {
-      $entities = $sensores->createEntities();
+    $sensors = new Sensor('./test');
+    if ($sensors) {
+      $entities = $sensors->createEntities();
     }
 
 //    $log = new Logger('')
