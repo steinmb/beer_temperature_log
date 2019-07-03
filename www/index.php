@@ -17,12 +17,6 @@ require_once BREW_ROOT . '/includes/OldSensor.php';
 require_once BREW_ROOT . '/includes/Logger.php';
 $entities = FALSE;
 
-//if (file_exists($fileName)) {
-//  $source = file($fileName);
-//  $data = new DataSource($source);
-//  $sensors = new Sensor($data);
-//  $entities = $sensors->getEntities();
-
 /**
  * Check for runtime parameters and scan for attached sensors.
  */
@@ -34,10 +28,6 @@ if ($argc > 1) {
     if ($sensors) {
       $entities = $sensors->createEntities();
     }
-
-//    $log = new Logger('')
-//    $log->setLogDirectory(BREW_ROOT . '/test/');
-//    $log->setLogfile('temperature.log');
   }
   else {
     echo 'Invalid argument. Valid arguments: --test' . PHP_EOL;
@@ -48,7 +38,6 @@ else {
   $w1gpio = new OldSensor('/sys/bus/w1/devices');
 }
 
-
   if ($entities) {
     foreach ($entities as $entity) {
       $log = new Logger($entity->getID());
@@ -56,4 +45,3 @@ else {
     }
     include 'page.php';
   }
-//}
