@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * @file cron.php
@@ -11,7 +11,7 @@ define('BREW_ROOT', getcwd());
 require_once BREW_ROOT . '/includes/OldSensor.php';
 require_once BREW_ROOT . '/includes/Logger.php';
 $w1gpio = '';
-$logString = FALSE;
+$logString = false;
 $log = '';
 
 /**
@@ -19,35 +19,33 @@ $log = '';
  */
 if ($argc > 1) {
 
-  if ($argv[1] === '--test') {
-    echo 'Running in test mode.' . PHP_EOL;
-    $w1gpio = new OldSensor('./test');
-    $log = new Logger('temperature.log');
-    $log->setLogDirectory(BREW_ROOT . '/test/');
-    $log->setLogfile('temperature.log');
-  }
-  else {
-    echo 'Invalid argument. Valid arguments: --test' . PHP_EOL;
-    exit;
-  }
-}
-else {
-  $w1gpio = new OldSensor('/sys/bus/w1/devices');
+    if ($argv[1] === '--test') {
+        echo 'Running in test mode.' . PHP_EOL;
+        $w1gpio = new OldSensor('./test');
+        $log = new Logger('temperature_test.log');
+        $log->setLogDirectory(BREW_ROOT . '/test/');
+        $log->setLogfile('temperature.log');
+    } else {
+        echo 'Invalid argument. Valid arguments: --test' . PHP_EOL;
+        exit;
+    }
+} else {
+    $w1gpio = new OldSensor('/sys/bus/w1/devices');
 }
 
 $sensors = $w1gpio->getSensors();
 if (!$sensors) {
-  echo 'No sensors detected. Giving up.' . PHP_EOL;
-  exit;
+    echo 'No sensors detected. Giving up.' . PHP_EOL;
+    exit;
 }
 
- $logString = $w1gpio->getData($sensors);
+$logString = $w1gpio->getData($sensors);
 
 if ($logString) {
-  if (!$log) {
-    $log = new Logger();
-    $log->setLogDirectory(BREW_ROOT . '/../../brewlogs/');
-    $log->setLogfile('temperature.log');
-  }
-  $log->writeLogFile($logString);
+    if (!$log) {
+        $log = new Logger('temperature.log');
+        $log->setLogDirectory(BREW_ROOT . '/../../brewlogs/');
+        $log->setLogfile('temperature.log');
+    }
+    $log->writeLogFile($logString);
 }
