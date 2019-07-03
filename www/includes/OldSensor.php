@@ -10,7 +10,7 @@ declare(strict_types = 1);
  * Read data from Dallas DS18B20 one wire digital thermometer.
  */
 class OldSensor {
-  private $baseDirectory = '';
+  private $baseDirectory;
   private $slaveFile = 'w1_slave';
 
   public function __construct($baseDirectory) {
