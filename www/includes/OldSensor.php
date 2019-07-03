@@ -23,7 +23,7 @@ class OldSensor
     /**
      * Initialize one wire GPIO bus by loading 1 wires drivers.
      */
-    public function initW1()
+    public function initW1(): void
     {
         echo exec('sudo modprobe w1-gpio');
         echo exec('sudo modprobe w1-therm');
@@ -32,9 +32,10 @@ class OldSensor
     /**
      * Scan one wire bus for attached sensors.
      *
-     * @return array $sensors of sensor ID found.
+     * @return array $sensors
+     *  A list of sensors found.
      */
-    public function getSensors()
+    public function getSensors(): array
     {
         $sensors = [];
 
@@ -54,10 +55,9 @@ class OldSensor
      * Read data from sensor.
      *
      * @param array $sensors of sensor ID.
-     *
      * @return array of parsed data from sensors.
      */
-    public function getData(array $sensors)
+    public function getData(array $sensors): array
     {
         $data = [];
         foreach ($sensors as $sensor) {
@@ -76,10 +76,9 @@ class OldSensor
     }
 
     /**
-     * Parse sensor raw data. Check for CRC fail and temperatur data.
+     * Parse sensor raw data. Check for CRC fail and temperature data.
      *
      * @param $data string of raw data from sensor.
-     *
      * @return bool|string return parsed data. False if CRC fails.
      */
     private function parseData($data)
