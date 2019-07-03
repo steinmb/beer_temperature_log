@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * @file index.php
@@ -15,33 +15,31 @@ require_once BREW_ROOT . '/includes/DataEntity.php';
 require_once BREW_ROOT . '/includes/Block.php';
 require_once BREW_ROOT . '/includes/OldSensor.php';
 require_once BREW_ROOT . '/includes/Logger.php';
-$entities = FALSE;
+$entities = false;
 
 /**
  * Check for runtime parameters and scan for attached sensors.
  */
 if ($argc > 1) {
 
-  if ($argv[1] == '--test') {
-    echo 'Running in test mode.' . PHP_EOL;
-    $sensors = new Sensor('./test');
-    if ($sensors) {
-      $entities = $sensors->createEntities();
+    if ($argv[1] == '--test') {
+        echo 'Running in test mode.' . PHP_EOL;
+        $sensors = new Sensor('./test');
+        if ($sensors) {
+            $entities = $sensors->createEntities();
+        }
+    } else {
+        echo 'Invalid argument. Valid arguments: --test' . PHP_EOL;
+        exit;
     }
-  }
-  else {
-    echo 'Invalid argument. Valid arguments: --test' . PHP_EOL;
-    exit;
-  }
-}
-else {
-  $w1gpio = new OldSensor('/sys/bus/w1/devices');
+} else {
+    $w1gpio = new OldSensor('/sys/bus/w1/devices');
 }
 
-  if ($entities) {
+if ($entities) {
     foreach ($entities as $entity) {
-      $log = new Logger($entity->getID());
-      $blocks[] = new Block($entity);
+        $log = new Logger($entity->getID());
+        $blocks[] = new Block($entity);
     }
     include 'page.php';
-  }
+}
