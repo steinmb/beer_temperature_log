@@ -44,10 +44,8 @@ if (!$sensors) {
 $logString = $w1gpio->getData($sensors);
 
 if ($logString) {
-    if (!$log) {
-        $log = new Logger('temperature.log');
-        $log->setLogDirectory(BREW_ROOT . '/../../brewlogs/');
-        $log->setLogfile('temperature.log');
-    }
+    $log = new Logger('temperature.log');
+    $log->setLogDirectory(BREW_ROOT . '/../../brewlogs/');
+    $log->setLogfile('temperature.log');
     $log->writeLogFile($logString);
 }
