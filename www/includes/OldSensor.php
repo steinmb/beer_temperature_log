@@ -44,7 +44,7 @@ class OldSensor
 
         $content = dir($this->baseDirectory);
         while (false !== ($entry = $content->read())) {
-            if (strstr($entry, '10-') || strstr($entry, '28-')) {
+            if (false !== strpos($entry, '10-') || false !== strpos($entry, '28-')) {
                 $sensors[] = $entry;
             }
         }
