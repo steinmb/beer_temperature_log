@@ -66,11 +66,7 @@ class OldSensor
 
             if ($rawData) {
                 $result = $this->parseData($rawData);
-                if ($result) {
-                    $data[] = $result;
-                } else {
-                    $data[] = '';
-                }
+                $data[] = $result;
             }
         }
 
@@ -83,19 +79,15 @@ class OldSensor
      * @param $data string of raw data from sensor.
      * @return bool|string return parsed data. False if CRC fails.
      */
-    private function parseData($data)
+    private function parseData(string $rawData)
     {
-        if (false === strpos($data, 'YES')) {
+        if (false === strpos($rawData, 'YES')) {
             print 'Sensor read error. CRC fail.' . PHP_EOL;
-            return false;
+            return '';
         }
 
-        echo 'Raw: ' . $data . PHP_EOL;
-        $data = strstr($data, 't=');
-        $data = trim($data, "t=");
-        echo 'Raw selected: ' . $data . PHP_EOL;
-        $data = number_format($data / 1000, 3);
-
-        return $data;
+        $data = strstr($rawData, 't=');
+        $data = trim($data, 't=');
+        return number_format((int) $data / 1000, 3);
     }
 }
