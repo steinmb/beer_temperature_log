@@ -38,13 +38,14 @@ class OldSensor
     public function getSensors(): array
     {
         $sensors = [];
+        if (!file_exists($this->baseDirectory)) {
+            return $sensors;
+        }
 
-        if (file_exists($this->baseDirectory)) {
-            $content = dir($this->baseDirectory);
-            while (false !== ($entry = $content->read())) {
-                if (strstr($entry, '10-')) {
-                    $sensors[] = $entry;
-                }
+        $content = dir($this->baseDirectory);
+        while (false !== ($entry = $content->read())) {
+            if (strstr($entry, '10-') || strstr($entry, '28-')) {
+                $sensors[] = $entry;
             }
         }
 
@@ -62,6 +63,7 @@ class OldSensor
         $data = [];
         foreach ($sensors as $sensor) {
             $rawData = file_get_contents($this->baseDirectory . '/' . $sensor . '/' . $this->slaveFile);
+
             if ($rawData) {
                 $result = $this->parseData($rawData);
                 if ($result) {
