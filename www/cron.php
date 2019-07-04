@@ -24,9 +24,14 @@ if ($argc > 1) {
         $w1gpio = new OldSensor('./test');
         $log = new Logger('temperature_test.log');
         $log->setLogDirectory(BREW_ROOT . '/test/');
+        $sensors = $w1gpio->getSensors();
     } else {
         echo 'Invalid argument. Valid arguments: --test' . PHP_EOL;
         exit;
+    }
+
+    if (count($sensors) !== 4) {
+        throw new Exception('Missing sensors. Expected 4, only got:' . count($sensors));
     }
 } else {
     $w1gpio = new OldSensor('/sys/bus/w1/devices');
