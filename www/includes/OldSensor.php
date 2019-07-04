@@ -76,10 +76,12 @@ class OldSensor
     /**
      * Parse sensor raw data. Check for CRC fail and temperature data.
      *
-     * @param $data string of raw data from sensor.
-     * @return bool|string return parsed data. False if CRC fails.
+     * @param $rawData string
+     *  Raw data from sensor.
+     * @return string
+     *  Return temp. in Celsius or empty if CRC check failed.
      */
-    private function parseData(string $rawData)
+    private function parseData(string $rawData): string
     {
         if (false === strpos($rawData, 'YES')) {
             print 'Sensor read error. CRC fail.' . PHP_EOL;
