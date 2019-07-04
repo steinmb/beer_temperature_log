@@ -93,6 +93,7 @@ class OldSensor
         echo 'Raw: ' . $data . PHP_EOL;
         $data = strstr($data, 't=');
         $data = trim($data, "t=");
+        echo 'Raw selected: ' . $data . PHP_EOL;
         $data = number_format($data / 1000, 3);
 
         return $data;
