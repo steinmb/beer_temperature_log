@@ -4,20 +4,21 @@ declare(strict_types = 1);
 
 final class SensorTest
 {
-    public $testActivated = FALSE;
+    public $testActivated = false;
     public $w1gpio;
     public $logger;
 
     public function __construct(string $argument, $w1gpio, Logger $logger)
     {
+        $this->w1gpio = $w1gpio;
+        $this->logger = $logger;
+
         if ($argument === '--test') {
             echo 'Running in test mode.' . PHP_EOL;
             $this->testActivated = true;
-            $this->w1gpio = $w1gpio;
-            $this->logger = $logger;
-        } else {
+        }
+        else {
             echo 'Invalid argument. Valid arguments: --test' . PHP_EOL;
-            $this->testActivated = false;
         }
     }
 
