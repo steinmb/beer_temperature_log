@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types = 1);
 
 /**
@@ -11,28 +10,15 @@ declare(strict_types = 1);
 define('BREW_ROOT', getcwd());
 require_once BREW_ROOT . '/includes/OldSensor.php';
 require_once BREW_ROOT . '/includes/Logger.php';
+require_once BREW_ROOT . '/includes/TestRunner.php';
 require_once BREW_ROOT . '/test/SensorTest.php';
 
-$w1gpio = '';
-$logString = false;
-$log = '';
-
 if ($argc === 2) {
-
-    $test = new SensorTest(
-      $argv[1],
-      new OldSensor('./test'),
-      new Logger('temperature_test.log')
-    );
-
-    if (!$test->testActivated) {
-        exit;
-    }
-
-    $test->logData();
-    exit;
+  testRunner($argv[1]);
 }
 
+$logString = false;
+$log = '';
 $w1gpio = new OldSensor('/sys/bus/w1/devices');
 $sensors = $w1gpio->getSensors();
 
