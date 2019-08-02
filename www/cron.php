@@ -8,6 +8,8 @@ declare(strict_types = 1);
  */
 
 define('BREW_ROOT', getcwd());
+define('SENSOR_DIRECTORY', '/sys/bus/w1/devices');
+
 require_once BREW_ROOT . '/includes/OldSensor.php';
 require_once BREW_ROOT . '/includes/Logger.php';
 require_once BREW_ROOT . '/includes/TestRunner.php';
@@ -19,7 +21,7 @@ if ($argc === 2) {
 
 $logString = false;
 $log = '';
-$w1gpio = new OldSensor('/sys/bus/w1/devices');
+$w1gpio = new OldSensor(SENSOR_DIRECTORY);
 $sensors = $w1gpio->getSensors();
 
 if (!$sensors) {
