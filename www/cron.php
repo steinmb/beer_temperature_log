@@ -4,10 +4,12 @@ declare(strict_types = 1);
 /**
  * @file cron.php
  *
- * Cron that needs to be run periodic from crond.
+ * Periodic read data from all attached sensors and store them to a log.
  */
 
 define('BREW_ROOT', getcwd());
+define('LOG_DIRECTORY', BREW_ROOT . '/../../brewlogs/');
+define('LOG_FILENAME', 'temperature.log');
 define('SENSOR_DIRECTORY', '/sys/bus/w1/devices');
 
 require_once BREW_ROOT . '/includes/OldSensor.php';
@@ -33,7 +35,7 @@ $logString = $w1gpio->getData($sensors);
 
 if ($logString) {
     $log = new Logger('temperature.log');
-    $log->setLogDirectory(BREW_ROOT . '/../../brewlogs/');
-    $log->setLogfile('temperature.log');
+    $log->setLogDirectory(LOG_DIRECTORY);
+    $log->setLogfile(LOG_FILENAME);
     $log->writeLogFile($logString);
 }
