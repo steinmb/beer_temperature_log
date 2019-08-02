@@ -15,7 +15,7 @@ class OldSensor
     private $baseDirectory;
     private $slaveFile = 'w1_slave';
 
-    public function __construct($baseDirectory)
+    public function __construct(string $baseDirectory)
     {
         $this->baseDirectory = $baseDirectory;
     }
