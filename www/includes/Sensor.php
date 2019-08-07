@@ -19,7 +19,6 @@ class Sensor
     public function __construct($baseDirectory)
     {
         $this->baseDirectory = $baseDirectory;
-        $this->getSensors();
     }
 
     /**

@@ -20,13 +20,13 @@ require_once BREW_ROOT . '/includes/OldSensor.php';
 require_once BREW_ROOT . '/includes/Logger.php';
 
 $entities = false;
-$sensors = new Sensor(SENSOR_DIRECTORY);
+$sensor = new Sensor(SENSOR_DIRECTORY);
+$sensor->getSensors();
+$sensors = $sensor->createEntities();
 
 if ($sensors) {
     $entities = $sensors->createEntities();
 }
-
-$w1gpio = new OldSensor(SENSOR_DIRECTORY);
 
 if ($entities) {
     foreach ($entities as $entity) {
