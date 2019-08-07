@@ -7,12 +7,10 @@ declare(strict_types=1);
 
 /**
  * Create sensor object based on existing data sources.
- *
  */
 class Sensor
 {
     private $baseDirectory;
-    private $sensors;
 
     public function __construct(string $baseDirectory)
     {
@@ -31,16 +29,22 @@ class Sensor
     /**
      * Scan one wire bus for attached sensors.
      */
-    public function getSensors(): void
+    public function getSensors()
     {
-        if (file_exists($this->baseDirectory)) {
-            $content = dir($this->baseDirectory);
-            while (false !== ($entry = $content->read())) {
-                if (false !== strpos($entry, '10-') || false !== strpos($entry, '28-')) {
-                    $this->sensors[] = $entry;
-                }
+        $sensors = [];
+
+        if (!file_exists($this->baseDirectory)) {
+            return $sensors;
+        }
+
+        $content = dir($this->baseDirectory);
+        while (false !== ($entry = $content->read())) {
+            if (false !== strpos($entry, '10-') || false !== strpos($entry, '28-')) {
+                $sensors[] = $entry;
             }
         }
+
+        return $sensors;
     }
 
     /**

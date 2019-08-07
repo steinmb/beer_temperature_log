@@ -8,7 +8,8 @@ declare(strict_types=1);
  */
 
 define('BREW_ROOT', getcwd());
-define('SENSOR_DIRECTORY', '/sys/bus/w1/devices');
+//define('SENSOR_DIRECTORY', '/sys/bus/w1/devices');
+define('SENSOR_DIRECTORY', BREW_ROOT . '/test');
 define('LOG_DIRECTORY', BREW_ROOT . '/../../brewlogs/');
 define('LOG_FILENAME', 'temperature.log');
 
@@ -21,11 +22,10 @@ require_once BREW_ROOT . '/includes/Logger.php';
 
 $entities = false;
 $sensor = new Sensor(SENSOR_DIRECTORY);
-$sensor->getSensors();
-$sensors = $sensor->createEntities();
+$sensors = $sensor->getSensors();
 
 if ($sensors) {
-    $entities = $sensors->createEntities();
+    $entities = $sensor->createEntities();
 }
 
 if ($entities) {
