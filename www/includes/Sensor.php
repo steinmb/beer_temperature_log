@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -12,11 +11,10 @@ declare(strict_types=1);
  */
 class Sensor
 {
-
     private $baseDirectory;
     private $sensors;
 
-    public function __construct($baseDirectory)
+    public function __construct(string $baseDirectory)
     {
         $this->baseDirectory = $baseDirectory;
     }
