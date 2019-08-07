@@ -25,13 +25,13 @@ $sensor = new Sensor(SENSOR_DIRECTORY);
 $sensors = $sensor->getSensors();
 
 if ($sensors) {
-    $entities = $sensor->createEntities();
+    $entities = $sensor->createEntities($sensors);
 }
 
 if ($entities) {
     foreach ($entities as $entity) {
         $log = new Logger($entity->getID());
-        $blocks[] = new Block($entity);
+        $blocks[] = new Block($entity, new Calculate($log->getLastReading()));
     }
     include 'page.php';
 }
