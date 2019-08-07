@@ -14,17 +14,18 @@ class Block
 {
   private $entity;
   public $render;
+  private $calculate;
 
   /**
    * Block constructor.
    * @param object $entity
    *
    */
-  public function __construct($entity)
+  public function __construct($entity, $calculate)
   {
     $this->entity = $entity;
     $this->render = $this->renderBlock();
-    $this->calculate = new Calculate();
+    $this->calculate = $calculate;
   }
 
   public function renderBlock()
