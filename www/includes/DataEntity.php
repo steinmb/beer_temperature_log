@@ -18,7 +18,7 @@ class DataEntity
     * @param $id string sensor unique ID.
     * @param $type string sensor type.
     */
-    public function __construct($id, $type)
+    public function __construct(string $id, string $type)
     {
         $this->id = $id;
         $this->type = $type;
@@ -32,5 +32,10 @@ class DataEntity
     public function getId(): string
     {
         return $this->id;
+    }
+
+    public function getSensorType(): string
+    {
+        return $this->type;
     }
 }
