@@ -50,13 +50,14 @@ class Sensor
     /**
      * Create entities. One per data object pr. sensor found.
      *
+     * @param array $sensors
      * @return array of data objects.
      */
-    public function createEntities(): array
+    public function createEntities(array $sensors): array
     {
         $type = 'temperature';
         $entities = [];
-        foreach ($this->sensors as $sensor) {
+        foreach ($sensors as $sensor) {
             $entities[] = new DataEntity($sensor, $type);
         }
 
