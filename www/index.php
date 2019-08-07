@@ -1,13 +1,15 @@
 <?php
-
 declare(strict_types=1);
 
 /**
  * @file index.php
+ *
  * Create web interface interface.
  */
 
 define('BREW_ROOT', getcwd());
+define('SENSOR_DIRECTORY', '/sys/bus/w1/devices');
+
 $fileName = BREW_ROOT . '/../../brewlogs/temperature.log';
 require_once BREW_ROOT . '/includes/dataSource.php';
 require_once BREW_ROOT . '/includes/Sensor.php';
@@ -33,7 +35,7 @@ if ($argc > 1) {
         exit;
     }
 } else {
-    $w1gpio = new OldSensor('/sys/bus/w1/devices');
+    $w1gpio = new OldSensor(SENSOR_DIRECTORY);
 }
 
 if ($entities) {
