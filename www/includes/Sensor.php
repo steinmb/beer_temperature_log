@@ -38,7 +38,7 @@ class Sensor
         if (file_exists($this->baseDirectory)) {
             $content = dir($this->baseDirectory);
             while (false !== ($entry = $content->read())) {
-                if (strstr($entry, '10-')) {
+                if (false !== strpos($entry, '10-') || false !== strpos($entry, '28-')) {
                     $this->sensors[] = $entry;
                 }
             }
