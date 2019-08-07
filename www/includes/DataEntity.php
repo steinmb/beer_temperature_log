@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types = 1);
 
 /**
@@ -10,28 +9,28 @@ declare(strict_types = 1);
 
 class DataEntity
 {
-  private $id;
-  private $type;
+    private $id;
+    private $type;
 
-  /**
-   * DataEntity constructor.
-   *
-   * @param $id string sensor unique ID.
-   * @param $type string sensor type.
-   */
-  public function __construct($id, $type)
-  {
-    $this->id = $id;
-    $this->type = $type;
-  }
+    /**
+    * DataEntity constructor.
+    *
+    * @param $id string sensor unique ID.
+    * @param $type string sensor type.
+    */
+    public function __construct($id, $type)
+    {
+        $this->id = $id;
+        $this->type = $type;
+    }
 
-  /**
-   * Get the entity ID.
-   *
-   * @return string entity ID.
-   */
-  public function getId()
-  {
-    return $this->id;
-  }
+    /**
+    * Get the entity ID.
+    *
+    * @return string entity ID.
+    */
+    public function getId(): string
+    {
+        return $this->id;
+    }
 }
