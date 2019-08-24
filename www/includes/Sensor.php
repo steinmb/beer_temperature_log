@@ -14,6 +14,12 @@ class Sensor
 
     public function __construct(string $baseDirectory)
     {
+        if (!file_exists($baseDirectory)) {
+            throw new InvalidArgumentException(
+              'Invalid directory: ' . $baseDirectory . ' One wire GPIO not loaded.'
+            );
+        }
+
         $this->baseDirectory = $baseDirectory;
     }
 
@@ -27,17 +33,13 @@ class Sensor
     }
 
     /**
-     * Scan one wire bus for attached sensors.
+     * Scan one wire bus for attached sensors and return id.
      */
-    public function getSensors()
+    public function getSensors(): array
     {
         $sensors = [];
-
-        if (!file_exists($this->baseDirectory)) {
-            return $sensors;
-        }
-
         $content = dir($this->baseDirectory);
+
         while (false !== ($entry = $content->read())) {
             if (false !== strpos($entry, '10-') || false !== strpos($entry, '28-')) {
                 $sensors[] = $entry;
@@ -53,8 +55,12 @@ class Sensor
      * @param array $sensors
      * @return array of data objects.
      */
-    public function createEntities(array $sensors): array
+    public function createEntities(array $sensors, DataEntity $dataEntity): array
     {
+        if (!$sensors) {
+            return [];
+        }
+
         $type = 'temperature';
         $entities = [];
         foreach ($sensors as $sensor) {
