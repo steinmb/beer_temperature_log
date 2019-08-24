@@ -1,5 +1,5 @@
 <?php
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * File DataEntity.php
@@ -11,17 +11,20 @@ class DataEntity
 {
     private $id;
     private $type;
+    private $measurement;
 
     /**
-    * DataEntity constructor.
-    *
-    * @param $id string sensor unique ID.
-    * @param $type string sensor type.
-    */
-    public function __construct(string $id, string $type)
+     * DataEntity constructor.
+     *
+     * @param $id string sensor unique ID.
+     * @param $type string sensor type.
+     * @param $measurement int
+     */
+    public function __construct(string $id, string $type, int $measurement)
     {
         $this->id = $id;
         $this->type = $type;
+        $this->measurement = $measurement;
     }
 
     /**
@@ -38,4 +41,5 @@ class DataEntity
     {
         return $this->type;
     }
+
 }

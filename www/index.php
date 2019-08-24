@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -20,19 +21,22 @@ require_once BREW_ROOT . '/includes/Block.php';
 require_once BREW_ROOT . '/includes/OldSensor.php';
 require_once BREW_ROOT . '/includes/Logger.php';
 
-$entities = false;
-$sensor = new Sensor(SENSOR_DIRECTORY);
-$sensors = $sensor->getSensors();
+$sensorData = [];
+$microLAN = new Sensor(SENSOR_DIRECTORY);
+$sensors = $microLAN->getSensors();
 
-if ($sensors) {
-    $entities = $sensor->createEntities($sensors);
+if (!$sensors) {
+    return;
 }
 
-if ($entities) {
-    foreach ($entities as $entity) {
-        $log = new Logger($entity->getID());
-        $block = new Block($entity, new Calculate($log->getLastReading()));
-        $blocks[] = $block->render;
-    }
-    include 'page.php';
+foreach ($sensors as $sensor) {
+    $sensorData[] = new DataEntity($sensor, 'temperature', 2000);
 }
+
+foreach ($sensorData as $entity) {
+    $log = new Logger($entity->getID());
+    $block = new Block($entity, new Calculate($log->getLastReading()));
+    $blocks[] = $block->render;
+}
+
+include 'page.php';
