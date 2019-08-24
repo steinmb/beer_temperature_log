@@ -10,33 +10,18 @@ class Logger {
   private $logfile;
   private $directory;
 
-    public function __construct(string $logfile)
+    public function __construct(string $logfile, string $directory)
     {
-        $this->logfile = $logfile;
-    }
 
-    public function setLogDirectory($directory): void
-    {
-        $this->directory = $directory;
-
-        if (!file_exists($directory)) {
-            $result = mkdir($directory, 0755, true);
-
-            if (!$result) {
-                die('Unable to create log directory. Giving up.');
+        if (!file_exists($directory) && !mkdir($directory, 0755,
+            true) && !is_dir($directory)) {
+                throw new InvalidArgumentException(
+                  'Unable to create log directory: ' . $directory
+                );
             }
-        }
-    }
 
-    /**
-     * Define the name of the logfile.
-     *
-     * @param string $logfile
-     *   file of logfile.
-     */
-    public function setLogfile($logfile): void
-    {
         $this->logfile = $logfile;
+        $this->directory = $directory;
     }
 
     /**
