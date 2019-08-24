@@ -31,7 +31,8 @@ if ($sensors) {
 if ($entities) {
     foreach ($entities as $entity) {
         $log = new Logger($entity->getID());
-        $blocks[] = new Block($entity, new Calculate($log->getLastReading()));
+        $block = new Block($entity, new Calculate($log->getLastReading()));
+        $blocks[] = $block->render;
     }
     include 'page.php';
 }
