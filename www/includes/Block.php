@@ -12,38 +12,33 @@ require_once BREW_ROOT . '/includes/Calculate.php';
 
 class Block
 {
-  private $entity;
-  public $render;
-  private $calculate;
+    private $entity;
+    private $calculate;
+    public $render;
 
-  /**
-   * Block constructor.
-   * @param object $entity
-   *
-   */
-  public function __construct($entity, $calculate)
-  {
-    $this->entity = $entity;
-    $this->render = $this->renderBlock();
-    $this->calculate = $calculate;
-  }
+    public function __construct($entity, Calculate $calculate)
+    {
+        $this->entity = $entity;
+        $this->calculate = $calculate;
+        $this->render = $this->renderBlock();
+    }
 
-  public function renderBlock()
-  {
-    $minutes = 10;
-    $result = '';
-    $this->entity->calculateTrend($minutes);
-    $sample = $this->entity->getLastReading();
+    public function renderBlock(): string
+    {
+        $minutes = 10;
+        $result = '';
+        $this->calculate->calculateTrend($minutes);
+        $sample = $this->entity->getLastReading();
 
-    $result .= '<div class="block">';
-    $result .= '<h2 class="title">Sensor ' . $this->entity->getId() . '</h2>';
-    $result .= '<ul>';
-    $result .= '<li>' . $sample['Date'] . '</li>';
-    $result .= '<li>' . $sample['Sensor'] . 'ºC' . '</li>';
-    $result .= '<li>' . $minutes . 'min ' . $this->entity->analyzeTrend() . ' (' . $this->entity->getTrend() . ')</li>';
-    $result .= '</ul>';
-    $result .= '</div>';
+        $result .= '<div class="block">';
+        $result .= '<h2 class="title">Sensor ' . $this->entity->getId() . '</h2>';
+        $result .= '<ul>';
+        $result .= '<li>' . $sample['Date'] . '</li>';
+        $result .= '<li>' . $sample['Sensor'] . 'ºC' . '</li>';
+        $result .= '<li>' . $minutes . 'min ' . $this->entity->analyzeTrend() . ' (' . $this->entity->getTrend() . ')</li>';
+        $result .= '</ul>';
+        $result .= '</div>';
 
-    return $result;
-  }
+        return $result;
+    }
 }
