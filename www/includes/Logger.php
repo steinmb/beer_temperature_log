@@ -5,7 +5,6 @@ declare(strict_types = 1);
 /**
  * Read and write data to data storage.
  */
-
 class Logger {
 
   private $logfile;
@@ -77,6 +76,6 @@ class Logger {
     {
         $lastReading = $this->data[count($this->data) - 1];
 
-        return $lastReading;
+        return (string) $lastReading;
     }
 }

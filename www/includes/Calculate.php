@@ -20,7 +20,7 @@ class Calculate {
    *
    * @param $time integer minutes to calculate latest trend from.
    */
-  public function calculateTrend($time = 15)
+  public function calculateTrend($time = 15): void
   {
     $x = '';
     $y = array();
