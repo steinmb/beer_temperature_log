@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 /**
  * @file
@@ -16,11 +16,10 @@ class Block
     private $calculate;
     public $render;
 
-    public function __construct($entity, Calculate $calculate)
+    public function __construct(DataEntity $entity, Calculate $calculate)
     {
         $this->entity = $entity;
         $this->calculate = $calculate;
-        $this->render = $this->renderBlock();
     }
 
     public function renderBlock(): string
