@@ -6,7 +6,7 @@ declare(strict_types=1);
  */
 
 /**
- * Create sensor object based on existing data sources.
+ * Find attached 1 wire devices and read data from them.
  */
 class Sensor
 {
@@ -49,24 +49,32 @@ class Sensor
         return $sensors;
     }
 
+    public function getDataRaw(string $sensor)
+    {
+        $slaveFile = 'w1_slave';
+        $rawData = file_get_contents($this->baseDirectory . '/' . $sensor . '/' . $slaveFile);
+        return $rawData;
+    }
+
     /**
      * Create entities. One per data object pr. sensor found.
      *
      * @param array $sensors
      * @return array of data objects.
      */
-    public function createEntities(array $sensors, DataEntity $dataEntity): array
+    public function createEntities(string $sensor, DataEntity $dataEntity): DataEntity
     {
-        if (!$sensors) {
-            return [];
+        if (!$sensor) {
+            throw new InvalidArgumentException(
+              'Sensor name missing'
+            );
         }
+
+        $rawData = $this->getDataRaw($sensor);
 
         $type = 'temperature';
-        $entities = [];
-        foreach ($sensors as $sensor) {
-            $entities[] = new DataEntity($sensor, $type);
-        }
+        $entity = new DataEntity($sensor, $type, 2000);
 
-        return $entities;
+        return $entity;
     }
 }

@@ -18,8 +18,8 @@ require_once BREW_ROOT . '/includes/dataSource.php';
 require_once BREW_ROOT . '/includes/Sensor.php';
 require_once BREW_ROOT . '/includes/DataEntity.php';
 require_once BREW_ROOT . '/includes/Block.php';
-require_once BREW_ROOT . '/includes/OldSensor.php';
 require_once BREW_ROOT . '/includes/Logger.php';
+require_once BREW_ROOT . '/includes/Calculate.php';
 
 $sensorData = [];
 $microLAN = new Sensor(SENSOR_DIRECTORY);
@@ -33,10 +33,16 @@ foreach ($sensors as $sensor) {
     $sensorData[] = new DataEntity($sensor, 'temperature', 2000);
 }
 
+$log = new Logger(LOG_FILENAME, LOG_DIRECTORY);
+$log->getLogData();
+$lastReading = $log->getLastReading();
+
 foreach ($sensorData as $entity) {
-    $log = new Logger($entity->getID());
-    $block = new Block($entity, new Calculate($log->getLastReading()));
-    $blocks[] = $block->render;
+    $block = new Block($entity, new Calculate($log));
+    $blocks[] = $block->currentValue();
 }
+
+// Calculate trends and so on....
+//    $block->renderBlock(10);
 
 include 'page.php';

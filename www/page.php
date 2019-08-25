@@ -19,7 +19,7 @@
               <?php
               foreach ($blocks as $block)
               {
-                print $block->render;
+                print $block;
               }
               ?>
             </div>

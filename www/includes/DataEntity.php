@@ -42,4 +42,9 @@ class DataEntity
         return $this->type;
     }
 
+    public function getData(): string
+    {
+        return "{$this->id}, {$this->type}, {$this->measurement}";
+    }
+
 }

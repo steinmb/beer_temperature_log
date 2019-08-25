@@ -7,8 +7,9 @@ declare(strict_types = 1);
  */
 class Logger {
 
-  private $logfile;
-  private $directory;
+    private $logfile;
+    private $directory;
+    private $data;
 
     public function __construct(string $logfile, string $directory)
     {
@@ -35,7 +36,7 @@ class Logger {
         $logString = array_merge($timestamp, $logString);
         $logString = implode(', ', $logString);
         print $logString . PHP_EOL;
-        $logString = $logString . "\r\n";
+        $logString .= "\r\n";
 
         $handle = fopen($this->directory . $this->logfile, 'a');
         fwrite($handle, $logString);
@@ -47,15 +48,26 @@ class Logger {
      */
     public function getLogData(): void
     {
-        $handle = fopen($this->directory . $this->logfile, 'r');
-        $data = fread($handle);
+        $logfile = $this->directory . $this->logfile;
+         $content = file($logfile);
+         if ($content === false) {
+             throw new Error(
+               'Unable to read read content from logfile: ' . $logfile
+             );
+         }
+        $this->data = $content;
+    }
+
+    public function getData()
+    {
+        return $this->data;
     }
 
     /**
      * Get the last sample from temperature log.
      *
      * @return string $lastReading
-     *  Return last log entry.
+     *  Last log entry.
      */
     public function getLastReading(): string
     {

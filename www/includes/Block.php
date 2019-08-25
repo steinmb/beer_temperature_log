@@ -8,13 +8,11 @@ declare(strict_types=1);
  * Create HTML markup of a data entity.
  */
 
-require_once BREW_ROOT . '/includes/Calculate.php';
-
 class Block
 {
     private $entity;
     private $calculate;
-    public $render;
+    private $render;
 
     public function __construct(DataEntity $entity, Calculate $calculate)
     {
@@ -22,9 +20,17 @@ class Block
         $this->calculate = $calculate;
     }
 
-    public function renderBlock(): string
+    public function currentValue(): string
     {
-        $minutes = 10;
+        $content = '<div class="block">';
+        $content .= '<h2 class="title">' . $this->entity->getId() . '</h2>';
+        $content .= '<ul><li>' . $this->entity->getData() . '</li></ul></div>';
+
+        return $content;
+    }
+
+    public function renderBlock(int $minutes): string
+    {
         $result = '';
         $this->calculate->calculateTrend($minutes);
         $sample = $this->entity->getLastReading();
