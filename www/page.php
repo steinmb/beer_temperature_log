@@ -12,13 +12,20 @@
     <h1 class="title">Temperature log</h1>
 
     <body>
-    <img alt="temperatur log" src="temperatur.png">
+    <?php
+    if (isset($graph)) {
+        print '<img alt="temperatur log" class="graph" src="' . $graph . '">';
+    }
+    ?>
 
     <div class="content">
 
         <?php
-        foreach ($blocks as $block) {
-            print $block;
+
+        if (isset($blocks)) {
+            foreach ($blocks as $block) {
+                print $block;
+            }
         }
         ?>
     </div>

@@ -29,6 +29,10 @@ if (!$sensors) {
     return;
 }
 
+if (file_exists(BREW_ROOT . '/' . 'temperatur.png')) {
+    $graph = BREW_ROOT . '/' . 'temperatur.png';
+}
+
 foreach ($sensors as $sensor) {
     $sensorData[] = new DataEntity($sensor, 'temperature', 2000);
 }
