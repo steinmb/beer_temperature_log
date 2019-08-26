@@ -14,7 +14,7 @@ define('SENSOR_DIRECTORY', BREW_ROOT . '/test');
 define('LOG_DIRECTORY', BREW_ROOT . '/../../brewlogs/');
 define('LOG_FILENAME', 'temperature.log');
 
-require_once BREW_ROOT . '/includes/dataSource.php';
+require_once BREW_ROOT . '/includes/DataSource.php';
 require_once BREW_ROOT . '/includes/Sensor.php';
 require_once BREW_ROOT . '/includes/DataEntity.php';
 require_once BREW_ROOT . '/includes/Block.php';

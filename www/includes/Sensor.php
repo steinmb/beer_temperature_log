@@ -47,12 +47,6 @@ class Sensor
         return $rawData;
     }
 
-    /**
-     * Create entities. One per data object pr. sensor found.
-     *
-     * @param array $sensors
-     * @return array of data objects.
-     */
     public function createEntities(string $sensor, DataEntity $dataEntity): DataEntity
     {
         if (!$sensor) {
