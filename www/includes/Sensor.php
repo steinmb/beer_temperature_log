@@ -24,15 +24,6 @@ class Sensor
     }
 
     /**
-     * Initialize one wire GPIO bus by loading 1 wires drivers.
-     */
-    public function initW1(): void
-    {
-        echo exec('sudo modprobe w1-gpio');
-        echo exec('sudo modprobe w1-therm');
-    }
-
-    /**
      * Scan one wire bus for attached sensors and return id.
      */
     public function getSensors(): array
