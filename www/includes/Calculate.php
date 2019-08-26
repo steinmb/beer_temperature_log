@@ -25,18 +25,19 @@ class Calculate
 
     /**
      * Calculate trend of the last temperature readings.
-     *
-     * @param $time integer minutes to calculate latest trend from.
      */
-    public function calculateTrend(int $time = 15): void
+    public function calculateTrend(int $time, string $last)
     {
         $x = '';
         $y = [];
         $x2 = [];
         $xy = [];
-        $last = $this->log->getLastReading();
 
         foreach (array_reverse($this->log->getData()) as $key => $row) {
+            if (!isset($row['Sensor'])) {
+                return;
+            }
+
             $y[] = 1000 * $row['Sensor'];
             $x = $key + 1;
             $x2[] = bcpow($x, $x);
@@ -65,24 +66,13 @@ class Calculate
 
         $vector1 = bcsub(bcmul($samples, $xySummary),
           bcmul($xSummary, $ySummary));
-        $vector2 = bcsub(bcmul($samples, $x2Summary), (bcsqrt($xSummary, 30)));
-        $this->trend = bcdiv($vector1, $vector2, 12);
-    }
+        $vector2 = bcsub(bcmul($samples, $x2Summary), bcsqrt($xSummary, 30));
 
-    /**
-     * Get entity trend data and round it down to 4 decimals.
-     *
-     * @return float.
-     */
-    public function getTrend(): float
-    {
-        return $this->trend;
+        return bcdiv($vector1, $vector2, 12);
     }
 
     /**
      * Analyze trend index and calculate a human friendly label for it.
-     *
-     * @return string index label.
      */
     public function analyzeTrend(): string
     {

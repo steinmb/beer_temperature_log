@@ -3,24 +3,27 @@
 declare(strict_types=1);
 
 /**
- * @file
- *
- * Create HTML markup of a data entity.
+ * @file Block.php
  */
 
 class Block
 {
-    private $entity;
     private $calculate;
+    private $entity;
+    private $logger;
     private $render;
 
-    public function __construct(DataEntity $entity, Calculate $calculate)
-    {
-        $this->entity = $entity;
+    public function __construct(
+      DataEntity $entity,
+      Calculate $calculate,
+      Logger $logger
+    ) {
         $this->calculate = $calculate;
+        $this->entity = $entity;
+        $this->logger = $logger;
     }
 
-    public function currentValue(): string
+    public function listCurrent(): string
     {
         $content = '<div class="block">';
         $content .= '<h2 class="title">' . $this->entity->getId() . '</h2>';
@@ -29,21 +32,26 @@ class Block
         return $content;
     }
 
-    public function renderBlock(int $minutes): string
+    public function listHistoric(int $minutes): string
     {
-        $result = '';
-        $this->calculate->calculateTrend($minutes);
-        $sample = $this->entity->getLastReading();
+        $content = '';
+        $sample = $this->logger->getLastReading();
+        $trend = $this->calculate->calculateTrend($minutes, $sample);
 
-        $result .= '<div class="block">';
-        $result .= '<h2 class="title">Sensor ' . $this->entity->getId() . '</h2>';
-        $result .= '<ul>';
-        $result .= '<li>' . $sample['Date'] . '</li>';
-        $result .= '<li>' . $sample['Sensor'] . 'ºC' . '</li>';
-        $result .= '<li>' . $minutes . 'min ' . $this->entity->analyzeTrend() . ' (' . $this->entity->getTrend() . ')</li>';
-        $result .= '</ul>';
-        $result .= '</div>';
+        if (!isset($sample['Date'])) {
+            return $content;
+        }
 
-        return $result;
+        $content .= '<div class="block">';
+        $content .= '<h2 class="title">' . $this->entity->getId() . '</h2>';
+        $content .= '<ul>';
+        $content .= '<li>' . $sample['Date'] . '</li>';
+        $content .= '<li>' . $sample['Sensor'] . 'ºC' . '</li>';
+        $content .= '<li>' . $minutes . 'min ' . $this->calculate->analyzeTrend() . ' (' . $trend . ')</li>';
+        $content .= '</ul>';
+        $content .= '</div>';
+
+        return $content;
     }
+
 }

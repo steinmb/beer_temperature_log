@@ -42,11 +42,10 @@ $log->getLogData();
 $lastReading = $log->getLastReading();
 
 foreach ($sensorData as $entity) {
-    $block = new Block($entity, new Calculate($log));
-    $blocks[] = $block->currentValue();
+    $block = new Block($entity, new Calculate($log), $log);
+    $blocks[] = $block->listCurrent();
 }
 
-// Calculate trends and so on....
-//    $block->renderBlock(10);
+$block->listHistoric(10);
 
 include 'page.php';
