@@ -1,5 +1,4 @@
 <?php
-
 declare(strict_types=1);
 
 /**
@@ -8,18 +7,19 @@ declare(strict_types=1);
  * Create web interface interface.
  */
 
+use steinmb\onewire\Block;
+use steinmb\onewire\Calculate;
+use steinmb\onewire\DataEntity;
+use steinmb\onewire\Logger;
+use steinmb\onewire\Sensor;
+
+include_once __DIR__ . '/vendor/autoload.php';
+
 define('BREW_ROOT', getcwd());
-//define('SENSOR_DIRECTORY', '/sys/bus/w1/devices');
-define('SENSOR_DIRECTORY', BREW_ROOT . '/test');
+define('SENSOR_DIRECTORY', '/sys/bus/w1/devices');
+//define('SENSOR_DIRECTORY', BREW_ROOT . '/test');
 define('LOG_DIRECTORY', BREW_ROOT . '/../../brewlogs/');
 define('LOG_FILENAME', 'temperature.log');
-
-require_once BREW_ROOT . '/includes/DataSource.php';
-require_once BREW_ROOT . '/includes/Sensor.php';
-require_once BREW_ROOT . '/includes/DataEntity.php';
-require_once BREW_ROOT . '/includes/Block.php';
-require_once BREW_ROOT . '/includes/Logger.php';
-require_once BREW_ROOT . '/includes/Calculate.php';
 
 $sensorData = [];
 $microLAN = new Sensor(SENSOR_DIRECTORY);

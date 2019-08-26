@@ -1,0 +1,21 @@
+{
+    "name": "steinmb/onewire",
+    "description": "Communicate with 1 wire devices",
+    "license": "LGPL-3.0-or-later",
+    "authors": [
+        {
+            "name": "Stein Magne Bjorklund",
+            "email": "steinmb@smbjorklund.com"
+        }
+    ],
+    "require": {},
+
+    "autoload": {
+        "psr-4": {
+            "steinmb\\onewire\\": "src/"
+        }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8"
+    }
+}

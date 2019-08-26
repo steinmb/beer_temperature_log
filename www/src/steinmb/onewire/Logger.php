@@ -1,6 +1,7 @@
 <?php
-
 declare(strict_types = 1);
+
+namespace steinmb\onewire;
 
 /**
  * Read and write data to data storage.

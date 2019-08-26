@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
 
+namespace steinmb\onewire;
 
 final class OneWire
 {
