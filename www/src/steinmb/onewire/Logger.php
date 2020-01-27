@@ -3,6 +3,9 @@ declare(strict_types = 1);
 
 namespace steinmb\onewire;
 
+use Error;
+use InvalidArgumentException;
+
 /**
  * Read and write data to data storage.
  */
