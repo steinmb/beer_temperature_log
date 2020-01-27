@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace steinmb\onewire;
 
+use InvalidArgumentException;
+
 /**
  * @file Sensor.php
  */
