@@ -44,11 +44,10 @@ class Sensor
         return $sensors;
     }
 
-    public function getDataRaw(string $sensor)
+    public function rawData(string $sensor)
     {
         $slaveFile = 'w1_slave';
-        $rawData = file_get_contents($this->baseDirectory . '/' . $sensor . '/' . $slaveFile);
-        return $rawData;
+        return file_get_contents($this->baseDirectory . '/' . $sensor . '/' . $slaveFile);
     }
 
     public function createEntities(string $sensor, DataEntity $dataEntity): DataEntity
