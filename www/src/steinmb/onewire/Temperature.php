@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace steinmb\onewire;
 
-class Temperature
+final class Temperature
 {
     private $slaveFile = 'w1_slave';
     private $id;
@@ -41,5 +41,10 @@ class Temperature
     private function validateTemperature(string $temperature): bool
     {
         return ($temperature !== 127687 or $temperature !== 85000);
+    }
+
+    public function id(): string
+    {
+        return $this->id;
     }
 }
