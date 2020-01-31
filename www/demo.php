@@ -11,5 +11,5 @@ $sensors = $oneWire->getSensors();
 
 foreach ($sensors as $sensor) {
     $temp = new Temperature($sensor, __DIR__ . '/test');
-    print $temp->temperature() . PHP_EOL;
+    print "{$temp->id()} {$temp->temperature()} \n";
 }
