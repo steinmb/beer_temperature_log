@@ -45,6 +45,11 @@ final class DataEntity
         return $this->id;
     }
 
+    public function measurement(): string
+    {
+        return $this->measurement;
+    }
+
     public function getSensorType(): string
     {
         return $this->type;
