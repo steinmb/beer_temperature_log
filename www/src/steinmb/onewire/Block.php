@@ -12,7 +12,6 @@ class Block
     private $calculate;
     private $entity;
     private $logger;
-    private $render;
 
     public function __construct(
       DataEntity $entity,
@@ -27,7 +26,7 @@ class Block
     public function listCurrent(): string
     {
         $content = '<div class="block">';
-        $content .= '<h2 class="title">' . $this->entity->getId() . '</h2>';
+        $content .= '<h2 class="title">' . $this->entity->id() . '</h2>';
         $content .= '<ul><li>' . $this->entity->getData() . '</li></ul></div>';
 
         return $content;
@@ -44,7 +43,7 @@ class Block
         }
 
         $content .= '<div class="block">';
-        $content .= '<h2 class="title">' . $this->entity->getId() . '</h2>';
+        $content .= '<h2 class="title">' . $this->entity->id() . '</h2>';
         $content .= '<ul>';
         $content .= '<li>' . $sample['Date'] . '</li>';
         $content .= '<li>' . $sample['Sensor'] . 'ºC' . '</li>';
