@@ -40,7 +40,7 @@ final class DataEntity
     *
     * @return string entity ID.
     */
-    public function getId(): string
+    public function id(): string
     {
         return $this->id;
     }
