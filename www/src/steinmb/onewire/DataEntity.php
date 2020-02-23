@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace steinmb\onewire;
 
 /**
- * File DataEntity.php
+ * @file DataEntity.php
  *
- * Create a data entity from a temperature log.
+ * Temperature reading.
  */
 
 class DataEntity
@@ -14,19 +14,25 @@ class DataEntity
     private $id;
     private $type;
     private $measurement;
+    private $time;
 
-    /**
-     * DataEntity constructor.
-     *
-     * @param $id string sensor unique ID.
-     * @param $type string sensor type.
-     * @param $measurement int
-     */
-    public function __construct(string $id, string $type, int $measurement)
+    public function __construct(
+        string $id,
+        string $type,
+        string $measurement,
+        \DateTimeImmutable $time
+
+    )
     {
         $this->id = $id;
         $this->type = $type;
         $this->measurement = $measurement;
+        $this->time = $time;
+    }
+
+    public function __toString(): string
+    {
+        return "{$this->id}, {$this->type}, {$this->measurement}, {$this->time->format('d,m,Y')}";
     }
 
     /**

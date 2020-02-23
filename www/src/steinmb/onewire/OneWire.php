@@ -3,8 +3,48 @@ declare(strict_types=1);
 
 namespace steinmb\onewire;
 
+use InvalidArgumentException;
+
 final class OneWire
 {
+
+    public const slaveFile = 'w1_slave';
+    private $baseDirectory;
+    private $sensors = [];
+
+    public function __construct(string $baseDirectory)
+    {
+        if (!file_exists($baseDirectory)) {
+            throw new InvalidArgumentException(
+              'Invalid directory: ' . $baseDirectory . ' One wire GPIO not loaded.'
+            );
+        }
+
+        $this->baseDirectory = $baseDirectory;
+    }
+
+    private function Sensors(): void
+    {
+        $content = dir($this->baseDirectory);
+
+        while (false !== ($entry = $content->read())) {
+            if (false !== strpos($entry, '10-') || false !== strpos($entry, '28-')) {
+                $this->sensors[] = $entry;
+            }
+        }
+
+    }
+
+    public function getSensors(): array
+    {
+        $this->Sensors();
+        return $this->sensors;
+    }
+
+    public function content(string $sensor)
+    {
+        return file_get_contents($this->baseDirectory . '/' . $sensor . '/' . $this::slaveFile);
+    }
 
     /**
      * Initialize one wire GPIO bus by loading 1 wires drivers.

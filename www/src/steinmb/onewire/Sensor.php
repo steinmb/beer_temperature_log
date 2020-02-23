@@ -3,66 +3,45 @@ declare(strict_types=1);
 
 namespace steinmb\onewire;
 
-use InvalidArgumentException;
+use steinmb\onewire\steinmb\onewire\Clock;
 
 /**
  * @file Sensor.php
+ * Service class.
  */
 
-/**
- * Find attached 1 wire devices and read data from them.
- */
 class Sensor
 {
-    private $baseDirectory;
+    private const sensorType = 'temperature';
+    private $oneWire;
+    private $clock;
 
-    public function __construct(string $baseDirectory)
+    public function __construct(OneWire $oneWire, Clock $clock)
     {
-        if (!file_exists($baseDirectory)) {
-            throw new InvalidArgumentException(
-              'Invalid directory: ' . $baseDirectory . ' One wire GPIO not loaded.'
-            );
-        }
-
-        $this->baseDirectory = $baseDirectory;
+        $this->oneWire = $oneWire;
+        $this->clock = $clock;
     }
 
-    /**
-     * Scan one wire bus for attached sensors and return id.
-     */
-    public function getSensors(): array
+    public function rawData(): string
     {
-        $sensors = [];
-        $content = dir($this->baseDirectory);
+        $sample = '';
+        $sensors = $this->oneWire->getSensors();
 
-        while (false !== ($entry = $content->read())) {
-            if (false !== strpos($entry, '10-') || false !== strpos($entry, '28-')) {
-                $sensors[] = $entry;
-            }
+        foreach ($sensors as $sensor) {
+            $now = $this->clock->currentTime();
+            $sample .= 'Time: ' . $now->format('d.m.Y') . PHP_EOL;
+            $sample .= "Sensor: $sensor \n";
+            $sample .= $this->oneWire->content($sensor);
         }
 
-        return $sensors;
+        return $sample;
     }
 
-    public function rawData(string $sensor)
+    public function createEntity(string $sensor): DataEntity
     {
-        $slaveFile = 'w1_slave';
-        return file_get_contents($this->baseDirectory . '/' . $sensor . '/' . $slaveFile);
-    }
+        $now = $this->clock->currentTime();
+        $content = $this->oneWire->content($sensor);
 
-    public function createEntities(string $sensor, DataEntity $dataEntity): DataEntity
-    {
-        if (!$sensor) {
-            throw new InvalidArgumentException(
-              'Sensor name missing'
-            );
-        }
-
-        $rawData = $this->getDataRaw($sensor);
-
-        $type = 'temperature';
-        $entity = new DataEntity($sensor, $type, 2000);
-
-        return $entity;
+        return new DataEntity($sensor, self::sensorType, $content, $now);
     }
 }

@@ -4,16 +4,22 @@ declare(strict_types=1);
 include_once __DIR__ . '/vendor/autoload.php';
 
 use steinmb\onewire\Sensor;
-use steinmb\onewire\Temperature;
+use steinmb\onewire\steinmb\onewire\SystemClock;
+use steinmb\onewire\OneWire;
 
-$oneWire = new Sensor(__DIR__ . '/test');
-$sensors = $oneWire->getSensors();
+$workDir = __DIR__ . '/test';
+$oneWire = new OneWire($workDir);
 
-if (!$sensors) {
-    exit('No sensors found');
-}
+$sensor = new Sensor(
+  $oneWire,
+  new SystemClock()
+);
 
-foreach ($sensors as $sensor) {
-    $temp = new Temperature($sensor, __DIR__ . '/test');
-    print "{$temp->id()} {$temp->temperature()} \n";
+$rawData = $sensor->rawData();
+$entity = $sensor->createEntity('10-000802a4ef03');
+$probes = $oneWire->getSensors();
+
+foreach ($probes as $probe) {
+    $entity = $sensor->createEntity($probe);
+    print $entity;
 }
