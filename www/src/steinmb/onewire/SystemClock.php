@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace steinmb\onewire\steinmb\onewire;
+namespace steinmb\onewire;
 
 use DateTimeImmutable;
 

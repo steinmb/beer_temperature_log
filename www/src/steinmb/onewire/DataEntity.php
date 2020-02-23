@@ -9,7 +9,7 @@ namespace steinmb\onewire;
  * Temperature reading.
  */
 
-class DataEntity
+final class DataEntity
 {
     private $id;
     private $type;

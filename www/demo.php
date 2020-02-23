@@ -4,7 +4,7 @@ declare(strict_types=1);
 include_once __DIR__ . '/vendor/autoload.php';
 
 use steinmb\onewire\Sensor;
-use steinmb\onewire\steinmb\onewire\SystemClock;
+use steinmb\onewire\SystemClock;
 use steinmb\onewire\OneWire;
 
 $workDir = __DIR__ . '/test';
