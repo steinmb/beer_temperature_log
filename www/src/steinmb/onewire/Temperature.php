@@ -5,19 +5,16 @@ namespace steinmb\onewire;
 
 final class Temperature
 {
-    private $slaveFile = 'w1_slave';
-    private $id;
-    private $directory;
+    private $entity;
 
-    public function __construct(string $id, string $directory)
+    public function __construct(DataEntity $entity)
     {
-        $this->id = $id;
-        $this->directory = $directory;
+        $this->entity = $entity;
     }
 
     public function temperature(): string
     {
-        $rawData = file_get_contents($this->directory . '/' . $this->id . '/' . $this->slaveFile);
+        $rawData = $this->entity->measurement();
 
         if (!$this->validateCRC($rawData)) {
             return 'error';
@@ -45,6 +42,7 @@ final class Temperature
 
     public function id(): string
     {
-        return $this->id;
+        return $this->entity->id();
     }
+
 }
