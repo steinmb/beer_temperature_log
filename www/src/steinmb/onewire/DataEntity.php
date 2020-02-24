@@ -11,6 +11,7 @@ namespace steinmb\onewire;
 
 final class DataEntity
 {
+    private const format = 'H:i:s (e) d.m.Y';
     private $id;
     private $type;
     private $measurement;
@@ -32,7 +33,13 @@ final class DataEntity
 
     public function __toString(): string
     {
-        return "{$this->id}, {$this->type}, {$this->measurement}, {$this->time->format('d,m,Y')}";
+        return "{$this->id}, {$this->type}, {$this->measurement}, {$this->timeStamp()}";
+    }
+
+    public function timeStamp(): string
+    {
+        $this->time->setTimezone(new \DateTimeZone('Europe/Oslo'));
+        return $this->time->format($this::format);
     }
 
     /**

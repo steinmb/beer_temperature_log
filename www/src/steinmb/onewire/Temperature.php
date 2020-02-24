@@ -40,9 +40,4 @@ final class Temperature
         return ($temperature !== 127687 or $temperature !== 85000);
     }
 
-    public function id(): string
-    {
-        return $this->entity->id();
-    }
-
 }

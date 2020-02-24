@@ -9,34 +9,32 @@ namespace steinmb\onewire;
 
 class Block
 {
-    private $calculate;
     private $entity;
-    private $logger;
+    private $temperature;
 
-    public function __construct(
-      DataEntity $entity,
-      Calculate $calculate,
-      Logger $logger
-    ) {
-        $this->calculate = $calculate;
+    public function __construct(DataEntity $entity, Temperature $temperature)
+    {
         $this->entity = $entity;
-        $this->logger = $logger;
+        $this->temperature = $temperature;
     }
 
     public function listCurrent(): string
     {
         $content = '<div class="block">';
         $content .= '<h2 class="title">' . $this->entity->id() . '</h2>';
-        $content .= '<ul><li>' . $this->entity->getData() . '</li></ul></div>';
+        $content .= '<ul>';
+        $content .= "<li>{$this->entity->timeStamp()}</li>";
+        $content .= "<li>{$this->temperature->temperature()}</li>";
+        $content .= '</ul></div>';
 
         return $content;
     }
 
-    public function listHistoric(int $minutes): string
+    public function listHistoric(int $minutes, Calculate $calculate, Logger $logger): string
     {
         $content = '';
-        $sample = $this->logger->getLastReading();
-        $trend = $this->calculate->calculateTrend($minutes, $sample);
+        $sample = $logger->getLastReading();
+        $trend = $calculate->calculateTrend($minutes, $sample);
 
         if (!isset($sample['Date'])) {
             return $content;
@@ -47,7 +45,7 @@ class Block
         $content .= '<ul>';
         $content .= '<li>' . $sample['Date'] . '</li>';
         $content .= '<li>' . $sample['Sensor'] . 'ºC' . '</li>';
-        $content .= '<li>' . $minutes . 'min ' . $this->calculate->analyzeTrend() . ' (' . $trend . ')</li>';
+        $content .= '<li>' . $minutes . 'min ' . $calculate->analyzeTrend() . ' (' . $trend . ')</li>';
         $content .= '</ul>';
         $content .= '</div>';
 

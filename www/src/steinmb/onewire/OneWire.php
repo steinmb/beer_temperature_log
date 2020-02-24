@@ -23,7 +23,7 @@ final class OneWire
         $this->baseDirectory = $baseDirectory;
     }
 
-    private function Sensors(): void
+    private function sensors(): void
     {
         $content = dir($this->baseDirectory);
 
@@ -37,7 +37,7 @@ final class OneWire
 
     public function getSensors(): array
     {
-        $this->Sensors();
+        $this->sensors();
         return $this->sensors;
     }
 

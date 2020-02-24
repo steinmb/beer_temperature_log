@@ -22,5 +22,5 @@ $probes = $oneWire->getSensors();
 foreach ($probes as $probe) {
     $entity = $sensor->createEntity($probe);
     $temperature = new Temperature($entity);
-    print 'Id: ' . $entity->id() . ' ' . $temperature->temperature() . 'ºC' . PHP_EOL;
+    print "Date: {$entity->timeStamp()} Id: {$entity->id()} {$temperature->temperature()}ºC \n";
 }
