@@ -6,14 +6,14 @@ namespace steinmb\onewire;
 use Error;
 use InvalidArgumentException;
 
-/**
- * Read and write data to data storage.
- */
-class Logger {
+class Logger
+{
 
-    private $logfile;
     private $directory;
-    private $data;
+    private $logfile;
+    private $fqFileName;
+    private $fileHandle;
+    private $data = [];
 
     public function __construct(string $logfile, string $directory)
     {
@@ -25,15 +25,13 @@ class Logger {
                 );
             }
 
-        $this->logfile = $logfile;
         $this->directory = $directory;
+        $this->logfile = $logfile;
+        $this->fqFileName = $directory . '/' . $logfile;
+        $this->fileHandle = fopen($this->fqFileName, 'wb+');
+
     }
 
-    /**
-     * Write data from sensors to log file.
-     *
-     * @param $logString
-     */
     public function writeLogFile($logString): void
     {
         $timestamp[] = date('Y-m-d H:i:s');
@@ -42,24 +40,25 @@ class Logger {
         print $logString . PHP_EOL;
         $logString .= "\r\n";
 
-        $handle = fopen($this->directory . $this->logfile, 'a');
-        fwrite($handle, $logString);
-        fclose($handle);
+        fwrite($this->fileHandle, $logString);
+        fclose($this->fileHandle);
     }
 
-    /**
-     * Read logfile.
-     */
     public function getLogData(): void
     {
-        $logfile = $this->directory . $this->logfile;
-         $content = file($logfile);
-         if ($content === false) {
-             throw new Error(
-               'Unable to read read content from logfile: ' . $logfile
-             );
-         }
-        $this->data = $content;
+        $fileSize = filesize($this->fqFileName);
+
+        if ($fileSize !== 0) {
+            $content = fread($this->fileHandle, filesize($this->fqFileName));
+
+            if ($content === false) {
+                throw new Error(
+                  'Unable to read read content from logfile: ' . $this->fqFileName
+                );
+            }
+
+            $this->data = explode("\r\n", $content);
+        }
     }
 
     public function getData()
@@ -75,8 +74,12 @@ class Logger {
      */
     public function getLastReading(): string
     {
-        $lastReading = $this->data[count($this->data) - 1];
+        if (!$this->data) {
+            return '';
+        }
 
+        $lastReading = $this->data[count($this->data) - 1];
         return (string) $lastReading;
     }
+
 }

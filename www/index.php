@@ -48,14 +48,9 @@ foreach ($probes as $probe) {
     $blocks[] = $block->listCurrent();
 }
 
-//foreach ($entities as $entity) {
-//    $block = new Block($entity, new Temperature());
-//    $blocks[] = $block->listCurrent();
-//}
-
-//$log = new Logger(LOG_FILENAME, LOG_DIRECTORY);
-//$log->getLogData();
-//$lastReading = $log->getLastReading();
-//$block->listHistoric(10);
+$log = new Logger(LOG_FILENAME, LOG_DIRECTORY);
+$log->getLogData();
+$lastReading = $log->getLastReading();
+$block->listHistoric(10, new Calculate($log), $log);
 
 include 'page.php';

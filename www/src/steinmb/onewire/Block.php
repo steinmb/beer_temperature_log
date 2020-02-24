@@ -34,6 +34,11 @@ class Block
     {
         $content = '';
         $sample = $logger->getLastReading();
+
+        if (!$sample) {
+            return '';
+        }
+
         $trend = $calculate->calculateTrend($minutes, $sample);
 
         if (!isset($sample['Date'])) {
