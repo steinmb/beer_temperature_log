@@ -8,24 +8,12 @@ use InvalidArgumentException;
 
 class FileLogger implements Logger
 {
-
-    private $fqFileName;
-    private $fileHandle;
+    private $file;
     private $data = [];
 
-    public function __construct(string $logfile, string $directory)
+    public function __construct(File $file)
     {
-
-        if (!file_exists($directory) && !mkdir($directory, 0755,
-            true) && !is_dir($directory)) {
-            throw new InvalidArgumentException(
-              'Unable to create log directory: ' . $directory
-            );
-        }
-
-        $this->fqFileName = $directory . '/' . $logfile;
-        $this->fileHandle = fopen($this->fqFileName, 'wb+');
-
+        $this->file = $file;
     }
 
     public function writeLogFile($logString): void
@@ -36,16 +24,16 @@ class FileLogger implements Logger
         print $logString . PHP_EOL;
         $logString .= "\r\n";
 
-        fwrite($this->fileHandle, $logString);
-        fclose($this->fileHandle);
+        fwrite($this->file->storage(), $logString);
+        fclose($this->file->storage());
     }
 
-    public function getLogData(): void
+    public function getLogData(string $directory, string $fileName): void
     {
-        $fileSize = filesize($this->fqFileName);
+        $fileSize = filesize($directory . '/' . $fileName);
 
         if ($fileSize !== 0) {
-            $content = fread($this->fileHandle, filesize($this->fqFileName));
+            $content = fread($this->file->storage($directory, $fileName), $fileSize);
 
             if ($content === false) {
                 throw new Error(

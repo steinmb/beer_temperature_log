@@ -6,11 +6,11 @@ namespace steinmb\onewire;
 interface Logger
 {
 
-    public function __construct(string $logfile, string $directory);
+    public function __construct(File $file);
 
     public function writeLogFile($logString): void;
 
-    public function getLogData(): void;
+    public function getLogData(string $directory, string $fileName): void;
 
     public function getData();
 

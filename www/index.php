@@ -11,6 +11,7 @@ use steinmb\onewire\Block;
 use steinmb\onewire\Calculate;
 use steinmb\onewire\DataEntity;
 use steinmb\onewire\FileLogger;
+use steinmb\onewire\FileStorage;
 use steinmb\onewire\OneWire;
 use steinmb\onewire\Sensor;
 use steinmb\onewire\SystemClock;
@@ -48,8 +49,9 @@ foreach ($probes as $probe) {
     $blocks[] = $block->listCurrent();
 }
 
-$log = new FileLogger(LOG_FILENAME, LOG_DIRECTORY);
-$log->getLogData();
+
+$log = new FileLogger(new FileStorage());
+$log->getLogData(LOG_DIRECTORY, LOG_FILENAME);
 $lastReading = $log->getLastReading();
 $block->listHistoric(10, new Calculate($log), $log);
 
