@@ -9,7 +9,6 @@ declare(strict_types=1);
 
 use steinmb\onewire\Block;
 use steinmb\onewire\Calculate;
-use steinmb\onewire\DataEntity;
 use steinmb\onewire\FileLogger;
 use steinmb\onewire\FileStorage;
 use steinmb\onewire\OneWire;
@@ -29,7 +28,6 @@ if (file_exists(BREW_ROOT . '/' . 'temperatur.png')) {
     $graph = BREW_ROOT . '/' . 'temperatur.png';
 }
 
-$sensorData = [];
 $microLAN = new OneWire(SENSOR_DIRECTORY);
 $probes = $microLAN->getSensors();
 
