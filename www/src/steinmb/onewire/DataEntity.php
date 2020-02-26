@@ -33,7 +33,7 @@ final class DataEntity
 
     public function __toString(): string
     {
-        return "{$this->id}, {$this->type}, {$this->measurement}, {$this->timeStamp()}";
+        return "{$this->id}, {$this->type}, {$this->measurement}, {$this->time->format($this::format)}";
     }
 
     public function timeStamp(): string
