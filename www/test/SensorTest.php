@@ -2,16 +2,17 @@
 
 declare(strict_types = 1);
 
+use steinmb\onewire\Logger;
+use steinmb\onewire\OneWire;
+
 final class SensorTest
 {
     public $testActivated = false;
-    public $w1gpio;
     public $logger;
+    private $oneWire;
 
-    public function __construct(string $argument, $w1gpio, Logger $logger)
+    public function __construct(string $argument, OneWire $oneWire, Logger $logger)
     {
-        $this->w1gpio = $w1gpio;
-        $this->logger = $logger;
 
         if ($argument === '--test') {
             echo 'Running in test mode.' . PHP_EOL;
@@ -20,27 +21,26 @@ final class SensorTest
         else {
             echo 'Invalid argument. Valid arguments: --test' . PHP_EOL;
         }
+
+        $this->oneWire = $oneWire;
+        $this->logger = $logger;
+
     }
 
     private function findSensors(): array
     {
-        $sensors = $this->w1gpio->getSensors();
+        $sensors = $this->oneWire->getSensors();
 
         if (count($sensors) !== 4) {
-            throw new \http\Exception\UnexpectedValueException('Missing sensors. Expected 4, only got:' . count($sensors));
+            throw new RuntimeException('Missing sensors. Expected 4, only got:' . count($sensors));
         }
 
         return $sensors;
     }
 
-    public function setLogDirectory(): void
-    {
-        $this->logger->setLogDirectory(BREW_ROOT . '/test/');
-    }
-
     public function logData(): void
     {
-        $logString = $this->w1gpio->getData($this->findSensors());
+        $logString = $this->logger->getData();
         $this->logger->writeLogFile($logString);
     }
 }
