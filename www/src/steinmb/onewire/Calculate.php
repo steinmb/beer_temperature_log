@@ -7,26 +7,16 @@ namespace steinmb\onewire;
  * @file Calculate.php
  */
 
-/**
- * Class Calculate
- *   Calculate data.
- */
 class Calculate
 {
-
-    private $data;
     private $log;
     private $trend;
-    private $lastReading;
 
     public function __construct(Logger $log)
     {
         $this->log = $log;
     }
 
-    /**
-     * Calculate trend of the last temperature readings.
-     */
     public function calculateTrend(int $time, string $last)
     {
         $x = '';
