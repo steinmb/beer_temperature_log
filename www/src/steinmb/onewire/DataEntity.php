@@ -11,7 +11,7 @@ namespace steinmb\onewire;
 
 final class DataEntity
 {
-    private const format = 'H:i:s (e) d.m.Y';
+    private const format = 'Y-m-d H:i:s';
     private $id;
     private $type;
     private $measurement;
