@@ -14,9 +14,9 @@ class FileLogger implements Logger
         $this->file = $file;
     }
 
-    public function write($fileHandle, $logString): void
+    public function write($logString): void
     {
-        fwrite($fileHandle, $logString);
+        $this->file->write($logString);
     }
 
     public function read($fileHandle, $directory, $fileName): string

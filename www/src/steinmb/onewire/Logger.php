@@ -8,7 +8,7 @@ interface Logger
 
     public function __construct(File $file);
 
-    public function write($fileHandle, $logString): void;
+    public function write($logString): void;
 
     public function read($fileHandle, string $directory, string $fileName): string;
 

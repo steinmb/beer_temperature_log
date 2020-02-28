@@ -42,12 +42,19 @@ class FileStorage implements File
         return $fileHandle;
     }
 
-    public function write()
+    public function write(string $logString): void
     {
         $fileHandle = fopen($this->directory . $this->fileName, 'ab+');
         $this->storage($fileHandle);
+        $result = fwrite($fileHandle, $logString);
 
-        return $fileHandle;
+        if (!$result) {
+            throw new UnexpectedValueException(
+              'Unable to write to log file: ' . $this->directory . $this->fileName
+            );
+        }
+
+        fclose($fileHandle);
     }
 
 }

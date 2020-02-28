@@ -34,8 +34,9 @@ If (!$probes) {
     exit;
 }
 
-$log = new FileLogger(new FileStorage(LOG_DIRECTORY, LOG_FILENAME));
-$fileHandle = $log->file->write();
+$log = new FileLogger(new FileStorage(
+  LOG_DIRECTORY,
+  LOG_FILENAME));
 $content = '';
 
 foreach ($probes as $probe) {
@@ -44,5 +45,4 @@ foreach ($probes as $probe) {
     $content .= "{$entity->timeStamp()}, {$entity->id()}, {$temperature->temperature()}\r\n";
 }
 
-$log->write($fileHandle, $content);
-fclose($fileHandle);
+$log->write($content);
