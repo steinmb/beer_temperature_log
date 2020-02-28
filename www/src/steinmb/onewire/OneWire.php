@@ -16,7 +16,7 @@ final class OneWire
     {
         if (!file_exists($baseDirectory)) {
             throw new InvalidArgumentException(
-              'Invalid directory: ' . $baseDirectory . ' One wire GPIO not loaded.'
+              'Directory: ' . $baseDirectory . ' Not found. OneWire driver perhaps not loaded.'
             );
         }
 
