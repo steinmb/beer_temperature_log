@@ -49,7 +49,8 @@ foreach ($probes as $probe) {
 
 
 $log = new FileLogger(new FileStorage());
-$content = $log->read(LOG_DIRECTORY, LOG_FILENAME);
+$fileHandler = $log->file->storage(LOG_DIRECTORY, LOG_FILENAME);
+$content = $log->read($fileHandler, LOG_DIRECTORY, LOG_FILENAME);
 $lastReading = $log->lastEntry(explode("\r\n", $content));
 
 if ($lastReading) {
