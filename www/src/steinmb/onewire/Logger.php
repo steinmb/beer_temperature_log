@@ -8,12 +8,12 @@ interface Logger
 
     public function __construct(File $file);
 
-    public function writeLogFile($logString): void;
+    public function writeLogFile($fileHandle, $logString): void;
 
     public function getLogData(string $directory, string $fileName): void;
 
     public function getData();
 
-    public function getLastReading(): string;
+    public function lastEntry(string $directory, string $file): string;
 
 }

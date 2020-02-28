@@ -7,35 +7,39 @@ declare(strict_types = 1);
  * Periodic read data from all attached sensors and store them to a log.
  */
 
+use steinmb\onewire\FileLogger;
+use steinmb\onewire\FileStorage;
+use steinmb\onewire\OneWire;
+use steinmb\onewire\Sensor;
+use steinmb\onewire\SystemClock;
+use steinmb\onewire\Temperature;
+
+include_once __DIR__ . '/vendor/autoload.php';
+
 define('BREW_ROOT', getcwd());
 define('LOG_DIRECTORY', BREW_ROOT . '/../../brewlogs/');
 define('LOG_FILENAME', 'temperature.log');
 define('SENSOR_DIRECTORY', '/sys/bus/w1/devices');
 
-require_once BREW_ROOT . '/includes/OldSensor.php';
-require_once BREW_ROOT . '/includes/Logger.php';
-require_once BREW_ROOT . '/includes/TestRunner.php';
-require_once BREW_ROOT . '/test/SensorTest.php';
+$oneWire = new OneWire(SENSOR_DIRECTORY);
+$sensor = new Sensor(
+  $oneWire,
+  new SystemClock()
+);
 
-if ($argc === 2) {
-  testRunner($argv[1]);
-}
+$probes = $oneWire->getSensors();
 
-$logString = false;
-$log = '';
-$w1gpio = new OldSensor(SENSOR_DIRECTORY);
-$sensors = $w1gpio->getSensors();
-
-if (!$sensors) {
-    echo 'No sensors detected. Giving up.' . PHP_EOL;
+If (!$probes) {
     exit;
 }
 
-$logString = $w1gpio->getData($sensors);
+$log = new FileLogger(new FileStorage());
 
-if ($logString) {
-    $log = new Logger('temperature.log');
-    $log->setLogDirectory(LOG_DIRECTORY);
-    $log->setLogfile(LOG_FILENAME);
-    $log->writeLogFile($logString);
+foreach ($probes as $probe) {
+    $entity = $sensor->createEntity($probe);
+    $temperature = new Temperature($entity);
+    $log->writeLogFile(
+      $log->file->storage(LOG_DIRECTORY, LOG_FILENAME),
+      "{$entity->timeStamp()}, {$entity->id()}, {$temperature->temperature()}"
+    );
 }

@@ -8,7 +8,7 @@ use InvalidArgumentException;
 
 class FileLogger implements Logger
 {
-    private $file;
+    public $file;
     private $data = [];
 
     public function __construct(File $file)
@@ -16,16 +16,12 @@ class FileLogger implements Logger
         $this->file = $file;
     }
 
-    public function writeLogFile($logString): void
+    public function writeLogFile($fileHandle, $logString): void
     {
-        $timestamp[] = date('Y-m-d H:i:s');
-        $logString = array_merge($timestamp, $logString);
-        $logString = implode(', ', $logString);
         print $logString . PHP_EOL;
         $logString .= "\r\n";
-
-        fwrite($this->file->storage(), $logString);
-        fclose($this->file->storage());
+        fwrite($fileHandle, $logString);
+        fclose($fileHandle);
     }
 
     public function getLogData(string $directory, string $fileName): void
@@ -50,13 +46,7 @@ class FileLogger implements Logger
         return $this->data;
     }
 
-    /**
-     * Get the last sample from temperature log.
-     *
-     * @return string $lastReading
-     *  Last log entry.
-     */
-    public function getLastReading(): string
+    public function lastEntry(string $directory, string $file): string
     {
         if (!$this->data) {
             return '';
