@@ -19,7 +19,7 @@ class FileStorage implements File
         }
 
         $fqFileName = $directory . $fileName;
-        $fileHandle = fopen($fqFileName, 'wb+');
+        $fileHandle = fopen($fqFileName, 'ab+');
 
         if (!$fileHandle) {
             throw new UnexpectedValueException(
