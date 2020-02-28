@@ -5,5 +5,8 @@ namespace steinmb\onewire;
 
 interface File
 {
-    public function storage(string $directory, string $fileName);
+    public function __construct(string $directory, string $fileName);
+    public function storage($fileHandle): void;
+    public function read();
+    public function write();
 }

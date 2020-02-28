@@ -21,22 +21,22 @@ class FileLogger implements Logger
 
     public function read($fileHandle, $directory, $fileName): string
     {
-        $log = '';
+        $content = '';
         $fileSize = filesize($directory . $fileName);
 
         if ($fileSize === 0) {
-            return $log;
+            return $content;
         }
 
         $content = fread($fileHandle, $fileSize);
 
         if ($content === false) {
             throw new Error(
-              'Unable to read: ' . $directory . '/' . $fileName
+              'Unable to read: ' . $directory . $fileName
             );
         }
 
-        return $log;
+        return $content;
     }
 
     public function lastEntry(array $content): string

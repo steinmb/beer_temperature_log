@@ -34,9 +34,9 @@ If (!$probes) {
     exit;
 }
 
-$log = new FileLogger(new FileStorage());
-$fileHandle = $log->file->storage(LOG_DIRECTORY, LOG_FILENAME);
-$content = $log->read($fileHandle, LOG_DIRECTORY, LOG_FILENAME);
+$log = new FileLogger(new FileStorage(LOG_DIRECTORY, LOG_FILENAME));
+$fileHandle = $log->file->write();
+$content = '';
 
 foreach ($probes as $probe) {
     $entity = $sensor->createEntity($probe);

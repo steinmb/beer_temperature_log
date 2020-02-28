@@ -47,9 +47,8 @@ foreach ($probes as $probe) {
     $blocks[] = $block->listCurrent();
 }
 
-
-$log = new FileLogger(new FileStorage());
-$fileHandler = $log->file->storage(LOG_DIRECTORY, LOG_FILENAME);
+$log = new FileLogger(new FileStorage(LOG_DIRECTORY, LOG_FILENAME));
+$fileHandler = $log->file->read();
 $content = $log->read($fileHandler, LOG_DIRECTORY, LOG_FILENAME);
 $lastReading = $log->lastEntry(explode("\r\n", $content));
 
