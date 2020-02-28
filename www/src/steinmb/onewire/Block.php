@@ -30,21 +30,15 @@ class Block
         return $content;
     }
 
-    public function listHistoric(int $minutes, Calculate $calculate, Logger $logger): string
+    public function listHistoric(
+      int $minutes,
+      string $sample,
+      Calculate $calculate,
+      Logger $logger
+    ): string
     {
         $content = '';
-        $sample = $logger->getLastReading();
-
-        if (!$sample) {
-            return '';
-        }
-
         $trend = $calculate->calculateTrend($minutes, $sample);
-
-        if (!isset($sample['Date'])) {
-            return $content;
-        }
-
         $content .= '<div class="block">';
         $content .= '<h2 class="title">' . $this->entity->id() . '</h2>';
         $content .= '<ul>';

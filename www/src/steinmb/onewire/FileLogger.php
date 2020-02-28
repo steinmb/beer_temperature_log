@@ -4,55 +4,49 @@ declare(strict_types = 1);
 namespace steinmb\onewire;
 
 use Error;
-use InvalidArgumentException;
 
 class FileLogger implements Logger
 {
     public $file;
-    private $data = [];
 
     public function __construct(File $file)
     {
         $this->file = $file;
     }
 
-    public function writeLogFile($fileHandle, $logString): void
+    public function write($fileHandle, $logString): void
     {
-        print $logString . PHP_EOL;
-        $logString .= "\r\n";
         fwrite($fileHandle, $logString);
-        fclose($fileHandle);
     }
 
-    public function getLogData(string $directory, string $fileName): void
+    public function read($fileHandle, $directory, $fileName): string
     {
-        $fileSize = filesize($directory . '/' . $fileName);
+        $log = '';
+        $fileSize = filesize($directory . $fileName);
 
-        if ($fileSize !== 0) {
-            $content = fread($this->file->storage($directory, $fileName), $fileSize);
-
-            if ($content === false) {
-                throw new Error(
-                  'Unable to read read content from logfile: ' . $this->fqFileName
-                );
-            }
-
-            $this->data = explode("\r\n", $content);
+        if ($fileSize === 0) {
+            return $log;
         }
+
+        $content = fread($fileHandle, $fileSize);
+
+        if ($content === false) {
+            throw new Error(
+              'Unable to read: ' . $directory . '/' . $fileName
+            );
+        }
+
+        return $log;
     }
 
-    public function getData(): array
+    public function lastEntry(array $content): string
     {
-        return $this->data;
-    }
-
-    public function lastEntry(string $directory, string $file): string
-    {
-        if (!$this->data) {
+        if (!$content) {
             return '';
         }
 
-        $lastReading = $this->data[count($this->data) - 1];
+        $lastReading = $content[count($content) - 1];
+
         return (string) $lastReading;
     }
 

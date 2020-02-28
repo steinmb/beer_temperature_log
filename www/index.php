@@ -49,8 +49,11 @@ foreach ($probes as $probe) {
 
 
 $log = new FileLogger(new FileStorage());
-$log->getLogData(LOG_DIRECTORY, LOG_FILENAME);
-$lastReading = $log->getLastReading();
-$block->listHistoric(10, new Calculate($log), $log);
+$content = $log->read(LOG_DIRECTORY, LOG_FILENAME);
+$lastReading = $log->lastEntry(explode("\r\n", $content));
+
+if ($lastReading) {
+    $block->listHistoric(10, $lastReading, new Calculate($log), $log);
+}
 
 include 'page.php';

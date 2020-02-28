@@ -18,7 +18,7 @@ class FileStorage implements File
             );
         }
 
-        $fqFileName = $directory . '/' . $fileName;
+        $fqFileName = $directory . $fileName;
         $fileHandle = fopen($fqFileName, 'wb+');
 
         if (!$fileHandle) {
