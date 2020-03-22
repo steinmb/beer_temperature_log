@@ -10,8 +10,8 @@ interface Logger
 
     public function write($logString): void;
 
-    public function read($fileHandle, string $directory, string $fileName): string;
+    public function read(): string;
 
-    public function lastEntry(array $content): string;
+    public function lastEntry(): string;
 
 }

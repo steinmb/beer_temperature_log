@@ -38,8 +38,22 @@ class FileStorage implements File
     {
         $fileHandle = fopen($this->directory . $this->fileName, 'rb+');
         $this->storage($fileHandle);
+        $content = '';
+        $fileSize = filesize($this->directory . $this->fileName);
 
-        return $fileHandle;
+        if ($fileSize === 0) {
+            return $content;
+        }
+
+        $content = fread($fileHandle, $fileSize);
+
+        if ($content === false) {
+            throw new UnexpectedValueException(
+              'Unable to read: ' . $this->directory . $this->fileName
+            );
+        }
+
+        return $content;
     }
 
     public function write(string $logString): void

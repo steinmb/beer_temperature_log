@@ -3,8 +3,6 @@ declare(strict_types = 1);
 
 namespace steinmb\onewire;
 
-use Error;
-
 class FileLogger implements Logger
 {
     public $file;
@@ -19,35 +17,23 @@ class FileLogger implements Logger
         $this->file->write($logString);
     }
 
-    public function read($fileHandle, $directory, $fileName): string
+    public function read(): string
     {
-        $content = '';
-        $fileSize = filesize($directory . $fileName);
-
-        if ($fileSize === 0) {
-            return $content;
-        }
-
-        $content = fread($fileHandle, $fileSize);
-
-        if ($content === false) {
-            throw new Error(
-              'Unable to read: ' . $directory . $fileName
-            );
-        }
-
-        return $content;
+        return $this->file->read();
     }
 
-    public function lastEntry(array $content): string
+    public function lastEntry(): string
     {
+        $content = $this->read();
+
         if (!$content) {
             return '';
         }
 
-        $lastReading = $content[count($content) - 1];
+        $log = explode("\r\n" , $content);
+        array_pop($log);
+        $lastReading = $log[count($log) - 1];
 
         return (string) $lastReading;
     }
-
 }
