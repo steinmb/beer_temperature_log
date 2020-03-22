@@ -47,10 +47,10 @@ foreach ($probes as $probe) {
     $blocks[] = $block->listCurrent();
 }
 
-$log = new FileLogger(new FileStorage(LOG_DIRECTORY, LOG_FILENAME));
-$fileHandler = $log->file->read();
-$content = $log->read($fileHandler, LOG_DIRECTORY, LOG_FILENAME);
-$lastReading = $log->lastEntry(explode("\r\n", $content));
+$log = new FileLogger(new FileStorage(
+  LOG_DIRECTORY,
+  LOG_FILENAME));
+$lastReading = $log->lastEntry();
 
 if ($lastReading) {
     $block->listHistoric(10, $lastReading, new Calculate($log), $log);
