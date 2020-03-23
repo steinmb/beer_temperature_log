@@ -53,6 +53,7 @@ class FileStorage implements File
             );
         }
 
+        fclose($fileHandle);
         return $content;
     }
 
