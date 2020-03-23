@@ -19,8 +19,8 @@ include_once __DIR__ . '/vendor/autoload.php';
 define('BREW_ROOT', getcwd());
 define('LOG_DIRECTORY', BREW_ROOT . '/../../brewlogs/');
 define('LOG_FILENAME', 'temperature.log');
-//define('SENSOR_DIRECTORY', '/sys/bus/w1/devices');
-define('SENSOR_DIRECTORY', __DIR__ . '/test');
+//define('SENSOR_DIRECTORY', __DIR__ . '/test');
+define('SENSOR_DIRECTORY', '/sys/bus/w1/devices');
 
 $oneWire = new OneWire(SENSOR_DIRECTORY);
 $sensor = new Sensor(
