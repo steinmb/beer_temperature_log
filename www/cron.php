@@ -37,12 +37,12 @@ If (!$probes) {
 $log = new FileLogger(new FileStorage(
   LOG_DIRECTORY,
   LOG_FILENAME));
-$content = '';
+$message = '';
 
 foreach ($probes as $probe) {
     $entity = $sensor->createEntity($probe);
     $temperature = new Temperature($entity);
-    $content .= "{$entity->timeStamp()}, {$entity->id()}, {$temperature->temperature()}\r\n";
+    $message = "{$entity->timeStamp()}, {$entity->id()}, {$temperature->temperature()}";
 }
 
-$log->write($content);
+$log->write($message);
