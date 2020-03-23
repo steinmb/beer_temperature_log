@@ -8,5 +8,5 @@ interface File
     public function __construct(string $directory, string $fileName);
     public function storage($fileHandle): void;
     public function read();
-    public function write(string $logString);
+    public function write(string $message);
 }

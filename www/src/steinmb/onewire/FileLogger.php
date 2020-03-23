@@ -12,13 +12,13 @@ class FileLogger implements Logger
         $this->file = $file;
     }
 
-    public function write(string $logString): void
+    public function write(string $message): void
     {
-        if (!$logString) {
+        if (!$message) {
             return;
         }
 
-        $this->file->write($logString . "\n");
+        $this->file->write($message . "\n");
     }
 
     public function read(): string
@@ -39,5 +39,10 @@ class FileLogger implements Logger
         $lastReading = $log[count($log) - 1];
 
         return (string) $lastReading;
+    }
+
+    public function close(): void
+    {
+        $this->file;
     }
 }

@@ -56,11 +56,11 @@ class FileStorage implements File
         return $content;
     }
 
-    public function write(string $logString): void
+    public function write(string $message): void
     {
         $fileHandle = fopen($this->directory . $this->fileName, 'ab+');
         $this->storage($fileHandle);
-        $result = fwrite($fileHandle, $logString);
+        $result = fwrite($fileHandle, $message);
 
         if (!$result) {
             throw new UnexpectedValueException(
