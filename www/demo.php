@@ -23,4 +23,6 @@ foreach ($probes as $probe) {
     $entity = $sensor->createEntity($probe);
     $temperature = new Temperature($entity);
     print "Date: {$entity->timeStamp()} Id: {$entity->id()} {$temperature->temperature()}ºC \n";
+    print "Date: {$entity->timeStamp()} Id: {$entity->id()} {$temperature->temperature('fahrenheit')}ºF \n";
+    print "Date: {$entity->timeStamp()} Id: {$entity->id()} {$temperature->temperature('kelvin')}ºK \n";
 }

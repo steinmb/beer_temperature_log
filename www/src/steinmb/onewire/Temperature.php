@@ -12,7 +12,7 @@ final class Temperature
         $this->entity = $entity;
     }
 
-    public function temperature(): string
+    public function temperature(string $scale = 'celsius')
     {
         $rawData = $this->entity->measurement();
 
@@ -21,13 +21,28 @@ final class Temperature
         }
 
         $rawTemp = strstr($rawData, 't=');
-        $rawTempTrimmed = trim($rawTemp, 't=');
+        $rawTempTrimmed = (int) trim($rawTemp, 't=');
 
         if (!$this->validateTemperature($rawTempTrimmed)) {
             return 'error';
         }
 
-        return number_format((int) $rawTempTrimmed / 1000, 3);
+        $celsius = (int) number_format($rawTempTrimmed / 1000, 3);
+        if ($scale === 'celsius') {
+            return $celsius;
+        }
+
+        if ($scale === 'fahrenheit') {
+            $temperature = $celsius * (9/5) + 32;
+        } elseif ($scale === 'kelvin') {
+            $temperature = $celsius + 273.15;
+        } else {
+            throw new \UnexpectedValueException(
+              'Unknown temperature scale: ' . $scale
+            );
+        }
+
+        return $temperature;
     }
 
     private function validateCRC(string $rawData): bool
@@ -35,7 +50,7 @@ final class Temperature
         return !(false === strpos($rawData, 'YES'));
     }
 
-    private function validateTemperature(string $temperature): bool
+    private function validateTemperature(int $temperature): bool
     {
         return ($temperature !== 127687 or $temperature !== 85000);
     }
