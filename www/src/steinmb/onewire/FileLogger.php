@@ -18,7 +18,7 @@ class FileLogger implements Logger
             return;
         }
 
-        $this->file->write($message . "\n");
+        $this->file->write($message . PHP_EOL);
     }
 
     public function read(): string

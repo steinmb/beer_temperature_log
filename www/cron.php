@@ -41,8 +41,7 @@ $message = '';
 
 foreach ($probes as $probe) {
     $temperature = new Temperature($sensor->createEntity($probe));
-    $message .= $temperature . PHP_EOL;
-    $log->write($message);
+    $log->write((string) $temperature);
 }
 
 $log->close();

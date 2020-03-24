@@ -16,14 +16,12 @@ $sensor = new Sensor(
   new SystemClock()
 );
 
-$entity = $sensor->createEntity('10-000802a4ef03');
 $probes = $oneWire->getSensors();
 
 foreach ($probes as $probe) {
-    $entity = $sensor->createEntity($probe);
-    $temperature = new Temperature($entity);
-    print "Date: {$entity->timeStamp()} Id: {$entity->id()} {$temperature->temperature()}ºC \n";
-    print "Date: {$entity->timeStamp()} Id: {$entity->id()} {$temperature->temperature('fahrenheit')}ºF \n";
-    print "Date: {$entity->timeStamp()} Id: {$entity->id()} {$temperature->temperature('kelvin')}ºK \n";
+    $temperature = new Temperature($sensor->createEntity($probe));
+    print "Date: {$temperature->entity->timeStamp()} Id: {$temperature->entity->id()} {$temperature->temperature()}ºC \n";
+    print "Date: {$temperature->entity->timeStamp()} Id: {$temperature->entity->id()} {$temperature->temperature('fahrenheit')}ºF \n";
+    print "Date: {$temperature->entity->timeStamp()} Id: {$temperature->entity->id()} {$temperature->temperature('kelvin')}ºK \n";
     print $temperature . PHP_EOL;
 }
