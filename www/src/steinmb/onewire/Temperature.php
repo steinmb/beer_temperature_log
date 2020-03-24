@@ -27,7 +27,7 @@ final class Temperature
             return 'error';
         }
 
-        $celsius = (int) number_format($rawTempTrimmed / 1000, 3);
+        $celsius = (float) number_format($rawTempTrimmed / 1000, 3);
         if ($scale === 'celsius') {
             return $celsius;
         }
