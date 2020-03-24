@@ -5,7 +5,7 @@ namespace steinmb\onewire;
 
 final class Temperature
 {
-    private $entity;
+    public $entity;
 
     public function __construct(DataEntity $entity)
     {

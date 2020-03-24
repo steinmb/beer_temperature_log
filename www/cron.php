@@ -40,8 +40,7 @@ $log = new FileLogger(new FileStorage(
 $message = '';
 
 foreach ($probes as $probe) {
-    $entity = $sensor->createEntity($probe);
-    $temperature = new Temperature($entity);
+    $temperature = new Temperature($sensor->createEntity($probe));
     $message .= $temperature . PHP_EOL;
     $log->write($message);
 }
