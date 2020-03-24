@@ -5,10 +5,11 @@ namespace steinmb\onewire;
 
 use UnexpectedValueException;
 
-class FileStorage implements File
+final class FileStorage implements File
 {
     private $directory;
     private $fileName;
+    private $fileHandle;
 
     public function __construct(string $directory, string $fileName)
     {
@@ -36,8 +37,8 @@ class FileStorage implements File
 
     public function read()
     {
-        $fileHandle = fopen($this->directory . $this->fileName, 'rb+');
-        $this->storage($fileHandle);
+        $this->fileHandle = fopen($this->directory . $this->fileName, 'rb+');
+        $this->storage($this->fileHandle);
         $content = '';
         $fileSize = filesize($this->directory . $this->fileName);
 
@@ -45,7 +46,7 @@ class FileStorage implements File
             return $content;
         }
 
-        $content = fread($fileHandle, $fileSize);
+        $content = fread($this->fileHandle, $fileSize);
 
         if ($content === false) {
             throw new UnexpectedValueException(
@@ -53,15 +54,16 @@ class FileStorage implements File
             );
         }
 
-        fclose($fileHandle);
+        fclose($this->fileHandle);
+
         return $content;
     }
 
     public function write(string $message): void
     {
-        $fileHandle = fopen($this->directory . $this->fileName, 'ab+');
-        $this->storage($fileHandle);
-        $result = fwrite($fileHandle, $message);
+        $this->fileHandle = fopen($this->directory . $this->fileName, 'ab+');
+        $this->storage($this->fileHandle);
+        $result = fwrite($this->fileHandle, $message);
 
         if (!$result) {
             throw new UnexpectedValueException(
@@ -69,7 +71,16 @@ class FileStorage implements File
             );
         }
 
-        fclose($fileHandle);
+    }
+    public function close(): void
+    {
+        fclose($this->fileHandle);
+        $this->fileHandle = null;
+    }
+
+    public function __destruct()
+    {
+        fclose($this->fileHandle);
     }
 
 }

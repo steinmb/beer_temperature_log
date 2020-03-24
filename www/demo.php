@@ -25,4 +25,5 @@ foreach ($probes as $probe) {
     print "Date: {$entity->timeStamp()} Id: {$entity->id()} {$temperature->temperature()}ºC \n";
     print "Date: {$entity->timeStamp()} Id: {$entity->id()} {$temperature->temperature('fahrenheit')}ºF \n";
     print "Date: {$entity->timeStamp()} Id: {$entity->id()} {$temperature->temperature('kelvin')}ºK \n";
+    print $temperature . PHP_EOL;
 }

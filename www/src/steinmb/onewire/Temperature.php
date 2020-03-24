@@ -55,4 +55,9 @@ final class Temperature
         return ($temperature !== 127687 or $temperature !== 85000);
     }
 
+    public function __toString(): string
+    {
+        return $this->entity->timeStamp() . ', ' . $this->entity->id() . ', ' . $this->temperature();
+    }
+
 }

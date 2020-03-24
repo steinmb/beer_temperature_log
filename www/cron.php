@@ -31,7 +31,7 @@ $sensor = new Sensor(
 $probes = $oneWire->getSensors();
 
 If (!$probes) {
-    exit;
+    exit("No probes found \n");
 }
 
 $log = new FileLogger(new FileStorage(
@@ -42,7 +42,8 @@ $message = '';
 foreach ($probes as $probe) {
     $entity = $sensor->createEntity($probe);
     $temperature = new Temperature($entity);
-    $message = "{$entity->timeStamp()}, {$entity->id()}, {$temperature->temperature()}";
+    $message .= $temperature . PHP_EOL;
+    $log->write($message);
 }
 
-$log->write($message);
+$log->close();
