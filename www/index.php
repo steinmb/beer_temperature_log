@@ -9,7 +9,7 @@ declare(strict_types=1);
 
 use steinmb\Formatters\Block;
 use steinmb\Utils\Calculate;
-use steinmb\Logger\FileLogger;
+use steinmb\Logger\Logger;
 use steinmb\Logger\FileStorage;
 use steinmb\onewire\OneWire;
 use steinmb\onewire\Sensor;
@@ -47,13 +47,15 @@ foreach ($probes as $probe) {
     $blocks[] = $block->listCurrent();
 }
 
-$log = new FileLogger(new FileStorage(
-  LOG_DIRECTORY,
-  LOG_FILENAME));
-$lastReading = $log->lastEntry();
+$logger = new Logger('temperature');
+$handle = new FileStorage('/Users/steinmb/sites/brewlogs/temperature.log');
+$logger->pushHandler($handle);
+$logger->close();
+
+$lastReading = $logger->lastEntry();
 
 if ($lastReading) {
-    $block->listHistoric(10, $lastReading, new Calculate($log), $log);
+    $block->listHistoric(10, $lastReading, new Calculate($logger), $logger);
 }
 
 include 'page.php';

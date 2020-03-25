@@ -3,10 +3,11 @@ declare(strict_types=1);
 
 namespace steinmb\Logger;
 
-interface File
+interface HandlerInterface
 {
-    public function __construct(string $directory, string $fileName);
-    public function storage($fileHandle): void;
+    public function __construct($stream);
+    public function storage(): void;
     public function read();
     public function write(string $message);
+    public function close();
 }
