@@ -8,14 +8,8 @@ use steinmb\onewire\SystemClock;
 use steinmb\onewire\OneWire;
 use steinmb\onewire\Temperature;
 
-$workDir = __DIR__ . '/test';
-$oneWire = new OneWire($workDir);
-
-$sensor = new Sensor(
-  $oneWire,
-  new SystemClock()
-);
-
+$oneWire = new OneWire(__DIR__ . '/test');
+$sensor = new Sensor($oneWire, new SystemClock());
 $probes = $oneWire->getSensors();
 
 foreach ($probes as $probe) {
