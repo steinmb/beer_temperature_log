@@ -15,8 +15,8 @@ use steinmb\onewire\Temperature;
 
 include_once __DIR__ . '/vendor/autoload.php';
 
-define('SENSOR_DIRECTORY', __DIR__ . '/test');
-//define('SENSOR_DIRECTORY', '/sys/bus/w1/devices');
+//define('SENSOR_DIRECTORY', __DIR__ . '/test');
+define('SENSOR_DIRECTORY', '/sys/bus/w1/devices');
 
 $oneWire = new OneWire(SENSOR_DIRECTORY);
 $sensor = new Sensor(
