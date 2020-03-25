@@ -7,7 +7,7 @@ declare(strict_types=1);
  * Create web interface interface.
  */
 
-use steinmb\onewire\Block;
+use steinmb\Formatters\Block;
 use steinmb\Utils\Calculate;
 use steinmb\Logger\FileLogger;
 use steinmb\Logger\FileStorage;

@@ -1,9 +1,10 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
-namespace steinmb\onewire;
+namespace steinmb\Formatters;
 
 use steinmb\Logger\Logger;
+use steinmb\onewire\DataEntity;
+use steinmb\onewire\Temperature;
 use steinmb\Utils\Calculate;
 
 /**
