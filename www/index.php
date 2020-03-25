@@ -8,9 +8,9 @@ declare(strict_types=1);
  */
 
 use steinmb\onewire\Block;
-use steinmb\onewire\Calculate;
-use steinmb\onewire\FileLogger;
-use steinmb\onewire\FileStorage;
+use steinmb\Utils\Calculate;
+use steinmb\Logger\FileLogger;
+use steinmb\Logger\FileStorage;
 use steinmb\onewire\OneWire;
 use steinmb\onewire\Sensor;
 use steinmb\onewire\SystemClock;

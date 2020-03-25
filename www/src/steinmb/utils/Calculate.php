@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace steinmb\onewire;
+namespace steinmb\Utils;
+
+use steinmb\Logger\Logger;
 
 /**
  * @file Calculate.php
@@ -23,36 +25,37 @@ class Calculate
         $y = [];
         $x2 = [];
         $xy = [];
+        $content = $this->log->read();
+        $log = explode("\r\n" , $content);
+        array_pop($log);
 
-        foreach (array_reverse($this->log->getData()) as $key => $row) {
-            if (!isset($row['Sensor'])) {
-                return;
-            }
+        foreach (array_reverse($log) as $key => $row) {
 
-            $y[] = 1000 * $row['Sensor'];
+            $y[] = 1000 * $row[3];
             $x = $key + 1;
+            $x = (string) $x;
             $x2[] = bcpow($x, $x);
 
-            if (strtotime($row['Date']) <= strtotime($last['Date']) - ($time * 60)) {
+            if (strtotime($row[0]) <= strtotime($last[0]) - ($time * 60)) {
                 break;
             }
         }
 
         $y = array_reverse($y);
-        $samples = $x;
+        $samples = (string) $x;
         $x = range(1, $x);
 
         foreach ($x as $key => $item) {
             $xy[] = $item * $y[$key];
         }
 
-        $xSummary = array_sum($x);
-        $ySummary = array_sum($y);
-        $xySummary = array_sum($xy);
+        $xSummary = (string) array_sum($x);
+        $ySummary = (string) array_sum($y);
+        $xySummary = (string) array_sum($xy);
 
         $x2Summary = 0;
         foreach ($x2 as $item) {
-            $x2Summary = bcadd($x2Summary, $item, 10);
+            $x2Summary = bcadd((string) $x2Summary, $item, 10);
         }
 
         $vector1 = bcsub(bcmul($samples, $xySummary),
@@ -83,9 +86,9 @@ class Calculate
 
         $speed = '';
         foreach ($ranges as $key => $range) {
-            if (ltrim($this->trend, '-') > $range) {
-                $speed = $key;
-            }
+//            if (ltrim($this->trend, '-') > $range) {
+//                $speed = $key;
+//            }
         }
 
         return $direction . ' ' . $speed;

@@ -3,6 +3,9 @@ declare(strict_types=1);
 
 namespace steinmb\onewire;
 
+use steinmb\Logger\Logger;
+use steinmb\Utils\Calculate;
+
 /**
  * @file Block.php
  */
@@ -42,8 +45,8 @@ class Block
         $content .= '<div class="block">';
         $content .= '<h2 class="title">' . $this->entity->id() . '</h2>';
         $content .= '<ul>';
-        $content .= '<li>' . $sample['Date'] . '</li>';
-        $content .= '<li>' . $sample['Sensor'] . 'ºC' . '</li>';
+        $content .= '<li>' . $sample[0] . '</li>';
+        $content .= '<li>' . $sample[1] . 'ºC' . '</li>';
         $content .= '<li>' . $minutes . 'min ' . $calculate->analyzeTrend() . ' (' . $trend . ')</li>';
         $content .= '</ul>';
         $content .= '</div>';
