@@ -2,9 +2,9 @@
 
 namespace steinmb\Formatters;
 
-use steinmb\Logger\Logger;
-use steinmb\onewire\DataEntity;
+use steinmb\Logger\LoggerInterface;
 use steinmb\onewire\Temperature;
+use steinmb\steinmb\Formatters\HTMLFormatter;
 use steinmb\Utils\Calculate;
 
 /**
@@ -13,32 +13,25 @@ use steinmb\Utils\Calculate;
 
 class Block
 {
-    private $entity;
     private $temperature;
+    private $formatter;
 
-    public function __construct(DataEntity $entity, Temperature $temperature)
+    public function __construct(Temperature $temperature, HTMLFormatter $formatter)
     {
-        $this->entity = $entity;
         $this->temperature = $temperature;
+        $this->formatter = $formatter;
     }
 
-    public function listCurrent(): string
+    public function unorderedlist(): string
     {
-        $content = '<div class="block">';
-        $content .= '<h2 class="title">' . $this->entity->id() . '</h2>';
-        $content .= '<ul>';
-        $content .= "<li>{$this->entity->timeStamp()}</li>";
-        $content .= "<li>{$this->temperature->temperature()}</li>";
-        $content .= '</ul></div>';
-
-        return $content;
+        return $this->formatter->unorderedList($this->temperature);
     }
 
     public function listHistoric(
       int $minutes,
       string $sample,
       Calculate $calculate,
-      Logger $logger
+      LoggerInterface $logger
     ): string
     {
         $content = '';

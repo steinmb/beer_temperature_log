@@ -8,6 +8,7 @@ declare(strict_types=1);
  */
 
 use steinmb\Formatters\Block;
+use steinmb\steinmb\Formatters\HTMLFormatter;
 use steinmb\Utils\Calculate;
 use steinmb\Logger\Logger;
 use steinmb\Logger\FileStorage;
@@ -43,8 +44,8 @@ $sensor = new Sensor(
 foreach ($probes as $probe) {
     $entity = $sensor->createEntity($probe);
     $temperature = new Temperature($entity);
-    $block = new Block($entity, $temperature);
-    $blocks[] = $block->listCurrent();
+    $formatter = new Block($temperature, new HTMLFormatter());
+    $blocks[] = $formatter->unorderedlist();
 }
 
 $logger = new Logger('temperature');
@@ -55,7 +56,7 @@ $logger->close();
 $lastReading = $logger->lastEntry();
 
 if ($lastReading) {
-    $block->listHistoric(10, $lastReading, new Calculate($logger), $logger);
+    $formatter->listHistoric(10, $lastReading, new Calculate($logger), $logger);
 }
 
 include 'page.php';
