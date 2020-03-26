@@ -13,9 +13,10 @@ final class FileStorage implements HandlerInterface
     public function __construct($stream)
     {
         $this->stream = $stream;
+        $this->storage();
     }
 
-    public function storage(): void
+    private function storage(): void
     {
 
         $this->getDirFromStream($this->stream);
@@ -27,7 +28,7 @@ final class FileStorage implements HandlerInterface
             );
         }
 
-        if (!$this->stream) {
+        if (!file_exists($this->stream) && !fopen($this->stream, 'wb+')) {
             throw new UnexpectedValueException(
               'Unable to open or create log file: ' . $this->stream
             );
@@ -40,7 +41,6 @@ final class FileStorage implements HandlerInterface
         $content = '';
         $fileSize = filesize($this->stream);
         $stream = fopen($this->stream, 'rb+');
-        $this->storage();
 
         if ($fileSize === 0) {
             return $content;
@@ -60,7 +60,6 @@ final class FileStorage implements HandlerInterface
     public function write(string $message): void
     {
         $stream = fopen($this->stream, 'ab+');
-        $this->storage();
         $result = fwrite($stream, $message);
 
         if (!$result) {
