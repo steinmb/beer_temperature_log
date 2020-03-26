@@ -29,6 +29,10 @@ if (file_exists(BREW_ROOT . '/' . 'temperatur.png')) {
     $graph = BREW_ROOT . '/' . 'temperatur.png';
 }
 
+$logger = new Logger('temperature');
+$handle = new FileStorage(LOG_DIRECTORY . '/' . LOG_FILENAME);
+$logger->pushHandler($handle);
+
 $microLAN = new OneWire(SENSOR_DIRECTORY);
 $probes = $microLAN->getSensors();
 
@@ -48,15 +52,10 @@ foreach ($probes as $probe) {
     $blocks[] = $formatter->unorderedlist();
 }
 
-$logger = new Logger('temperature');
-$handle = new FileStorage('/Users/steinmb/sites/brewlogs/temperature.log');
-$logger->pushHandler($handle);
-$logger->close();
-
-$lastReading = $logger->lastEntry();
-
-if ($lastReading) {
-    $formatter->listHistoric(10, $lastReading, new Calculate($logger), $logger);
-}
+//$lastReading = $logger->lastEntry();
+//if ($lastReading) {
+//    $formatter->listHistoric(10, $lastReading, new Calculate($logger), $logger);
+//}
 
 include 'page.php';
+$logger->close();
