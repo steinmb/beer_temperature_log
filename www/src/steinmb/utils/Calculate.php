@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace steinmb\Utils;
 
-use steinmb\Logger\Logger;
+use steinmb\Logger\LoggerInterface;
 
 /**
  * @file Calculate.php
@@ -14,7 +14,7 @@ class Calculate
     private $log;
     private $trend;
 
-    public function __construct(Logger $log)
+    public function __construct(LoggerInterface $log)
     {
         $this->log = $log;
     }
