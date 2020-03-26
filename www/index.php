@@ -20,8 +20,8 @@ use steinmb\onewire\Temperature;
 include_once __DIR__ . '/vendor/autoload.php';
 
 define('BREW_ROOT', getcwd());
-//define('SENSOR_DIRECTORY', '/sys/bus/w1/devices');
-define('SENSOR_DIRECTORY', BREW_ROOT . '/test');
+define('SENSOR_DIRECTORY', '/sys/bus/w1/devices');
+//define('SENSOR_DIRECTORY', BREW_ROOT . '/test');
 define('LOG_DIRECTORY', BREW_ROOT . '/../../brewlogs/');
 define('LOG_FILENAME', 'temperature.log');
 
