@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace steinmb\steinmb\Formatters;
+namespace steinmb\Formatters;
 
 use steinmb\onewire\Temperature;
 
