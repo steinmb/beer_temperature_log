@@ -1,8 +1,8 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 include_once __DIR__ . '/vendor/autoload.php';
 
+use steinmb\Environment;
 use steinmb\Formatters\Block;
 use steinmb\Logger\Logger;
 use steinmb\Logger\FileStorage;
@@ -10,14 +10,15 @@ use steinmb\onewire\Sensor;
 use steinmb\onewire\SystemClock;
 use steinmb\onewire\OneWire;
 use steinmb\onewire\Temperature;
-use steinmb\steinmb\Formatters\HTMLFormatter;
+use steinmb\Formatters\HTMLFormatter;
 
-$oneWire = new OneWire(__DIR__ . '/test');
+$config = new Environment(__DIR__);
+$config::setSetting('DEMO_MODE', TRUE);
+$oneWire = new OneWire($config);
 $sensor = new Sensor($oneWire, new SystemClock());
-$probes = $oneWire->getSensors();
-
+$probes = (!$oneWire->getSensors()) ? exit('No probes found.'): $oneWire->getSensors();
 $logger = new Logger('Demo');
-$handle = new FileStorage('/Users/steinmb/sites/brewlogs/temperature.log');
+$handle = new FileStorage($config);
 $logger->pushHandler($handle);
 $logger->close();
 $blocks = [];

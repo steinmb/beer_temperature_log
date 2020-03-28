@@ -1,31 +1,31 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace steinmb\onewire;
 
 use InvalidArgumentException;
+use steinmb\Environment;
 
 final class OneWire
 {
 
     public const slaveFile = 'w1_slave';
-    private $baseDirectory;
+    private $config;
     private $sensors = [];
 
-    public function __construct(string $baseDirectory)
+    public function __construct(Environment $config)
     {
-        if (!file_exists($baseDirectory)) {
+        if (!file_exists($config::getSetting('SENSOR_DIRECTORY'))) {
             throw new InvalidArgumentException(
-              'Directory: ' . $baseDirectory . ' Not found. OneWire driver perhaps not loaded.'
+              'Directory: ' . $config::getSetting('SENSOR_DIRECTORY') . ' Not found. OneWire driver perhaps not loaded.'
             );
         }
 
-        $this->baseDirectory = $baseDirectory;
+        $this->config = $config;
     }
 
     private function sensors(): void
     {
-        $content = dir($this->baseDirectory);
+        $content = dir($this->config::getSetting('SENSOR_DIRECTORY'));
 
         while (false !== ($entry = $content->read())) {
             if (false !== strpos($entry, '10-') || false !== strpos($entry, '28-')) {
@@ -37,13 +37,14 @@ final class OneWire
 
     public function getSensors(): array
     {
+        $this->sensors = [];
         $this->sensors();
         return $this->sensors;
     }
 
     public function content(string $sensor)
     {
-        return file_get_contents($this->baseDirectory . '/' . $sensor . '/' . $this::slaveFile);
+        return file_get_contents($this->config::getSetting('SENSOR_DIRECTORY') . '/' . $sensor . '/' . $this::slaveFile);
     }
 
     /**

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace steinmb\Logger;
 
+use steinmb\Environment;
 use UnexpectedValueException;
 
 final class FileStorage implements HandlerInterface
@@ -10,9 +11,9 @@ final class FileStorage implements HandlerInterface
     private $directory;
     public $stream;
 
-    public function __construct($stream)
+    public function __construct(Environment $config)
     {
-        $this->stream = $stream;
+        $this->stream = $config::getSetting('LOG_DIRECTORY') . '/'. $config::getSetting('LOG_FILENAME');
         $this->storage();
     }
 

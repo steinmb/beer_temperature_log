@@ -7,8 +7,9 @@ declare(strict_types=1);
  * Create web interface interface.
  */
 
+use steinmb\Environment;
 use steinmb\Formatters\Block;
-use steinmb\steinmb\Formatters\HTMLFormatter;
+use steinmb\Formatters\HTMLFormatter;
 use steinmb\Utils\Calculate;
 use steinmb\Logger\Logger;
 use steinmb\Logger\FileStorage;
@@ -19,31 +20,18 @@ use steinmb\onewire\Temperature;
 
 include_once __DIR__ . '/vendor/autoload.php';
 
-define('BREW_ROOT', getcwd());
-define('SENSOR_DIRECTORY', '/sys/bus/w1/devices');
-//define('SENSOR_DIRECTORY', BREW_ROOT . '/test');
-define('LOG_DIRECTORY', BREW_ROOT . '/../../brewlogs/');
-define('LOG_FILENAME', 'temperature.log');
+$config = new Environment(__DIR__);
 
-if (file_exists(BREW_ROOT . '/' . 'temperatur.png')) {
-    $graph = BREW_ROOT . '/' . 'temperatur.png';
+if (file_exists($config::getSetting('BREW_ROOT') . '/temperatur.png')) {
+    $graph = $config::getSetting('BREW_ROOT') . '/temperatur.png';
 }
 
 $logger = new Logger('temperature');
-$handle = new FileStorage(LOG_DIRECTORY . '/' . LOG_FILENAME);
+$handle = new FileStorage($config);
 $logger->pushHandler($handle);
-
-$microLAN = new OneWire(SENSOR_DIRECTORY);
-$probes = $microLAN->getSensors();
-
-if (!$probes) {
-    return;
-}
-
-$sensor = new Sensor(
-  $microLAN,
-  new SystemClock()
-);
+$oneWire = new OneWire($config);
+$probes = (!$oneWire->getSensors()) ? exit('No probes found.'): $oneWire->getSensors();
+$sensor = new Sensor($oneWire, new SystemClock());
 
 foreach ($probes as $probe) {
     $entity = $sensor->createEntity($probe);
