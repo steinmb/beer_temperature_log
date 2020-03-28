@@ -11,7 +11,7 @@ use steinmb\Logger\FileStorage;
 use steinmb\Logger\Logger;
 use steinmb\onewire\OneWire;
 use steinmb\onewire\Sensor;
-use steinmb\onewire\SystemClock;
+use steinmb\SystemClock;
 use steinmb\onewire\Temperature;
 
 include_once __DIR__ . '/vendor/autoload.php';

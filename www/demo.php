@@ -7,7 +7,7 @@ use steinmb\Formatters\Block;
 use steinmb\Logger\Logger;
 use steinmb\Logger\FileStorage;
 use steinmb\onewire\Sensor;
-use steinmb\onewire\SystemClock;
+use steinmb\SystemClock;
 use steinmb\onewire\OneWire;
 use steinmb\onewire\Temperature;
 use steinmb\Formatters\HTMLFormatter;

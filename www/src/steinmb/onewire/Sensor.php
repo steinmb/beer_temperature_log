@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace steinmb\onewire;
 
+use steinmb\Clock;
+
 /**
  * @file Sensor.php
  * Service class.
