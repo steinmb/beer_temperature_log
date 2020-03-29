@@ -8,7 +8,9 @@
             "email": "steinmb@smbjorklund.com"
         }
     ],
-    "require": {},
+    "require": {
+      "ext-bcmath": "*"
+    },
 
     "autoload": {
         "psr-4": {
