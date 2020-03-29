@@ -101,9 +101,9 @@ class Calculate
 
         $speed = '';
         foreach ($ranges as $key => $range) {
-//            if (ltrim($this->trend, '-') > $range) {
-//                $speed = $key;
-//            }
+            if (ltrim($this->trend, '-') > $range) {
+                $speed = $key;
+            }
         }
 
         return $direction . ' ' . $speed;
