@@ -33,12 +33,11 @@ $calculate = new Calculate($logger);
 foreach ($probes as $probe) {
     $entity = $sensor->createEntity($probe);
     $temperature = new Temperature($entity);
-    $formatter = new Block($temperature, new HTMLFormatter());
+    $formatter = new Block($temperature, new HTMLFormatter($entity));
     $blocks[] = $formatter->unorderedlist();
 
     if ($lastReading) {
-        $trend[] = $calculate->listHistoric(10, $lastReading);
-        echo $temperature->entity->id() . ': ' . $calculate->getTrend() . PHP_EOL;
+        $blocks[] = $formatter->trendList($calculate, 10, $lastReading);
     }
 }
 

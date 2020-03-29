@@ -44,12 +44,12 @@ class Calculate
         return ['x' => $x, 'x2' => $x2, 'y' => $y];
     }
 
-    public function calculateTrend(int $time, string $last)
+    public function calculateTrend(int $time, string $lastMeasurement)
     {
         $content = $this->log->read();
         $log = explode("\n" , $content);
         array_pop($log);
-        $reversed = $this->reverse($log, $last, $time);
+        $reversed = $this->reverse($log, $lastMeasurement, $time);
 
         $y = array_reverse($reversed['y']);
         $samples = (string) $reversed['x'];
@@ -76,6 +76,7 @@ class Calculate
         if ($vector2 > 0) {
             $result = bcdiv($vector1, $vector2, 12);
         }
+
         return $result;
     }
 
@@ -84,6 +85,10 @@ class Calculate
      */
     public function analyzeTrend(): string
     {
+        if ($this->trend === null) {
+            return '';
+        }
+
         $direction = 'increasing';
 
         if ($this->trend < 0) {
