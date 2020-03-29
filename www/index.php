@@ -21,11 +21,6 @@ use steinmb\onewire\Temperature;
 include_once __DIR__ . '/vendor/autoload.php';
 
 $config = new Environment(__DIR__);
-
-if (file_exists($config::getSetting('BREW_ROOT') . '/temperatur.png')) {
-    $graph = $config::getSetting('BREW_ROOT') . '/temperatur.png';
-}
-
 $logger = new Logger('temperature');
 $handle = new FileStorage($config);
 $logger->pushHandler($handle);
@@ -47,5 +42,9 @@ foreach ($probes as $probe) {
     }
 }
 
+if (file_exists($config::getSetting('BREW_ROOT') . '/temperatur.png')) {
+    $graph = $config::getSetting('BREW_ROOT') . '/temperatur.png';
+}
 include 'page.php';
+
 $logger->close();
