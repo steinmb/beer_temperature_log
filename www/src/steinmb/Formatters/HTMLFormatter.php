@@ -3,8 +3,9 @@
 namespace steinmb\Formatters;
 
 use steinmb\onewire\Temperature;
+use steinmb\Utils\Calculate;
 
-class HTMLFormatter
+class HTMLFormatter implements FormatterInterface
 {
 
     public function unorderedList(Temperature $sensor): string
@@ -19,4 +20,19 @@ class HTMLFormatter
         return $content;
     }
 
+    public function trendList(Calculate $calculator, $minutes, $sample): string
+    {
+        $content = '';
+        $trend = $calculator->calculateTrend($minutes, $sample);
+        $content .= '<div class="block">';
+        $content .= '<h2 class="title">' . $this->entity->id() . '</h2>';
+        $content .= '<ul>';
+        $content .= '<li>' . $sample[0] . '</li>';
+        $content .= '<li>' . $sample[1] . 'ºC' . '</li>';
+        $content .= '<li>' . $minutes . 'min ' . $calculator->analyzeTrend() . ' (' . $trend . ')</li>';
+        $content .= '</ul>';
+        $content .= '</div>';
+
+        return $content;
+    }
 }

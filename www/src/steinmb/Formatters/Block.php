@@ -2,9 +2,7 @@
 
 namespace steinmb\Formatters;
 
-use steinmb\Logger\LoggerInterface;
 use steinmb\onewire\Temperature;
-use steinmb\Utils\Calculate;
 
 /**
  * @file Block.php
@@ -15,7 +13,7 @@ class Block
     private $temperature;
     private $formatter;
 
-    public function __construct(Temperature $temperature, HTMLFormatter $formatter)
+    public function __construct(Temperature $temperature, FormatterInterface $formatter)
     {
         $this->temperature = $temperature;
         $this->formatter = $formatter;
@@ -26,5 +24,8 @@ class Block
         return $this->formatter->unorderedList($this->temperature);
     }
 
-
+    public function trendList($calculator, $time, $sample): string
+    {
+        return $this->formatter->trendList($calculator, $time, $sample);
+    }
 }

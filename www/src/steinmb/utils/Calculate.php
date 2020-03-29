@@ -36,7 +36,6 @@ class Calculate
             $x = (string) $x;
             $x2[] = bcpow($x, $x);
 
-            $foo = strtotime($last[0]);
             if (strtotime($row[0]) <= strtotime($last[0]) - ($time * 60)) {
                 break;
             }
@@ -114,17 +113,5 @@ class Calculate
         $this->trend = $this->calculateTrend($minutes, $sample);
         return $this->analyzeTrend();
 
-//        $content = '';
-//        $trend = $this->calculateTrend($minutes, $sample);
-//        $content .= '<div class="block">';
-//        $content .= '<h2 class="title">' . $this->entity->id() . '</h2>';
-//        $content .= '<ul>';
-//        $content .= '<li>' . $sample[0] . '</li>';
-//        $content .= '<li>' . $sample[1] . 'ºC' . '</li>';
-//        $content .= '<li>' . $minutes . 'min ' . $calculate->analyzeTrend() . ' (' . $trend . ')</li>';
-//        $content .= '</ul>';
-//        $content .= '</div>';
-//
-//        return $content;
     }
 }
