@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types = 1);
 
 namespace steinmb\Utils;
 
@@ -19,32 +18,45 @@ class Calculate
         $this->log = $log;
     }
 
-    public function calculateTrend(int $time, string $last)
+    public function getTrend()
+    {
+        return $this->trend;
+    }
+
+    private function reverse(array $log, string $last, $time): array
     {
         $x = '';
-        $y = [];
         $x2 = [];
-        $xy = [];
-        $content = $this->log->read();
-        $log = explode("\r\n" , $content);
-        array_pop($log);
+        $y = [];
 
         foreach (array_reverse($log) as $key => $row) {
-
-            $y[] = 1000 * $row[3];
+            $row = explode(', ', $row);
+            $y[] = 1000 * $row[2];
             $x = $key + 1;
             $x = (string) $x;
             $x2[] = bcpow($x, $x);
 
+            $foo = strtotime($last[0]);
             if (strtotime($row[0]) <= strtotime($last[0]) - ($time * 60)) {
                 break;
             }
         }
 
-        $y = array_reverse($y);
-        $samples = (string) $x;
-        $x = range(1, $x);
+        return ['x' => $x, 'x2' => $x2, 'y' => $y];
+    }
 
+    public function calculateTrend(int $time, string $last)
+    {
+        $content = $this->log->read();
+        $log = explode("\n" , $content);
+        array_pop($log);
+        $reversed = $this->reverse($log, $last, $time);
+
+        $y = array_reverse($reversed['y']);
+        $samples = (string) $reversed['x'];
+        $x = range(1, $reversed['x']);
+
+        $xy = [];
         foreach ($x as $key => $item) {
             $xy[] = $item * $y[$key];
         }
@@ -54,15 +66,18 @@ class Calculate
         $xySummary = (string) array_sum($xy);
 
         $x2Summary = 0;
-        foreach ($x2 as $item) {
+        foreach ($reversed['x2'] as $item) {
             $x2Summary = bcadd((string) $x2Summary, $item, 10);
         }
 
-        $vector1 = bcsub(bcmul($samples, $xySummary),
-          bcmul($xSummary, $ySummary));
+        $vector1 = bcsub(bcmul($samples, $xySummary), bcmul($xSummary, $ySummary));
         $vector2 = bcsub(bcmul($samples, $x2Summary), bcsqrt($xSummary, 30));
 
-        return bcdiv($vector1, $vector2, 12);
+        $result = 0;
+        if ($vector2 > 0) {
+            $result = bcdiv($vector1, $vector2, 12);
+        }
+        return $result;
     }
 
     /**
@@ -94,4 +109,22 @@ class Calculate
         return $direction . ' ' . $speed;
     }
 
+    public function listHistoric(int $minutes, string $sample): string
+    {
+        $this->trend = $this->calculateTrend($minutes, $sample);
+        return $this->analyzeTrend();
+
+//        $content = '';
+//        $trend = $this->calculateTrend($minutes, $sample);
+//        $content .= '<div class="block">';
+//        $content .= '<h2 class="title">' . $this->entity->id() . '</h2>';
+//        $content .= '<ul>';
+//        $content .= '<li>' . $sample[0] . '</li>';
+//        $content .= '<li>' . $sample[1] . 'ºC' . '</li>';
+//        $content .= '<li>' . $minutes . 'min ' . $calculate->analyzeTrend() . ' (' . $trend . ')</li>';
+//        $content .= '</ul>';
+//        $content .= '</div>';
+//
+//        return $content;
+    }
 }

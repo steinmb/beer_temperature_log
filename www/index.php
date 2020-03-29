@@ -29,21 +29,23 @@ if (file_exists($config::getSetting('BREW_ROOT') . '/temperatur.png')) {
 $logger = new Logger('temperature');
 $handle = new FileStorage($config);
 $logger->pushHandler($handle);
+$lastReading = $logger->lastEntry();
 $oneWire = new OneWire($config);
 $probes = (!$oneWire->getSensors()) ? exit('No probes found.'): $oneWire->getSensors();
 $sensor = new Sensor($oneWire, new SystemClock());
+$calculate = new Calculate($logger);
 
 foreach ($probes as $probe) {
     $entity = $sensor->createEntity($probe);
     $temperature = new Temperature($entity);
     $formatter = new Block($temperature, new HTMLFormatter());
     $blocks[] = $formatter->unorderedlist();
-}
 
-//$lastReading = $logger->lastEntry();
-//if ($lastReading) {
-//    $formatter->listHistoric(10, $lastReading, new Calculate($logger), $logger);
-//}
+    if ($lastReading) {
+        $trend[] = $calculate->listHistoric(10, $lastReading);
+        echo $temperature->entity->id() . ': ' . $calculate->getTrend() . PHP_EOL;
+    }
+}
 
 include 'page.php';
 $logger->close();
