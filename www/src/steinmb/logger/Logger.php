@@ -35,7 +35,7 @@ class Logger implements LoggerInterface
             return '';
         }
 
-        $log = explode("\r\n" , $content);
+        $log = explode("\n" , $content);
         array_pop($log);
         $lastReading = $log[count($log) - 1];
 
