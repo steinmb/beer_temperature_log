@@ -24,8 +24,9 @@ $logger->close();
 $blocks = [];
 
 foreach ($probes as $probe) {
-    $temperature = new Temperature($sensor->createEntity($probe));
-    $formatter = new Block($temperature, new HTMLFormatter());
+    $entity = $sensor->createEntity($probe);
+    $temperature = new Temperature($entity);
+    $formatter = new Block($temperature, new HTMLFormatter($entity));
     $blocks[] = $formatter->unorderedlist();
     print "Date: {$temperature->entity->timeStamp()} Id: {$temperature->entity->id()} {$temperature->temperature()}ºC \n";
     print "Date: {$temperature->entity->timeStamp()} Id: {$temperature->entity->id()} {$temperature->temperature('fahrenheit')}ºF \n";
