@@ -1,8 +1,6 @@
-<?php
+<?php declare(strict_types = 1);
 
-declare(strict_types = 1);
-
-use steinmb\onewire\Logger;
+use steinmb\Logger\Logger;
 use steinmb\onewire\OneWire;
 
 final class SensorTest
@@ -40,7 +38,7 @@ final class SensorTest
 
     public function logData(): void
     {
-        $logString = $this->logger->getData();
-        $this->logger->writeLogFile($logString);
+        $logString = $this->logger->read();
+        $this->logger->write($logString);
     }
 }
