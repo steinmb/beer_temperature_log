@@ -1,7 +1,7 @@
 <?php declare(strict_types = 1);
 
 use steinmb\Logger\Logger;
-use steinmb\onewire\OneWire;
+use steinmb\Onewire\OneWire;
 
 final class SensorTest
 {

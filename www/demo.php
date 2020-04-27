@@ -6,10 +6,10 @@ use steinmb\Environment;
 use steinmb\Formatters\Block;
 use steinmb\Logger\Logger;
 use steinmb\Logger\FileStorage;
-use steinmb\onewire\Sensor;
+use steinmb\Onewire\Sensor;
 use steinmb\SystemClock;
-use steinmb\onewire\OneWire;
-use steinmb\onewire\Temperature;
+use steinmb\Onewire\OneWire;
+use steinmb\Onewire\Temperature;
 use steinmb\Formatters\HTMLFormatter;
 
 $config = new Environment(__DIR__);

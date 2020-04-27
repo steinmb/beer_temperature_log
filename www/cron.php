@@ -9,10 +9,10 @@
 use steinmb\Environment;
 use steinmb\Logger\FileStorage;
 use steinmb\Logger\Logger;
-use steinmb\onewire\OneWire;
-use steinmb\onewire\Sensor;
-use steinmb\SystemClock;
+use steinmb\Onewire\OneWire;
+use steinmb\Onewire\Sensor;
 use steinmb\Onewire\Temperature;
+use steinmb\SystemClock;
 
 include_once __DIR__ . '/vendor/autoload.php';
 

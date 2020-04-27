@@ -13,10 +13,10 @@ use steinmb\Formatters\HTMLFormatter;
 use steinmb\Utils\Calculate;
 use steinmb\Logger\Logger;
 use steinmb\Logger\FileStorage;
-use steinmb\onewire\OneWire;
-use steinmb\onewire\Sensor;
+use steinmb\Onewire\OneWire;
+use steinmb\Onewire\Sensor;
 use steinmb\SystemClock;
-use steinmb\onewire\Temperature;
+use steinmb\Onewire\Temperature;
 
 include_once __DIR__ . '/vendor/autoload.php';
 
