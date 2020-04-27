@@ -1,7 +1,6 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
-namespace steinmb\onewire;
+namespace steinmb\Onewire;
 
 use steinmb\Clock;
 
@@ -10,7 +9,7 @@ use steinmb\Clock;
  * Service class.
  */
 
-class Sensor
+final class Sensor
 {
     private const sensorType = 'temperature';
     private $oneWire;

@@ -1,6 +1,6 @@
 <?php declare(strict_types = 1);
 
-namespace steinmb\onewire;
+namespace steinmb\Onewire;
 
 use InvalidArgumentException;
 use steinmb\Environment;

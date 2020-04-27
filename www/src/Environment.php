@@ -35,4 +35,14 @@ class Environment
         self::$settings[$setting] = $value;
     }
 
+    public function __toString(): string
+    {
+        $settings = '';
+
+        foreach (self::$settings as $setting) {
+            $settings .= $setting . ' ';
+        }
+
+        return $settings;
+    }
 }
