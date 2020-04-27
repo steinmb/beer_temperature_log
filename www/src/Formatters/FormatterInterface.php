@@ -2,8 +2,8 @@
 
 namespace steinmb\Formatters;
 
-use steinmb\onewire\DataEntity;
-use steinmb\onewire\Temperature;
+use steinmb\Onewire\DataEntity;
+use steinmb\Onewire\Temperature;
 use steinmb\Utils\Calculate;
 
 interface FormatterInterface

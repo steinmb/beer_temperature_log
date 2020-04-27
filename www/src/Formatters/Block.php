@@ -2,7 +2,7 @@
 
 namespace steinmb\Formatters;
 
-use steinmb\onewire\Temperature;
+use steinmb\Onewire\Temperature;
 
 /**
  * @file Block.php
