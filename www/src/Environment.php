@@ -4,22 +4,15 @@ namespace steinmb;
 
 class Environment
 {
-    private const SETTINGS = 'settings.php';
-    public static $settings = [];
-
-    public function __construct(string $applicationDirectory, string $applicationConfig = '')
-    {
-        if (!$applicationConfig) {
-            $applicationConfig = $applicationDirectory . '/config';
-        }
-
-        self::$settings = include $applicationConfig . '/' . self::SETTINGS;
-        self::setSetting('BREW_ROOT', $applicationDirectory);
-
-        if (self::getSetting('DEMO_MODE') === TRUE) {
-            self::setSetting('SENSOR_DIRECTORY', self::getSetting('BREW_ROOT') . '/test');
-        }
-    }
+    private static $settings = [
+      'BREW_ROOT' => '',
+      'DEMO_MODE' => FALSE,
+      'LOG_DIRECTORY' => '../../brewlogs',
+      'LOG_FILENAME' => 'temperature.csv',
+      'LOG_INFO' => 'info.log',
+      'SENSOR_DIRECTORY' => '/sys/bus/w1/devices',
+      'TEST_DIRECTORY' => '/test',
+    ];
 
     public static function getSetting($setting)
     {
@@ -35,14 +28,4 @@ class Environment
         self::$settings[$setting] = $value;
     }
 
-    public function __toString(): string
-    {
-        $settings = '';
-
-        foreach (self::$settings as $setting) {
-            $settings .= $setting . ' ';
-        }
-
-        return $settings;
-    }
 }

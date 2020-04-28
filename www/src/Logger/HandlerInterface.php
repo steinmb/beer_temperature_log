@@ -7,7 +7,7 @@ use steinmb\Environment;
 
 interface HandlerInterface
 {
-    public function __construct(Environment $config);
+    public function __construct();
     public function read();
     public function write(string $message);
     public function close();

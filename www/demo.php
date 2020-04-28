@@ -12,13 +12,13 @@ use steinmb\Onewire\OneWire;
 use steinmb\Onewire\Temperature;
 use steinmb\Formatters\HTMLFormatter;
 
-$config = new Environment(__DIR__);
-$config::setSetting('DEMO_MODE', TRUE);
-$oneWire = new OneWire($config);
+Environment::setSetting('BREW_ROOT', __DIR__);
+Environment::setSetting('DEMO_MODE', TRUE);
+$oneWire = new OneWire();
 $sensor = new Sensor($oneWire, new SystemClock());
 $probes = (!$oneWire->getSensors()) ? exit('No probes found.'): $oneWire->getSensors();
 $logger = new Logger('Demo');
-$handle = new FileStorage($config);
+$handle = new FileStorage();
 $logger->pushHandler($handle);
 $logger->close();
 $blocks = [];

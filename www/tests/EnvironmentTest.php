@@ -5,11 +5,12 @@ use PHPUnit\Framework\TestCase;
 
 final class EnvironmentTest extends TestCase
 {
-    public function testDefaultConfig()
+    public function testSetting()
     {
-        $this->assertInstanceOf(
-          Environment::class,
-          new Environment('.')
+        Environment::setSetting('DEMO_MODE', TRUE);
+        $this->assertEquals(
+          TRUE,
+          Environment::getSetting('DEMO_MODE')
         );
     }
 }

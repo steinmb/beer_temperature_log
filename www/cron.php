@@ -16,12 +16,12 @@ use steinmb\SystemClock;
 
 include_once __DIR__ . '/vendor/autoload.php';
 
-$config = new Environment(__DIR__);
-$oneWire = new OneWire($config);
+Environment::setSetting('BREW_ROOT', __DIR__);
+$oneWire = new OneWire();
 $sensor = new Sensor($oneWire, new SystemClock());
 $probes = (!$oneWire->getSensors()) ? exit('No probes found.'): $oneWire->getSensors();
 $logger = new Logger('temperature');
-$handler = new FileStorage($config);
+$handler = new FileStorage();
 $logger->pushHandler($handler);
 
 foreach ($probes as $probe) {

@@ -11,9 +11,9 @@ final class FileStorage implements HandlerInterface
     private $directory;
     public $stream;
 
-    public function __construct(Environment $config)
+    public function __construct()
     {
-        $this->stream = $config::getSetting('LOG_DIRECTORY') . '/'. $config::getSetting('LOG_FILENAME');
+        $this->stream = Environment::getSetting('LOG_DIRECTORY') . '/'. Environment::getSetting('LOG_FILENAME');
         $this->storage();
     }
 
