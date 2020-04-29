@@ -2,11 +2,13 @@
 
 namespace steinmb\Onewire;
 
+use UnexpectedValueException;
+
 final class Temperature
 {
     public $entity;
 
-    private float $offset = 0;
+    private $offset = 0;
 
     public function __construct(DataEntity $entity)
     {
@@ -38,7 +40,7 @@ final class Temperature
         } elseif ($scale === 'kelvin') {
             $temperature = $celsius + 273.15;
         } else {
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
               'Unknown temperature scale: ' . $scale
             );
         }

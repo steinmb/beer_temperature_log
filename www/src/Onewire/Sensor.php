@@ -15,7 +15,7 @@ final class Sensor
     private const sensorType = 'temperature';
     private $oneWire;
     private $clock;
-    private EntityFactory $itemFactory;
+    private $itemFactory;
 
     public function __construct(
       OneWire $oneWire,
