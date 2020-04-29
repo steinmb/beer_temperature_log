@@ -6,6 +6,8 @@ final class Temperature
 {
     public $entity;
 
+    private float $offset = 0;
+
     public function __construct(DataEntity $entity)
     {
         $this->entity = $entity;
@@ -42,6 +44,11 @@ final class Temperature
         }
 
         return $temperature;
+    }
+
+    public function offset($offset = 0)
+    {
+        return $offset;
     }
 
     private function validateCRC(string $rawData): bool

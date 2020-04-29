@@ -7,6 +7,7 @@ declare(strict_types=1);
  * Create web interface interface.
  */
 
+use steinmb\EntityFactory;
 use steinmb\Environment;
 use steinmb\Formatters\Block;
 use steinmb\Formatters\HTMLFormatter;
@@ -27,7 +28,7 @@ $logger->pushHandler($handle);
 $lastReading = $logger->lastEntry();
 $oneWire = new OneWire();
 $probes = (!$oneWire->getSensors()) ? exit('No probes found.'): $oneWire->getSensors();
-$sensor = new Sensor($oneWire, new SystemClock());
+$sensor = new Sensor($oneWire, new SystemClock(), new EntityFactory());
 $calculate = new Calculate($logger);
 
 foreach ($probes as $probe) {

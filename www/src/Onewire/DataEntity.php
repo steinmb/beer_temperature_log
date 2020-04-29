@@ -8,7 +8,7 @@ namespace steinmb\Onewire;
  * Temperature reading.
  */
 
-final class DataEntity
+final class DataEntity implements EntityInterface
 {
     private const format = 'Y-m-d H:i:s';
     private $id;
@@ -21,7 +21,6 @@ final class DataEntity
         string $type,
         string $measurement,
         \DateTimeImmutable $time
-
     )
     {
         $this->id = $id;
@@ -41,11 +40,6 @@ final class DataEntity
         return $this->time->format($this::format);
     }
 
-    /**
-    * Get the entity ID.
-    *
-    * @return string entity ID.
-    */
     public function id(): string
     {
         return $this->id;

@@ -2,6 +2,7 @@
 
 include_once __DIR__ . '/vendor/autoload.php';
 
+use steinmb\EntityFactory;
 use steinmb\Environment;
 use steinmb\Formatters\Block;
 use steinmb\Logger\Logger;
@@ -15,7 +16,7 @@ use steinmb\Formatters\HTMLFormatter;
 Environment::setSetting('BREW_ROOT', __DIR__);
 Environment::setSetting('DEMO_MODE', TRUE);
 $oneWire = new OneWire();
-$sensor = new Sensor($oneWire, new SystemClock());
+$sensor = new Sensor($oneWire, new SystemClock(), new EntityFactory());
 $probes = (!$oneWire->getSensors()) ? exit('No probes found.'): $oneWire->getSensors();
 $logger = new Logger('Demo');
 $handle = new FileStorage();

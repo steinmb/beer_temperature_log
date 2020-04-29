@@ -3,6 +3,7 @@
 namespace steinmb\Onewire;
 
 use steinmb\Clock;
+use steinmb\EntityFactory;
 
 /**
  * @file Sensor.php
@@ -14,11 +15,17 @@ final class Sensor
     private const sensorType = 'temperature';
     private $oneWire;
     private $clock;
+    private EntityFactory $itemFactory;
 
-    public function __construct(OneWire $oneWire, Clock $clock)
+    public function __construct(
+      OneWire $oneWire,
+      Clock $clock,
+      EntityFactory $itemFactory
+    )
     {
         $this->oneWire = $oneWire;
         $this->clock = $clock;
+        $this->itemFactory = $itemFactory;
     }
 
     public function rawData(): string
@@ -38,9 +45,12 @@ final class Sensor
 
     public function createEntity(string $sensor): DataEntity
     {
-        $now = $this->clock->currentTime();
-        $content = $this->oneWire->content($sensor);
-
-        return new DataEntity($sensor, self::sensorType, $content, $now);
+        return $this->itemFactory->newItem(
+          $this->clock,
+          $this->oneWire,
+          $sensor,
+          self::sensorType
+        );
     }
+
 }
