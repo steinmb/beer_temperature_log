@@ -23,6 +23,15 @@ class Calculate
         return $this->trend;
     }
 
+    /**
+     * @param array $log
+     * @param string $last
+     * @param $time
+     *
+     * @return array
+     *
+     * @todo CPU and memory intensive on large log files.
+     */
     private function reverse(array $log, string $last, $time): array
     {
         $x = '';

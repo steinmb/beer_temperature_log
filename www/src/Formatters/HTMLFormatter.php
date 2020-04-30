@@ -29,7 +29,7 @@ class HTMLFormatter implements FormatterInterface
 
     public function trendList(Calculate $calculator, int $minutes, string $lastMeasurement): string
     {
-        $trend = $calculator->calculateTrend($minutes, $lastMeasurement);
+        $trend = '$calculator->calculateTrend($minutes, $lastMeasurement)';
         $table = explode(', ', $lastMeasurement);
         $content = '';
         $content .= '<div class="block">';
