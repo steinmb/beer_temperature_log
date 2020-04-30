@@ -37,7 +37,7 @@ class HTMLFormatter implements FormatterInterface
         $content .= '<ul>';
         $content .= '<li>' . $table[0] . '</li>';
         $content .= '<li>' . $table[1] . 'ºC' . '</li>';
-        $content .= '<li>' . $minutes . 'min ' . $calculator->analyzeTrend() . ' (' . $trend . ')</li>';
+        $content .= '<li>' . $minutes . 'min $calculator::analyzeTrend() (' . $trend . ')</li>';
         $content .= '</ul>';
         $content .= '</div>';
 
