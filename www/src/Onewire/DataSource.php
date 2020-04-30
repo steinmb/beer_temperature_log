@@ -7,6 +7,7 @@ namespace steinmb\Onewire;
  */
 
 /**
+ * @deprecated
  * Read logged data into a structure.
  */
 class DataSource
