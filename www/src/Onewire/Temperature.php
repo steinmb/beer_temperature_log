@@ -10,7 +10,7 @@ final class Temperature
 
     private $offset = 0;
 
-    public function __construct(DataEntity $entity)
+    public function __construct(EntityInterface $entity)
     {
         $this->entity = $entity;
     }

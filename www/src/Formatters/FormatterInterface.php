@@ -2,13 +2,13 @@
 
 namespace steinmb\Formatters;
 
-use steinmb\Onewire\DataEntity;
+use steinmb\Onewire\EntityInterface;
 use steinmb\Onewire\Temperature;
 use steinmb\Utils\Calculate;
 
 interface FormatterInterface
 {
-    public function __construct(DataEntity $entity);
+    public function __construct(EntityInterface $entity);
 
     public function unorderedList(Temperature $sensor): string;
 

@@ -43,7 +43,7 @@ final class Sensor
         return $sample;
     }
 
-    public function createEntity(string $sensor): DataEntity
+    public function createEntity(string $sensor): EntityInterface
     {
         return $this->itemFactory->newItem(
           $this->clock,

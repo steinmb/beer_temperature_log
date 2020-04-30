@@ -2,7 +2,7 @@
 
 namespace steinmb\Formatters;
 
-use steinmb\Onewire\DataEntity;
+use steinmb\Onewire\EntityInterface;
 use steinmb\Onewire\Temperature;
 use steinmb\Utils\Calculate;
 
@@ -10,7 +10,7 @@ class HTMLFormatter implements FormatterInterface
 {
     private $entity;
 
-    public function __construct(DataEntity $entity)
+    public function __construct(EntityInterface $entity)
     {
         $this->entity = $entity;
     }
