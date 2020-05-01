@@ -7,12 +7,12 @@ use UnexpectedValueException;
 final class Temperature
 {
     public $entity;
+    private $offset;
 
-    private $offset = 0;
-
-    public function __construct(EntityInterface $entity)
+    public function __construct(EntityInterface $entity, float $offset = 0)
     {
         $this->entity = $entity;
+        $this->offset = $offset;
     }
 
     public function temperature(string $scale = 'celsius')
@@ -31,11 +31,10 @@ final class Temperature
         }
 
         $celsius = (float) number_format($rawTempTrimmed / 1000, 3);
-        if ($scale === 'celsius') {
-            return $celsius;
-        }
 
-        if ($scale === 'fahrenheit') {
+        if ($scale === 'celsius') {
+            $temperature = $celsius;
+        } elseif ($scale === 'fahrenheit') {
             $temperature = $celsius * (9/5) + 32;
         } elseif ($scale === 'kelvin') {
             $temperature = $celsius + 273.15;
@@ -45,12 +44,7 @@ final class Temperature
             );
         }
 
-        return $temperature;
-    }
-
-    public function offset($offset = 0)
-    {
-        return $offset;
+        return $temperature + $this->offset;
     }
 
     private function validateCRC(string $rawData): bool
