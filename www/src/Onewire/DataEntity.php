@@ -36,7 +36,6 @@ final class DataEntity implements EntityInterface
 
     public function timeStamp(): string
     {
-        $this->time->setTimezone(new \DateTimeZone('Europe/Oslo'));
         return $this->time->format($this::format);
     }
 
