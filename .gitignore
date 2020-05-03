@@ -8,3 +8,4 @@ beer_temperature_log.Rproj
 temp_log_plot2.png
 www/test/*.log
 www/vendor
+.phpunit.result.cache
