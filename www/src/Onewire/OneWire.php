@@ -43,14 +43,14 @@ final class OneWire implements OneWireInterface
 
     }
 
-    private function allSensors()
+    public function allSensors(): array
     {
-        return file_get_contents($this->sensors);
+        $sensors = rtrim(file_get_contents($this->sensors), PHP_EOL);
+        return explode(PHP_EOL, $sensors);
     }
 
     public function getTemperatureSensors(): array
     {
-        $this->temperatureSensors = [];
         $this->tempSensors();
         return $this->temperatureSensors;
     }
