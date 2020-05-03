@@ -51,6 +51,7 @@ final class OneWire implements OneWireInterface
 
     public function getTemperatureSensors(): array
     {
+        $this->sensors = [];
         $this->tempSensors();
         return $this->temperatureSensors;
     }
