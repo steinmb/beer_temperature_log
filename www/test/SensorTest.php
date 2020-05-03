@@ -27,7 +27,7 @@ final class SensorTest
 
     private function findSensors(): array
     {
-        $sensors = $this->oneWire->getSensors();
+        $sensors = $this->oneWire->getTemperatureSensors();
 
         if (count($sensors) !== 4) {
             throw new RuntimeException('Missing sensors. Expected 4, only got:' . count($sensors));

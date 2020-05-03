@@ -27,7 +27,7 @@ $handle = new FileStorage();
 $logger->pushHandler($handle);
 $lastReading = $logger->lastEntry();
 $oneWire = new OneWire();
-$probes = (!$oneWire->getSensors()) ? exit('No probes found.'): $oneWire->getSensors();
+$probes = (!$oneWire->getTemperatureSensors()) ? exit('No probes found.'): $oneWire->getTemperatureSensors();
 $sensor = new Sensor($oneWire, new SystemClock(), new EntityFactory());
 $calculate = new Calculate($logger);
 

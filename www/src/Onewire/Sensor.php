@@ -31,7 +31,7 @@ final class Sensor
     public function rawData(): string
     {
         $sample = '';
-        $sensors = $this->oneWire->getSensors();
+        $sensors = $this->oneWire->getTemperatureSensors();
 
         foreach ($sensors as $sensor) {
             $now = $this->clock->currentTime();

@@ -20,7 +20,7 @@ include_once __DIR__ . '/vendor/autoload.php';
 Environment::setSetting('BREW_ROOT', __DIR__);
 $oneWire = new OneWire();
 $sensor = new Sensor($oneWire, new SystemClock(), new EntityFactory());
-$probes = (!$oneWire->getSensors()) ? exit('No probes found.'): $oneWire->getSensors();
+$probes = (!$oneWire->getTemperatureSensors()) ? exit('No probes found.'): $oneWire->getTemperatureSensors();
 $logger = new Logger('temperature');
 $handler = new FileStorage();
 $logger->pushHandler($handler);

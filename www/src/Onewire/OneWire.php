@@ -4,44 +4,60 @@ namespace steinmb\Onewire;
 
 use steinmb\Environment;
 
-final class OneWire
+final class OneWire implements OneWireInterface
 {
-
     public const slaveFile = 'w1_slave';
-    private $sensors = [];
+    private $sensors;
+    private $temperatureSensors = [];
+    private $directory;
 
-    public function __construct()
+    public function __construct(string $directory = '', string $sensors = '')
     {
-        if (!file_exists(Environment::getSetting('SENSOR_DIRECTORY'))) {
+        if (!$sensors) {
+            $sensors = Environment::getSetting('SENSORS');
+        }
+
+        if (!$directory) {
+            $directory = Environment::getSetting('SENSOR_DIRECTORY');
+        }
+
+        $this->sensors = $sensors;
+        $this->directory = $directory;
+    }
+
+    private function tempSensors(): void
+    {
+        if (!file_exists($this->directory)) {
             throw new \RuntimeException(
-              'Directory: ' . Environment::getSetting('SENSOR_DIRECTORY') . ' Not found. OneWire support perhaps not loaded.'
+              'Directory: ' . $this->directory . ' Not found. OneWire support perhaps not loaded.'
             );
         }
 
-    }
-
-    private function sensors(): void
-    {
-        $content = dir(Environment::getSetting('SENSOR_DIRECTORY'));
+        $content = dir($this->directory);
 
         while (false !== ($entry = $content->read())) {
             if (false !== strpos($entry, '10-') || false !== strpos($entry, '28-')) {
-                $this->sensors[] = $entry;
+                $this->temperatureSensors[] = $entry;
             }
         }
 
     }
 
-    public function getSensors(): array
+    private function allSensors()
     {
-        $this->sensors = [];
-        $this->sensors();
-        return $this->sensors;
+        return file_get_contents($this->sensors);
+    }
+
+    public function getTemperatureSensors(): array
+    {
+        $this->temperatureSensors = [];
+        $this->tempSensors();
+        return $this->temperatureSensors;
     }
 
     public function content(string $sensor)
     {
-        return file_get_contents(Environment::getSetting('SENSOR_DIRECTORY') . '/' . $sensor . '/' . $this::slaveFile);
+        return file_get_contents($this->directory . '/' . $sensor . '/' . $this::slaveFile);
     }
 
     /**
