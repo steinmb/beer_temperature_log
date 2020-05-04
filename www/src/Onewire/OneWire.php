@@ -8,7 +8,6 @@ final class OneWire implements OneWireInterface
 {
     public const slaveFile = 'w1_slave';
     private $sensors;
-    private $temperatureSensors = [];
     private $directory;
 
     public function __construct(string $directory = '', string $sensors = '')
