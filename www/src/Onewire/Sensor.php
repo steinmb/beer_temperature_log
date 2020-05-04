@@ -31,11 +31,10 @@ final class Sensor
     public function rawData(): string
     {
         $sample = '';
-        $sensors = $this->oneWire->getTemperatureSensors();
 
-        foreach ($sensors as $sensor) {
+        foreach ($this->oneWire->allSensors() as $sensor) {
             $now = $this->clock->currentTime();
-            $sample .= 'Time: ' . $now->format('d.m.Y') . PHP_EOL;
+            $sample .= 'Time: ' . $now->format('Y-m-d H:i:s') . PHP_EOL;
             $sample .= "Sensor: $sensor \n";
             $sample .= $this->oneWire->content($sensor);
         }
