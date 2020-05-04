@@ -16,6 +16,8 @@ final class Sensor
     private $oneWire;
     private $clock;
     private $itemFactory;
+    private $sensors;
+    private $temperatureSensors;
 
     public function __construct(
       OneWire $oneWire,
@@ -26,6 +28,30 @@ final class Sensor
         $this->oneWire = $oneWire;
         $this->clock = $clock;
         $this->itemFactory = $itemFactory;
+    }
+
+    public function getTemperatureSensors(): array
+    {
+        $this->tempSensors();
+        return $this->temperatureSensors;
+    }
+
+    private function tempSensors(): void
+    {
+        if (!file_exists($this->oneWire->directory())) {
+            throw new \RuntimeException(
+              'Directory: ' . $this->oneWire->directory() . ' Not found. OneWire support perhaps not loaded.'
+            );
+        }
+
+        $content = dir($this->oneWire->directory());
+
+        while (false !== ($entry = $content->read())) {
+            if (false !== strpos($entry, '10-') || false !== strpos($entry, '28-')) {
+                $this->temperatureSensors[] = $entry;
+            }
+        }
+
     }
 
     public function rawData(): string

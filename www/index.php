@@ -26,9 +26,8 @@ $logger = new Logger('temperature');
 $handle = new FileStorage();
 $logger->pushHandler($handle);
 $lastReading = $logger->lastEntry();
-$oneWire = new OneWire();
-$probes = (!$oneWire->getTemperatureSensors()) ? exit('No probes found.'): $oneWire->getTemperatureSensors();
-$sensor = new Sensor($oneWire, new SystemClock(), new EntityFactory());
+$sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
+$probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
 $calculate = new Calculate($logger);
 
 foreach ($probes as $probe) {

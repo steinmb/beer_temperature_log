@@ -20,12 +20,13 @@ final class HTMLFormatterTest extends TestCase
           '/Users/steinmb/sites/beer_temperature_log/www/test',
           '/Users/steinmb/sites/beer_temperature_log/www/test/w1_master_slaves'
         );
-        $this->sensors = $oneWire->getTemperatureSensors();
         $this->sensor = new Sensor(
           $oneWire,
           new SystemClock(),
           new EntityFactory()
         );
+        $this->sensors = $this->sensor->getTemperatureSensors();
+
     }
 
     public function testUnorderedList()

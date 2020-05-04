@@ -25,35 +25,20 @@ final class OneWire implements OneWireInterface
         $this->directory = $directory;
     }
 
-    private function tempSensors(): void
+    public function directory(): string
     {
-        if (!file_exists($this->directory)) {
-            throw new \RuntimeException(
-              'Directory: ' . $this->directory . ' Not found. OneWire support perhaps not loaded.'
-            );
-        }
+        return $this->directory;
+    }
 
-        $content = dir($this->directory);
-
-        while (false !== ($entry = $content->read())) {
-            if (false !== strpos($entry, '10-') || false !== strpos($entry, '28-')) {
-                $this->temperatureSensors[] = $entry;
-            }
-        }
-
+    public function sensors(): string
+    {
+        return $this->sensors;
     }
 
     public function allSensors(): array
     {
         $sensors = rtrim(file_get_contents($this->sensors), PHP_EOL);
         return explode(PHP_EOL, $sensors);
-    }
-
-    public function getTemperatureSensors(): array
-    {
-        $this->sensors = [];
-        $this->tempSensors();
-        return $this->temperatureSensors;
     }
 
     public function content(string $sensor)

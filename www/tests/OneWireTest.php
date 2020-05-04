@@ -2,6 +2,7 @@
 
 use steinmb\Onewire\OneWire;
 use PHPUnit\Framework\TestCase;
+use steinmb\Onewire\Sensor;
 
 final class OneWireTest extends TestCase
 {
@@ -22,11 +23,6 @@ final class OneWireTest extends TestCase
           OneWire::class,
           new OneWire(),
         );
-    }
-
-    public function testTemperatureSensor()
-    {
-        self::assertCount(4, $this->OneWire->getTemperatureSensors());
     }
 
     public function testAllSensors()

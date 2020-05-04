@@ -2,6 +2,7 @@
 
 use steinmb\Logger\Logger;
 use steinmb\Onewire\OneWire;
+use steinmb\Onewire\Sensor;
 
 final class SensorTest
 {
@@ -27,7 +28,7 @@ final class SensorTest
 
     private function findSensors(): array
     {
-        $sensors = $this->oneWire->getTemperatureSensors();
+        $sensors = Sensor::getTemperatureSensors($this->oneWire);
 
         if (count($sensors) !== 4) {
             throw new RuntimeException('Missing sensors. Expected 4, only got:' . count($sensors));
