@@ -32,11 +32,10 @@ final class Sensor
 
     public function getTemperatureSensors(): array
     {
-        $this->tempSensors();
-        return $this->temperatureSensors;
+        return $this->tempSensors();
     }
 
-    private function tempSensors(): void
+    private function tempSensors(): array
     {
         if (!file_exists($this->oneWire->directory())) {
             throw new \RuntimeException(
@@ -48,10 +47,11 @@ final class Sensor
 
         while (false !== ($entry = $content->read())) {
             if (false !== strpos($entry, '10-') || false !== strpos($entry, '28-')) {
-                $this->temperatureSensors[] = $entry;
+                $temperatureSensors[] = $entry;
             }
         }
 
+        return $temperatureSensors;
     }
 
     public function rawData(): string
