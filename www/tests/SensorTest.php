@@ -30,4 +30,10 @@ final class SensorTest extends TestCase
         self::assertCount(4, $this->sensor->getTemperatureSensors());
     }
 
+    public function testRawData()
+    {
+        self::assertStringContainsString('crc', $this->sensor->rawData());
+    }
+
+
 }

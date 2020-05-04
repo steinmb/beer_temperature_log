@@ -10,6 +10,11 @@ final class TemperatureTest extends TestCase
 {
     private $sensor;
 
+    /**
+     * @var array
+     */
+    private $enties;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -22,6 +27,20 @@ final class TemperatureTest extends TestCase
           new EntityFactory()
         );
 
+        foreach ($this->sensor->getTemperatureSensors() as $temperatureSensor) {
+            $this->enties[] = $this->sensor->createEntity($temperatureSensor);
+        }
+
+    }
+
+    public function testTemperature()
+    {
+        foreach ($this->enties as $enty) {
+            $temperature = new \steinmb\Onewire\Temperature($enty);
+            $celsius = $temperature->temperature();
+            $measurement = $enty->measurement();
+            self::assertIsFloat($celsius);
+        }
     }
 
     public function testRawData()
