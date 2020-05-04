@@ -19,6 +19,7 @@ class Environment
     {
         if (self::$settings['DEMO_MODE'] === TRUE) {
             self::$settings['SENSOR_DIRECTORY'] = self::$settings['BREW_ROOT'] . '/test';
+            self::$settings['SENSORS'] = self::$settings['BREW_ROOT'] . '/test/w1_master_slaves';
         }
 
         return self::$settings[$setting];
