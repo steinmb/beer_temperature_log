@@ -17,6 +17,11 @@ class Environment
 
     public static function getSetting($setting)
     {
+
+        if (!self::$settings['BREW_ROOT']) {
+            self::setSetting('BREW_ROOT', dirname(__DIR__));
+        }
+
         if (self::$settings['DEMO_MODE'] === TRUE) {
             self::demoMode();
         }
