@@ -12,7 +12,7 @@ class Environment
         'LOG_INFO' => 'info.log',
         'SENSOR_DIRECTORY' => '/sys/bus/w1/devices',
         'SENSORS' => '/sys/bus/w1/devices/w1_bus_master1/w1_master_slaves',
-        'TEST_DIRECTORY' => '/test',
+        'TEST_DATA' => '/test',
     ];
 
     public static function getSetting($setting)
@@ -31,8 +31,8 @@ class Environment
 
     static private function demoMode()
     {
-        self::$settings['SENSOR_DIRECTORY'] = self::$settings['BREW_ROOT'] . self::$settings['BREW_ROOT'];
-        self::$settings['SENSORS'] = self::$settings['BREW_ROOT'] . self::$settings['BREW_ROOT'] . '/w1_master_slaves';
+        self::$settings['SENSOR_DIRECTORY'] = self::$settings['BREW_ROOT'] . self::$settings['TEST_DATA'];
+        self::$settings['SENSORS'] = self::$settings['SENSOR_DIRECTORY'] . '/w1_master_slaves';
     }
 
     public static function setSetting(string $setting, $value): void
