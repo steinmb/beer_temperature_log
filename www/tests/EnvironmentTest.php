@@ -19,4 +19,14 @@ final class EnvironmentTest extends TestCase
           Environment::getSetting('DEMO_MODE')
         );
     }
+
+    public function testDemoMode(): void
+    {
+        $sensorDirectory = Environment::getSetting('SENSOR_DIRECTORY');
+        $sensors = Environment::getSetting('SENSORS');
+        Environment::setSetting('DEMO_MODE', TRUE);
+        self::assertEquals($sensorDirectory, Environment::getSetting('SENSOR_DIRECTORY'));
+        self::assertEquals($sensors, Environment::getSetting('SENSORS'));
+    }
+
 }
