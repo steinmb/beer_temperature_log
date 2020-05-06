@@ -26,8 +26,8 @@ class Environment
 
     static private function demoMode()
     {
-        self::$settings['SENSOR_DIRECTORY'] = self::$settings['BREW_ROOT'] . '/test';
-        self::$settings['SENSORS'] = self::$settings['BREW_ROOT'] . '/test/w1_master_slaves';
+        self::$settings['SENSOR_DIRECTORY'] = self::$settings['BREW_ROOT'] . self::$settings['BREW_ROOT'];
+        self::$settings['SENSORS'] = self::$settings['BREW_ROOT'] . self::$settings['BREW_ROOT'] . '/w1_master_slaves';
     }
 
     public static function setSetting(string $setting, $value): void
