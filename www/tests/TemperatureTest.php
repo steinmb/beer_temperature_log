@@ -15,7 +15,7 @@ final class TemperatureTest extends TestCase
      */
     private $enties;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->sensor = new Sensor(
@@ -33,7 +33,7 @@ final class TemperatureTest extends TestCase
 
     }
 
-    public function testTemperature()
+    public function testTemperature(): void
     {
         foreach ($this->enties as $enty) {
             $temperature = new \steinmb\Onewire\Temperature($enty);
@@ -43,7 +43,7 @@ final class TemperatureTest extends TestCase
         }
     }
 
-    public function testRawData()
+    public function testRawData(): void
     {
         self::assertStringContainsString('YES', $this->sensor->rawData());
     }

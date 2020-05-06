@@ -8,7 +8,7 @@ final class OneWireTest extends TestCase
 {
     private $OneWire;
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $this->OneWire = new OneWire(
@@ -17,7 +17,7 @@ final class OneWireTest extends TestCase
         );
     }
 
-    public function testOneWire()
+    public function testOneWire(): void
     {
         self::assertInstanceOf(
           OneWire::class,
@@ -25,7 +25,7 @@ final class OneWireTest extends TestCase
         );
     }
 
-    public function testAllSensors()
+    public function testAllSensors(): void
     {
         self::assertCount(5, $this->OneWire->allSensors());
     }

@@ -13,7 +13,7 @@ final class HTMLFormatterTest extends TestCase
     private $sensor;
     private $sensors = [];
 
-    public function setUp(): void
+    protected function setUp(): void
     {
         parent::setUp();
         $oneWire = new OneWire(
@@ -29,7 +29,7 @@ final class HTMLFormatterTest extends TestCase
 
     }
 
-    public function testUnorderedList()
+    public function testUnorderedList(): void
     {
         foreach ($this->sensors as $sensor) {
             $temperature = new Temperature($this->sensor->createEntity($sensor));

@@ -5,7 +5,7 @@ use PHPUnit\Framework\TestCase;
 
 final class EnvironmentTest extends TestCase
 {
-    public function testSetting()
+    public function testSetting(): void
     {
         Environment::setSetting('DEMO_MODE', TRUE);
         $this->assertEquals(
