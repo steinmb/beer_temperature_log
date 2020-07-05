@@ -5,6 +5,5 @@ www/temperatur.png
 .RData
 beer_temperature_log.Rproj
 .idea
-temp_log_plot2.png
 www/vendor
 .phpunit.result.cache
