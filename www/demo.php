@@ -8,13 +8,18 @@ use steinmb\Formatters\Block;
 use steinmb\Logger\Logger;
 use steinmb\Logger\FileStorage;
 use steinmb\Onewire\Sensor;
+use steinmb\RuntimeEnvironment;
 use steinmb\SystemClock;
 use steinmb\Onewire\OneWire;
 use steinmb\Onewire\Temperature;
 use steinmb\Formatters\HTMLFormatter;
 
 Environment::setSetting('BREW_ROOT', __DIR__);
-Environment::setSetting('DEMO_MODE', TRUE);
+//Environment::setSetting('DEMO_MODE', TRUE);
+$foo = RuntimeEnvironment::foo('SENSORS');
+print_r($foo);
+exit;
+
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
 $logger = new Logger('Demo');
