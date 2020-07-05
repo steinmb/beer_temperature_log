@@ -4,6 +4,11 @@ use steinmb\Onewire\OneWire;
 use PHPUnit\Framework\TestCase;
 use steinmb\Onewire\Sensor;
 
+/**
+ * Class OneWireTest
+ *
+ * @covers \steinmb\Onewire\OneWire
+ */
 final class OneWireTest extends TestCase
 {
     private $OneWire;

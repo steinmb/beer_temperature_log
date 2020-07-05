@@ -3,6 +3,11 @@
 use steinmb\Environment;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * Class EnvironmentTest
+ *
+ * @covers \steinmb\Environment
+ */
 final class EnvironmentTest extends TestCase
 {
 

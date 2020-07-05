@@ -6,6 +6,11 @@ use steinmb\Onewire\OneWire;
 use steinmb\Onewire\Sensor;
 use steinmb\SystemClock;
 
+/**
+ * Class SensorTest
+ *
+ * @covers \steinmb\Onewire\Sensor
+ */
 final class SensorTest extends TestCase
 {
     private $sensor;

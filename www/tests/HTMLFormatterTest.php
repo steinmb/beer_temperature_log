@@ -8,6 +8,11 @@ use steinmb\Onewire\Sensor;
 use steinmb\Onewire\Temperature;
 use steinmb\SystemClock;
 
+/**
+ * Class HTMLFormatterTest
+ *
+ * @covers \steinmb\Formatters\HTMLFormatter
+ */
 final class HTMLFormatterTest extends TestCase
 {
     private $sensor;

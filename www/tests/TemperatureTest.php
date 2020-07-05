@@ -6,6 +6,11 @@ use steinmb\Onewire\Sensor;
 use PHPUnit\Framework\TestCase;
 use steinmb\SystemClock;
 
+/**
+ * Class TemperatureTest
+ *
+ * @covers \steinmb\Onewire\Temperature
+ */
 final class TemperatureTest extends TestCase
 {
     private $sensor;
