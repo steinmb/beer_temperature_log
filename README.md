@@ -1,0 +1,2 @@
+# Beer temperature log
+Reads and logs temperatures from 1Wire sensors connected to a Raspberry Pi. Written in PHP and uses R to create statistics and graphs. Written for fun as a homebrewed temperature fermentation monitoring making beer. The 1wire library written in PHP is genric and can be used in your own project without having to brew beer though brewing is considered a good thing. As well is sharing code.
