@@ -25,8 +25,8 @@ final class TemperatureTest extends TestCase
         parent::setUp();
         $this->sensor = new Sensor(
           new OneWire(
-            '/Users/steinmb/sites/beer_temperature_log/www/test',
-            '/Users/steinmb/sites/beer_temperature_log/www/test/w1_master_slaves'
+            __DIR__ . '/test_data',
+            __DIR__ . '/test_data/w1_master_slaves'
           ),
           new SystemClock(),
           new EntityFactory()
