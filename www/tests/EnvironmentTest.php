@@ -1,37 +1,37 @@
 <?php declare(strict_types=1);
 
-use steinmb\Environment;
+use steinmb\RuntimeEnvironment;
 use PHPUnit\Framework\TestCase;
 
 /**
  * Class EnvironmentTest
  *
- * @covers \steinmb\Environment
+ * @covers \steinmb\RuntimeEnvironment
  */
 final class EnvironmentTest extends TestCase
 {
 
     public function testDefault(): void
     {
-        self::assertNotEquals('', Environment::getSetting('BREW_ROOT'));
+        self::assertNotEquals('', RuntimeEnvironment::getSetting('BREW_ROOT'));
     }
 
     public function testSetting(): void
     {
-        Environment::setSetting('DEMO_MODE', TRUE);
+        RuntimeEnvironment::setSetting('DEMO_MODE', TRUE);
         $this->assertEquals(
           TRUE,
-          Environment::getSetting('DEMO_MODE')
+          RuntimeEnvironment::getSetting('DEMO_MODE')
         );
     }
 
     public function testDemoMode(): void
     {
-        $sensorDirectory = Environment::getSetting('SENSOR_DIRECTORY');
-        $sensors = Environment::getSetting('SENSORS');
-        Environment::setSetting('DEMO_MODE', TRUE);
-        self::assertEquals($sensorDirectory, Environment::getSetting('SENSOR_DIRECTORY'));
-        self::assertEquals($sensors, Environment::getSetting('SENSORS'));
+        $sensorDirectory = RuntimeEnvironment::getSetting('SENSOR_DIRECTORY');
+        $sensors = RuntimeEnvironment::getSetting('SENSORS');
+        RuntimeEnvironment::setSetting('DEMO_MODE', TRUE);
+        self::assertEquals($sensorDirectory, RuntimeEnvironment::getSetting('SENSOR_DIRECTORY'));
+        self::assertEquals($sensors, RuntimeEnvironment::getSetting('SENSORS'));
     }
 
 }

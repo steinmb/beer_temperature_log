@@ -3,19 +3,18 @@
 include_once __DIR__ . '/vendor/autoload.php';
 
 use steinmb\EntityFactory;
-use steinmb\Environment;
+use steinmb\RuntimeEnvironment;
 use steinmb\Formatters\Block;
 use steinmb\Logger\Logger;
 use steinmb\Logger\FileStorage;
 use steinmb\Onewire\Sensor;
-use steinmb\RuntimeEnvironment;
 use steinmb\SystemClock;
 use steinmb\Onewire\OneWire;
 use steinmb\Onewire\Temperature;
 use steinmb\Formatters\HTMLFormatter;
 
-Environment::setSetting('BREW_ROOT', __DIR__);
-//Environment::setSetting('DEMO_MODE', TRUE);
+RuntimeEnvironment::setSetting('BREW_ROOT', __DIR__);
+Environment::setSetting('DEMO_MODE', TRUE);
 $foo = RuntimeEnvironment::foo('SENSORS');
 print_r($foo);
 exit;

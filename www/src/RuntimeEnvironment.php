@@ -2,7 +2,7 @@
 
 namespace steinmb;
 
-class Environment
+class RuntimeEnvironment
 {
     private static $settings = [
         'BREW_ROOT' => '',

@@ -8,7 +8,7 @@ declare(strict_types=1);
  */
 
 use steinmb\EntityFactory;
-use steinmb\Environment;
+use steinmb\RuntimeEnvironment;
 use steinmb\Formatters\Block;
 use steinmb\Formatters\HTMLFormatter;
 use steinmb\Utils\Calculate;
@@ -21,7 +21,7 @@ use steinmb\Onewire\Temperature;
 
 include_once __DIR__ . '/vendor/autoload.php';
 
-Environment::setSetting('BREW_ROOT', __DIR__);
+RuntimeEnvironment::setSetting('BREW_ROOT', __DIR__);
 $logger = new Logger('temperature');
 $handle = new FileStorage();
 $logger->pushHandler($handle);
@@ -41,8 +41,8 @@ foreach ($probes as $probe) {
     }
 }
 
-if (file_exists(Environment::getSetting('BREW_ROOT') . '/temperatur.png')) {
-    $graph = Environment::getSetting('BREW_ROOT') . '/temperatur.png';
+if (file_exists(RuntimeEnvironment::getSetting('BREW_ROOT') . '/temperatur.png')) {
+    $graph = RuntimeEnvironment::getSetting('BREW_ROOT') . '/temperatur.png';
 }
 include 'page.php';
 

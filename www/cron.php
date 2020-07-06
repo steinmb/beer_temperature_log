@@ -7,7 +7,7 @@
  */
 
 use steinmb\EntityFactory;
-use steinmb\Environment;
+use steinmb\RuntimeEnvironment;
 use steinmb\Logger\FileStorage;
 use steinmb\Logger\Logger;
 use steinmb\Onewire\OneWire;
@@ -17,7 +17,7 @@ use steinmb\SystemClock;
 
 include_once __DIR__ . '/vendor/autoload.php';
 
-Environment::setSetting('BREW_ROOT', __DIR__);
+RuntimeEnvironment::setSetting('BREW_ROOT', __DIR__);
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
 $logger = new Logger('temperature');

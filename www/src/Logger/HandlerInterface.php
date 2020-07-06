@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace steinmb\Logger;
 
-use steinmb\Environment;
+use steinmb\RuntimeEnvironment;
 
 interface HandlerInterface
 {

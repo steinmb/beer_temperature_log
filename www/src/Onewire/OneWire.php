@@ -2,7 +2,7 @@
 
 namespace steinmb\Onewire;
 
-use steinmb\Environment;
+use steinmb\RuntimeEnvironment;
 
 final class OneWire implements OneWireInterface
 {
@@ -13,11 +13,11 @@ final class OneWire implements OneWireInterface
     public function __construct(string $directory = '', string $sensors = '')
     {
         if (!$sensors) {
-            $sensors = Environment::getSetting('SENSORS');
+            $sensors = RuntimeEnvironment::getSetting('SENSORS');
         }
 
         if (!$directory) {
-            $directory = Environment::getSetting('SENSOR_DIRECTORY');
+            $directory = RuntimeEnvironment::getSetting('SENSOR_DIRECTORY');
         }
 
         $this->sensors = $sensors;
