@@ -14,10 +14,8 @@ use steinmb\Onewire\Temperature;
 use steinmb\Formatters\HTMLFormatter;
 
 RuntimeEnvironment::setSetting('BREW_ROOT', __DIR__);
-Environment::setSetting('DEMO_MODE', TRUE);
-$foo = RuntimeEnvironment::foo('SENSORS');
-print_r($foo);
-exit;
+RuntimeEnvironment::setSetting('SENSOR_DIRECTORY', __DIR__ . '/tests/test_data');
+RuntimeEnvironment::setSetting('SENSORS', __DIR__ . '/tests/test_data/w1_master_slaves');
 
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();

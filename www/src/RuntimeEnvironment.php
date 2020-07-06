@@ -22,31 +22,11 @@ class RuntimeEnvironment
             self::setSetting('BREW_ROOT', dirname(__DIR__));
         }
 
-        if (self::$settings['DEMO_MODE'] === TRUE) {
-//            self::demoMode();
-        }
-
         return self::$settings[$setting];
-    }
-
-    static private function demoMode($value)
-    {
-        if ($value === TRUE) {
-            self::$settings['SENSOR_DIRECTORY'] = self::$settings['BREW_ROOT'] . self::$settings['TEST_DATA'];
-            self::$settings['SENSORS'] = self::$settings['SENSOR_DIRECTORY'] . '/w1_master_slaves';
-        } else {
-            self::$settings['SENSOR_DIRECTORY'] = self::$settings['SENSOR_DIRECTORY'];
-            self::$settings['SENSORS'] = self::$settings['SENSORS'];
-
-        }
     }
 
     public static function setSetting(string $setting, $value): void
     {
-        if ($setting === 'DEMO_MODE' && self::$settings[$setting]['DEMO_MODE'] !== $value) {
-        self::demoMode($value);
-    }
-
         self::$settings[$setting] = $value;
     }
 

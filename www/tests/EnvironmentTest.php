@@ -18,20 +18,12 @@ final class EnvironmentTest extends TestCase
 
     public function testSetting(): void
     {
-        RuntimeEnvironment::setSetting('DEMO_MODE', TRUE);
+        $newValue = 'newfile.log';
+        RuntimeEnvironment::setSetting('LOG_INFO', $newValue);
         $this->assertEquals(
-          TRUE,
-          RuntimeEnvironment::getSetting('DEMO_MODE')
+          $newValue,
+          RuntimeEnvironment::getSetting('LOG_INFO')
         );
-    }
-
-    public function testDemoMode(): void
-    {
-        $sensorDirectory = RuntimeEnvironment::getSetting('SENSOR_DIRECTORY');
-        $sensors = RuntimeEnvironment::getSetting('SENSORS');
-        RuntimeEnvironment::setSetting('DEMO_MODE', TRUE);
-        self::assertEquals($sensorDirectory, RuntimeEnvironment::getSetting('SENSOR_DIRECTORY'));
-        self::assertEquals($sensors, RuntimeEnvironment::getSetting('SENSORS'));
     }
 
 }
