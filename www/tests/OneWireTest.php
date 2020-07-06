@@ -17,8 +17,8 @@ final class OneWireTest extends TestCase
     {
         parent::setUp();
         $this->OneWire = new OneWire(
-          '/Users/steinmb/sites/beer_temperature_log/www/test',
-          '/Users/steinmb/sites/beer_temperature_log/www/test/w1_master_slaves'
+          __DIR__ . '/test_data',
+          __DIR__ . '/test_data/w1_master_slaves'
         );
     }
 
