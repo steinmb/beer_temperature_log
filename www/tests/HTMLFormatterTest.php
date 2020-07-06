@@ -22,8 +22,8 @@ final class HTMLFormatterTest extends TestCase
     {
         parent::setUp();
         $oneWire = new OneWire(
-          '/Users/steinmb/sites/beer_temperature_log/www/test',
-          '/Users/steinmb/sites/beer_temperature_log/www/test/w1_master_slaves'
+          __DIR__ . '/test_data',
+          __DIR__ . 'test_data/w1_master_slaves'
         );
         $this->sensor = new Sensor(
           $oneWire,
