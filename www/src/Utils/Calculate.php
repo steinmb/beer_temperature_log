@@ -90,9 +90,9 @@ class Calculate
     }
 
     /**
-     * Analyze trend index and calculate a human friendly label for it.
+     * Create human friendly trend labels.
      */
-    public function analyzeTrend(): string
+    private function createTrendLabels(): string
     {
         if ($this->trend === null) {
             return '';
@@ -125,7 +125,7 @@ class Calculate
     public function listHistoric(int $minutes, string $sample): string
     {
         $this->trend = $this->calculateTrend($minutes, $sample);
-        return $this->analyzeTrend();
+        return $this->createTrendLabels();
 
     }
 }
