@@ -12,6 +12,13 @@ class Calculate
 {
     private $log;
     private $trend;
+    private const ranges = [
+        'stable' => 0.1,
+        'slowly' => 0.21,
+        'steady' => 0.3,
+        'medium' => 0.9,
+        'fast' => 2,
+        ];
 
     public function __construct(LoggerInterface $log)
     {
@@ -98,16 +105,8 @@ class Calculate
             return '';
         }
 
-        $ranges = [
-          'stable' => 0.1,
-          'slowly' => 0.21,
-          'steady' => 0.3,
-          'medium' => 0.9,
-          'fast' => 2,
-        ];
-
         $speed = '';
-        foreach ($ranges as $key => $range) {
+        foreach (self::ranges as $key => $range) {
             if (ltrim($this->trend, '-') > $range) {
                 $speed = $key;
             }
