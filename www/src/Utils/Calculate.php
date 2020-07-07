@@ -98,12 +98,6 @@ class Calculate
             return '';
         }
 
-        $direction = 'increasing';
-
-        if ($this->trend < 0) {
-            $direction = 'decreasing';
-        }
-
         $ranges = [
           'stable' => 0.1,
           'slowly' => 0.21,
@@ -119,7 +113,18 @@ class Calculate
             }
         }
 
-        return $direction . ' ' . $speed;
+        return $this->direction() . ' ' . $speed;
+    }
+
+    private function direction(): string
+    {
+        $direction = 'increasing';
+
+        if ($this->trend < 0) {
+            $direction = 'decreasing';
+        }
+
+        return $direction;
     }
 
     public function listHistoric(int $minutes, string $sample): string
