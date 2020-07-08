@@ -12,6 +12,7 @@ use steinmb\SystemClock;
 use steinmb\Onewire\OneWire;
 use steinmb\Onewire\Temperature;
 use steinmb\Formatters\HTMLFormatter;
+use steinmb\Utils\Calculate;
 
 RuntimeEnvironment::setSetting('BREW_ROOT', __DIR__);
 RuntimeEnvironment::setSetting('SENSOR_DIRECTORY', __DIR__ . '/tests/test_data');
@@ -23,20 +24,23 @@ $logger = new Logger('Demo');
 $handle = new FileStorage();
 $logger->pushHandler($handle);
 $logger->close();
-$blocks = [];
+$results = [];
+$calculate = new Calculate($logger);
+$lastReading = '2020-07-07 21:11:46, 28-0000098101de, 15.687';
 
 foreach ($probes as $probe) {
     $entity = $sensor->createEntity($probe);
     $temperature = new Temperature($entity);
     $logger->write((string) $temperature);
-    $formatter = new Block($temperature, new HTMLFormatter($entity));
-    $blocks[] = $formatter->unorderedlist();
+    $block = new Block($temperature, new HTMLFormatter($entity));
+    $results[] = $block->unorderedlist();
     print "Date: {$temperature->entity->timeStamp()} Id: {$temperature->entity->id()} {$temperature->temperature()}ºC \n";
     print "Date: {$temperature->entity->timeStamp()} Id: {$temperature->entity->id()} {$temperature->temperature('fahrenheit')}ºF \n";
     print "Date: {$temperature->entity->timeStamp()} Id: {$temperature->entity->id()} {$temperature->temperature('kelvin')}ºK \n";
     print $temperature . PHP_EOL;
+    print $block->trendList($calculate, 10, $lastReading);
 }
 
-foreach ($blocks as $block) {
-    print $block . PHP_EOL;
+foreach ($results as $result) {
+    print $result . PHP_EOL;
 }
