@@ -149,4 +149,16 @@ class Calculate
         return array_sum($values) / count($values);
     }
 
+    public static function meanDistance(array $values): array
+    {
+        $result = [];
+        $mean = self::mean($values);
+
+        foreach ($values as $value) {
+            $result[] = $value - $mean;
+        }
+
+        return $result;
+    }
+
 }
