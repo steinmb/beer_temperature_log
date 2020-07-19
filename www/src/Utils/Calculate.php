@@ -130,6 +130,23 @@ class Calculate
     {
         $this->trend = $this->calculateTrend($minutes, $sample);
         return $this->createTrendLabels();
-
     }
+
+    public static function mean(array $values)
+    {
+        if (!$values) {
+            throw new \UnexpectedValueException(
+              'Cannot calculate on a empty data set.'
+            );
+        }
+
+        if (count($values) === 1) {
+            throw new \UnexpectedValueException(
+                'Cannot calculate mean value of a single digit: ' . array_pop($values)
+            );
+        }
+
+        return array_sum($values) / count($values);
+    }
+
 }
