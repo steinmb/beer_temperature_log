@@ -161,4 +161,16 @@ class Calculate
         return $result;
     }
 
+    public static function xSquare(array $values)
+    {
+        $result = [];
+        $meanDistances = self::meanDistance($values);
+
+        foreach ($meanDistances as $meanDistance) {
+            $result[] = $meanDistance ** 2;
+        }
+
+        return $result;
+    }
+
 }

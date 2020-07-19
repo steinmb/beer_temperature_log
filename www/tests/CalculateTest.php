@@ -50,6 +50,11 @@ class CalculateTest extends TestCase
     public function testMeanDistanceSquare(): void
     {
         $result = Calculate::meanDistance($this->values);
+        $xSquare = Calculate::xSquare($result);
+        self::assertEquals(1, $xSquare[0], 'Failed to calculate mean value distance square.');
+        self::assertEquals(4, $xSquare[1], 'Failed to calculate mean value distance square.');
+        self::assertEquals(4, $xSquare[2], 'Failed to calculate mean value distance square.');
+        self::assertEquals(1, $xSquare[3], 'Failed to calculate mean value distance square.');
     }
 
 }
