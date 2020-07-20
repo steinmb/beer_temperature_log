@@ -2,6 +2,7 @@
 
 namespace steinmb\Utils;
 
+use phpDocumentor\Reflection\Types\Self_;
 use steinmb\Logger\LoggerInterface;
 
 /**
@@ -161,7 +162,7 @@ class Calculate
         return $result;
     }
 
-    public static function xSquare(array $values)
+    public static function xSquare(array $values): array
     {
         $result = [];
         $meanDistances = self::meanDistance($values);
@@ -171,6 +172,28 @@ class Calculate
         }
 
         return $result;
+    }
+
+    public static function b1(array $x, array $y): array
+    {
+        $result = [];
+        $meanDistances_x = self::meanDistance($x);
+        $meanDistances_y = self::meanDistance($y);
+
+        foreach ($meanDistances_x as $key => $meanDistance_x) {
+            $result[] = $meanDistance_x * $meanDistances_y[$key];
+        }
+
+        return $result;
+    }
+
+    public static function b1Summary(array $x, array $y): float
+    {
+        $meanDistances_x = self::meanDistance($x);
+        $meanDistances_x_squared = self::xSquare($meanDistances_x);
+        $meanDistances_y = self::meanDistance($y);
+
+        return array_sum($meanDistances_x_squared) / array_sum(self::b1($meanDistances_x, $meanDistances_y));
     }
 
 }

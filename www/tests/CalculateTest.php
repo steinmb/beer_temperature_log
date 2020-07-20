@@ -13,10 +13,12 @@ use PHPUnit\Framework\TestCase;
 class CalculateTest extends TestCase
 {
     private $values = [];
+    private $xResult = [];
 
     protected function setUp(): void
     {
         $this->values = [1, 0 , 4, 3];
+        $this->xResult = [12, 13, 14, 15];
     }
 
     public function testMean(): void
@@ -55,6 +57,22 @@ class CalculateTest extends TestCase
         self::assertEquals(4, $xSquare[1], 'Failed to calculate mean value distance square.');
         self::assertEquals(4, $xSquare[2], 'Failed to calculate mean value distance square.');
         self::assertEquals(1, $xSquare[3], 'Failed to calculate mean value distance square.');
+    }
+
+    public function testMean_b1(): void
+    {
+        $result = Calculate::meanDistance($this->values);
+        $xResult = Calculate::b1($result, $this->xResult);
+        self::assertEquals(1.5, $xResult[0], 'Doh!');
+        self::assertEquals(1, $xResult[1], 'Doh!');
+        self::assertEquals(1, $xResult[2], 'Doh!');
+        self::assertEquals(1.5, $xResult[3], 'Doh!');
+    }
+
+    public function test_b1Summary(): void
+    {
+        $regression = Calculate::b1Summary($this->xResult, $this->values);
+        self::assertEquals(1, $regression);
     }
 
 }
