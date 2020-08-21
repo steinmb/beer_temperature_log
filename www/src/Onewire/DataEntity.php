@@ -2,6 +2,8 @@
 
 namespace steinmb\Onewire;
 
+use DateTimeImmutable;
+
 /**
  * @file DataEntity.php
  *
@@ -20,7 +22,7 @@ final class DataEntity implements EntityInterface
         string $id,
         string $type,
         string $measurement,
-        \DateTimeImmutable $time
+        DateTimeImmutable $time
     )
     {
         $this->id = $id;
