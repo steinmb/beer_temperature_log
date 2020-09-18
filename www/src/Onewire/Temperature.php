@@ -17,20 +17,18 @@ final class Temperature
 
     public function temperature(string $scale = 'celsius')
     {
-        $rawData = $this->entity->measurement();
-
-        if (!$this->validateCRC($rawData)) {
+        if (!$this->validateCRC($this->entity->measurement())) {
             return 'error';
         }
 
-        $rawTemp = strstr($rawData, 't=');
+        $rawTemp = strstr($this->entity->measurement(), 't=');
         $rawTempTrimmed = (int) trim($rawTemp, 't=');
 
         if (!$this->validateTemperature($rawTempTrimmed)) {
             return 'error';
         }
 
-        $celsius = (float) number_format($rawTempTrimmed / 1000, 3);
+        $celsius = $this->celsius($rawTempTrimmed);
 
         if ($scale === 'celsius') {
             $temperature = $celsius;
@@ -45,6 +43,11 @@ final class Temperature
         }
 
         return $temperature + $this->offset;
+    }
+
+    private function celsius($rawTempTrimmed): float
+    {
+        return (float) number_format($rawTempTrimmed / 1000, 3);
     }
 
     private function validateCRC(string $rawData): bool
