@@ -21,14 +21,11 @@ final class Temperature
             return 'error';
         }
 
-        $rawTemp = strstr($this->entity->measurement(), 't=');
-        $rawTempTrimmed = (int) trim($rawTemp, 't=');
+        $celsius = $this->celsius($this->validateTemperature());
 
-        if (!$this->validateTemperature($rawTempTrimmed)) {
+        if (!$celsius) {
             return 'error';
         }
-
-        $celsius = $this->celsius($rawTempTrimmed);
 
         if ($scale === 'celsius') {
             $temperature = $celsius;
@@ -55,9 +52,14 @@ final class Temperature
         return !(false === strpos($rawData, 'YES'));
     }
 
-    private function validateTemperature(int $temperature): bool
+    private function validateTemperature()
     {
-        return ($temperature !== 127687 or $temperature !== 85000);
+        $rawTemp = strstr($this->entity->measurement(), 't=');
+        $rawTempTrimmed = (int) trim($rawTemp, 't=');
+
+        if ($rawTempTrimmed !== 127687 or $rawTempTrimmed !== 85000) {
+            return $rawTempTrimmed;
+        }
     }
 
     public function __toString(): string
