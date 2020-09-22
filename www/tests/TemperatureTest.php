@@ -1,6 +1,7 @@
 <?php declare(strict_types=1);
 
 use steinmb\EntityFactory;
+use steinmb\Onewire\DataEntity;
 use steinmb\Onewire\OneWire;
 use steinmb\Onewire\Sensor;
 use PHPUnit\Framework\TestCase;
@@ -39,7 +40,7 @@ final class TemperatureTest extends TestCase
             $this->enties[] = $this->sensor->createEntity($temperatureSensor);
         }
 
-        $this->temperature = new Temperature(new \steinmb\Onewire\DataEntity(
+        $this->temperature = new Temperature(new DataEntity(
             '28-1234567',
             'temperature',
             '20.123',
@@ -48,9 +49,18 @@ final class TemperatureTest extends TestCase
         ));
     }
 
-    public function testC(): void
+    public function testCelsius(): void
     {
-        self::assertEquals('20', $this->temperature->temperature());
+        self::assertEquals('20.123', $this->temperature->temperature());
+    }
+
+    public function testUnknownScale(): void
+    {
+        $unknownScale = 'parsec';
+        self::assertEquals('Unknown temperature scale: ' . $unknownScale,
+            $this->temperature->temperature($unknownScale),
+            'Failed detecting a uknow teperature scale.'
+        );
     }
 
     public function testTemperature(): void
