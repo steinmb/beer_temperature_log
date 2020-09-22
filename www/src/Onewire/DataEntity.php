@@ -3,6 +3,8 @@
 namespace steinmb\Onewire;
 
 use DateTimeImmutable;
+use steinmb\Clock;
+use steinmb\SystemClock;
 
 /**
  * @file DataEntity.php
@@ -22,13 +24,13 @@ final class DataEntity implements EntityInterface
         string $id,
         string $type,
         string $measurement,
-        DateTimeImmutable $time
+        Clock $time
     )
     {
         $this->id = $id;
         $this->type = $type;
         $this->measurement = $measurement;
-        $this->time = $time;
+        $this->time = $time->currentTime();
     }
 
     public function __toString(): string

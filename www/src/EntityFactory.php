@@ -20,7 +20,8 @@ final class EntityFactory implements EntityFactoryInterface
           $sensor,
           $sensorType,
           $oneWire->content($sensor),
-          $clock->currentTime());
+          $clock
+        );
     }
 
 }
