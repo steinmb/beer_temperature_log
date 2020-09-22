@@ -63,7 +63,7 @@ final class TemperatureTest extends TestCase
         $unknownScale = 'parsec';
         self::assertEquals('Unknown temperature scale: ' . $unknownScale,
             $this->temperature->temperature($unknownScale),
-            'Failed detecting a uknow teperature scale.'
+            'Failed detecting a uknown temperature scale.'
         );
     }
 
