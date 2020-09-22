@@ -18,17 +18,19 @@ final class TemperatureTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $measurement = '25 00 4b 46 ff ff 07 10 cc : crc=cc YES
+                        25 00 4b 46 ff ff 07 10 cc t=20123';
         $this->temperature = new Temperature(new DataEntity(
             '28-1234567',
             'temperature',
-            '20.123',
+            $measurement,
             new SystemClockFixed(new dateTimeImmutable('16.07.2018 13.01.00')))
         );
 
         $this->temperatureOffset = new Temperature(new DataEntity(
             '28-1234567',
             'temperature',
-            '20.123',
+            $measurement,
             new SystemClockFixed(new dateTimeImmutable('16.07.2018 13.01.00')))
             , -0.5
         );
@@ -52,7 +54,7 @@ final class TemperatureTest extends TestCase
 
     public function testCelsiusOffset(): void
     {
-        self::assertEquals('19,623', $this->temperatureOffset->temperature('celsius'));
+        self::assertEquals('19.623', $this->temperatureOffset->temperature('celsius'));
     }
 
     public function testUnknownScale(): void
