@@ -21,6 +21,8 @@ final class TemperatureTest extends TestCase
      */
     private $enties;
 
+    private $temperature;
+
     protected function setUp(): void
     {
         parent::setUp();
@@ -37,6 +39,17 @@ final class TemperatureTest extends TestCase
             $this->enties[] = $this->sensor->createEntity($temperatureSensor);
         }
 
+        $this->temperature = new Temperature(new \steinmb\Onewire\DataEntity(
+            '28-1234567',
+            'temperature',
+            '20.123',
+            new SystemClock()
+        ));
+    }
+
+    public function testC(): void
+    {
+        self::assertEquals('20', $this->temperature->temperature());
     }
 
     public function testTemperature(): void
