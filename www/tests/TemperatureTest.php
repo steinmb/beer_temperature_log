@@ -66,9 +66,4 @@ final class TemperatureTest extends TestCase
         );
     }
 
-    public function testRawData(): void
-    {
-        self::assertStringContainsString('YES', $this->sensor->rawData());
-    }
-
 }
