@@ -43,7 +43,8 @@ final class TemperatureTest extends TestCase
             '28-1234567',
             'temperature',
             '20.123',
-            new SystemClock()
+            new \steinmb\SystemClockFixed(
+                new dateTimeImmutable('16.07.2018 13.01.00'))
         ));
     }
 

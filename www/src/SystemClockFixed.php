@@ -8,13 +8,13 @@ final class SystemClockFixed implements Clock
 {
     private $dateTime;
 
-    public function __construct(string $dateTime)
+    public function __construct(DateTimeImmutable $dateTime)
     {
         $this->dateTime = $dateTime;
     }
 
     public function currentTime(): DateTimeImmutable
     {
-        return new DateTimeImmutable($this->dateTime);
+        return $this->dateTime;
     }
 }
