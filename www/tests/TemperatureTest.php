@@ -83,7 +83,7 @@ final class TemperatureTest extends TestCase
 
     public function testInvalidTemperature(): void
     {
-        $invalidValues = ['85000', '127687'];
+        $invalidValues = ['85000', '127687', '0'];
 
         foreach ($invalidValues as $invalidValue) {
             $measurement = '25 00 4b 46 ff ff 07 10 cc : crc=cc YES

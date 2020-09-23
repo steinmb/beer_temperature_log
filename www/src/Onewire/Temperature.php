@@ -70,7 +70,7 @@ final class Temperature
 
     private function validateTemperature(int $temperature): bool
     {
-        return !($temperature === 127687 or $temperature === 85000);
+        return $temperature !== 127687 && $temperature !== 85000 && $temperature !== 00000;
     }
 
     public function __toString(): string
