@@ -81,4 +81,22 @@ final class TemperatureTest extends TestCase
         self::assertEquals('error', $this->temperature->temperature());
     }
 
+    public function testInvalidTemperature(): void
+    {
+        $invalidValues = ['85000', '127687'];
+
+        foreach ($invalidValues as $invalidValue) {
+            $measurement = '25 00 4b 46 ff ff 07 10 cc : crc=cc YES
+                            25 00 4b 46 ff ff 07 10 cc t=' . $invalidValue;
+            $this->temperature = new Temperature(new DataEntity(
+                    '28-1234567',
+                    'temperature',
+                    $measurement,
+                    new SystemClockFixed(new dateTimeImmutable('16.07.2018 13.01.00')))
+            );
+
+            self::assertEquals('error', $this->temperature->temperature());
+        }
+    }
+
 }

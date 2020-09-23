@@ -15,17 +15,26 @@ final class Temperature
         $this->offset = $offset;
     }
 
+    private function validate(): bool
+    {
+        if (!$this->validateCRC()) {
+            return false;
+        }
+
+        if (!$this->validateTemperature($this->getTemperature())) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function temperature(string $scale = 'celsius'): string
     {
-        if (!$this->validateCRC($this->entity->measurement())) {
+        if (!$this->validate()) {
             return 'error';
         }
 
-        $celsius = $this->celsius($this->validateTemperature());
-
-        if (!$celsius) {
-            return 'error';
-        }
+        $celsius = $this->celsius($this->getTemperature());
 
         if ($scale === 'celsius') {
             $temperature = $celsius;
@@ -48,19 +57,20 @@ final class Temperature
         return (float) number_format($rawTempTrimmed / 1000, 3);
     }
 
-    private function validateCRC(string $rawData): bool
+    private function validateCRC(): bool
     {
-        return !(false === strpos($rawData, 'YES'));
+        return !(false === strpos($this->entity->measurement(), 'YES'));
     }
 
-    private function validateTemperature()
+    private function getTemperature(): int
     {
         $rawTemp = strstr($this->entity->measurement(), 't=');
-        $rawTempTrimmed = (int) trim($rawTemp, 't=');
+        return (int) trim($rawTemp, 't=');
+    }
 
-        if ($rawTempTrimmed !== 127687 or $rawTempTrimmed !== 85000) {
-            return $rawTempTrimmed;
-        }
+    private function validateTemperature(int $temperature): bool
+    {
+        return !($temperature === 127687 or $temperature === 85000);
     }
 
     public function __toString(): string
