@@ -44,7 +44,7 @@ final class TemperatureTest extends TestCase
 
     public function testFahrenheit(): void
     {
-        self::assertEquals('68.221', $this->temperature->temperature('fahrenheit'));
+        self::assertEquals('68.000', $this->temperature->temperature('fahrenheit'));
     }
 
     public function testKevin(): void

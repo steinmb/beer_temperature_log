@@ -40,7 +40,7 @@ final class Temperature
         }
 
         $result = $temperature + $this->offset;
-        return (string) $result;
+        return (string) number_format($result, 3);
     }
 
     private function celsius($rawTempTrimmed): float
