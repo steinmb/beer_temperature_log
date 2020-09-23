@@ -15,7 +15,7 @@ final class Temperature
         $this->offset = $offset;
     }
 
-    public function temperature(string $scale = 'celsius')
+    public function temperature(string $scale = 'celsius'): string
     {
         if (!$this->validateCRC($this->entity->measurement())) {
             return 'error';
@@ -39,7 +39,8 @@ final class Temperature
             );
         }
 
-        return $temperature + $this->offset;
+        $result = $temperature + $this->offset;
+        return (string) $result;
     }
 
     private function celsius($rawTempTrimmed): float
