@@ -67,4 +67,18 @@ final class TemperatureTest extends TestCase
         );
     }
 
+    public function testBadCrc(): void
+    {
+        $measurement = '25 00 4b 46 ff ff 07 10 cc : crc=cc NO
+                        25 00 4b 46 ff ff 07 10 cc t=20000';
+        $this->temperature = new Temperature(new DataEntity(
+                '28-1234567',
+                'temperature',
+                $measurement,
+                new SystemClockFixed(new dateTimeImmutable('16.07.2018 13.01.00')))
+        );
+
+        self::assertEquals('error', $this->temperature->temperature());
+    }
+
 }
