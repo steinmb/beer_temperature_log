@@ -19,7 +19,7 @@ final class TemperatureTest extends TestCase
     {
         parent::setUp();
         $measurement = '25 00 4b 46 ff ff 07 10 cc : crc=cc YES
-                        25 00 4b 46 ff ff 07 10 cc t=20123';
+                        25 00 4b 46 ff ff 07 10 cc t=20000';
         $this->temperature = new Temperature(new DataEntity(
             '28-1234567',
             'temperature',
@@ -38,23 +38,23 @@ final class TemperatureTest extends TestCase
 
     public function testCelsius(): void
     {
-        self::assertEquals('20.123', $this->temperature->temperature());
-        self::assertEquals('20.123', $this->temperature->temperature('celsius'));
+        self::assertEquals('20.000', $this->temperature->temperature());
+        self::assertEquals('20.000', $this->temperature->temperature('celsius'));
     }
 
     public function testFahrenheit(): void
     {
-        self::assertEquals('68.2214', $this->temperature->temperature('fahrenheit'));
+        self::assertEquals('68.221', $this->temperature->temperature('fahrenheit'));
     }
 
     public function testKevin(): void
     {
-        self::assertEquals('293.273', $this->temperature->temperature('kelvin'));
+        self::assertEquals('293.150', $this->temperature->temperature('kelvin'));
     }
 
     public function testCelsiusOffset(): void
     {
-        self::assertEquals('19.623', $this->temperatureOffset->temperature('celsius'));
+        self::assertEquals('19.500', $this->temperatureOffset->temperature('celsius'));
     }
 
     public function testUnknownScale(): void
