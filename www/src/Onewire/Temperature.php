@@ -39,9 +39,9 @@ final class Temperature
         if ($scale === 'celsius') {
             $temperature = $celsius;
         } elseif ($scale === 'fahrenheit') {
-            $temperature = $celsius * (9/5) + 32;
+            $temperature = $this->fahrenheit($celsius);
         } elseif ($scale === 'kelvin') {
-            $temperature = $celsius + 273.15;
+            $temperature = $this->kevin($celsius);
         } else {
             throw new UnexpectedValueException(
               'Unknown temperature scale: ' . $scale
@@ -50,6 +50,16 @@ final class Temperature
 
         $result = $temperature + $this->offset;
         return (string) number_format($result, 3);
+    }
+
+    private function fahrenheit(float $celsius): float
+    {
+        return $celsius * (9/5) + 32;
+    }
+
+    private function kevin(float $celsius): float
+    {
+        return $celsius + 273.15;
     }
 
     private function celsius($rawTempTrimmed): float
