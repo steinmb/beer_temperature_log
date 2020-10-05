@@ -24,8 +24,12 @@ class CalculateTest extends TestCase
     public function testMean(): void
     {
         $result = Calculate::mean($this->values);
-
         self::assertEquals(2, $result, 'Mean calculation failed.');
+
+        // Check with precision.
+        self::assertEquals(20.351111111111, Calculate::mean(
+            [20.223, 20.400, 20.321, 20.223, 20.220, 20.350, 20.650, 20.550, 20.223]
+        ));
     }
 
     public function testMeanCannotUseSingleValue(): void
