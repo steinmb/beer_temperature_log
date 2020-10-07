@@ -13,6 +13,20 @@ class Logger implements LoggerInterface
         $this->name = $name;
     }
 
+    /**
+     * Return a new cloned instance with the name changed
+     *
+     * @param string $name
+     * @return Logger
+     */
+    public function withName(string $name): self
+    {
+        $new = clone $this;
+        $new->name = $name;
+
+        return $new;
+    }
+
     public function write(string $message): void
     {
         if (!$message) {
