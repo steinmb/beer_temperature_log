@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace steinmb\Logger;
 
-class Logger implements LoggerInterface
+final class Logger implements LoggerInterface
 {
     private $name;
     private $handler;
@@ -25,6 +25,11 @@ class Logger implements LoggerInterface
         $new->name = $name;
 
         return $new;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
     }
 
     public function write(string $message): void
