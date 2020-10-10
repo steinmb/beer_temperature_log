@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace steinmb\Logger;
 
@@ -37,7 +36,7 @@ final class FileStorage implements HandlerInterface
 
     }
 
-    public function read()
+    public function read(): string
     {
         $content = '';
         $fileSize = filesize($this->stream);
@@ -71,13 +70,16 @@ final class FileStorage implements HandlerInterface
 
     }
 
-    public function close(): void
+    public function close(): bool
     {
+        $result = false;
+
         if (is_resource($this->stream)) {
-            fclose($this->stream);
+            $result = fclose($this->stream);
         }
 
         $this->stream = null;
+        return $result;
     }
 
     private function getDirFromStream(string $stream): void
@@ -95,11 +97,6 @@ final class FileStorage implements HandlerInterface
 
     public function __destruct()
     {
-        if (is_resource($this->stream)) {
-            fclose($this->stream);
-        }
-
-        $this->stream = null;
+        $this->close();
     }
-
 }

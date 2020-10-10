@@ -1,5 +1,4 @@
-<?php
-declare(strict_types = 1);
+<?php declare(strict_types = 1);
 
 namespace steinmb\Logger;
 
@@ -70,7 +69,7 @@ final class Logger implements LoggerInterface
 
     public function close(): void
     {
-        // TODO: Implement close() method.
+        $this->handler->close();
     }
 
 }
