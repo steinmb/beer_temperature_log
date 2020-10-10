@@ -4,6 +4,7 @@ namespace steinmb\Logger;
 
 class NullHandler implements HandlerInterface
 {
+    private $message;
 
     public function __construct()
     {
@@ -16,11 +17,16 @@ class NullHandler implements HandlerInterface
 
     public function write(string $message)
     {
-        // TODO: Implement write() method.
+        $this->message = $message;
     }
 
     public function close()
     {
         // TODO: Implement close() method.
+    }
+
+    public function lastEntry(): string
+    {
+        return $this->message;
     }
 }

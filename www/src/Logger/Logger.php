@@ -37,7 +37,7 @@ final class Logger implements LoggerInterface
             return;
         }
 
-        $this->handler->write($message . PHP_EOL);
+        $this->handler->write($message);
     }
 
     public function read(): string
@@ -47,23 +47,12 @@ final class Logger implements LoggerInterface
 
     public function lastEntry(): string
     {
-        $content = $this->read();
-
-        if (!$content) {
-            return '';
-        }
-
-        $log = explode("\n" , $content);
-        array_pop($log);
-        $lastReading = $log[count($log) - 1];
-
-        return (string) $lastReading;
+        return $this->handler->lastEntry();
     }
 
     public function pushHandler(HandlerInterface $handler): self
     {
         $this->handler = $handler;
-
         return $this;
     }
 

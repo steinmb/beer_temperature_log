@@ -1,14 +1,19 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 use steinmb\Logger\FileStorage;
 use steinmb\Logger\Logger;
 
 include_once __DIR__ . '/vendor/autoload.php';
 
-$logger = new Logger('Demo');
+$logService = new Logger('Demo');
+$logger = $logService->pushHandler(new FileStorage());
 $logger2 = $logger->withName('Demo2');
-$handle = new FileStorage();
-$logger->pushHandler($handle);
+
 $logger->write('Test data');
+$logger2->write('Test data 2');
+
+echo $logger->read();
+echo $logger2->read();
+
 $logger->close();
+$logger2->close();

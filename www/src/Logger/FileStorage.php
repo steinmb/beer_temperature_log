@@ -8,6 +8,7 @@ use UnexpectedValueException;
 final class FileStorage implements HandlerInterface
 {
     private $directory;
+    private $message;
     public $stream;
 
     public function __construct()
@@ -60,7 +61,7 @@ final class FileStorage implements HandlerInterface
     public function write(string $message): void
     {
         $stream = fopen($this->stream, 'ab+');
-        $result = fwrite($stream, $message);
+        $result = fwrite($stream, $message . PHP_EOL);
 
         if (!$result) {
             throw new UnexpectedValueException(
@@ -68,6 +69,12 @@ final class FileStorage implements HandlerInterface
             );
         }
 
+        $this->message = $message;
+    }
+
+    public function lastEntry(): string
+    {
+        return $this->message;
     }
 
     public function close(): bool
