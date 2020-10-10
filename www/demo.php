@@ -20,10 +20,9 @@ RuntimeEnvironment::setSetting('SENSORS', __DIR__ . '/tests/test_data/w1_master_
 
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
-$logger = new Logger('Demo');
-$handle = new FileStorage();
-$logger->pushHandler($handle);
-$logger->close();
+$loggerService = new Logger('Demo');
+$logger = $loggerService->pushHandler(new FileStorage('demo.csv'));
+
 $results = [];
 $calculate = new Calculate($logger);
 $lastReading = '2020-07-07 21:11:46, 28-0000098101de, 15.687';
@@ -44,3 +43,5 @@ foreach ($probes as $probe) {
 foreach ($results as $result) {
     print $result . PHP_EOL;
 }
+
+$logger->close();

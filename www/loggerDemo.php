@@ -6,11 +6,12 @@ use steinmb\Logger\Logger;
 include_once __DIR__ . '/vendor/autoload.php';
 
 $logService = new Logger('Demo');
-$logger = $logService->pushHandler(new FileStorage());
-$logger2 = $logger->withName('Demo2');
+$logger = $logService->pushHandler(new FileStorage('test1.csv'));
+$logService2 = $logger->withName('Demo2');
+$logger2 = $logService2->pushHandler(new FileStorage('test2.csv'));
 
-$logger->write('Test data');
-$logger2->write('Test data 2');
+$logger->write('Logger: Test data');
+$logger2->write('Logger 2: Test data');
 
 echo $logger->read();
 echo $logger2->read();

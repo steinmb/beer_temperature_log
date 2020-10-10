@@ -8,12 +8,20 @@ use UnexpectedValueException;
 final class FileStorage implements HandlerInterface
 {
     private $directory;
+    private $fileName;
     private $message;
-    public $stream;
+    private $stream;
 
-    public function __construct()
+    public function __construct(string $fileName, string $directory = '')
     {
-        $this->stream = RuntimeEnvironment::getSetting('LOG_DIRECTORY') . '/'. RuntimeEnvironment::getSetting('LOG_FILENAME');
+        if (!$directory) {
+            $this->directory = RuntimeEnvironment::getSetting('LOG_DIRECTORY');
+        } else {
+            $this->directory = $directory;
+        }
+
+        $this->fileName = $fileName;
+        $this->stream = $this->directory . '/'. $this->fileName;
         $this->storage();
     }
 

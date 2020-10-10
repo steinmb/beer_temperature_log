@@ -8,7 +8,6 @@ class RuntimeEnvironment
         'BREW_ROOT' => '',
         'DEMO_MODE' => FALSE,
         'LOG_DIRECTORY' => '../../brewlogs',
-        'LOG_FILENAME' => 'temperature.csv',
         'LOG_INFO' => 'info.log',
         'SENSOR_DIRECTORY' => '/sys/bus/w1/devices',
         'SENSORS' => '/sys/bus/w1/devices/w1_bus_master1/w1_master_slaves',

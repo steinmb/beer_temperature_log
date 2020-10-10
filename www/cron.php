@@ -21,7 +21,7 @@ RuntimeEnvironment::setSetting('BREW_ROOT', __DIR__);
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
 $logger = new Logger('temperature');
-$handler = new FileStorage();
+$handler = new FileStorage('temperature.csv');
 $logger->pushHandler($handler);
 
 foreach ($probes as $probe) {
