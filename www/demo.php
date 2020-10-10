@@ -21,16 +21,17 @@ RuntimeEnvironment::setSetting('SENSORS', __DIR__ . '/tests/test_data/w1_master_
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
 $loggerService = new Logger('Demo');
-$logger = $loggerService->pushHandler(new FileStorage('demo.csv'));
 
 $results = [];
-$calculate = new Calculate($logger);
+$calculate = new Calculate($loggerService);
 $lastReading = '2020-07-07 21:11:46, 28-0000098101de, 15.687';
 
 foreach ($probes as $probe) {
     $entity = $sensor->createEntity($probe);
     $temperature = new Temperature($entity);
+    $logger = $loggerService->pushHandler(new FileStorage($probe . '.csv'));
     $logger->write((string) $temperature);
+    $logger->close();
     $block = new Block($temperature, new HTMLFormatter($entity));
     $results[] = $block->unorderedlist();
     print "Date: {$temperature->entity->timeStamp()} Id: {$temperature->entity->id()} {$temperature->temperature()}ºC \n";
@@ -43,5 +44,3 @@ foreach ($probes as $probe) {
 foreach ($results as $result) {
     print $result . PHP_EOL;
 }
-
-$logger->close();

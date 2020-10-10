@@ -20,13 +20,11 @@ include_once __DIR__ . '/vendor/autoload.php';
 RuntimeEnvironment::setSetting('BREW_ROOT', __DIR__);
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
-$logger = new Logger('temperature');
-$handler = new FileStorage('temperature.csv');
-$logger->pushHandler($handler);
+$loggerService = new Logger('temperature');
 
 foreach ($probes as $probe) {
     $temperature = new Temperature($sensor->createEntity($probe));
+    $logger = $loggerService->pushHandler(new FileStorage($probe . '.csv'));
     $logger->write((string) $temperature);
+    $logger->close();
 }
-
-$logger->close();
