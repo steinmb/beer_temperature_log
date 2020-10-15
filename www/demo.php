@@ -29,9 +29,9 @@ $lastReading = '2020-07-07 21:11:46, 28-0000098101de, 15.687';
 foreach ($probes as $probe) {
     $entity = $sensor->createEntity($probe);
     $temperature = new Temperature($entity);
-    $logger = $loggerService->pushHandler(new FileStorage($probe . '.csv'));
-    $logger->write((string) $temperature);
-    $logger->close();
+    $fileLogger = $loggerService->pushHandler(new FileStorage($probe . '.csv'));
+    $fileLogger->write((string) $temperature);
+    $fileLogger->close();
     $block = new Block($temperature, new HTMLFormatter($entity));
     $results[] = $block->unorderedlist();
     print "Date: {$temperature->entity->timeStamp()} Id: {$temperature->entity->id()} {$temperature->temperature()}ºC \n";
