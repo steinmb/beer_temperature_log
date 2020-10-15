@@ -1,20 +1,29 @@
 <?php declare(strict_types=1);
 
+use steinmb\Logger\ConsoleHandler;
 use steinmb\Logger\FileStorage;
 use steinmb\Logger\Logger;
 
 include_once __DIR__ . '/vendor/autoload.php';
 
 $logService = new Logger('Demo');
-$logger = $logService->pushHandler(new FileStorage('test1.csv'));
-$logService2 = $logger->withName('Demo2');
-$logger2 = $logService2->pushHandler(new FileStorage('test2.csv'));
+$fileLogger = $logService->pushHandler(new FileStorage('test1.csv'));
+$console = $fileLogger->withName('Console logger')->pushHandler(new ConsoleHandler());
 
-$logger->write('Logger: Test data');
-$logger2->write('Logger 2: Test data');
+$fileLogger->write('Logger: Test data');
+$console->write('Test data 1');
+$console->write('Test data 2');
+$console->write('Test data 3');
 
-echo $logger->read();
-echo $logger2->read();
+echo PHP_EOL . '--- File logger ---' . PHP_EOL;
+$result = $fileLogger->read();
+echo $result;
+echo $fileLogger->lastEntry();
 
-$logger->close();
-$logger2->close();
+echo PHP_EOL . '--- Console logger ---' . PHP_EOL;
+$console->read();
+$console->write('Test data 4 - last entry');
+$console->lastEntry();
+
+$fileLogger->close();
+$console->close();

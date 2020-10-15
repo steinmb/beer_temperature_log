@@ -22,7 +22,6 @@ class NullHandler implements HandlerInterface
 
     public function close()
     {
-        // TODO: Implement close() method.
     }
 
     public function lastEntry(): string
