@@ -24,7 +24,7 @@ $loggerService = new Logger('temperature');
 
 foreach ($probes as $probe) {
     $temperature = new Temperature($sensor->createEntity($probe));
-    $logger = $loggerService->pushHandler(new FileStorage($probe . '.csv'));
-    $logger->write((string) $temperature);
-    $logger->close();
+    $fileLogger = $loggerService->pushHandler(new FileStorage($probe . '.csv'));
+    $fileLogger->write((string) $temperature);
+    $fileLogger->close();
 }
