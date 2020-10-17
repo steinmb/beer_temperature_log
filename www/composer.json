@@ -9,7 +9,10 @@
         }
     ],
     "require": {
-      "ext-bcmath": "*"
+        "ext-bcmath": "*",
+        "ext-sockets": "*",
+        "ext-curl": "*",
+        "ext-json": "*"
     },
     "config": {
         "sort-packages": true,
@@ -25,5 +28,22 @@
     "require-dev": {
         "phpstan/phpstan": "^0.12.31",
         "phpunit/phpunit": "^9"
+    },
+    "application": "",
+    "boundedContext": "",
+    "boundedContextName": "",
+    "core": {
+        "language": "csharp"
+    },
+    "interaction": [],
+    "resources": {
+        "readModels": {
+            "production": "",
+            "development": ""
+        },
+        "eventStore": {
+            "production": "",
+            "development": ""
+        }
     }
 }
