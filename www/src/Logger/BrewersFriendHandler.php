@@ -4,7 +4,7 @@ namespace steinmb\Logger;
 
 use RuntimeException;
 
-class BrewersFriendHandler implements HandlerInterface
+final class BrewersFriendHandler implements HandlerInterface
 {
     private const API_BREWSESSIONS = 'https://api.brewersfriend.com/v1/brewsessions';
     private const API_STREAM = 'https://log.brewersfriend.com/stream';
@@ -14,11 +14,13 @@ class BrewersFriendHandler implements HandlerInterface
     private $token;
     private $sessionId;
     private $ch;
+    private $jsonDecode;
 
-    public function __construct(string $sessionId, string $token)
+    public function __construct(string $sessionId, string $token, JsonDecode $jsonDecode)
     {
         $this->token = $token;
         $this->sessionId = $sessionId;
+        $this->jsonDecode = $jsonDecode;
     }
 
     public function read(): string
@@ -29,48 +31,24 @@ class BrewersFriendHandler implements HandlerInterface
         $styleName = $brewesssion["brewsessions"][0]["recipe"]["stylename"];
         $currentTemp = $brewesssion["brewsessions"][0]["current_stats"]["temp"];
 
-        $this->curlInit(self::API_FERMENTATION . '/' . $this->sessionId);
-        $request = $this->curl();
-        $result = json_decode($request, true, 512);
-
-        if ($result['message'] === false) {
-            throw new RuntimeException(
-                'BrewersFriend API error. Description: ' . $result["message"] . ' ' . $result['detail']
-            );
-        }
-
+        $result = $this->fermentation();
         $content = $this->fermentationResult($result);
-//        $content = implode(PHP_EOL, $this->messages);
         echo $content . PHP_EOL;
         return $content;
     }
 
-    private function brewSession()
+    private function fermentation()
+    {
+        $this->curlInit(self::API_FERMENTATION . '/' . $this->sessionId);
+        $request = $this->curl();
+        return $this->jsonDecode->decode($request);
+    }
+
+    private function brewSession(): array
     {
         $this->curlInit(self::API_BREWSESSIONS . '/' . $this->sessionId);
         $request = $this->curl();
-        $result = json_decode($request, true, 512);
-
-        if ($result['message'] === 'success') {
-            return $result;
-        }
-
-        if ($result['message'] === false) {
-            throw new RuntimeException(
-                'BrewersFriend API error. Description: ' . $result["message"] . ' ' . $result['detail']
-            );
-        }
-
-        if ($result['message'] === 'unauthorized') {
-            throw new RuntimeException(
-                'BrewersFriend API error. Description: ' . $result["message"] . ' ' . $result['detail']
-            );
-        }
-
-        throw new RuntimeException(
-            'BrewersFriend unknown API error. Description: ' . $result["message"] . ' ' . $result['detail']
-        );
-
+        return $this->jsonDecode->decode($request);
     }
 
     private function fermentationResult(array $result): string
