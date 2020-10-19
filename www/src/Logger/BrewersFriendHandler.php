@@ -31,9 +31,9 @@ final class BrewersFriendHandler implements HandlerInterface
         $styleName = $brewesssion["brewsessions"][0]["recipe"]["stylename"];
         $currentTemp = $brewesssion["brewsessions"][0]["current_stats"]["temp"];
 
-        $result = $this->fermentation();
-        $content = $this->fermentationResult($result);
-        echo $content . PHP_EOL;
+        $fermentation = $this->fermentation();
+        $content = "$batchCode, $recipeTitle, $currentTemp";
+        echo $content . ' ºC' . PHP_EOL;
         return $content;
     }
 
@@ -49,26 +49,6 @@ final class BrewersFriendHandler implements HandlerInterface
         $this->curlInit(self::API_BREWSESSIONS . '/' . $this->sessionId);
         $request = $this->curl();
         return $this->jsonDecode->decode($request);
-    }
-
-    private function fermentationResult(array $result): string
-    {
-        if (!$result) {
-            return '';
-        }
-
-        $content = '';
-        echo $result['message'] . PHP_EOL;
-
-        foreach ($result['readings'] as $reading) {
-            echo $reading['eventtype'] . PHP_EOL;
-            echo $reading['created_at'] . PHP_EOL;
-            if ($reading['temp']) {
-                echo $reading['temp'] . $reading['temp_unit'] . PHP_EOL;
-            }
-        }
-
-        return $content;
     }
 
     public function write(string $message)
