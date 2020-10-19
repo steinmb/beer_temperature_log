@@ -23,7 +23,7 @@ class BrewersFriendHandler implements HandlerInterface
 
     public function read(): string
     {
-        $session = $this->brewSession();
+        $brewesssion = $this->brewSession();
         $this->curlInit(self::API_FERMENTATION . '/' . $this->sessionId);
         $result = $this->curl();
         $result = json_decode($result, true, 512);
@@ -42,12 +42,9 @@ class BrewersFriendHandler implements HandlerInterface
 
     private function brewSession()
     {
-        // https://api.brewersfriend.com/v1/brewsessions/:brew_session_id
-        $url = self::API_BREWSESSIONS . '/' . $this->sessionId;
-//        $this->curlInit(self::API_BREWSESSIONS . '/' . $this->sessionId);
-        $this->curlInit($url);
-        $result = $this->curl();
-        $result = json_decode($result, true, 512);
+        $this->curlInit(self::API_BREWSESSIONS . '/' . $this->sessionId);
+        $request = $this->curl();
+        $result = json_decode($request, true, 512);
 
         if ($result['message'] === false) {
             throw new RuntimeException(
@@ -113,9 +110,8 @@ class BrewersFriendHandler implements HandlerInterface
         curl_setopt($this->ch, CURLOPT_URL, $url);
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, true);
-//        curl_setopt($this->ch, CURLOPT_HEADER, ['X-API-Key: ' . $this->token]);
         curl_setopt($this->ch, CURLOPT_HTTPHEADER, ['X-API-Key: ' . $this->token]);
-        curl_setopt($this->ch, CURLOPT_VERBOSE, true);
+//        curl_setopt($this->ch, CURLOPT_VERBOSE, true);
     }
 
     private function curl()
