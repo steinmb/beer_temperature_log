@@ -13,6 +13,14 @@ final class JsonDecode
      */
     public function decode(string $data): array
     {
+        if (!$data) {
+            return [];
+        }
+
+        if (substr($data, 0, 6) === '<html>') {
+            return [];
+        }
+
         try {
             $result = json_decode($data, true, 512);
         } catch (JsonException $e) {
