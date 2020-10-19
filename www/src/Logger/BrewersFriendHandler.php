@@ -25,8 +25,8 @@ class BrewersFriendHandler implements HandlerInterface
     {
         $brewesssion = $this->brewSession();
         $this->curlInit(self::API_FERMENTATION . '/' . $this->sessionId);
-        $result = $this->curl();
-        $result = json_decode($result, true, 512);
+        $request = $this->curl();
+        $result = json_decode($request, true, 512);
 
         if ($result['message'] === false) {
             throw new RuntimeException(
