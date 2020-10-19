@@ -24,6 +24,11 @@ class BrewersFriendHandler implements HandlerInterface
     public function read(): string
     {
         $brewesssion = $this->brewSession();
+        $batchCode = $brewesssion["brewsessions"][0]["batchcode"];
+        $recipeTitle = $brewesssion["brewsessions"][0]["recipe_title"];
+        $styleName = $brewesssion["brewsessions"][0]["recipe"]["stylename"];
+        $currentTemp = $brewesssion["brewsessions"][0]["current_stats"]["temp"];
+
         $this->curlInit(self::API_FERMENTATION . '/' . $this->sessionId);
         $request = $this->curl();
         $result = json_decode($request, true, 512);
@@ -46,6 +51,10 @@ class BrewersFriendHandler implements HandlerInterface
         $request = $this->curl();
         $result = json_decode($request, true, 512);
 
+        if ($result['message'] === 'success') {
+            return $result;
+        }
+
         if ($result['message'] === false) {
             throw new RuntimeException(
                 'BrewersFriend API error. Description: ' . $result["message"] . ' ' . $result['detail']
@@ -58,7 +67,10 @@ class BrewersFriendHandler implements HandlerInterface
             );
         }
 
-        return $result;
+        throw new RuntimeException(
+            'BrewersFriend unknown API error. Description: ' . $result["message"] . ' ' . $result['detail']
+        );
+
     }
 
     private function fermentationResult(array $result): string
