@@ -53,23 +53,23 @@ final class BrewersFriendHandler implements HandlerInterface
 
     public function write(string $message)
     {
-        $this->curlInit(self::API_STREAM . '/' . $this->sessionId);
-        curl_setopt($this->ch, CURLOPT_POSTFIELDS, http_build_query([
-            'name' => 'BrewPi',
-            'temp' => '19.1',
+        $sample = explode(', ', $message);
+        $this->curlInit(self::API_STREAM . '/' . $this->token);
+        $payload = json_encode([
+            'name' => 'aptest-' . $sample[1],
+            'device_source' => 'DS18B20 Sensor',
+            'temp' => $sample[2],
             'temp_unit' => 'C',
-        ]));
-        $result = $this->curl();
-        $result = json_decode($result, true, 512, JSON_THROW_ON_ERROR);
-
-        if ($result["message"] === 'failure') {
-            throw new RuntimeException(
-                'BrewersFriend API error. Description: ' . $result['detail']
-            );
-        }
-
-        // TODO: Implement write() method.
-
+        ], JSON_THROW_ON_ERROR);
+        curl_setopt($this->ch, CURLOPT_POST, 1);
+        curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($this->ch, CURLOPT_HTTPHEADER, [
+            'X-API-Key: ' . $this->token,
+            'Content-Type: application/json',
+        ]);
+        curl_setopt($this->ch, CURLOPT_POSTFIELDS, $payload);
+        $request = $this->curl();
+        $result = $this->jsonDecode->decode($request);
         $this->messages[] = $message;
         $this->lastMessage = $message;
     }
