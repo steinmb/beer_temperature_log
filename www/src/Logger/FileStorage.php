@@ -9,7 +9,7 @@ final class FileStorage implements HandlerInterface
 {
     private $directory;
     private $fileName;
-    private $message;
+    private $message = '';
     private $stream;
 
     public function __construct(string $fileName, string $directory = '')

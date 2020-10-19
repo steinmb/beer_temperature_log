@@ -5,7 +5,7 @@ namespace steinmb\Logger;
 class ConsoleHandler implements HandlerInterface
 {
     private $messages = [];
-    private $lastMessage;
+    private $lastMessage = '';
 
     public function read(): string
     {
