@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /**
  * @file index.php
@@ -22,15 +21,14 @@ use steinmb\Onewire\Temperature;
 include_once __DIR__ . '/vendor/autoload.php';
 
 RuntimeEnvironment::setSetting('BREW_ROOT', __DIR__);
-$logger = new Logger('temperature');
-$handle = new FileStorage();
-$logger->pushHandler($handle);
-$lastReading = $logger->lastEntry();
+$loggerService = new Logger('temperature');
+$lastReading = $loggerService->lastEntry();
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
-$calculate = new Calculate($logger);
+$calculate = new Calculate($loggerService);
 
 foreach ($probes as $probe) {
+    $fileLogger = $loggerService->pushHandler(new FileStorage($probe . '.csv'));
     $entity = $sensor->createEntity($probe);
     $temperature = new Temperature($entity);
     $formatter = new Block($temperature, new HTMLFormatter($entity));
@@ -39,11 +37,10 @@ foreach ($probes as $probe) {
     if ($lastReading) {
         $blocks[] = $formatter->trendList($calculate, 10, $lastReading);
     }
+    $fileLogger->close();
 }
 
 if (file_exists(RuntimeEnvironment::getSetting('BREW_ROOT') . '/temperatur.png')) {
     $graph = RuntimeEnvironment::getSetting('BREW_ROOT') . '/temperatur.png';
 }
 include 'page.php';
-
-$logger->close();
