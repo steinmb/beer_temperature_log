@@ -16,12 +16,17 @@ class RuntimeEnvironment
 
     public static function init(string $settingsFile): void
     {
+        $configuration = [];
+
         if (file_exists($settingsFile)) {
             include_once $settingsFile;
-//            require_once $settingsFile;
+            $mergedSettings = array_merge(self::$settings, $configuration);
+            self::$settings = $mergedSettings;
         }
 
-        self::setSetting('BREW_ROOT', $configuration['BREW_ROOT']);
+        if (!file_exists(self::getSetting('BREW_ROOT'))) {
+            throw new \Exception('Application root does not exist. Giving up.');
+        }
     }
 
     public static function getSetting($setting)

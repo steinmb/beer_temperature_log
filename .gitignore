@@ -9,4 +9,4 @@ www/vendor
 .phpunit.result.cache
 
 # Application setting file.
-/settings.php
+/www/settings.php
