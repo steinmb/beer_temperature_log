@@ -14,6 +14,16 @@ class RuntimeEnvironment
         'TEST_DATA' => '/test_data',
     ];
 
+    public static function init(string $settingsFile): void
+    {
+        if (file_exists($settingsFile)) {
+            include_once $settingsFile;
+//            require_once $settingsFile;
+        }
+
+        self::setSetting('BREW_ROOT', $configuration['BREW_ROOT']);
+    }
+
     public static function getSetting($setting)
     {
 
