@@ -14,6 +14,21 @@ class RuntimeEnvironment
         'TEST_DATA' => '/test_data',
     ];
 
+    public static function init(string $settingsFile): void
+    {
+        $configuration = [];
+
+        if (file_exists($settingsFile)) {
+            include_once $settingsFile;
+            $mergedSettings = array_merge(self::$settings, $configuration);
+            self::$settings = $mergedSettings;
+        }
+
+        if (!file_exists(self::getSetting('BREW_ROOT'))) {
+            throw new \Exception('Application root does not exist. Giving up.');
+        }
+    }
+
     public static function getSetting($setting)
     {
 
