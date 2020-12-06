@@ -15,12 +15,12 @@ class NullHandler implements HandlerInterface
         return 'Test data from NullHandler';
     }
 
-    public function write(string $message)
+    public function write(string $message): void
     {
         $this->message = $message;
     }
 
-    public function close()
+    public function close(): void
     {
     }
 

@@ -7,9 +7,9 @@ use RuntimeException;
 class TelegramHandler implements HandlerInterface
 {
     private const BOT_API = 'https://api.telegram.org/bot';
-    private $parseMode = null;
-    private $disableWebPagePreview = null;
-    private $disableNotification = null;
+    private $parseMode;
+    private $disableWebPagePreview;
+    private $disableNotification;
     private $ch;
     private static $retrievableErrorCodes = [
         CURLE_COULDNT_RESOLVE_HOST,
