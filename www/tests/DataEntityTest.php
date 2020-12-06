@@ -2,7 +2,7 @@
 
 use steinmb\Onewire\DataEntity;
 use PHPUnit\Framework\TestCase;
-use steinmb\SystemClock;
+use steinmb\SystemClockFixed;
 
 final class DataEntityTest extends TestCase
 {
@@ -15,7 +15,7 @@ final class DataEntityTest extends TestCase
             '10-123456789',
             'temp',
             '20.000',
-            new SystemClock()
+            new SystemClockFixed(new DateTimeImmutable('16.07.1970 03:55'))
         );
     }
 
@@ -29,4 +29,13 @@ final class DataEntityTest extends TestCase
         self::assertEquals('20.000', $this->entity->measurement(), 'Failed to get measurement');
     }
 
+    /**
+     * @covers \steinmb\Onewire\DataEntity::timeStamp
+     */
+    public function testTimestamp(): void
+    {
+        self::assertEquals('1970-07-16 03:55:00', $this->entity->timeStamp(),
+            'Testing timestamp failed.'
+        );
+    }
 }
