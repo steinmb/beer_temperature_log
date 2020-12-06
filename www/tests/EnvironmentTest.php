@@ -20,7 +20,7 @@ final class EnvironmentTest extends TestCase
     {
         $newValue = 'newfile.log';
         RuntimeEnvironment::setSetting('LOG_INFO', $newValue);
-        $this->assertEquals(
+        self::assertEquals(
           $newValue,
           RuntimeEnvironment::getSetting('LOG_INFO')
         );
