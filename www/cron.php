@@ -17,7 +17,7 @@ use steinmb\SystemClock;
 
 include_once __DIR__ . '/vendor/autoload.php';
 
-RuntimeEnvironment::init(__DIR__ . '/settings.php');
+RuntimeEnvironment::init();
 
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();

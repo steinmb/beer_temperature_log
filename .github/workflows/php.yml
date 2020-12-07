@@ -10,9 +10,6 @@ jobs:
     - name: Validate composer files
       working-directory: ./www
       run: composer validate --no-check-all --strict
-    - name: Install prestissimo for faster installs
-      working-directory: ./www
-      run: composer global require hirak/prestissimo
     - name: Install Composer dependencies
       working-directory: ./www
       run: composer install --prefer-dist --no-progress --no-suggest
