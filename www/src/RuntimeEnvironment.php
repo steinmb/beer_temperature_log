@@ -2,6 +2,8 @@
 
 namespace steinmb;
 
+use RuntimeException;
+
 class RuntimeEnvironment
 {
     private static $settings = [
@@ -14,18 +16,18 @@ class RuntimeEnvironment
         'TEST_DATA' => '/test_data',
     ];
 
-    public static function init(string $settingsFile): void
+    public static function init(): void
     {
         $configuration = [];
 
-        if (file_exists($settingsFile)) {
-            include_once $settingsFile;
+        if (file_exists(__DIR__ . '/../settings.php')) {
+            include_once __DIR__ . '/../settings.php';
             $mergedSettings = array_merge(self::$settings, $configuration);
             self::$settings = $mergedSettings;
         }
 
         if (!file_exists(self::getSetting('BREW_ROOT'))) {
-            throw new \Exception('Application root does not exist. Giving up.');
+            throw new RuntimeException('Application root does not exist. Giving up.');
         }
     }
 
