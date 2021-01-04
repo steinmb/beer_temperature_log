@@ -5,7 +5,7 @@ namespace steinmb\Logger;
 final class Logger implements LoggerInterface
 {
     private $name;
-    private $handler;
+    private $handlers = [];
 
     public function __construct(string $name)
     {
@@ -37,28 +37,32 @@ final class Logger implements LoggerInterface
             return;
         }
 
-        $this->handler->write($message);
+        foreach ($this->handlers as $handler) {
+            $handler->write($message);
+        }
     }
 
     public function read(): string
     {
-        return $this->handler->read();
+        return $this->handlers->read();
     }
 
     public function lastEntry(): string
     {
-        return $this->handler->lastEntry();
+        return $this->handlers->lastEntry();
     }
 
     public function pushHandler(HandlerInterface $handler): self
     {
-        $this->handler = $handler;
+        array_unshift($this->handlers, $handler);
+
         return $this;
     }
 
     public function close(): void
     {
-        $this->handler->close();
+        foreach ($this->handlers as $handler) {
+            $handler->close();
+        }
     }
-
 }
