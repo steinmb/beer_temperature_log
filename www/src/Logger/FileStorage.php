@@ -22,6 +22,7 @@ final class FileStorage implements HandlerInterface
 
         $this->fileName = $fileName;
         $this->stream = $this->directory . '/'. $this->fileName;
+        var_dump($this->stream);
         $this->storage();
     }
 

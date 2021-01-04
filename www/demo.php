@@ -15,12 +15,8 @@ use steinmb\Formatters\HTMLFormatter;
 use steinmb\Utils\Calculate;
 
 RuntimeEnvironment::init();
-
-//RuntimeEnvironment::setSetting('BREW_ROOT', __DIR__);
 RuntimeEnvironment::setSetting('SENSOR_DIRECTORY', __DIR__ . '/tests/test_data');
 RuntimeEnvironment::setSetting('SENSORS', __DIR__ . '/tests/test_data/w1_master_slaves');
-//print_r(RuntimeEnvironment::getSetting('BATCH'));
-echo __FILE__;
 
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
