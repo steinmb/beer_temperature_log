@@ -39,8 +39,8 @@ if (RuntimeEnvironment::getSetting('BREWERS_FRIEND')) {
 if (RuntimeEnvironment::getSetting('TELEGRAM')) {
     $loggerService->pushHandler(
         new TelegramHandler(
-            RuntimeEnvironment::getSetting('TELEGRAM')['CHANNEL'],
             RuntimeEnvironment::getSetting('TELEGRAM')['TOKEN'],
+            RuntimeEnvironment::getSetting('TELEGRAM')['CHANNEL'],
         )
     );
 }
