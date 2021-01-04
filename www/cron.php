@@ -26,9 +26,8 @@ $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
 $loggerService = new Logger('temperature');
 
-$handlers = [];
 if (RuntimeEnvironment::getSetting('BREWERS_FRIEND')) {
-    $handlers[] = $loggerService->pushHandler(
+    $loggerService->pushHandler(
         new BrewersFriendHandler(
             RuntimeEnvironment::getSetting('BREWERS_FRIEND')['SESSION_ID'],
             RuntimeEnvironment::getSetting('BREWERS_FRIEND')['TOKEN'],
@@ -38,7 +37,7 @@ if (RuntimeEnvironment::getSetting('BREWERS_FRIEND')) {
 }
 
 if (RuntimeEnvironment::getSetting('TELEGRAM')) {
-    $handlers[] = $loggerService->pushHandler(
+    $loggerService->pushHandler(
         new TelegramHandler(
             RuntimeEnvironment::getSetting('TELEGRAM')['CHANNEL'],
             RuntimeEnvironment::getSetting('TELEGRAM')['TOKEN'],
@@ -47,13 +46,12 @@ if (RuntimeEnvironment::getSetting('TELEGRAM')) {
 }
 
 foreach ($probes as $probe) {
-    $handlers[] = $loggerService->pushHandler(new FileStorage($probe . '.csv'));
+    $loggerService->pushHandler(new FileStorage($probe . '.csv'));
 }
 
-foreach ($handlers as $handler) {
-    foreach ($probes as $probe) {
-        $temperature = new Temperature($sensor->createEntity($probe));
-        $handler->write((string) $temperature);
-        $handler->close();
-    }
+foreach ($probes as $probe) {
+    $temperature = new Temperature($sensor->createEntity($probe));
+    $loggerService->write((string) $temperature);
 }
+
+$loggerService->close();
