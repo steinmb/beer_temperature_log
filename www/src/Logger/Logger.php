@@ -31,13 +31,16 @@ final class Logger implements LoggerInterface
         return $this->name;
     }
 
-    public function write(string $message): void
+    public function write(string $message, $context = []): void
     {
         if (!$message) {
             return;
         }
 
         foreach ($this->handlers as $handler) {
+            $record = [
+                'message' => $message,
+            ];
             $handler->write($message);
         }
     }
