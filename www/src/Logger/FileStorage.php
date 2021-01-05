@@ -67,10 +67,10 @@ final class FileStorage implements HandlerInterface
         return $content;
     }
 
-    public function write(string $message): void
+    public function write(array $message): void
     {
         $stream = fopen($this->stream, 'ab+');
-        $result = fwrite($stream, $message . PHP_EOL);
+        $result = fwrite($stream, $message['message'] . PHP_EOL);
 
         if (!$result) {
             throw new UnexpectedValueException(
@@ -78,7 +78,7 @@ final class FileStorage implements HandlerInterface
             );
         }
 
-        $this->message = $message;
+        $this->message = $message['message'];
     }
 
     public function lastEntry(): string

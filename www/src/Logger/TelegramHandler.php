@@ -38,7 +38,7 @@ class TelegramHandler implements HandlerInterface
         return $content;
     }
 
-    public function write(string $message): void
+    public function write(array $message): void
     {
         $this->ch = curl_init();
         $url = self::BOT_API . $this->token . '/SendMessage';
@@ -46,7 +46,7 @@ class TelegramHandler implements HandlerInterface
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt($this->ch, CURLOPT_POSTFIELDS, http_build_query([
-            'text' => $message,
+            'text' => $message['message'],
             'chat_id' => $this->channel,
             'parse_mode' => $this->parseMode,
             'disable_web_page_preview' => $this->disableWebPagePreview,
@@ -62,8 +62,8 @@ class TelegramHandler implements HandlerInterface
             );
         }
 
-        $this->messages[] = $message;
-        $this->lastMessage = $message;
+        $this->messages[] = $message['message'];
+        $this->lastMessage = $message['message'];
     }
 
     private function curl()

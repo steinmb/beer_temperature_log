@@ -15,9 +15,9 @@ class NullHandler implements HandlerInterface
         return 'Test data from NullHandler';
     }
 
-    public function write(string $message): void
+    public function write(array $message): void
     {
-        $this->message = $message;
+        $this->message = $message['message'];
     }
 
     public function close(): void
