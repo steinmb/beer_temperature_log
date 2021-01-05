@@ -51,9 +51,9 @@ final class BrewersFriendHandler implements HandlerInterface
         return $this->jsonDecode->decode($request);
     }
 
-    public function write(string $message)
+    public function write(array $message): void
     {
-        $sample = explode(', ', $message);
+        $sample = explode(', ', $message['message']);
         $this->curlInit(self::API_STREAM . '/' . $this->token);
         $payload = json_encode([
             'name' => 'aptest-' . $sample[1],
@@ -70,11 +70,11 @@ final class BrewersFriendHandler implements HandlerInterface
         curl_setopt($this->ch, CURLOPT_POSTFIELDS, $payload);
         $request = $this->curl();
         $result = $this->jsonDecode->decode($request);
-        $this->messages[] = $message;
-        $this->lastMessage = $message;
+        $this->messages[] = $message['message'];
+        $this->lastMessage = $message['message'];
     }
 
-    private function curlInit(string $url)
+    private function curlInit(string $url): void
     {
         $this->ch = curl_init();
         curl_setopt($this->ch, CURLOPT_URL, $url);
@@ -123,7 +123,6 @@ final class BrewersFriendHandler implements HandlerInterface
         return $this->lastMessage;
     }
 
-    public function close()
-    {
-    }
+    public function close(): void
+    {}
 }

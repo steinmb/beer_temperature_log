@@ -14,14 +14,15 @@ class ConsoleHandler implements HandlerInterface
         return $content;
     }
 
-    public function write(string $message)
+    public function write(array $message): void
     {
         if (!$message) {
             return;
         }
 
-        $this->messages[] = $message;
-        $this->lastMessage = $message;
+        $this->messages[] = $message['message'];
+        $this->lastMessage = $message['message'];
+        echo $message['channel'] . ': ' . $message['message'] . PHP_EOL;
     }
 
     public function lastEntry(): string
@@ -30,7 +31,5 @@ class ConsoleHandler implements HandlerInterface
         return $this->lastMessage;
     }
 
-    public function close()
-    {
-    }
+    public function close(): void {}
 }

@@ -40,19 +40,31 @@ final class Logger implements LoggerInterface
         foreach ($this->handlers as $handler) {
             $record = [
                 'message' => $message,
+                'context' => $context,
+                'channel' => $this->name,
             ];
-            $handler->write($message);
+            $handler->write($record);
         }
     }
 
     public function read(): string
     {
-        return $this->handlers->read();
+        $value = '';
+        foreach ($this->handlers as $handler) {
+            $value = $handler->read();
+        }
+
+        return $value;
     }
 
     public function lastEntry(): string
     {
-        return $this->handlers->lastEntry();
+        $value = '';
+        foreach ($this->handlers as $handler) {
+            $value = $handler->lastEntry();
+        }
+
+        return $value;
     }
 
     public function pushHandler(HandlerInterface $handler): self
