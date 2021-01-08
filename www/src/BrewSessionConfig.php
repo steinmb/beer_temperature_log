@@ -4,7 +4,7 @@ namespace steinmb;
 
 use UnexpectedValueException;
 
-final class BrewSession
+final class BrewSessionConfig
 {
     private $settings;
 
@@ -52,7 +52,7 @@ final class BrewSession
         return true;
     }
 
-    public function lowLimit(): bool
+    public function lowLimit(float $temperature): bool
     {
         return true;
     }

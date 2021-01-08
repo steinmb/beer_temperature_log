@@ -7,7 +7,7 @@ use UnexpectedValueException;
 
 final class BrewSessionTest extends TestCase
 {
-    private $brewSession;
+    private $brewSessionConfig;
 
     public function setUp(): void
     {
@@ -26,7 +26,7 @@ final class BrewSessionTest extends TestCase
                 'high_limit' => 26,
                 ],
         ];
-        $this->brewSession = new BrewSession($settings);
+        $this->brewSessionConfig = new BrewSessionConfig($settings);
     }
 
     public function testUnknownProbe(): void
@@ -34,29 +34,29 @@ final class BrewSessionTest extends TestCase
         $probe = 'unknown';
         $this->expectException(UnexpectedValueException::class);
         $this->expectExceptionMessage('Probe: ' . $probe . ' not found.');
-        $this->brewSession->sessionIdentity($probe);
+        $this->brewSessionConfig->sessionIdentity($probe);
     }
 
     public function testSessionID(): void
     {
-        self::assertEquals('100', $this->brewSession->sessionIdentity('28-0000098101de'));
-        self::assertEquals('', $this->brewSession->sessionIdentity('10-000802be73fa'));
+        self::assertEquals('100', $this->brewSessionConfig->sessionIdentity('28-0000098101de'));
+        self::assertEquals('', $this->brewSessionConfig->sessionIdentity('10-000802be73fa'));
     }
 
     public function testAmbientProbeIs(): void
     {
         self::assertEquals(
             '10-000802be73fa',
-            $this->brewSession->ambientProbeIs('10-000802a55696')
+            $this->brewSessionConfig->ambientProbeIs('10-000802a55696')
         );
         self::assertEquals(
             '10-000802be73fa',
-            $this->brewSession->ambientProbeIs('10-000802be73fa')
+            $this->brewSessionConfig->ambientProbeIs('10-000802be73fa')
         );
     }
 
     public function testHighLimit(): void
     {
-        self::assertTrue($this->brewSession->highLimit(28));
+        self::assertTrue($this->brewSessionConfig->highLimit(28));
     }
 }
