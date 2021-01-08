@@ -22,7 +22,6 @@ final class FileStorage implements HandlerInterface
 
         $this->fileName = $fileName;
         $this->stream = $this->directory . '/'. $this->fileName;
-        var_dump($this->stream);
         $this->storage();
     }
 
@@ -67,18 +66,26 @@ final class FileStorage implements HandlerInterface
         return $content;
     }
 
+    private function isWritable(array $message): bool
+    {
+        if ($message['context']) {
+
+        }
+        return true;
+    }
+
     public function write(array $message): void
     {
-        $stream = fopen($this->stream, 'ab+');
-        $result = fwrite($stream, $message['message'] . PHP_EOL);
-
-        if (!$result) {
-            throw new UnexpectedValueException(
-              'Unable to write to log file: ' . $stream
-            );
+        if ($this->isWritable($message)) {
+            $stream = fopen($this->stream, 'ab+');
+            $result = fwrite($stream, $message['message'] . PHP_EOL);
+            if (!$result) {
+                throw new UnexpectedValueException(
+                    'Unable to write to log file: ' . $stream
+                );
+            }
+            $this->message = $message['message'];
         }
-
-        $this->message = $message['message'];
     }
 
     public function lastEntry(): string
@@ -89,12 +96,12 @@ final class FileStorage implements HandlerInterface
     public function close(): bool
     {
         $result = false;
-
         if (is_resource($this->stream)) {
             $result = fclose($this->stream);
         }
 
         $this->stream = null;
+
         return $result;
     }
 

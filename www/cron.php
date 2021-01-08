@@ -25,6 +25,7 @@ RuntimeEnvironment::init();
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
 $loggerService = new Logger('temperature');
+$fileLogger = new Logger('Files');
 
 if (RuntimeEnvironment::getSetting('BREWERS_FRIEND')) {
     $loggerService->pushHandler(
@@ -46,12 +47,11 @@ if (RuntimeEnvironment::getSetting('TELEGRAM')) {
 }
 
 foreach ($probes as $probe) {
-    $loggerService->pushHandler(new FileStorage($probe . '.csv'));
-}
-
-foreach ($probes as $probe) {
     $temperature = new Temperature($sensor->createEntity($probe));
     $loggerService->write((string) $temperature);
+    $fileLogger->pushHandler(new FileStorage($probe . '.csv'));
+    $fileLogger->write((string) $temperature, ['sensor' => $probe]);
+    $fileLogger->close();
 }
 
 $loggerService->close();
