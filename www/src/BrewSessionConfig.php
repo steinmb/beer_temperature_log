@@ -13,7 +13,7 @@ final class BrewSessionConfig
         $this->settings = $settings;
     }
 
-    public function sessionIdentity(string $probe): BrewSession
+    public function sessionIdentity(string $probe): BrewSessionInterface
     {
         foreach ($this->settings as $batchID => $setting) {
             if ($setting['probe'] === $probe) {
@@ -24,11 +24,10 @@ final class BrewSessionConfig
                     $setting['low_limit'],
                     $setting['high_limit']
                 );
-//                return (string) $batchID;
             }
 
             if ($setting['ambient'] === $probe) {
-                return new BrewSession();
+                return new AmbiguousSessionId();
             }
         }
 
