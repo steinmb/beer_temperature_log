@@ -8,6 +8,7 @@ use UnexpectedValueException;
 final class BrewSessionConfigTest extends TestCase
 {
     private $brewSessionConfig;
+    private $brewSession;
 
     public function setUp(): void
     {
@@ -27,6 +28,7 @@ final class BrewSessionConfigTest extends TestCase
                 ],
         ];
         $this->brewSessionConfig = new BrewSessionConfig($settings);
+        $this->brewSession = $this->brewSessionConfig->sessionIdentity('28-0000098101de');
     }
 
     public function testUnknownProbe(): void
@@ -39,25 +41,23 @@ final class BrewSessionConfigTest extends TestCase
 
     public function testSession(): void
     {
-        $brewSession = $this->brewSessionConfig->sessionIdentity('28-0000098101de');
-
         self::assertEquals(
             '100',
-            $brewSession->sessionId
+            $this->brewSession->sessionId
         );
         self::assertEquals(
             '10-000802be73fa',
-            $brewSession->ambient
+            $this->brewSession->ambient
         );
-        self::assertIsFloat($brewSession->low_limit);
-        self::assertIsFloat($brewSession->high_limit);
+        self::assertIsFloat($this->brewSession->low_limit);
+        self::assertIsFloat($this->brewSession->high_limit);
         self::assertEquals(
             15,
-            $brewSession->low_limit
+            $this->brewSession->low_limit
         );
         self::assertEquals(
             23,
-            $brewSession->high_limit
+            $this->brewSession->high_limit
         );
     }
 
@@ -71,6 +71,11 @@ final class BrewSessionConfigTest extends TestCase
 
     public function testHighLimit(): void
     {
-        self::assertTrue($this->brewSessionConfig->highLimit(28));
+        self::assertTrue($this->brewSessionConfig->highLimit($this->brewSession));
+    }
+
+    public function testLowLimit(): void
+    {
+        self::assertTrue($this->brewSessionConfig->highLimit($this->brewSession));
     }
 }
