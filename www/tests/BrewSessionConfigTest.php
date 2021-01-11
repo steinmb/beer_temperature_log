@@ -37,13 +37,27 @@ final class BrewSessionConfigTest extends TestCase
         $this->brewSessionConfig->sessionIdentity($probe);
     }
 
-    public function testSessionID(): void
+    public function testSession(): void
     {
         $brewSession = $this->brewSessionConfig->sessionIdentity('28-0000098101de');
 
         self::assertEquals(
             '100',
             $brewSession->sessionId
+        );
+        self::assertEquals(
+            '10-000802be73fa',
+            $brewSession->ambient
+        );
+        self::assertIsFloat($brewSession->low_limit);
+        self::assertIsFloat($brewSession->high_limit);
+        self::assertEquals(
+            15,
+            $brewSession->low_limit
+        );
+        self::assertEquals(
+            23,
+            $brewSession->high_limit
         );
     }
 
@@ -52,18 +66,6 @@ final class BrewSessionConfigTest extends TestCase
         self::assertEquals(
             new AmbiguousSessionId(),
             $this->brewSessionConfig->sessionIdentity('10-000802be73fa')
-        );
-    }
-
-    public function testAmbientProbeIs(): void
-    {
-        self::assertEquals(
-            '10-000802be73fa',
-            $this->brewSessionConfig->ambientProbeIs('10-000802a55696')
-        );
-        self::assertEquals(
-            '10-000802be73fa',
-            $this->brewSessionConfig->ambientProbeIs('10-000802be73fa')
         );
     }
 
