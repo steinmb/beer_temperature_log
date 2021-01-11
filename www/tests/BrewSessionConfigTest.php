@@ -39,13 +39,19 @@ final class BrewSessionConfigTest extends TestCase
 
     public function testSessionID(): void
     {
+        $brewSession = $this->brewSessionConfig->sessionIdentity('28-0000098101de');
+
         self::assertEquals(
             '100',
-            $this->brewSessionConfig->sessionIdentity('28-0000098101de')->sessionId
+            $brewSession->sessionId
         );
+    }
+
+    public function testAmbiguousSessionId(): void
+    {
         self::assertEquals(
-            '',
-            $this->brewSessionConfig->sessionIdentity('10-000802be73fa')->sessionId
+            new AmbiguousSessionId(),
+            $this->brewSessionConfig->sessionIdentity('10-000802be73fa')
         );
     }
 
