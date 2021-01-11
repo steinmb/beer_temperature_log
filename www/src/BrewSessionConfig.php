@@ -53,13 +53,23 @@ final class BrewSessionConfig
         );
     }
 
-    public function highLimit(float $temperature): bool
+    public function highLimit(BrewSessionInterface $brewSession): bool
     {
+        if (!$brewSession->high_limit) {
+            throw new UnexpectedValueException(
+                'No high temperature limit defined.'
+            );
+        }
         return true;
     }
 
-    public function lowLimit(float $temperature): bool
+    public function lowLimit(BrewSessionInterface $brewSession): bool
     {
+        if (!$brewSession->low_limit) {
+            throw new UnexpectedValueException(
+                'No high temperature limit defined.'
+            );
+        }
         return true;
     }
 }
