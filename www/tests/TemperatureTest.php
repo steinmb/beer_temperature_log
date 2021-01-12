@@ -26,13 +26,12 @@ final class TemperatureTest extends TestCase
             $measurement,
             new SystemClockFixed(new dateTimeImmutable('16.07.2018 13.01.00')))
         );
-
         $this->temperatureOffset = new Temperature(new DataEntity(
             '28-1234567',
             'temperature',
             $measurement,
-            new SystemClockFixed(new dateTimeImmutable('16.07.2018 13.01.00')))
-            , -0.5
+            new SystemClockFixed(new dateTimeImmutable('16.07.2018 13.01.00'))),
+            -0.5
         );
     }
 

@@ -43,6 +43,7 @@ final class Sensor
             );
         }
 
+        $temperatureSensors = [];
         $content = dir($this->oneWire->directory());
 
         while (false !== ($entry = $content->read())) {
