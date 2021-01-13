@@ -3,13 +3,13 @@
 namespace steinmb;
 
 use steinmb\Onewire\EntityInterface;
-use steinmb\Onewire\OneWire;
+use steinmb\Onewire\OneWireInterface;
 
 interface EntityFactoryInterface
 {
     public function newItem(
       Clock $clock,
-      OneWire $oneWire,
+      OneWireInterface $oneWire,
       string $sensor,
       string $sensorType
     ): EntityInterface;
