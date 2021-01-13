@@ -2,6 +2,7 @@
 
 namespace steinmb\Onewire;
 
+use RuntimeException;
 use steinmb\RuntimeEnvironment;
 
 final class OneWire implements OneWireInterface
@@ -29,15 +30,10 @@ final class OneWire implements OneWireInterface
         return $this->directory;
     }
 
-    private function sensors(): string
-    {
-        return $this->sensors;
-    }
-
     public function temperatureSensors(): array
     {
         if (!file_exists($this->directory())) {
-            throw new \RuntimeException(
+            throw new RuntimeException(
                 'Directory: ' . $this->directory() . ' Not found. OneWire support perhaps not loaded.'
             );
         }
@@ -60,7 +56,7 @@ final class OneWire implements OneWireInterface
         return explode(PHP_EOL, $sensors);
     }
 
-    public function content(string $sensor)
+    public function content(string $sensor): string
     {
         return file_get_contents($this->directory . '/' . $sensor . '/' . $this::slaveFile);
     }
@@ -73,5 +69,4 @@ final class OneWire implements OneWireInterface
         echo exec('sudo modprobe w1-gpio');
         echo exec('sudo modprobe w1-therm');
     }
-
 }
