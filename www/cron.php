@@ -51,7 +51,6 @@ foreach ($probes as $probe) {
     $loggerService->write((string) $temperature);
     $fileLogger->pushHandler(new FileStorage($probe . '.csv'));
     $fileLogger->write((string) $temperature, ['sensor' => $probe]);
-    $fileLogger->close();
 }
 
 $loggerService->close();
