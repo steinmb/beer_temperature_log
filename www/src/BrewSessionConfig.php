@@ -37,7 +37,7 @@ final class BrewSessionConfig
         );
     }
 
-    public function ambientProbeIs(string $probe): string
+    private function ambientProbeIs(string $probe): string
     {
         foreach ($this->settings as $batchID => $setting) {
             if ($setting['ambient'] === $probe) {
@@ -52,26 +52,5 @@ final class BrewSessionConfig
         throw new UnexpectedValueException(
             'Ambient probe not found.'
         );
-    }
-
-    public function highLimit(BrewSessionInterface $brewSession, Temperature $temperature): bool
-    {
-        if (!$brewSession->high_limit) {
-            throw new UnexpectedValueException(
-                'No high temperature limit defined.'
-            );
-        }
-
-        return !($brewSession->high_limit > $temperature->temperature());
-    }
-
-    public function lowLimit(BrewSessionInterface $brewSession, Temperature $temperature): bool
-    {
-        if (!$brewSession->low_limit) {
-            throw new UnexpectedValueException(
-                'No high temperature limit defined.'
-            );
-        }
-        return !($brewSession->low_limit < $temperature->temperature());
     }
 }

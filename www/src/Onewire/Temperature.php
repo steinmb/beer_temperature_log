@@ -2,6 +2,7 @@
 
 namespace steinmb\Onewire;
 
+use steinmb\BrewSessionInterface;
 use UnexpectedValueException;
 
 final class Temperature
@@ -50,6 +51,27 @@ final class Temperature
 
         $result = $temperature + $this->offset;
         return (string) number_format($result, 3);
+    }
+
+    public function highLimit(BrewSessionInterface $brewSession, Temperature $temperature): bool
+    {
+        if (!$brewSession->high_limit) {
+            throw new UnexpectedValueException(
+                'No high temperature limit defined.'
+            );
+        }
+
+        return !($brewSession->high_limit > $temperature->temperature());
+    }
+
+    public function lowLimit(BrewSessionInterface $brewSession, Temperature $temperature): bool
+    {
+        if (!$brewSession->low_limit) {
+            throw new UnexpectedValueException(
+                'No high temperature limit defined.'
+            );
+        }
+        return !($brewSession->low_limit < $temperature->temperature());
     }
 
     private function fahrenheit(float $celsius): float

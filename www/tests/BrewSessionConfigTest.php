@@ -3,8 +3,6 @@
 namespace steinmb;
 
 use PHPUnit\Framework\TestCase;
-use steinmb\Onewire\DataEntity;
-use steinmb\Onewire\Temperature;
 use UnexpectedValueException;
 
 final class BrewSessionConfigTest extends TestCase
@@ -69,34 +67,5 @@ final class BrewSessionConfigTest extends TestCase
             new AmbiguousSessionId(),
             $this->brewSessionConfig->sessionIdentity('10-000802be73fa')
         );
-    }
-
-    public function testHighLimit(): void
-    {
-        $measurement = '25 00 4b 46 ff ff 07 10 cc : crc=cc YES
-                        25 00 4b 46 ff ff 07 10 cc t=24000';
-        $entity = new DataEntity(
-            $this->brewSession->probe,
-            'temperature',
-            $measurement,
-            new SystemClock()
-        );
-        $temperature = new Temperature($entity);
-
-        self::assertTrue($this->brewSessionConfig->highLimit($this->brewSession, $temperature));
-    }
-
-    public function testLowLimit(): void
-    {
-        $measurement = '25 00 4b 46 ff ff 07 10 cc : crc=cc YES
-                        25 00 4b 46 ff ff 07 10 cc t=14000';
-        $entity = new DataEntity(
-            $this->brewSession->probe,
-            'temperature',
-            $measurement,
-            new SystemClock()
-        );
-        $temperature = new Temperature($entity);
-        self::assertTrue($this->brewSessionConfig->lowLimit($this->brewSession, $temperature));
     }
 }
