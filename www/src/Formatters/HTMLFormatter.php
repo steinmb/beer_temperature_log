@@ -6,7 +6,7 @@ use steinmb\Onewire\EntityInterface;
 use steinmb\Onewire\Temperature;
 use steinmb\Utils\Calculate;
 
-class HTMLFormatter implements FormatterInterface
+final class HTMLFormatter implements FormatterInterface
 {
     private $entity;
 

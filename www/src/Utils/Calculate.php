@@ -2,14 +2,10 @@
 
 namespace steinmb\Utils;
 
-use phpDocumentor\Reflection\Types\Self_;
 use steinmb\Logger\LoggerInterface;
+use UnexpectedValueException;
 
-/**
- * @file Calculate.php
- */
-
-class Calculate
+final class Calculate
 {
     private $log;
     private $trend;
@@ -136,13 +132,13 @@ class Calculate
     public static function mean(array $values)
     {
         if (!$values) {
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
               'Cannot calculate on a empty data set.'
             );
         }
 
         if (count($values) === 1) {
-            throw new \UnexpectedValueException(
+            throw new UnexpectedValueException(
                 'Cannot calculate mean value of a single digit: ' . array_pop($values)
             );
         }
@@ -195,5 +191,4 @@ class Calculate
 
         return array_sum($meanDistances_x_squared) / array_sum(self::b1($meanDistances_x, $meanDistances_y));
     }
-
 }

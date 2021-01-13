@@ -109,5 +109,4 @@ final class Temperature
     {
         return $this->entity->timeStamp() . ', ' . $this->entity->id() . ', ' . $this->temperature();
     }
-
 }

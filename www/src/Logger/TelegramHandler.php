@@ -4,7 +4,7 @@ namespace steinmb\Logger;
 
 use RuntimeException;
 
-class TelegramHandler implements HandlerInterface
+final class TelegramHandler implements HandlerInterface
 {
     private const BOT_API = 'https://api.telegram.org/bot';
     private $parseMode;
@@ -109,5 +109,4 @@ class TelegramHandler implements HandlerInterface
     {
         curl_close($this->ch);
     }
-
 }

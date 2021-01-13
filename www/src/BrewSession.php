@@ -2,7 +2,7 @@
 
 namespace steinmb;
 
-class BrewSession implements BrewSessionInterface
+final class BrewSession implements BrewSessionInterface
 {
     public $sessionId;
     public $probe;

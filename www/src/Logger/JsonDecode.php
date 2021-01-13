@@ -8,7 +8,7 @@ use RuntimeException;
 final class JsonDecode
 {
     /**
-     * @param array $data
+     * @param string $data
      * @return array
      */
     public function decode(string $data): array
@@ -49,5 +49,4 @@ final class JsonDecode
             'BrewersFriend unknown API error. Description: ' . $result["message"] . ' ' . $result['detail']
         );
     }
-
 }

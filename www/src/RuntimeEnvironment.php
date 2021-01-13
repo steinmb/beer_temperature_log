@@ -4,7 +4,7 @@ namespace steinmb;
 
 use RuntimeException;
 
-class RuntimeEnvironment
+final class RuntimeEnvironment
 {
     private static $settings = [
         'BREW_ROOT' => '',
@@ -45,5 +45,4 @@ class RuntimeEnvironment
     {
         self::$settings[$setting] = $value;
     }
-
 }

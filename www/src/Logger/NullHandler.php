@@ -2,7 +2,7 @@
 
 namespace steinmb\Logger;
 
-class NullHandler implements HandlerInterface
+final class NullHandler implements HandlerInterface
 {
     private $message;
 

@@ -2,15 +2,7 @@
 
 namespace steinmb\Onewire;
 
-use DateTimeImmutable;
 use steinmb\Clock;
-use steinmb\SystemClock;
-
-/**
- * @file DataEntity.php
- *
- * Temperature reading.
- */
 
 final class DataEntity implements EntityInterface
 {
@@ -62,5 +54,4 @@ final class DataEntity implements EntityInterface
     {
         return "{$this->id}, {$this->type}, {$this->measurement}";
     }
-
 }

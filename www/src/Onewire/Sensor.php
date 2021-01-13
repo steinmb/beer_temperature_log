@@ -5,11 +5,6 @@ namespace steinmb\Onewire;
 use steinmb\Clock;
 use steinmb\EntityFactory;
 
-/**
- * @file Sensor.php
- * Service class.
- */
-
 final class Sensor
 {
     private const sensorType = 'temperature';

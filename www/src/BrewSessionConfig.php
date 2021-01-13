@@ -2,7 +2,6 @@
 
 namespace steinmb;
 
-use steinmb\Onewire\Temperature;
 use UnexpectedValueException;
 
 final class BrewSessionConfig

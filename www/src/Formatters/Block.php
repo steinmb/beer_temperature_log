@@ -4,11 +4,7 @@ namespace steinmb\Formatters;
 
 use steinmb\Onewire\Temperature;
 
-/**
- * @file Block.php
- */
-
-class Block
+final class Block
 {
     private $temperature;
     private $formatter;

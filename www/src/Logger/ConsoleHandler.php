@@ -2,7 +2,7 @@
 
 namespace steinmb\Logger;
 
-class ConsoleHandler implements HandlerInterface
+final class ConsoleHandler implements HandlerInterface
 {
     private $messages = [];
     private $lastMessage = '';
