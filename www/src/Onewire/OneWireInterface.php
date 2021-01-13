@@ -4,5 +4,5 @@ namespace steinmb\Onewire;
 
 interface OneWireInterface
 {
-
+    public function __construct(string $directory, string $sensors);
 }

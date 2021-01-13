@@ -24,14 +24,34 @@ final class OneWire implements OneWireInterface
         $this->directory = $directory;
     }
 
-    public function directory(): string
+    private function directory(): string
     {
         return $this->directory;
     }
 
-    public function sensors(): string
+    private function sensors(): string
     {
         return $this->sensors;
+    }
+
+    public function temperatureSensors(): array
+    {
+        if (!file_exists($this->directory())) {
+            throw new \RuntimeException(
+                'Directory: ' . $this->directory() . ' Not found. OneWire support perhaps not loaded.'
+            );
+        }
+
+        $temperatureSensors = [];
+        $content = dir($this->directory());
+
+        while (false !== ($entry = $content->read())) {
+            if (false !== strpos($entry, '10-') || false !== strpos($entry, '28-')) {
+                $temperatureSensors[] = $entry;
+            }
+        }
+
+        return $temperatureSensors;
     }
 
     public function allSensors(): array
