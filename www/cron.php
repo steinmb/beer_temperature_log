@@ -52,11 +52,13 @@ if (RuntimeEnvironment::getSetting('TELEGRAM')) {
 foreach ($probes as $probe) {
     $brewSession = $brewSessionConfig->sessionIdentity($probe);
     if ($brewSession instanceof BrewSession) {
-        $temperature = new Temperature($sensor->createEntity($probe));
-        echo 'Session ID: ' . $brewSession->sessionId . PHP_EOL;
-        $loggerService->write((string) $temperature, ['brewSession' => $brewSession]);
-
-//        $loggerService->write((string) 'id:' . $brewSession->sessionId . ' temp: ' . $temperature . ' ambient: ' . $brewSession->ambient);
+        $context = [
+            'brewSession' => $brewSession,
+            'sensor' => $sensor,
+            'temperature' => new Temperature($sensor->createEntity($brewSession->probe)),
+            'ambient' => new Temperature($sensor->createEntity($brewSession->ambient)),
+        ];
+        $loggerService->write('', $context);
         $fileLogger->pushHandler(new FileStorage($probe . '.csv'));
 //    $fileLogger->write((string) $temperature, ['sensor' => $probe]);
     }

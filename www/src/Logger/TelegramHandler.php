@@ -40,19 +40,13 @@ final class TelegramHandler implements HandlerInterface
 
     public function write(array $message): void
     {
-        $brewSession = $message["context"]['brewSession'];
-        $completeMessage =
-            ' BrewSession: ' . $brewSession->sessionId .
-            ' Temperature: ' . $brewSession->probe .
-            ' Ambient: ' . $brewSession->ambient;
-
         $this->ch = curl_init();
         $url = self::BOT_API . $this->token . '/SendMessage';
         curl_setopt($this->ch, CURLOPT_URL, $url);
         curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, true);
         curl_setopt($this->ch, CURLOPT_POSTFIELDS, http_build_query([
-            'text' => $completeMessage,
+            'text' => $message['message'],
             'chat_id' => $this->channel,
             'parse_mode' => $this->parseMode,
             'disable_web_page_preview' => $this->disableWebPagePreview,

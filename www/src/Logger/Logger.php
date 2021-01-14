@@ -13,7 +13,7 @@ final class Logger implements LoggerInterface
     }
 
     /**
-     * Return a new cloned instance with the name changed
+     * Return a new cloned instance with the name changed.
      *
      * @param string $name
      * @return Logger
@@ -31,18 +31,44 @@ final class Logger implements LoggerInterface
         return $this->name;
     }
 
+    private function message(array $context): string
+    {
+        $brewSession = $context['brewSession'];
+        $temperature = $context['temperature'];
+        $ambient = $context['ambient'];
+
+        $message = [
+            'Brew session: ' . $brewSession->sessionId,
+            'Fermentor: ' . $brewSession->probe . ' ' . $temperature->temperature(),
+            'Ambient: ' . $brewSession->ambient . ' ' . $ambient->temperature(),
+        ];
+
+        return implode(PHP_EOL, $message);
+    }
+
     public function write(string $message, $context = []): void
     {
-        if (!$message) {
+        $fullMessage = '';
+
+        if (!$message && !$context) {
             return;
         }
 
+        if (!$message) {
+            $fullMessage = $this->message($context);
+        }
+
+        if (!$fullMessage) {
+            $fullMessage = $message;
+        }
+
+        $record = [
+            'message' => $fullMessage,
+            'context' => $context,
+            'channel' => $this->name,
+        ];
+
         foreach ($this->handlers as $handler) {
-            $record = [
-                'message' => $message,
-                'context' => $context,
-                'channel' => $this->name,
-            ];
             $handler->write($record);
         }
     }
