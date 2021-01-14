@@ -25,7 +25,7 @@ include_once __DIR__ . '/vendor/autoload.php';
 RuntimeEnvironment::init();
 $batches = RuntimeEnvironment::getSetting('BATCH');
 $brewSessionConfig = new BrewSessionConfig($batches);
-$sensor = new Sensor(new \steinmb\Onewire\OneWireFixed(), new SystemClock(), new EntityFactory());
+$sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
 $loggerService = new Logger('temperature');
 $fileLogger = new Logger('Files');
