@@ -2,6 +2,7 @@
 
 namespace steinmb\Logger;
 
+use JsonException;
 use RuntimeException;
 
 final class BrewersFriendHandler implements HandlerInterface
@@ -51,16 +52,32 @@ final class BrewersFriendHandler implements HandlerInterface
         return $this->jsonDecode->decode($request);
     }
 
+    private function message(array $context): string
+    {
+        $payload = '';
+        $brewSession = $context['context']['brewSession'];
+        $temperature = $context['context']['temperature'];
+        $ambient = $context['context']['ambient'];
+
+        try {
+            $payload = json_encode([
+                'name' => $brewSession->probe,
+                'device_source' => 'DS18B20 Sensor',
+                'report_source' => 'BrewPi',
+                'temp' => $temperature->temperature(),
+                'ambient' => $ambient->temperature(),
+                'temp_unit' => 'C',
+            ], JSON_THROW_ON_ERROR);
+        } catch (JsonException $e) {
+        }
+
+        return $payload;
+    }
+
     public function write(array $message): void
     {
-        $sample = explode(', ', $message['message']);
+        $payload = $this->message($message);
         $this->curlInit(self::API_STREAM . '/' . $this->token);
-        $payload = json_encode([
-            'name' => 'aptest-' . $sample[1],
-            'device_source' => 'DS18B20 Sensor',
-            'temp' => $sample[2],
-            'temp_unit' => 'C',
-        ], JSON_THROW_ON_ERROR);
         curl_setopt($this->ch, CURLOPT_POST, 1);
         curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($this->ch, CURLOPT_HTTPHEADER, [
@@ -70,8 +87,8 @@ final class BrewersFriendHandler implements HandlerInterface
         curl_setopt($this->ch, CURLOPT_POSTFIELDS, $payload);
         $request = $this->curl();
         $result = $this->jsonDecode->decode($request);
-        $this->messages[] = $message['message'];
-        $this->lastMessage = $message['message'];
+        $this->messages[] = $payload;
+        $this->lastMessage = $payload;
     }
 
     private function curlInit(string $url): void
