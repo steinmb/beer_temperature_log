@@ -26,6 +26,7 @@ RuntimeEnvironment::init();
 $batches = RuntimeEnvironment::getSetting('BATCH');
 $brewSessionConfig = new BrewSessionConfig($batches);
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
+//$sensor = new Sensor(new \steinmb\Onewire\OneWireFixed(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
 $loggerService = new Logger('temperature');
 $fileLogger = new Logger('Files');
@@ -52,6 +53,7 @@ if (RuntimeEnvironment::getSetting('TELEGRAM')) {
 foreach ($probes as $probe) {
     $brewSession = $brewSessionConfig->sessionIdentity($probe);
     if ($brewSession instanceof BrewSession) {
+        $fileLogger = new Logger('Files');
         $context = [
             'brewSession' => $brewSession,
             'sensor' => $sensor,
@@ -59,8 +61,11 @@ foreach ($probes as $probe) {
             'ambient' => new Temperature($sensor->createEntity($brewSession->ambient)),
         ];
         $loggerService->write('', $context);
-        $fileLogger->pushHandler(new FileStorage($probe . '.csv'));
-//    $fileLogger->write((string) $temperature, ['sensor' => $probe]);
+        $fileLogger->pushHandler(new FileStorage(
+            $probe . '.csv',
+            RuntimeEnvironment::getSetting('LOG_DIRECTORY') . '/' . $brewSession->sessionId
+        ));
+        $fileLogger->write('', $context);
     }
 }
 
