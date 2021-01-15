@@ -68,22 +68,38 @@ final class FileStorage implements HandlerInterface
 
     private function isWritable(array $message): bool
     {
-        if ($message['context']['brewSession']->probe . '.csv'=== $this->fileName) {
-            return true;
-        }
+        return $message['context']['brewSession']->probe . '.csv' === $this->fileName;
+    }
+
+    private function message(array $context): string
+    {
+        $brewSession = $context['context']['brewSession'];
+        $temperature = $context['context']['temperature'];
+        $ambient = $context['context']['ambient'];
+
+        $message = [
+            $brewSession->sessionId,
+            $brewSession->probe,
+            $temperature->temperature(),
+            $brewSession->ambient,
+            $ambient->temperature(),
+        ];
+
+        return implode(', ', $message);
     }
 
     public function write(array $message): void
     {
         if ($this->isWritable($message)) {
+            $fileMessage = $this->message($message);
             $stream = fopen($this->stream, 'ab+');
-            $result = fwrite($stream, $message['message'] . PHP_EOL);
+            $result = fwrite($stream, $fileMessage . PHP_EOL);
             if (!$result) {
                 throw new UnexpectedValueException(
                     'Unable to write to log file: ' . $stream
                 );
             }
-            $this->message = $message['message'];
+            $this->message = $fileMessage;
         }
     }
 
