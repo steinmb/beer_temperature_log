@@ -71,9 +71,21 @@ final class FileStorage implements HandlerInterface
         return $message['context']['brewSession']->probe . '.csv' === $this->fileName;
     }
 
-    private function message(array $message): string
+    private function message(array $context): string
     {
-        return $message['message'];
+        $brewSession = $context['context']['brewSession'];
+        $temperature = $context['context']['temperature'];
+        $ambient = $context['context']['ambient'];
+
+        $message = [
+            $brewSession->sessionId,
+            $brewSession->probe,
+            $temperature->temperature(),
+            $brewSession->ambient,
+            $ambient->temperature(),
+        ];
+
+        return implode(', ', $message);
     }
 
     public function write(array $message): void
