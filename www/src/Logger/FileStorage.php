@@ -68,14 +68,18 @@ final class FileStorage implements HandlerInterface
 
     private function isWritable(array $message): bool
     {
-        if ($message['context']['brewSession']->probe . '.csv'=== $this->fileName) {
-            return true;
-        }
+        return $message['context']['brewSession']->probe . '.csv' === $this->fileName;
+    }
+
+    private function message(array $message): string
+    {
+        return $message['message'];
     }
 
     public function write(array $message): void
     {
         if ($this->isWritable($message)) {
+            $fileMessage = $this->message($message);
             $stream = fopen($this->stream, 'ab+');
             $result = fwrite($stream, $message['message'] . PHP_EOL);
             if (!$result) {
@@ -83,7 +87,7 @@ final class FileStorage implements HandlerInterface
                     'Unable to write to log file: ' . $stream
                 );
             }
-            $this->message = $message['message'];
+            $this->message = $fileMessage;
         }
     }
 
