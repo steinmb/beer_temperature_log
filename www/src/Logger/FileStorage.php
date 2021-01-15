@@ -78,6 +78,7 @@ final class FileStorage implements HandlerInterface
         $ambient = $context['context']['ambient'];
 
         $message = [
+            $temperature->entity->timeStamp(),
             $brewSession->sessionId,
             $brewSession->probe,
             $temperature->temperature(),

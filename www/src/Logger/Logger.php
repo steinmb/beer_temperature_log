@@ -38,6 +38,7 @@ final class Logger implements LoggerInterface
         $ambient = $context['ambient'];
 
         $message = [
+            $temperature->entity->timeStamp(),
             'Brew session: ' . $brewSession->sessionId,
             'Fermentor: ' . $brewSession->probe . ' ' . $temperature->temperature(),
             'Ambient: ' . $brewSession->ambient . ' ' . $ambient->temperature(),
