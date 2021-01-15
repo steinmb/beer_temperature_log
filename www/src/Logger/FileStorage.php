@@ -81,7 +81,7 @@ final class FileStorage implements HandlerInterface
         if ($this->isWritable($message)) {
             $fileMessage = $this->message($message);
             $stream = fopen($this->stream, 'ab+');
-            $result = fwrite($stream, $message['message'] . PHP_EOL);
+            $result = fwrite($stream, $fileMessage . PHP_EOL);
             if (!$result) {
                 throw new UnexpectedValueException(
                     'Unable to write to log file: ' . $stream
