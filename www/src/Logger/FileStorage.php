@@ -68,10 +68,9 @@ final class FileStorage implements HandlerInterface
 
     private function isWritable(array $message): bool
     {
-        if ($message['context']) {
-
+        if ($message['context']['brewSession']->probe . '.csv'=== $this->fileName) {
+            return true;
         }
-        return true;
     }
 
     public function write(array $message): void
