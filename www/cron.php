@@ -26,20 +26,19 @@ RuntimeEnvironment::init();
 $batches = RuntimeEnvironment::getSetting('BATCH');
 $brewSessionConfig = new BrewSessionConfig($batches);
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
-//$sensor = new Sensor(new \steinmb\Onewire\OneWireFixed(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
 $loggerService = new Logger('temperature');
 $fileLogger = new Logger('Files');
 
-//if (RuntimeEnvironment::getSetting('BREWERS_FRIEND')) {
-//    $loggerService->pushHandler(
-//        new BrewersFriendHandler(
-//            RuntimeEnvironment::getSetting('BREWERS_FRIEND')['SESSION_ID'],
-//            RuntimeEnvironment::getSetting('BREWERS_FRIEND')['TOKEN'],
-//            new JsonDecode()
-//        )
-//    );
-//}
+if (RuntimeEnvironment::getSetting('BREWERS_FRIEND')) {
+    $loggerService->pushHandler(
+        new BrewersFriendHandler(
+            RuntimeEnvironment::getSetting('BREWERS_FRIEND')['SESSION_ID'],
+            RuntimeEnvironment::getSetting('BREWERS_FRIEND')['TOKEN'],
+            new JsonDecode()
+        )
+    );
+}
 
 if (RuntimeEnvironment::getSetting('TELEGRAM')) {
     $loggerService->pushHandler(
