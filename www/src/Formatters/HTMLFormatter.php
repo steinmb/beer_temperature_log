@@ -22,13 +22,18 @@ final class HTMLFormatter implements FormatterInterface
         return $record;
     }
 
+    private function listItem(string $element): string
+    {
+        return '<li>' . $element . '</li>';
+    }
+
     public function unorderedList(Temperature $sensor): string
     {
         $content = '<div class="block">';
         $content .= '<h2 class="title">' . $this->entity->id() . '</h2>';
         $content .= '<ul>';
-        $content .= "<li>{$this->entity->timeStamp()}</li>";
-        $content .= "<li>{$sensor->temperature()}</li>";
+        $content .= $this->listItem($this->entity->timeStamp());
+        $content .= $this->listItem($sensor->temperature());
         $content .= '</ul></div>';
 
         return $content;
@@ -36,15 +41,17 @@ final class HTMLFormatter implements FormatterInterface
 
     public function trendList(Calculate $calculator, int $minutes, string $lastMeasurement): string
     {
-        $trend = '$calculator->calculateTrend($minutes, $lastMeasurement)';
         $table = explode(', ', $lastMeasurement);
         $content = '';
         $content .= '<div class="block">';
         $content .= '<h2 class="title">' . $this->entity->id() . '</h2>';
         $content .= '<ul>';
-        $content .= '<li>' . $table[0] . '</li>';
-        $content .= '<li>' . $table[1] . 'ºC' . '</li>';
-        $content .= '<li>' . $minutes . 'min $calculator::analyzeTrend() (' . $trend . ')</li>';
+        $content .= $this->listItem($table[0]);
+        $content .= $this->listItem($table[1]);
+        $content .= $this->listItem('Trend: ' . $calculator->calculateTrend(
+            $minutes,
+            $lastMeasurement
+            ));
         $content .= '</ul>';
         $content .= '</div>';
 
