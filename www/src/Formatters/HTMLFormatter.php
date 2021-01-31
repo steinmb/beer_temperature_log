@@ -9,10 +9,17 @@ use steinmb\Utils\Calculate;
 final class HTMLFormatter implements FormatterInterface
 {
     private $entity;
+    private $dateFormat;
 
-    public function __construct(EntityInterface $entity)
+    public function __construct(EntityInterface $entity, ?string $dateFormat = null)
     {
         $this->entity = $entity;
+        $this->dateFormat = $dateFormat;
+    }
+
+    public function format($record)
+    {
+        return $record;
     }
 
     public function unorderedList(Temperature $sensor): string
