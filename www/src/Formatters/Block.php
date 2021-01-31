@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace steinmb\Formatters;
 
@@ -6,22 +6,20 @@ use steinmb\Onewire\Temperature;
 
 final class Block
 {
-    private $temperature;
     private $formatter;
 
-    public function __construct(Temperature $temperature, FormatterInterface $formatter)
+    public function __construct(FormatterInterface $formatter)
     {
-        $this->temperature = $temperature;
         $this->formatter = $formatter;
     }
 
-    public function unorderedlist(): string
+    public function unorderedLists(Temperature $temperature): string
     {
-        return $this->formatter->unorderedList($this->temperature);
+        return $this->formatter->unorderedList($temperature);
     }
 
-    public function trendList($calculator, $time, $sample): string
+    public function trendList(float $trend, int $time, string $sample): string
     {
-        return $this->formatter->trendList($calculator, $time, $sample);
+        return $this->formatter->trendList($trend, $time, $sample);
     }
 }
