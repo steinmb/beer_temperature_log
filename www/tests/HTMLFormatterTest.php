@@ -4,10 +4,9 @@ use steinmb\EntityFactory;
 use steinmb\Formatters\HTMLFormatter;
 use PHPUnit\Framework\TestCase;
 use steinmb\Onewire\DataEntity;
-use steinmb\Onewire\OneWire;
+use steinmb\Onewire\OneWireFixed;
 use steinmb\Onewire\Sensor;
 use steinmb\Onewire\Temperature;
-use steinmb\SystemClock;
 use steinmb\SystemClockFixed;
 
 /**
@@ -20,18 +19,23 @@ final class HTMLFormatterTest extends TestCase
     private $entity;
     private $sensor;
     private $sensors = [];
+    private $temperature;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $oneWire = new OneWire(
-          __DIR__ . '/test_data',
-          __DIR__ . 'test_data/w1_master_slaves'
+        $measurement = '25 00 4b 46 ff ff 07 10 cc : crc=cc YES
+                        25 00 4b 46 ff ff 07 10 cc t=20000';
+        $this->temperature = new Temperature(new DataEntity(
+                '28-1234567',
+                'temperature',
+                $measurement,
+                new SystemClockFixed(new dateTimeImmutable('16.07.2018 13.01.00')))
         );
         $this->sensor = new Sensor(
-          $oneWire,
-          new SystemClock(),
-          new EntityFactory()
+            new OneWireFixed(),
+            new SystemClockFixed(new DateTimeImmutable('16.07.1970 03:55')),
+            new EntityFactory()
         );
         $this->sensors = $this->sensor->getTemperatureSensors();
         $this->entity = new DataEntity(
@@ -44,13 +48,29 @@ final class HTMLFormatterTest extends TestCase
 
     public function testUnorderedList(): void
     {
+        $formatter = new HTMLFormatter($this->entity);
+        $expected = <<<HTML
+            <div class="block">
+            <h2 class="title">10-123456789</h2><ul>
+            <li>1970-07-16 03:55:00</li>
+            <li>20.000</li>
+            </ul></div>
+            HTML;
+        self::assertSame(
+            $expected,
+            $formatter->unorderedList($this->temperature)
+        );
+
+    }
+
+    public function testBlockTitle(): void
+    {
         foreach ($this->sensors as $sensor) {
             $temperature = new Temperature($this->sensor->createEntity($sensor));
             $formatter = new HTMLFormatter($this->sensor->createEntity($sensor));
-
             self::assertStringContainsString(
-              '<h2 class="title">' . $sensor . '</h2>',
-              $formatter->unorderedList($temperature)
+                '<h2 class="title">' . $sensor . '</h2>',
+                $formatter->unorderedList($temperature)
             );
         }
     }
