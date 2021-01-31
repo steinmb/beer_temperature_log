@@ -29,32 +29,43 @@ final class HTMLFormatter implements FormatterInterface
 
     public function unorderedList(Temperature $sensor): string
     {
-        $content = '<div class="block">';
-        $content .= '<h2 class="title">' . $this->entity->id() . '</h2>';
-        $content .= '<ul>';
-        $content .= $this->listItem($this->entity->timeStamp());
-        $content .= $this->listItem($sensor->temperature());
-        $content .= '</ul></div>';
-
-        return $content;
+        return $this->unordered(
+            $this->entity->id(),
+            [
+                $this->entity->timeStamp(),
+                $sensor->temperature(),
+            ]
+        );
     }
 
     public function trendList(Calculate $calculator, int $minutes, string $lastMeasurement): string
     {
-        $table = explode(', ', $lastMeasurement);
-        $content = '';
-        $content .= '<div class="block">';
-        $content .= '<h2 class="title">' . $this->entity->id() . '</h2>';
-        $content .= '<ul>';
-        $content .= $this->listItem($table[0]);
-        $content .= $this->listItem($table[1]);
-        $content .= $this->listItem('Trend: ' . $calculator->calculateTrend(
-            $minutes,
-            $lastMeasurement
-            ));
-        $content .= '</ul>';
-        $content .= '</div>';
+        $elements = explode(', ', $lastMeasurement);
+//        $elements[] = 'Trend: ' . $calculator->calculateTrend($minutes, $lastMeasurement);
+        $elements[] = 'Trend: ';
+
+        $content = $this->unordered(
+            $this->entity->id(),
+            $elements
+        );
 
         return $content;
+    }
+
+    private function unordered(string $title, array $listElements): string
+    {
+        $elements = '';
+        foreach ($listElements as $listElement) {
+            $elements .= $this->listItem($listElement);
+        }
+
+        $htmlUnorderedList = [
+            'prefix' => '<div class="block">',
+            'title' => '<h2 class="title">' . $title . '</h2><ul>',
+            'elements' => $elements,
+            'suffix' => '</ul></div>',
+        ];
+
+        return implode('', $htmlUnorderedList);
     }
 }
