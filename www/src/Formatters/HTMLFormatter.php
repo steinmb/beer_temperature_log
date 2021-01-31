@@ -4,7 +4,6 @@ namespace steinmb\Formatters;
 
 use steinmb\Onewire\EntityInterface;
 use steinmb\Onewire\Temperature;
-use steinmb\Utils\Calculate;
 
 final class HTMLFormatter implements FormatterInterface
 {
@@ -22,32 +21,50 @@ final class HTMLFormatter implements FormatterInterface
         return $record;
     }
 
-    public function unorderedList(Temperature $sensor): string
+    private function listItem(string $element): string
     {
-        $content = '<div class="block">';
-        $content .= '<h2 class="title">' . $this->entity->id() . '</h2>';
-        $content .= '<ul>';
-        $content .= "<li>{$this->entity->timeStamp()}</li>";
-        $content .= "<li>{$sensor->temperature()}</li>";
-        $content .= '</ul></div>';
-
-        return $content;
+        return '<li>' . $element . '</li>';
     }
 
-    public function trendList(Calculate $calculator, int $minutes, string $lastMeasurement): string
+    public function unorderedList(Temperature $sensor): string
     {
-        $trend = '$calculator->calculateTrend($minutes, $lastMeasurement)';
-        $table = explode(', ', $lastMeasurement);
-        $content = '';
-        $content .= '<div class="block">';
-        $content .= '<h2 class="title">' . $this->entity->id() . '</h2>';
-        $content .= '<ul>';
-        $content .= '<li>' . $table[0] . '</li>';
-        $content .= '<li>' . $table[1] . 'ºC' . '</li>';
-        $content .= '<li>' . $minutes . 'min $calculator::analyzeTrend() (' . $trend . ')</li>';
-        $content .= '</ul>';
-        $content .= '</div>';
+        return $this->unordered(
+            $this->entity->id(),
+            [
+                $this->entity->timeStamp(),
+                $sensor->temperature(),
+            ]
+        );
+    }
 
-        return $content;
+    public function trendList(float $trend, int $minutes, string $lastMeasurement): string
+    {
+        $elements = explode(', ', $lastMeasurement);
+        $elements[] = 'Trend: ' . $trend . ' the last ' . $minutes . 'min';
+
+        return $this->unordered(
+            $this->entity->id(),
+            $elements
+        );
+    }
+
+    private function unordered(string $title, array $listElements): string
+    {
+        $elements = '';
+        foreach ($listElements as $index => $listElement) {
+            if ($index !== 0) {
+                $elements .= PHP_EOL;
+            }
+            $elements .= $this->listItem($listElement);
+        }
+
+        $htmlUnorderedList = [
+            'prefix' => '<div class="block">',
+            'title' => '<h2 class="title">' . $title . '</h2><ul>',
+            'elements' => $elements,
+            'suffix' => '</ul></div>',
+        ];
+
+        return implode(PHP_EOL, $htmlUnorderedList);
     }
 }

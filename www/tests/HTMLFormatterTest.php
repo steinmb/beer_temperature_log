@@ -3,10 +3,12 @@
 use steinmb\EntityFactory;
 use steinmb\Formatters\HTMLFormatter;
 use PHPUnit\Framework\TestCase;
+use steinmb\Onewire\DataEntity;
 use steinmb\Onewire\OneWire;
 use steinmb\Onewire\Sensor;
 use steinmb\Onewire\Temperature;
 use steinmb\SystemClock;
+use steinmb\SystemClockFixed;
 
 /**
  * Class HTMLFormatterTest
@@ -15,6 +17,7 @@ use steinmb\SystemClock;
  */
 final class HTMLFormatterTest extends TestCase
 {
+    private $entity;
     private $sensor;
     private $sensors = [];
 
@@ -31,7 +34,12 @@ final class HTMLFormatterTest extends TestCase
           new EntityFactory()
         );
         $this->sensors = $this->sensor->getTemperatureSensors();
-
+        $this->entity = new DataEntity(
+            '10-123456789',
+            'temp',
+            '20.000',
+            new SystemClockFixed(new DateTimeImmutable('16.07.1970 03:55'))
+        );
     }
 
     public function testUnorderedList(): void
@@ -47,4 +55,26 @@ final class HTMLFormatterTest extends TestCase
         }
     }
 
+    public function testTrend(): void
+    {
+        $expected = <<<HTML
+            <div class="block">
+            <h2 class="title">10-123456789</h2><ul>
+            <li>21.2</li>
+            <li>21.3</li>
+            <li>21.5</li>
+            <li>22</li>
+            <li>Trend: 1.000001 the last 30min</li>
+            </ul></div>
+            HTML;
+        $formatter = new HTMLFormatter($this->entity);
+        $htmlList = $formatter->trendList(
+            1.000001,
+            30,
+            '21.2, 21.3, 21.5, 22'
+        );
+
+        self::assertSame($expected, $htmlList
+        );
+    }
 }
