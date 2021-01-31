@@ -4,7 +4,6 @@ namespace steinmb\Formatters;
 
 use steinmb\Onewire\EntityInterface;
 use steinmb\Onewire\Temperature;
-use steinmb\Utils\Calculate;
 
 final class HTMLFormatter implements FormatterInterface
 {
@@ -38,24 +37,24 @@ final class HTMLFormatter implements FormatterInterface
         );
     }
 
-    public function trendList(Calculate $calculator, int $minutes, string $lastMeasurement): string
+    public function trendList(float $trend, int $minutes, string $lastMeasurement): string
     {
         $elements = explode(', ', $lastMeasurement);
-//        $elements[] = 'Trend: ' . $calculator->calculateTrend($minutes, $lastMeasurement);
-        $elements[] = 'Trend: ';
+        $elements[] = 'Trend: ' . $trend . ' the last ' . $minutes . 'min';
 
-        $content = $this->unordered(
+        return $this->unordered(
             $this->entity->id(),
             $elements
         );
-
-        return $content;
     }
 
     private function unordered(string $title, array $listElements): string
     {
         $elements = '';
-        foreach ($listElements as $listElement) {
+        foreach ($listElements as $index => $listElement) {
+            if ($index !== 0) {
+                $elements .= PHP_EOL;
+            }
             $elements .= $this->listItem($listElement);
         }
 
@@ -66,6 +65,6 @@ final class HTMLFormatter implements FormatterInterface
             'suffix' => '</ul></div>',
         ];
 
-        return implode('', $htmlUnorderedList);
+        return implode(PHP_EOL, $htmlUnorderedList);
     }
 }
