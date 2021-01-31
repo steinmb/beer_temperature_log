@@ -22,23 +22,28 @@ include_once __DIR__ . '/vendor/autoload.php';
 
 RuntimeEnvironment::setSetting('BREW_ROOT', __DIR__);
 $loggerService = new Logger('temperature');
-$lastReading = $loggerService->lastEntry();
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
-$calculate = new Calculate($loggerService);
+$trendInterval = 30;
 
 foreach ($probes as $probe) {
     $fileLogger = $loggerService->pushHandler(new FileStorage($probe . '.csv'));
+    $lastReading = $fileLogger->lastEntry();
     $entity = $sensor->createEntity($probe);
-    $temperature = new Temperature($entity);
-    $formatter = new Block($temperature, new HTMLFormatter($entity));
-    $blocks[] = $formatter->unorderedlist();
+    $formatter = new Block(new HTMLFormatter($entity));
+    $blocks[] = $formatter->unorderedLists(new Temperature($entity));
 
     if ($lastReading) {
-        $blocks[] = $formatter->trendList($calculate, 10, $lastReading);
+        $trendCalculator = new Calculate($fileLogger);
+        $blocks[] = $formatter->trendList(
+            $trendCalculator->calculateTrend($trendInterval, $lastReading),
+            $trendInterval,
+            $lastReading
+        );
     }
-    $fileLogger->close();
 }
+
+$loggerService->close();
 
 if (file_exists(RuntimeEnvironment::getSetting('BREW_ROOT') . '/temperatur.png')) {
     $graph = RuntimeEnvironment::getSetting('BREW_ROOT') . '/temperatur.png';
