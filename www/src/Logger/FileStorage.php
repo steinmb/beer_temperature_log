@@ -113,36 +113,48 @@ final class FileStorage implements HandlerInterface
         return $this->message;
     }
 
-    private function tailFile(int $lines = 1, bool $adaptive = true)
+    /**
+     * Sets buffer size, according to the number of lines to retrieve.
+     * This gives a performance boost when reading a few lines from the file.
+     *
+     * @param int $lines
+     * @param bool $adaptive
+     * @return int
+     */
+    private function bufferSize(int $lines = 1, bool $adaptive = true): int
+    {
+        if (!$adaptive) {
+            return 4096;
+        }
+        if ($lines < 2) {
+            return 64;
+        }
+        if ($lines < 10) {
+            return 512;
+        }
+
+        return 4094;
+    }
+
+    private function tailFile(int $lines = 1, bool $adaptive = true): ?string
     {
         $f = @fopen($this->stream, "rb");
         if ($f === false) {
-            return false;
+            return null;
         }
 
-        // Sets buffer size, according to the number of lines to retrieve.
-        // This gives a performance boost when reading a few lines from the file.
-        if (!$adaptive) {
-            $buffer = 4096;
-        }
-        else {
-            $buffer = ($lines < 2 ? 64 : ($lines < 10 ? 512 : 4096));
-        }
-
-        // Jump to last character
+        $buffer = $this->bufferSize($lines, $adaptive);
+        // Jump to last character.
         fseek($f, -1, SEEK_END);
 
-        // Read it and adjust line number if necessary
-        // (Otherwise the result would be wrong if file doesn't end with a blank line).
+        // Read it and adjust line number if necessary, otherwise the result would be
+        // wrong if file doesn't end with a blank line.
         if (fread($f, 1) !== "\n") {
             --$lines;
         }
 
-        // Start reading
         $output = '';
         $chunk = '';
-
-        // While we would like more.
         while (ftell($f) > 0 && $lines >= 0) {
 
             // Figure out how far back we should jump.
@@ -162,15 +174,11 @@ final class FileStorage implements HandlerInterface
 
         }
 
-        // While we have too many lines
-        // (Because of buffer size we might have read too many).
+        // Because of buffer size we might have read too many lines.
         while ($lines++ < 0) {
-
             // Find first newline and remove all text before that
             $output = substr($output, strpos($output, "\n") + 1);
-
         }
-
         fclose($f);
 
         return trim($output);
