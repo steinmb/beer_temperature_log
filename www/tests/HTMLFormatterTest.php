@@ -89,7 +89,7 @@ final class HTMLFormatterTest extends TestCase
             HTML;
         $formatter = new HTMLFormatter($this->entity);
         $htmlList = $formatter->trendList(
-            1.000001,
+            '1.000001',
             30,
             '21.2, 21.3, 21.5, 22'
         );
