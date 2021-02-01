@@ -37,7 +37,7 @@ final class HTMLFormatter implements FormatterInterface
         );
     }
 
-    public function trendList(float $trend, int $minutes, string $lastMeasurement): string
+    public function trendList(string $trend, int $minutes, string $lastMeasurement): string
     {
         $elements = explode(', ', $lastMeasurement);
         $elements[] = 'Trend: ' . $trend . ' the last ' . $minutes . 'min';

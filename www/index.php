@@ -34,9 +34,13 @@ foreach ($probes as $probe) {
     $blocks[] = $formatter->unorderedLists(new Temperature($entity));
 
     if ($lastReading) {
-        $trendCalculator = new Calculate($fileLogger);
+        $trendCalculator = new Calculate();
         $blocks[] = $formatter->trendList(
-            $trendCalculator->calculateTrend($trendInterval, $lastReading),
+            $trendCalculator->calculateTrend(
+                $trendInterval,
+                $lastReading,
+                $fileLogger->lastEntries($trendInterval)
+            ),
             $trendInterval,
             $lastReading
         );

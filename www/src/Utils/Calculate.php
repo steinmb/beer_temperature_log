@@ -1,13 +1,11 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace steinmb\Utils;
 
-use steinmb\Logger\LoggerInterface;
 use UnexpectedValueException;
 
 final class Calculate
 {
-    private $log;
     private $trend;
     private const ranges = [
         'stable' => 0.1,
@@ -17,10 +15,7 @@ final class Calculate
         'fast' => 2,
         ];
 
-    public function __construct(LoggerInterface $log)
-    {
-        $this->log = $log;
-    }
+    public function __construct() {}
 
     public function getTrend()
     {
@@ -57,13 +52,17 @@ final class Calculate
         return ['x' => $x, 'x2' => $x2, 'y' => $y];
     }
 
-    public function calculateTrend(int $time, string $lastMeasurement)
+    private function lastValues(string $values): array
     {
-        $content = $this->log->read();
-        $log = explode("\n" , $content);
+        $log = explode("\n" , $values);
         array_pop($log);
-        $reversed = $this->reverse($log, $lastMeasurement, $time);
 
+        return $log;
+    }
+
+    public function calculateTrend(int $time, string $lastMeasurement, string $lastEntries): string
+    {
+        $reversed = $this->reverse($this->lastValues($lastEntries), $lastMeasurement, $time);
         $y = array_reverse($reversed['y']);
         $samples = (string) $reversed['x'];
         $x = range(1, $reversed['x']);
