@@ -94,6 +94,17 @@ final class Logger implements LoggerInterface
         return $value;
     }
 
+    public function lastEntries(int $lines): string
+    {
+        foreach ($this->handlers as $handler) {
+            if ($handler instanceof FileStorage) {
+                return $handler->lastEntries($lines);
+            }
+        }
+
+        return '';
+    }
+
     public function pushHandler(HandlerInterface $handler): self
     {
         array_unshift($this->handlers, $handler);

@@ -113,6 +113,11 @@ final class FileStorage implements HandlerInterface
         return $this->message;
     }
 
+    public function lastEntries(int $lines): string
+    {
+        return $this->tailFile($lines);
+    }
+
     /**
      * Sets buffer size, according to the number of lines to retrieve.
      * This gives a performance boost when reading a few lines from the file.

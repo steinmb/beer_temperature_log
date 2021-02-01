@@ -18,7 +18,7 @@ final class Block
         return $this->formatter->unorderedList($temperature);
     }
 
-    public function trendList(float $trend, int $time, string $sample): string
+    public function trendList(string $trend, int $time, string $sample): string
     {
         return $this->formatter->trendList($trend, $time, $sample);
     }
