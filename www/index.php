@@ -11,7 +11,6 @@ use steinmb\RuntimeEnvironment;
 use steinmb\Formatters\Block;
 use steinmb\Formatters\HTMLFormatter;
 use steinmb\Utils\Calculate;
-use steinmb\Logger\Logger;
 use steinmb\Logger\FileStorageHandler;
 use steinmb\Onewire\OneWire;
 use steinmb\Onewire\Sensor;
@@ -27,7 +26,7 @@ $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $senso
 $trendInterval = 30;
 
 foreach ($probes as $probe) {
-    $fileLogger = $loggerService->pushHandler(new FileStorageHandler($probe . '.csv'));
+    $fileLogger = new FileStorageHandler($probe . '.csv');
     $lastReading = $fileLogger->lastEntry();
     $entity = $sensor->createEntity($probe);
     $formatter = new Block(new HTMLFormatter($entity));
@@ -45,9 +44,8 @@ foreach ($probes as $probe) {
             $lastReading
         );
     }
+    $fileLogger->close();
 }
-
-$loggerService->close();
 
 if (file_exists(RuntimeEnvironment::getSetting('BREW_ROOT') . '/temperatur.png')) {
     $graph = RuntimeEnvironment::getSetting('BREW_ROOT') . '/temperatur.png';
