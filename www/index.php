@@ -12,7 +12,7 @@ use steinmb\Formatters\Block;
 use steinmb\Formatters\HTMLFormatter;
 use steinmb\Utils\Calculate;
 use steinmb\Logger\Logger;
-use steinmb\Logger\FileStorage;
+use steinmb\Logger\FileStorageHandler;
 use steinmb\Onewire\OneWire;
 use steinmb\Onewire\Sensor;
 use steinmb\SystemClock;
@@ -27,7 +27,7 @@ $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $senso
 $trendInterval = 30;
 
 foreach ($probes as $probe) {
-    $fileLogger = $loggerService->pushHandler(new FileStorage($probe . '.csv'));
+    $fileLogger = $loggerService->pushHandler(new FileStorageHandler($probe . '.csv'));
     $lastReading = $fileLogger->lastEntry();
     $entity = $sensor->createEntity($probe);
     $formatter = new Block(new HTMLFormatter($entity));

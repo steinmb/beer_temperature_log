@@ -5,7 +5,7 @@ namespace steinmb\Logger;
 use steinmb\RuntimeEnvironment;
 use UnexpectedValueException;
 
-final class FileStorage implements HandlerInterface
+final class FileStorageHandler implements HandlerInterface
 {
     private $directory;
     private $fileName;

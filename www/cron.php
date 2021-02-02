@@ -13,7 +13,7 @@ use steinmb\Logger\BrewersFriendHandler;
 use steinmb\Logger\JsonDecode;
 use steinmb\Logger\TelegramHandler;
 use steinmb\RuntimeEnvironment;
-use steinmb\Logger\FileStorage;
+use steinmb\Logger\FileStorageHandler;
 use steinmb\Logger\Logger;
 use steinmb\Onewire\OneWire;
 use steinmb\Onewire\Sensor;
@@ -60,7 +60,7 @@ foreach ($probes as $probe) {
             'ambient' => new Temperature($sensor->createEntity($brewSession->ambient)),
         ];
         $loggerService->write('', $context);
-        $fileLogger->pushHandler(new FileStorage(
+        $fileLogger->pushHandler(new FileStorageHandler(
             $probe . '.csv',
             RuntimeEnvironment::getSetting('LOG_DIRECTORY') . '/' . $brewSession->sessionId
         ));

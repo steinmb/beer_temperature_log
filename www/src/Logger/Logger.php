@@ -97,7 +97,7 @@ final class Logger implements LoggerInterface
     public function lastEntries(int $lines): string
     {
         foreach ($this->handlers as $handler) {
-            if ($handler instanceof FileStorage) {
+            if ($handler instanceof FileStorageHandler) {
                 return $handler->lastEntries($lines);
             }
         }

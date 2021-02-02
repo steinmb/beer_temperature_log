@@ -6,7 +6,7 @@ use steinmb\EntityFactory;
 use steinmb\RuntimeEnvironment;
 use steinmb\Formatters\Block;
 use steinmb\Logger\Logger;
-use steinmb\Logger\FileStorage;
+use steinmb\Logger\FileStorageHandler;
 use steinmb\Onewire\Sensor;
 use steinmb\SystemClock;
 use steinmb\Onewire\OneWire;
@@ -29,7 +29,7 @@ $lastReading = '2020-07-07 21:11:46, 28-0000098101de, 15.687';
 foreach ($probes as $probe) {
     $entity = $sensor->createEntity($probe);
     $temperature = new Temperature($entity);
-    $fileLogger = $loggerService->pushHandler(new FileStorage($probe . '.csv'));
+    $fileLogger = $loggerService->pushHandler(new FileStorageHandler($probe . '.csv'));
     $fileLogger->write((string) $temperature);
     $fileLogger->close();
     $block = new Block($temperature, new HTMLFormatter($entity));

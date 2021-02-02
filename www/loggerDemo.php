@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
 use steinmb\Logger\ConsoleHandler;
-use steinmb\Logger\FileStorage;
+use steinmb\Logger\FileStorageHandler;
 use steinmb\Logger\Logger;
 
 include_once __DIR__ . '/vendor/autoload.php';
 
 $logService = new Logger('Demo');
-$fileLogger = $logService->pushHandler(new FileStorage('test1.csv'));
+$fileLogger = $logService->pushHandler(new FileStorageHandler('test1.csv'));
 $console = $fileLogger->withName('Console logger')->pushHandler(new ConsoleHandler());
 
 $fileLogger->write('Logger: Test data');
