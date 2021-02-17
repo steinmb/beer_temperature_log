@@ -66,22 +66,9 @@ final class FileStorageHandler implements HandlerInterface
         return $content;
     }
 
-    private function isWritable(array $message): bool
-    {
-        if (!isset($message['context']['brewSession'])) {
-            return false;
-        }
-
-        if ($message['context']['brewSession']->probe . '.csv' === $this->fileName) {
-            return true;
-        }
-
-        return false;
-    }
-
     private function message(array $record): string
     {
-        if (!isset($record['context'])) {
+        if (!isset($record['context']) || !$record['context']) {
             return $record['message'];
         }
 
@@ -103,10 +90,6 @@ final class FileStorageHandler implements HandlerInterface
 
     public function write(array $message): void
     {
-//        if (!$this->isWritable($message)) {
-//            return '';
-//        }
-
         $fileMessage = $this->message($message);
         $stream = fopen($this->stream, 'ab+');
 
@@ -118,8 +101,6 @@ final class FileStorageHandler implements HandlerInterface
         }
 
         $this->message = $fileMessage;
-
-        return $fileMessage;
     }
 
     public function lastEntry(): string
@@ -177,7 +158,6 @@ final class FileStorageHandler implements HandlerInterface
         }
 
         $output = '';
-        $chunk = '';
         while (ftell($f) > 0 && $lines >= 0) {
 
             // Figure out how far back we should jump.

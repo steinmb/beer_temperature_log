@@ -46,10 +46,8 @@ class FileStorageHandlerTest extends TestCase
 
     public function testWrite(): void
     {
-        $message = [
-            'message' => 'Test string',
-        ];
-        self::assertSame('Test string', $this->fileStorage->write($message));
+        $this->fileStorage->write(['message' => 'Test string']);
+        self::assertSame('Test string', $this->fileStorage->lastEntry());
     }
 
     public function tearDown(): void
