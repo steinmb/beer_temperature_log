@@ -79,15 +79,15 @@ final class FileStorageHandler implements HandlerInterface
         return false;
     }
 
-    private function message(array $context): string
+    private function message(array $record): string
     {
-        if (!isset($context['context'])) {
-            return $context['message'];
+        if (!isset($record['context'])) {
+            return $record['message'];
         }
 
-        $brewSession = $context['context']['brewSession'];
-        $temperature = $context['context']['temperature'];
-        $ambient = $context['context']['ambient'];
+        $brewSession = $record['context']['brewSession'];
+        $temperature = $record['context']['temperature'];
+        $ambient = $record['context']['ambient'];
 
         $message = [
             $temperature->entity->timeStamp(),
