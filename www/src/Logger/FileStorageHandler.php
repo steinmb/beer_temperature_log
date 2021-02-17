@@ -81,6 +81,10 @@ final class FileStorageHandler implements HandlerInterface
 
     private function message(array $context): string
     {
+        if (!isset($context['context'])) {
+            return $context['message'];
+        }
+
         $brewSession = $context['context']['brewSession'];
         $temperature = $context['context']['temperature'];
         $ambient = $context['context']['ambient'];
@@ -99,17 +103,23 @@ final class FileStorageHandler implements HandlerInterface
 
     public function write(array $message): void
     {
-        if ($this->isWritable($message)) {
-            $fileMessage = $this->message($message);
-            $stream = fopen($this->stream, 'ab+');
-            $result = fwrite($stream, $fileMessage . PHP_EOL);
-            if (!$result) {
-                throw new UnexpectedValueException(
-                    'Unable to write to log file: ' . $stream
-                );
-            }
-            $this->message = $fileMessage;
+//        if (!$this->isWritable($message)) {
+//            return '';
+//        }
+
+        $fileMessage = $this->message($message);
+        $stream = fopen($this->stream, 'ab+');
+
+        $result = fwrite($stream, $fileMessage . PHP_EOL);
+        if (!$result) {
+            throw new UnexpectedValueException(
+                'Unable to write to log file: ' . $stream
+            );
         }
+
+        $this->message = $fileMessage;
+
+        return $fileMessage;
     }
 
     public function lastEntry(): string
