@@ -36,12 +36,9 @@ class FileStorageHandlerTest extends TestCase
 
     public function testRead(): void
     {
-
-    }
-
-    public function testClose(): void
-    {
-
+        $randomRecord = uniqid('Test', true);
+        $this->fileStorage->write(['message' => $randomRecord]);
+        self::assertSame($randomRecord, $this->fileStorage->lastEntries(1));
     }
 
     public function testWrite(): void
