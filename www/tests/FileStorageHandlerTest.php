@@ -41,6 +41,15 @@ class FileStorageHandlerTest extends TestCase
         self::assertSame($randomRecord, $this->fileStorage->lastEntries(1));
     }
 
+    public function testReadMultiple(): void
+    {
+        $randomRecord = uniqid('Test', true);
+        $randomRecord2 = uniqid('Test', true);
+        $this->fileStorage->write(['message' => $randomRecord]);
+        $this->fileStorage->write(['message' => $randomRecord2]);
+        self::assertSame($randomRecord . PHP_EOL . $randomRecord2, $this->fileStorage->lastEntries(2));
+    }
+
     public function testWrite(): void
     {
         $this->fileStorage->write(['message' => 'Test string']);
