@@ -2,6 +2,9 @@
 
 include_once __DIR__ . '/vendor/autoload.php';
 
+use steinmb\Alarm;
+use steinmb\BrewSession;
+use steinmb\BrewSessionConfig;
 use steinmb\EntityFactory;
 use steinmb\RuntimeEnvironment;
 use steinmb\Logger\Logger;
@@ -19,6 +22,7 @@ RuntimeEnvironment::setSetting('SENSORS', __DIR__ . '/tests/test_data/w1_master_
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
 $trendCalculator = new Calculate();
+$brewSessionConfig = new BrewSessionConfig(RuntimeEnvironment::getSetting('BATCH'));
 
 foreach ($probes as $probe) {
     $loggerService = new Logger('Demo');
@@ -30,6 +34,18 @@ foreach ($probes as $probe) {
         $loggerService->lastEntry(),
         $loggerService->lastEntries(15)
     );
+    $brewSession = $brewSessionConfig->sessionIdentity($probe);
+
+    $alarmStatus = '';
+    if ($brewSession instanceof BrewSession) {
+        $alarm = new Alarm($brewSession);
+        $alarmStatus = $alarm->checkLimits($temperature);
+    }
+
+    if ($alarmStatus) {
+        echo $alarmStatus . PHP_EOL;
+    }
+
     print "Date: {$temperature->entity->timeStamp()} Id: {$temperature->entity->id()} {$temperature->temperature()}ºC \n";
     print "Date: {$temperature->entity->timeStamp()} Id: {$temperature->entity->id()} {$temperature->temperature('fahrenheit')}ºF \n";
     print "Date: {$temperature->entity->timeStamp()} Id: {$temperature->entity->id()} {$temperature->temperature('kelvin')}ºK \n";
