@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 /**
  * @file cron.php
@@ -6,6 +6,7 @@
  * Reads and store data from all attached sensors.
  */
 
+use steinmb\Alarm;
 use steinmb\BrewSession;
 use steinmb\BrewSessionConfig;
 use steinmb\EntityFactory;
@@ -29,6 +30,16 @@ $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
 $loggerService = new Logger('temperature');
 $fileLogger = new Logger('Files');
+$alarmLogger = new Logger('Alarms');
+
+if (RuntimeEnvironment::getSetting('TELEGRAM_ALARM')) {
+    $alarmLogger->pushHandler(
+        new TelegramHandler(
+            RuntimeEnvironment::getSetting('TELEGRAM_ALARM')['TOKEN'],
+            RuntimeEnvironment::getSetting('TELEGRAM_ALARM')['CHANNEL'],
+        )
+    );
+}
 
 if (RuntimeEnvironment::getSetting('BREWERS_FRIEND')) {
     $loggerService->pushHandler(
@@ -51,12 +62,17 @@ if (RuntimeEnvironment::getSetting('TELEGRAM')) {
 
 foreach ($probes as $probe) {
     $brewSession = $brewSessionConfig->sessionIdentity($probe);
+    $alarmStatus = '';
+
     if ($brewSession instanceof BrewSession) {
+        $brewTemperature = new Temperature($sensor->createEntity($brewSession->probe));
+        $alarm = new Alarm($brewSession);
+        $alarmStatus = $alarm->checkLimits($brewTemperature);
         $fileLogger = new Logger('Files');
         $context = [
             'brewSession' => $brewSession,
             'sensor' => $sensor,
-            'temperature' => new Temperature($sensor->createEntity($brewSession->probe)),
+            'temperature' => $brewTemperature,
             'ambient' => new Temperature($sensor->createEntity($brewSession->ambient)),
         ];
         $loggerService->write('', $context);
@@ -65,6 +81,10 @@ foreach ($probes as $probe) {
             RuntimeEnvironment::getSetting('LOG_DIRECTORY') . '/' . $brewSession->sessionId
         ));
         $fileLogger->write('', $context);
+    }
+
+    if ($alarmStatus) {
+        $alarmLogger->write($alarmStatus);
     }
 }
 
