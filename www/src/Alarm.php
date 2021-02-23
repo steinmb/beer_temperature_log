@@ -14,14 +14,14 @@ class Alarm
     {
         if (!$brewSession->high_limit) {
             throw new UnexpectedValueException(
-                'No high temperature limit defined.'
+                'No high temperature limit defined in session ' . $brewSession->sessionId
             );
         }
         $this->high_limit = $brewSession->high_limit;
 
         if (!$brewSession->low_limit) {
             throw new UnexpectedValueException(
-                'No high temperature limit defined.'
+                'No high temperature limit defined in session ' . $brewSession->sessionId
             );
         }
         $this->low_limit = $brewSession->low_limit;
