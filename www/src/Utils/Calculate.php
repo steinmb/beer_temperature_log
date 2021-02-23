@@ -33,6 +33,10 @@ final class Calculate
      */
     private function reverse(array $log, string $last, $time): array
     {
+        if (!$log) {
+            return [];
+        }
+
         $x = '';
         $x2 = [];
         $y = [];
@@ -63,6 +67,10 @@ final class Calculate
     public function calculateTrend(int $time, string $lastMeasurement, string $lastEntries): string
     {
         $reversed = $this->reverse($this->lastValues($lastEntries), $lastMeasurement, $time);
+        if (!$reversed) {
+            return '';
+        }
+
         $y = array_reverse($reversed['y']);
         $samples = (string) $reversed['x'];
         $x = range(1, $reversed['x']);
