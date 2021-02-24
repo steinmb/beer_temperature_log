@@ -4,6 +4,9 @@ namespace steinmb\Logger;
 
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @coversDefaultClass \steinmb\Logger\Logger
+ */
 final class LoggerTest extends TestCase
 {
     private $logger;
@@ -15,17 +18,26 @@ final class LoggerTest extends TestCase
         $this->logger = $logger->pushHandler(new NullHandler());
     }
 
+    /**
+     * @covers ::withName
+     */
     public function testWithName(): void
     {
         $logger2 = $this->logger->withName('Test2');
         self::assertSame('Test2', $logger2->getName());
     }
 
+    /**
+     * @covers ::read
+     */
     public function testRead(): void
     {
         self::assertSame('Test data from NullHandler', $this->logger->read());
     }
 
+    /**
+     * @covers ::lastEntry
+     */
     public function testLastEntry(): void
     {
         $this->logger->write('This is the first message');

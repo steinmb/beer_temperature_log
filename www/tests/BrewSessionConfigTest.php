@@ -5,6 +5,9 @@ namespace steinmb;
 use PHPUnit\Framework\TestCase;
 use UnexpectedValueException;
 
+/**
+ * @coversDefaultClass \steinmb\BrewSessionConfig
+ */
 final class BrewSessionConfigTest extends TestCase
 {
     private $brewSessionConfig;
@@ -31,6 +34,9 @@ final class BrewSessionConfigTest extends TestCase
         $this->brewSession = $this->brewSessionConfig->sessionIdentity('28-0000098101de');
     }
 
+    /**
+     * @covers ::sessionIdentity
+     */
     public function testUnknownProbe(): void
     {
         $probe = 'unknown';
@@ -39,6 +45,9 @@ final class BrewSessionConfigTest extends TestCase
         $this->brewSessionConfig->sessionIdentity($probe);
     }
 
+    /**
+     * @covers ::sessionIdentity
+     */
     public function testSession(): void
     {
         self::assertEquals(
@@ -61,6 +70,9 @@ final class BrewSessionConfigTest extends TestCase
         );
     }
 
+    /**
+     * @covers ::sessionIdentity
+     */
     public function testAmbiguousSessionId(): void
     {
         self::assertEquals(

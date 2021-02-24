@@ -8,6 +8,9 @@ use steinmb\Onewire\DataEntity;
 use steinmb\Onewire\Temperature;
 use steinmb\SystemClockFixed;
 
+/**
+ * @coversDefaultClass \steinmb\Logger\FileStorageHandler
+ */
 class FileStorageHandlerTest extends TestCase
 {
 
@@ -34,6 +37,9 @@ class FileStorageHandlerTest extends TestCase
         $this->fileStorage = new FileStorageHandler('test.csv', self::testDirectory);
     }
 
+    /**
+     * @covers ::lastEntries
+     */
     public function testRead(): void
     {
         $randomRecord = uniqid('Test', true);
@@ -41,6 +47,9 @@ class FileStorageHandlerTest extends TestCase
         self::assertSame($randomRecord, $this->fileStorage->lastEntries(1));
     }
 
+    /**
+     * @covers ::lastEntries
+     */
     public function testReadMultiple(): void
     {
         $randomRecord = uniqid('Test', true);
@@ -50,6 +59,9 @@ class FileStorageHandlerTest extends TestCase
         self::assertSame($randomRecord . PHP_EOL . $randomRecord2, $this->fileStorage->lastEntries(2));
     }
 
+    /**
+     * @covers ::write
+     */
     public function testWrite(): void
     {
         $this->fileStorage->write(['message' => 'Test string']);

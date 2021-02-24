@@ -4,6 +4,9 @@ use steinmb\Onewire\DataEntity;
 use PHPUnit\Framework\TestCase;
 use steinmb\SystemClockFixed;
 
+/**
+ * @coversDefaultClass \steinmb\Onewire\DataEntity
+ */
 final class DataEntityTest extends TestCase
 {
     private $entity;
@@ -19,11 +22,17 @@ final class DataEntityTest extends TestCase
         );
     }
 
+    /**
+     * @covers ::id
+     */
     public function testId(): void
     {
         self::assertSame('10-123456789', $this->entity->id());
     }
 
+    /**
+     * @covers ::measurement
+     */
     public function testMeasurement(): void
     {
         self::assertEquals('20.000', $this->entity->measurement(), 'Failed to get measurement');
