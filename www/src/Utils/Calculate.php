@@ -89,15 +89,19 @@ final class Calculate
             $x2Summary = bcadd((string) $x2Summary, $item, 10);
         }
 
+        return $this->vector($samples, $xySummary, $xSummary, $ySummary, $x2Summary);
+    }
+
+    private function vector($samples, $xySummary, $xSummary, $ySummary, $x2Summary): string
+    {
         $vector1 = bcsub(bcmul($samples, $xySummary), bcmul($xSummary, $ySummary));
         $vector2 = bcsub(bcmul($samples, $x2Summary), bcsqrt($xSummary, 30));
 
-        $result = 0;
         if ($vector2 > 0) {
-            $result = bcdiv($vector1, $vector2, 12);
+            return bcdiv($vector1, $vector2, 12);
         }
 
-        return $result;
+        return '';
     }
 
     /**

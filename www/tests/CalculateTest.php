@@ -79,4 +79,16 @@ class CalculateTest extends TestCase
         self::assertEquals(1, $regression);
     }
 
+    public function testTrend(): void
+    {
+        $lastEntries = <<<TXT
+        2021-02-23 09:21:05, 28-0000098101de, 15.687
+        2021-02-23 09:21:05, 28-0000098101de, 16.687
+        2021-02-23 09:21:05, 28-0000098101de, 16.687
+        2021-02-23 09:21:05, 28-0000098101de, 17.687
+        TXT;
+        $calc = new Calculate();
+        $trend = $calc->calculateTrend(4, '20', $lastEntries);
+        self::assertEquals('32.258064516129', $trend, 'Failed calculating trend data');
+    }
 }
