@@ -38,7 +38,7 @@ final class RuntimeEnvironment
             self::setSetting('BREW_ROOT', dirname(__DIR__));
         }
 
-        return self::$settings[$setting];
+        return self::$settings[$setting] ?? '';
     }
 
     public static function setSetting(string $setting, $value): void
