@@ -31,11 +31,11 @@ class Alarm
         $status = '';
 
         if ($this->highLimit($temperature)) {
-            $status = 'Batch: ' . $this->brewSession->sessionId . '. High limit ' . $temperature->temperature() . 'ºC reached';
+            $status = 'Batch: ' . $this->brewSession->sessionId . ' - High limit ' . $temperature->temperature() . 'ºC reached';
         }
 
         if ($this->lowLimit($temperature)) {
-            $status = 'Batch: ' . $this->brewSession->sessionId . '. Low limit ' . $temperature->temperature() . 'ºC reached';
+            $status = 'Batch: ' . $this->brewSession->sessionId . ' - Low limit ' . $temperature->temperature() . 'ºC reached';
         }
 
         return $status;
