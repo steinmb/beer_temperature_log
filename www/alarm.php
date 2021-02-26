@@ -34,17 +34,16 @@ if (RuntimeEnvironment::getSetting('TELEGRAM_ALARM')) {
 
 foreach ($probes as $probe) {
     $brewSession = $brewSessionConfig->sessionIdentity($probe);
-    $brewTemperature = new Temperature($sensor->createEntity($brewSession->probe));
     $alarmStatus = '';
 
     if ($brewSession instanceof BrewSession) {
+        $brewTemperature = new Temperature($sensor->createEntity($brewSession->probe));
         $alarm = new Alarm($brewSession);
         $alarmStatus = $alarm->checkLimits($brewTemperature);
     }
 
     if ($alarmStatus) {
         $alarmLogger->write($alarmStatus);
+        $alarmLogger->close();
     }
 }
-
-$alarmLogger->close();
