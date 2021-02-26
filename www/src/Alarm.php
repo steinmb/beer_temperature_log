@@ -7,8 +7,7 @@ use UnexpectedValueException;
 
 class Alarm
 {
-    private $low_limit;
-    private $high_limit;
+    private $brewSession;
 
     public function __construct(BrewSessionInterface $brewSession)
     {
@@ -17,14 +16,14 @@ class Alarm
                 'No high temperature limit defined in session ' . $brewSession->sessionId
             );
         }
-        $this->high_limit = $brewSession->high_limit;
 
         if (!$brewSession->low_limit) {
             throw new UnexpectedValueException(
                 'No high temperature limit defined in session ' . $brewSession->sessionId
             );
         }
-        $this->low_limit = $brewSession->low_limit;
+
+        $this->brewSession = $brewSession;
     }
 
     public function checkLimits(Temperature $temperature): string
@@ -32,11 +31,11 @@ class Alarm
         $status = '';
 
         if ($this->highLimit($temperature)) {
-            $status = 'High limit reached: ' . $temperature->temperature();
+            $status = 'Batch:  . ' . $this->brewSession->sessionId . '. High limit ' . $temperature->temperature() . ' reached';
         }
 
         if ($this->lowLimit($temperature)) {
-            $status = 'Low limit reached: ' . $temperature->temperature();
+            $status = 'Batch:  . ' . $this->brewSession->sessionId . '. Low limit ' . $temperature->temperature() . ' reached';
         }
 
         return $status;
@@ -44,11 +43,11 @@ class Alarm
 
     private function highLimit(Temperature $temperature): bool
     {
-        return !($this->high_limit > $temperature->temperature());
+        return !($this->brewSession->high_limit > $temperature->temperature());
     }
 
     private function lowLimit(Temperature $temperature): bool
     {
-        return !($this->low_limit < $temperature->temperature());
+        return !($this->brewSession->low_limit < $temperature->temperature());
     }
 }
