@@ -7,6 +7,10 @@ use RuntimeException;
 final class Curl
 {
     private static $retrievableErrorCodes = [];
+    /**
+     * @var \CurlHandle|false|resource
+     */
+    private $ch;
 
     public function curl($ch)
     {
@@ -38,6 +42,25 @@ final class Curl
 
             return $curlResponse;
         }
+    }
+
+    public function init(string $url): void
+    {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
+        $this->ch = $ch;
+    }
+
+    public function setOption(string $option, $value): void
+    {
+        curl_setopt($this->ch, $option, $value);
+    }
+
+    public function debug(): void
+    {
+        curl_setopt($this->ch, CURLOPT_VERBOSE, true);
     }
 
     /**

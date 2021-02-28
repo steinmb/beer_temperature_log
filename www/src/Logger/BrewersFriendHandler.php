@@ -79,12 +79,6 @@ final class BrewersFriendHandler implements HandlerInterface
     {
         $payload = $this->message($message);
         $this->curlInit(self::API_STREAM . '/' . $this->token);
-        curl_setopt($this->ch, CURLOPT_POST, 1);
-        curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($this->ch, CURLOPT_HTTPHEADER, [
-            'X-API-Key: ' . $this->token,
-            'Content-Type: application/json',
-        ]);
         curl_setopt($this->ch, CURLOPT_POSTFIELDS, $payload);
         $request = $this->curl();
         $result = $this->jsonDecode->decode($request);
@@ -94,46 +88,14 @@ final class BrewersFriendHandler implements HandlerInterface
 
     private function curlInit(string $url): void
     {
-        $this->ch = curl_init();
-        curl_setopt($this->ch, CURLOPT_URL, $url);
-        curl_setopt($this->ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, true);
-        curl_setopt($this->ch, CURLOPT_HTTPHEADER, ['X-API-Key: ' . $this->token]);
-//        curl_setopt($this->ch, CURLOPT_VERBOSE, true);
-    }
-
-    private function curl()
-    {
-        $retries = 5;
-        $closeAfterDone = false;
-
-        while ($retries--) {
-            $curlResponse = curl_exec($this->ch);
-            if ($curlResponse === false) {
-                $curlErrno = curl_errno($this->ch);
-
-                if (false === in_array($curlErrno, self::$retrievableErrorCodes, true) || !$retries) {
-                    $curlError = curl_error($this->ch);
-
-                    if ($closeAfterDone) {
-                        $this->close();
-                    }
-
-                    throw new RuntimeException(
-                        'Curl failed' . $curlErrno . ' ' . $curlError);
-                }
-
-                continue;
-            }
-
-            if ($closeAfterDone) {
-                $this->close();
-            }
-
-            return $curlResponse;
-        }
-
-        return false;
+        $this->curl->init($url);
+        $this->curl->setOption( 'CURLOPT_POST', 1);
+        $this->curl->setOption( 'CURLOPT_FOLLOWLOCATION', 1);
+        $this->curl->setOption( 'CURLOPT_HTTPHEADER', [
+            'X-API-Key: ' . $this->token,
+            'Content-Type: application/json',
+        ]);
+        $this->curl->setOption('CURLOPT_HTTPHEADER', ['X-API-Key: ' . $this->token]);
     }
 
     public function lastEntry(): string
