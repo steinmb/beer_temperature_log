@@ -16,12 +16,14 @@ final class BrewersFriendHandler implements HandlerInterface
     private $sessionId;
     private $ch;
     private $jsonDecode;
+    private $curl;
 
-    public function __construct(string $sessionId, string $token, JsonDecode $jsonDecode)
+    public function __construct(string $sessionId, string $token, JsonDecode $jsonDecode, Curl $curl)
     {
         $this->token = $token;
         $this->sessionId = $sessionId;
         $this->jsonDecode = $jsonDecode;
+        $this->curl = $curl;
     }
 
     public function read(): string
@@ -38,17 +40,16 @@ final class BrewersFriendHandler implements HandlerInterface
         return $content;
     }
 
-    private function fermentation()
+    private function fermentation(): array
     {
         $this->curlInit(self::API_FERMENTATION . '/' . $this->sessionId);
-        $request = $this->curl();
-        return $this->jsonDecode->decode($request);
+        $request = $this->curl->curl($this->ch);
     }
 
     private function brewSession(): array
     {
         $this->curlInit(self::API_BREWSESSIONS . '/' . $this->sessionId);
-        $request = $this->curl();
+        $request = $this->curl->curl($this->ch);
         return $this->jsonDecode->decode($request);
     }
 
