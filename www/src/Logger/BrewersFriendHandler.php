@@ -3,7 +3,6 @@
 namespace steinmb\Logger;
 
 use JsonException;
-use RuntimeException;
 
 final class BrewersFriendHandler implements HandlerInterface
 {
@@ -14,7 +13,6 @@ final class BrewersFriendHandler implements HandlerInterface
     private $lastMessage = '';
     private $token;
     private $sessionId;
-    private $ch;
     private $jsonDecode;
     private $curl;
 
@@ -33,7 +31,6 @@ final class BrewersFriendHandler implements HandlerInterface
         $recipeTitle = $brewesssion["brewsessions"][0]["recipe_title"];
         $styleName = $brewesssion["brewsessions"][0]["recipe"]["stylename"];
         $currentTemp = $brewesssion["brewsessions"][0]["current_stats"]["temp"];
-
         $fermentation = $this->fermentation();
         $content = "$batchCode, $recipeTitle, $currentTemp";
         echo $content . ' ºC' . PHP_EOL;
@@ -42,14 +39,14 @@ final class BrewersFriendHandler implements HandlerInterface
 
     private function fermentation(): array
     {
-        $this->curlInit(self::API_FERMENTATION . '/' . $this->sessionId);
-        $request = $this->curl->curl($this->ch);
+        $this->curl->init(self::API_FERMENTATION . '/' . $this->sessionId);
+        return $this->curl->curl();
     }
 
     private function brewSession(): array
     {
-        $this->curlInit(self::API_BREWSESSIONS . '/' . $this->sessionId);
-        $request = $this->curl->curl($this->ch);
+        $this->curl->init(self::API_BREWSESSIONS . '/' . $this->sessionId);
+        $request = $this->curl->curl();
         return $this->jsonDecode->decode($request);
     }
 
@@ -78,24 +75,19 @@ final class BrewersFriendHandler implements HandlerInterface
     public function write(array $message): void
     {
         $payload = $this->message($message);
-        $this->curlInit(self::API_STREAM . '/' . $this->token);
-        curl_setopt($this->ch, CURLOPT_POSTFIELDS, $payload);
-        $request = $this->curl();
-        $result = $this->jsonDecode->decode($request);
-        $this->messages[] = $payload;
-        $this->lastMessage = $payload;
-    }
-
-    private function curlInit(string $url): void
-    {
-        $this->curl->init($url);
-        $this->curl->setOption( 'CURLOPT_POST', 1);
-        $this->curl->setOption( 'CURLOPT_FOLLOWLOCATION', 1);
-        $this->curl->setOption( 'CURLOPT_HTTPHEADER', [
+        $this->curl->init(self::API_STREAM . '/' . $this->token);
+        $this->curl->setOption( CURLOPT_POST, 1);
+        $this->curl->setOption( CURLOPT_FOLLOWLOCATION, 1);
+        $this->curl->setOption(CURLOPT_HTTPHEADER, ['X-API-Key: ' . $this->token]);
+        $this->curl->setOption( CURLOPT_POSTFIELDS, $payload);
+        $this->curl->setOption( CURLOPT_HTTPHEADER, [
             'X-API-Key: ' . $this->token,
             'Content-Type: application/json',
         ]);
-        $this->curl->setOption('CURLOPT_HTTPHEADER', ['X-API-Key: ' . $this->token]);
+        $request = $this->curl->curl();
+        $result = $this->jsonDecode->decode($request);
+        $this->messages[] = $payload;
+        $this->lastMessage = $payload;
     }
 
     public function lastEntry(): string

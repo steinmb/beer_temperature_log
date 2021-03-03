@@ -3,27 +3,36 @@
 namespace steinmb\Logger;
 
 use RuntimeException;
+use UnexpectedValueException;
 
 final class Curl
 {
-    private static $retrievableErrorCodes = [];
+    private static $retrievableErrorCodes = [
+        CURLE_COULDNT_RESOLVE_HOST,
+        CURLE_COULDNT_CONNECT,
+        CURLE_HTTP_NOT_FOUND,
+        CURLE_READ_ERROR,
+        CURLE_OPERATION_TIMEOUTED,
+        CURLE_HTTP_POST_ERROR,
+        CURLE_SSL_CONNECT_ERROR,
+    ];
     /**
      * @var \CurlHandle|false|resource
      */
     private $ch;
 
-    public function curl($ch)
+    public function curl()
     {
         $retries = 5;
         $closeAfterDone = false;
 
         while ($retries--) {
-            $curlResponse = curl_exec($ch);
+            $curlResponse = curl_exec($this->ch);
             if ($curlResponse === false) {
-                $curlErrno = curl_errno($ch);
+                $curlErrno = curl_errno($this->ch);
 
                 if (false === in_array($curlErrno, self::$retrievableErrorCodes, true) || !$retries) {
-                    $curlError = curl_error($ch);
+                    $curlError = curl_error($this->ch);
 
                     if ($closeAfterDone) {
                         $this->close();
@@ -32,30 +41,33 @@ final class Curl
                     throw new RuntimeException(
                         'Curl failed' . $curlErrno . ' ' . $curlError);
                 }
-
                 continue;
             }
 
             if ($closeAfterDone) {
                 $this->close();
             }
-
-            return $curlResponse;
         }
+
+        return $curlResponse;
     }
 
     public function init(string $url): void
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-        $this->ch = $ch;
+        $this->ch = curl_init();
+        $this->setOption(CURLOPT_URL, $url);
+        $this->setOption(CURLOPT_RETURNTRANSFER, true);
+        $this->setOption(CURLOPT_SSL_VERIFYPEER, true);
     }
 
-    public function setOption(string $option, $value): void
+    public function setOption($option, $value): void
     {
-        curl_setopt($this->ch, $option, $value);
+        $result = curl_setopt($this->ch, $option, $value);
+        if (!$result) {
+            throw new UnexpectedValueException(
+                'Setting curl options failed: ' . $option . ' ' . $value
+            );
+        }
     }
 
     public function debug(): void
@@ -65,11 +77,9 @@ final class Curl
 
     /**
      * Close cURL resource, and free up system resources.
-     *
-     * @param $ch
      */
-    private function close($ch): void
+    public function close(): void
     {
-        curl_close($ch);
+        curl_close($this->ch);
     }
 }
