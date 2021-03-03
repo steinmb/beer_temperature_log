@@ -7,6 +7,7 @@
  */
 
 use steinmb\EntityFactory;
+use steinmb\Logger\Logger;
 use steinmb\RuntimeEnvironment;
 use steinmb\Formatters\Block;
 use steinmb\Formatters\HTMLFormatter;

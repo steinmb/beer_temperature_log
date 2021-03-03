@@ -4,6 +4,7 @@ use steinmb\Alarm;
 use steinmb\BrewSession;
 use steinmb\BrewSessionConfig;
 use steinmb\EntityFactory;
+use steinmb\Logger\Curl;
 use steinmb\Logger\FileStorageHandler;
 use steinmb\Logger\Logger;
 use steinmb\Logger\TelegramHandler;
@@ -28,6 +29,7 @@ if (RuntimeEnvironment::getSetting('TELEGRAM_ALARM')) {
         new TelegramHandler(
             RuntimeEnvironment::getSetting('TELEGRAM_ALARM')['TOKEN'],
             RuntimeEnvironment::getSetting('TELEGRAM_ALARM')['CHANNEL'],
+            new Curl()
         )
     );
 }

@@ -10,6 +10,7 @@ use steinmb\BrewSession;
 use steinmb\BrewSessionConfig;
 use steinmb\EntityFactory;
 use steinmb\Logger\BrewersFriendHandler;
+use steinmb\Logger\Curl;
 use steinmb\Logger\JsonDecode;
 use steinmb\Logger\TelegramHandler;
 use steinmb\RuntimeEnvironment;
@@ -35,7 +36,8 @@ if (RuntimeEnvironment::getSetting('BREWERS_FRIEND')) {
         new BrewersFriendHandler(
             RuntimeEnvironment::getSetting('BREWERS_FRIEND')['SESSION_ID'],
             RuntimeEnvironment::getSetting('BREWERS_FRIEND')['TOKEN'],
-            new JsonDecode()
+            new JsonDecode(),
+            new Curl()
         )
     );
 }
@@ -45,6 +47,7 @@ if (RuntimeEnvironment::getSetting('TELEGRAM')) {
         new TelegramHandler(
             RuntimeEnvironment::getSetting('TELEGRAM')['TOKEN'],
             RuntimeEnvironment::getSetting('TELEGRAM')['CHANNEL'],
+            new Curl()
         )
     );
 }
