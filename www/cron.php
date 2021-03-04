@@ -47,6 +47,7 @@ if (RuntimeEnvironment::getSetting('TELEGRAM')) {
         new TelegramHandler(
             RuntimeEnvironment::getSetting('TELEGRAM')['TOKEN'],
             RuntimeEnvironment::getSetting('TELEGRAM')['CHANNEL'],
+            new JsonDecode(),
             new Curl()
         )
     );

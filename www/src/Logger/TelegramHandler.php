@@ -14,12 +14,14 @@ final class TelegramHandler implements HandlerInterface
     private $lastMessage = '';
     private $token;
     private $channel;
+    private $jsonDecode;
     private $curl;
 
-    public function __construct(string $token, string $channel, Curl $curl)
+    public function __construct(string $token, string $channel, JsonDecode $jsonDecode, Curl $curl)
     {
         $this->token = $token;
         $this->channel = $channel;
+        $this->jsonDecode = $jsonDecode;
         $this->curl = $curl;
     }
 
@@ -46,15 +48,15 @@ final class TelegramHandler implements HandlerInterface
 
     private function result($result): array
     {
-        $result = json_decode($result, true, 512, JSON_THROW_ON_ERROR);
+        $resultDecoded = $this->jsonDecode->decode($result);
 
-        if ($result['ok'] === false) {
+        if ($resultDecoded['ok'] === false) {
             throw new RuntimeException(
-                'Telegram API error. Description: ' . $result['description']
+                'Telegram API error. Description: ' . $resultDecoded['description']
             );
         }
 
-        return $result;
+        return $resultDecoded;
     }
 
     public function lastEntry(): string

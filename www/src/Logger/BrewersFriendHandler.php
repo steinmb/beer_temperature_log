@@ -3,6 +3,7 @@
 namespace steinmb\Logger;
 
 use JsonException;
+use RuntimeException;
 
 final class BrewersFriendHandler implements HandlerInterface
 {
@@ -37,7 +38,7 @@ final class BrewersFriendHandler implements HandlerInterface
         return $content;
     }
 
-    private function fermentation(): array
+    private function fermentation()
     {
         $this->curl->init(self::API_FERMENTATION . '/' . $this->sessionId);
         return $this->curl->curl();
@@ -84,10 +85,34 @@ final class BrewersFriendHandler implements HandlerInterface
             'X-API-Key: ' . $this->token,
             'Content-Type: application/json',
         ]);
-        $request = $this->curl->curl();
-        $result = $this->jsonDecode->decode($request);
+        $this->result($this->curl->curl());
         $this->messages[] = $payload;
         $this->lastMessage = $payload;
+    }
+
+    private function result($result): array
+    {
+        $resultDecoded = $this->jsonDecode->decode($result);
+
+        if ($resultDecoded['message'] === 'success') {
+            return $resultDecoded;
+        }
+
+        if ($resultDecoded['message'] === false) {
+            throw new RuntimeException(
+                'BrewersFriend API error. Description: ' . $resultDecoded["message"] . ' ' . $resultDecoded['detail']
+            );
+        }
+
+        if ($resultDecoded['message'] === 'unauthorized') {
+            throw new RuntimeException(
+                'BrewersFriend API error. Description: ' . $resultDecoded["message"] . ' ' . $resultDecoded['detail']
+            );
+        }
+
+        throw new RuntimeException(
+            'BrewersFriend unknown API error. Description: ' . $resultDecoded["message"] . ' ' . $resultDecoded['detail']
+        );
     }
 
     public function lastEntry(): string

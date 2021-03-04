@@ -17,36 +17,18 @@ final class JsonDecode
             return [];
         }
 
-        if (substr($data, 0, 6) === '<html>') {
+        if (strpos($data, '<html>') === 0) {
             return [];
         }
 
         try {
-            $result = json_decode($data, true, 512);
+            $result = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
         throw new RuntimeException(
-                'Failed to encode data: ' . $e
+                'Failed to decode data: ' . $e
             );
         }
 
-        if ($result['message'] === 'success') {
-            return $result;
-        }
-
-        if ($result['message'] === false) {
-            throw new RuntimeException(
-                'BrewersFriend API error. Description: ' . $result["message"] . ' ' . $result['detail']
-            );
-        }
-
-        if ($result['message'] === 'unauthorized') {
-            throw new RuntimeException(
-                'BrewersFriend API error. Description: ' . $result["message"] . ' ' . $result['detail']
-            );
-        }
-
-        throw new RuntimeException(
-            'BrewersFriend unknown API error. Description: ' . $result["message"] . ' ' . $result['detail']
-        );
+        return $result;
     }
 }
