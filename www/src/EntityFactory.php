@@ -6,7 +6,7 @@ use steinmb\Onewire\DataEntity;
 use steinmb\Onewire\EntityInterface;
 use steinmb\Onewire\OneWireInterface;
 
-final class EntityFactory implements EntityFactoryInterface
+final class EntityFactory
 {
 
     public function newItem(
