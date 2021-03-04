@@ -39,7 +39,13 @@ final class TelegramHandler implements HandlerInterface
             'disable_web_page_preview' => $this->disableWebPagePreview,
             'disable_notification' => $this->disableNotification,
         ]));
-        $result = $this->curl->curl();
+        $this->result($this->curl->curl());
+        $this->messages[] = $message['message'];
+        $this->lastMessage = $message['message'];
+    }
+
+    private function result($result): array
+    {
         $result = json_decode($result, true, 512, JSON_THROW_ON_ERROR);
 
         if ($result['ok'] === false) {
@@ -48,8 +54,7 @@ final class TelegramHandler implements HandlerInterface
             );
         }
 
-        $this->messages[] = $message['message'];
-        $this->lastMessage = $message['message'];
+        return $result;
     }
 
     public function lastEntry(): string
