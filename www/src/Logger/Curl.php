@@ -16,9 +16,6 @@ final class Curl
         CURLE_HTTP_POST_ERROR,
         CURLE_SSL_CONNECT_ERROR,
     ];
-    /**
-     * @var \CurlHandle|false|resource
-     */
     private $ch;
 
     public function curl()
@@ -31,7 +28,7 @@ final class Curl
             if ($curlResponse === false) {
                 $curlErrno = curl_errno($this->ch);
 
-                if (false === in_array($curlErrno, self::$retrievableErrorCodes, true) || !$retries) {
+                if (!$retries || false === in_array($curlErrno, self::$retrievableErrorCodes, true)) {
                     $curlError = curl_error($this->ch);
 
                     if ($closeAfterDone) {
