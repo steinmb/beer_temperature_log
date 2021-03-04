@@ -47,9 +47,11 @@ final class Curl
             if ($closeAfterDone) {
                 $this->close();
             }
+
+            return $curlResponse;
         }
 
-        return $curlResponse;
+        return '';
     }
 
     public function init(string $url): void
