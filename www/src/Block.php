@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace steinmb\Formatters;
+namespace steinmb;
 
-use steinmb\EntityFactory;
+use steinmb\Formatters\FormatterInterface;
 use steinmb\Onewire\EntityInterface;
 use steinmb\Onewire\Temperature;
 

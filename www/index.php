@@ -9,7 +9,7 @@
 use steinmb\EntityFactory;
 use steinmb\Logger\Logger;
 use steinmb\RuntimeEnvironment;
-use steinmb\Formatters\Block;
+use steinmb\Block;
 use steinmb\Formatters\HTMLFormatter;
 use steinmb\Utils\Calculate;
 use steinmb\Logger\FileStorageHandler;
