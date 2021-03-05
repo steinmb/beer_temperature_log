@@ -48,7 +48,7 @@ final class HTMLFormatterTest extends TestCase
 
     public function testUnorderedList(): void
     {
-        $formatter = new HTMLFormatter($this->entity);
+        $formatter = new HTMLFormatter();
         $expected = <<<HTML
             <div class="block">
             <h2 class="title">10-123456789</h2><ul>
@@ -58,7 +58,7 @@ final class HTMLFormatterTest extends TestCase
             HTML;
         self::assertSame(
             $expected,
-            $formatter->unorderedList($this->temperature)
+            $formatter->unorderedList($this->temperature, $this->entity)
         );
 
     }
@@ -67,10 +67,10 @@ final class HTMLFormatterTest extends TestCase
     {
         foreach ($this->sensors as $sensor) {
             $temperature = new Temperature($this->sensor->createEntity($sensor));
-            $formatter = new HTMLFormatter($this->sensor->createEntity($sensor));
+            $formatter = new HTMLFormatter();
             self::assertStringContainsString(
                 '<h2 class="title">' . $sensor . '</h2>',
-                $formatter->unorderedList($temperature)
+                $formatter->unorderedList($temperature, $this->sensor->createEntity($sensor))
             );
         }
     }
@@ -87,11 +87,12 @@ final class HTMLFormatterTest extends TestCase
             <li>Trend: 1.000001 the last 30min</li>
             </ul></div>
             HTML;
-        $formatter = new HTMLFormatter($this->entity);
+        $formatter = new HTMLFormatter();
         $htmlList = $formatter->trendList(
             '1.000001',
             30,
-            '21.2, 21.3, 21.5, 22'
+            '21.2, 21.3, 21.5, 22',
+            $this->entity
         );
 
         self::assertSame($expected, $htmlList

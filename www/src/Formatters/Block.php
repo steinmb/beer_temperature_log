@@ -2,6 +2,8 @@
 
 namespace steinmb\Formatters;
 
+use steinmb\EntityFactory;
+use steinmb\Onewire\EntityInterface;
 use steinmb\Onewire\Temperature;
 
 final class Block
@@ -13,13 +15,13 @@ final class Block
         $this->formatter = $formatter;
     }
 
-    public function unorderedLists(Temperature $temperature): string
+    public function unorderedLists(Temperature $temperature, EntityInterface $entity): string
     {
-        return $this->formatter->unorderedList($temperature);
+        return $this->formatter->unorderedList($temperature, $entity);
     }
 
-    public function trendList(string $trend, int $time, string $sample): string
+    public function trendList(string $trend, int $time, string $sample, EntityInterface $entity): string
     {
-        return $this->formatter->trendList($trend, $time, $sample);
+        return $this->formatter->trendList($trend, $time, $sample, $entity);
     }
 }

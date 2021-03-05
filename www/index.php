@@ -22,7 +22,7 @@ include_once __DIR__ . '/vendor/autoload.php';
 
 RuntimeEnvironment::setSetting('BREW_ROOT', __DIR__);
 $loggerService = new Logger('temperature');
-$sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
+$sensor = new Sensor(new OneWire, new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
 $trendInterval = 30;
 
@@ -30,8 +30,8 @@ foreach ($probes as $probe) {
     $fileLogger = new FileStorageHandler($probe . '.csv');
     $lastReading = $fileLogger->lastEntry();
     $entity = $sensor->createEntity($probe);
-    $formatter = new Block(new HTMLFormatter($entity));
-    $blocks[] = $formatter->unorderedLists(new Temperature($entity));
+    $formatter = new Block(new HTMLFormatter());
+    $blocks[] = $formatter->unorderedLists(new Temperature($entity), $entity);
 
     if ($lastReading) {
         $trendCalculator = new Calculate();
@@ -42,7 +42,8 @@ foreach ($probes as $probe) {
                 $fileLogger->lastEntries($trendInterval)
             ),
             $trendInterval,
-            $lastReading
+            $lastReading,
+            $entity
         );
     }
     $fileLogger->close();

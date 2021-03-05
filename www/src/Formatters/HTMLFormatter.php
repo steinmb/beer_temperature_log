@@ -7,12 +7,10 @@ use steinmb\Onewire\Temperature;
 
 final class HTMLFormatter implements FormatterInterface
 {
-    private $entity;
     private $dateFormat;
 
-    public function __construct(EntityInterface $entity, ?string $dateFormat = null)
+    public function __construct(?string $dateFormat = null)
     {
-        $this->entity = $entity;
         $this->dateFormat = $dateFormat;
     }
 
@@ -26,24 +24,24 @@ final class HTMLFormatter implements FormatterInterface
         return '<li>' . $element . '</li>';
     }
 
-    public function unorderedList(Temperature $sensor): string
+    public function unorderedList(Temperature $sensor, EntityInterface $entity): string
     {
         return $this->unordered(
-            $this->entity->id(),
+            $entity->id(),
             [
-                $this->entity->timeStamp(),
+                $entity->timeStamp(),
                 $sensor->temperature(),
             ]
         );
     }
 
-    public function trendList(string $trend, int $minutes, string $lastMeasurement): string
+    public function trendList(string $trend, int $minutes, string $lastMeasurement, EntityInterface $entity): string
     {
         $elements = explode(', ', $lastMeasurement);
         $elements[] = 'Trend: ' . $trend . ' the last ' . $minutes . 'min';
 
         return $this->unordered(
-            $this->entity->id(),
+            $entity->id(),
             $elements
         );
     }
