@@ -2,6 +2,9 @@
 
 namespace steinmb\Logger;
 
+use steinmb\Formatters\FormatterInterface;
+use steinmb\Formatters\NormaliseFormatter;
+
 final class Logger implements LoggerInterface
 {
     private $name;
@@ -70,7 +73,7 @@ final class Logger implements LoggerInterface
         ];
 
         foreach ($this->handlers as $handler) {
-            $handler->write($record);
+            $handler->write($record, $handler->formatter);
         }
     }
 
@@ -105,9 +108,14 @@ final class Logger implements LoggerInterface
         return '';
     }
 
-    public function pushHandler(HandlerInterface $handler): self
+    public function pushHandler(HandlerInterface $handler, FormatterInterface $formatter = NULL): self
     {
         array_unshift($this->handlers, $handler);
+        if (!$formatter) {
+            $this->handlers[0]->formatter = new NormaliseFormatter();
+        } else {
+            $this->handlers[0]->formatter = $formatter;
+        }
 
         return $this;
     }

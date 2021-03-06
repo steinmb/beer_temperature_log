@@ -2,6 +2,8 @@
 
 namespace steinmb\Logger;
 
+use steinmb\Formatters\FormatterInterface;
+
 final class ConsoleHandler implements HandlerInterface
 {
     private $messages = [];
@@ -14,15 +16,16 @@ final class ConsoleHandler implements HandlerInterface
         return $content;
     }
 
-    public function write(array $message): void
+    public function write(array $message, FormatterInterface $formatter): void
     {
         if (!$message) {
             return;
         }
 
-        $this->messages[] = $message['message'];
-        $this->lastMessage = $message['message'];
-        echo $message['channel'] . ': ' . $message['message'] . PHP_EOL;
+        $formattedMessage = $formatter->format($message['message']);
+        $this->messages[] = $formattedMessage;
+        $this->lastMessage = $formattedMessage;
+        echo $formattedMessage . PHP_EOL;
     }
 
     public function lastEntry(): string

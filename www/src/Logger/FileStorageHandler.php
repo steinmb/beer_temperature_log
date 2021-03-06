@@ -2,6 +2,7 @@
 
 namespace steinmb\Logger;
 
+use steinmb\Formatters\FormatterInterface;
 use steinmb\RuntimeEnvironment;
 use UnexpectedValueException;
 
@@ -88,9 +89,9 @@ final class FileStorageHandler implements HandlerInterface
         return implode(', ', $message);
     }
 
-    public function write(array $message): void
+    public function write(array $message, FormatterInterface $formatter): void
     {
-        $fileMessage = $this->message($message);
+        $fileMessage = $formatter->format($this->message($message));
         $stream = fopen($this->stream, 'ab+');
 
         $result = fwrite($stream, $fileMessage . PHP_EOL);
