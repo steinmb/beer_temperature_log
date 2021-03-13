@@ -14,7 +14,7 @@ class NormaliseFormatter implements FormatterInterface
         $this->dateFormat = $dateFormat ?? self::standardTimeFormat;
     }
 
-    public function format($record): string
+    public function format(string $record): string
     {
         $time = new SystemClock();
         return $time->currentTime()->format($this->dateFormat) . ', ' . $record;

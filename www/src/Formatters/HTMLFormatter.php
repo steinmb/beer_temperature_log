@@ -10,7 +10,17 @@ final class HTMLFormatter extends NormaliseFormatter
     public function format($record): string
     {
         $element = parent::format($record);
-        return $this->listItem($element);
+        return '<p>' . $element . '</p>';
+    }
+
+    public function formatMultiple(string $title, array $records): string
+    {
+        $elements = [];
+        foreach ($records as $record) {
+            $elements[] = parent::format($record);
+        }
+
+        return $this->unordered($title, $elements);
     }
 
     private function listItem(string $element): string
@@ -40,20 +50,25 @@ final class HTMLFormatter extends NormaliseFormatter
         );
     }
 
-    private function unordered(string $title, array $listElements): string
+    private function listElements(array $list): string
     {
         $elements = '';
-        foreach ($listElements as $index => $listElement) {
+        foreach ($list as $index => $listElement) {
             if ($index !== 0) {
                 $elements .= PHP_EOL;
             }
             $elements .= $this->listItem($listElement);
         }
 
+        return $elements;
+    }
+
+    private function unordered(string $title, array $listElements): string
+    {
         $htmlUnorderedList = [
             'prefix' => '<div class="block">',
             'title' => '<h2 class="title">' . $title . '</h2><ul>',
-            'elements' => $elements,
+            'elements' => $this->listElements($listElements),
             'suffix' => '</ul></div>',
         ];
 
