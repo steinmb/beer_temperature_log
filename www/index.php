@@ -25,17 +25,19 @@ $loggerService = new Logger('temperature');
 $sensor = new Sensor(new OneWire, new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
 $trendInterval = 30;
+$trendCalculator = new Calculate();
+$htmlFormatter = new HTMLFormatter();
+$blocks = [];
 
 foreach ($probes as $probe) {
     $fileLogger = new FileStorageHandler($probe . '.csv');
     $lastReading = $fileLogger->lastEntry();
     $entity = $sensor->createEntity($probe);
-    $formatter = new Block(new HTMLFormatter());
-    $blocks[] = $formatter->unorderedLists(new Temperature($entity), $entity);
+    $block = new Block(new HTMLFormatter());
+    $blocks[] = $block->unorderedLists(new Temperature($entity), $entity);
 
     if ($lastReading) {
-        $trendCalculator = new Calculate();
-        $blocks[] = $formatter->trendList(
+        $blocks[] = $htmlFormatter->trendList(
             $trendCalculator->calculateTrend(
                 $trendInterval,
                 $lastReading,

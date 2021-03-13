@@ -4,7 +4,7 @@ namespace steinmb\Formatters;
 
 use steinmb\SystemClock;
 
-final class NormaliseFormatter implements FormatterInterface
+class NormaliseFormatter implements FormatterInterface
 {
     private const standardTimeFormat = 'Y-m-d H:i:s';
     private $dateFormat;

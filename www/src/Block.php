@@ -19,9 +19,4 @@ final class Block
     {
         return $this->formatter->unorderedList($temperature, $entity);
     }
-
-    public function trendList(string $trend, int $time, string $sample, EntityInterface $entity): string
-    {
-        return $this->formatter->trendList($trend, $time, $sample, $entity);
-    }
 }

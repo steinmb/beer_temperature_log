@@ -5,18 +5,12 @@ namespace steinmb\Formatters;
 use steinmb\Onewire\EntityInterface;
 use steinmb\Onewire\Temperature;
 
-final class HTMLFormatter implements FormatterInterface
+final class HTMLFormatter extends NormaliseFormatter
 {
-    private $dateFormat;
-
-    public function __construct(?string $dateFormat = null)
+    public function format($record): string
     {
-        $this->dateFormat = $dateFormat;
-    }
-
-    public function format($record)
-    {
-        return $record;
+        $element = parent::format($record);
+        return $this->listItem($element);
     }
 
     private function listItem(string $element): string
