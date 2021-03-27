@@ -2,7 +2,7 @@
 
 namespace steinmb;
 
-use steinmb\Formatters\FormatterInterface;
+use steinmb\Formatters\HTMLFormatter;
 use steinmb\Onewire\EntityInterface;
 use steinmb\Onewire\Temperature;
 
@@ -10,7 +10,7 @@ final class Block
 {
     private $formatter;
 
-    public function __construct(FormatterInterface $formatter)
+    public function __construct(HTMLFormatter $formatter)
     {
         $this->formatter = $formatter;
     }
