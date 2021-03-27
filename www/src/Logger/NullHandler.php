@@ -1,6 +1,8 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace steinmb\Logger;
+
+use steinmb\Formatters\FormatterInterface;
 
 final class NullHandler implements HandlerInterface
 {
@@ -15,7 +17,7 @@ final class NullHandler implements HandlerInterface
         return 'Test data from NullHandler';
     }
 
-    public function write(array $message): void
+    public function write(array $message, FormatterInterface $formatter = NULL): void
     {
         $this->message = $message['message'];
     }

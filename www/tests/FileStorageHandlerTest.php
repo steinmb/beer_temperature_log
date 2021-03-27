@@ -4,6 +4,7 @@ namespace steinmb\Logger;
 
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
+use steinmb\Formatters\NullFormatter;
 use steinmb\Onewire\DataEntity;
 use steinmb\Onewire\Temperature;
 use steinmb\SystemClockFixed;
@@ -17,6 +18,7 @@ class FileStorageHandlerTest extends TestCase
     private $fileStorage;
     private const testDirectory =   __DIR__ . '/Fixtures';
     private $temperature;
+    private $formatter;
 
     public function setUp(): void
     {
@@ -35,6 +37,7 @@ class FileStorageHandlerTest extends TestCase
         );
 
         $this->fileStorage = new FileStorageHandler('test.csv', self::testDirectory);
+        $this->formatter = new NullFormatter();
     }
 
     /**
@@ -43,7 +46,7 @@ class FileStorageHandlerTest extends TestCase
     public function testRead(): void
     {
         $randomRecord = uniqid('Test', true);
-        $this->fileStorage->write(['message' => $randomRecord]);
+        $this->fileStorage->write(['message' => $randomRecord], $this->formatter);
         self::assertSame($randomRecord, $this->fileStorage->lastEntries(1));
     }
 
@@ -54,8 +57,8 @@ class FileStorageHandlerTest extends TestCase
     {
         $randomRecord = uniqid('Test', true);
         $randomRecord2 = uniqid('Test', true);
-        $this->fileStorage->write(['message' => $randomRecord]);
-        $this->fileStorage->write(['message' => $randomRecord2]);
+        $this->fileStorage->write(['message' => $randomRecord], $this->formatter);
+        $this->fileStorage->write(['message' => $randomRecord2], $this->formatter);
         self::assertSame($randomRecord . PHP_EOL . $randomRecord2, $this->fileStorage->lastEntries(2));
     }
 
@@ -64,7 +67,7 @@ class FileStorageHandlerTest extends TestCase
      */
     public function testWrite(): void
     {
-        $this->fileStorage->write(['message' => 'Test string']);
+        $this->fileStorage->write(['message' => 'Test string'], $this->formatter);
         self::assertSame('Test string', $this->fileStorage->lastEntry());
     }
 
