@@ -9,7 +9,6 @@ use UnexpectedValueException;
 final class FileStorageHandler implements HandlerInterface
 {
     private $directory;
-    private $fileName;
     private $message = '';
     private $stream;
 
@@ -21,8 +20,7 @@ final class FileStorageHandler implements HandlerInterface
             $this->directory = $directory;
         }
 
-        $this->fileName = $fileName;
-        $this->stream = $this->directory . '/'. $this->fileName;
+        $this->stream = $this->directory . '/'. $fileName;
         $this->storage();
     }
 
