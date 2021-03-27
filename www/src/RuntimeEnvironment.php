@@ -31,7 +31,7 @@ final class RuntimeEnvironment
         }
     }
 
-    public static function getSetting($setting): string
+    public static function getSetting($setting)
     {
 
         if (!self::$settings['BREW_ROOT']) {
