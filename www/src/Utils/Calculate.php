@@ -134,12 +134,6 @@ final class Calculate
         return $direction;
     }
 
-    public function listHistoric(int $minutes, string $sample): string
-    {
-        $this->trend = $this->calculateTrend($minutes, $sample);
-        return $this->createTrendLabels();
-    }
-
     public static function mean(array $values)
     {
         if (!$values) {
