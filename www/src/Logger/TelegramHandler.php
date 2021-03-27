@@ -3,6 +3,7 @@
 namespace steinmb\Logger;
 
 use RuntimeException;
+use steinmb\Formatters\FormatterInterface;
 
 final class TelegramHandler implements HandlerInterface
 {
@@ -30,7 +31,7 @@ final class TelegramHandler implements HandlerInterface
         return '';
     }
 
-    public function write(array $message): void
+    public function write(array $message, FormatterInterface $formatter = NULL): void
     {
         $url = self::BOT_API . $this->token . '/SendMessage';
         $this->curl->init($url);

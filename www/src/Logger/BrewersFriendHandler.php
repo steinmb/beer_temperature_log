@@ -4,6 +4,7 @@ namespace steinmb\Logger;
 
 use JsonException;
 use RuntimeException;
+use steinmb\Formatters\FormatterInterface;
 
 final class BrewersFriendHandler implements HandlerInterface
 {
@@ -73,7 +74,7 @@ final class BrewersFriendHandler implements HandlerInterface
         return $payload;
     }
 
-    public function write(array $message): void
+    public function write(array $message, FormatterInterface $formatter = NULL): void
     {
         $payload = $this->message($message);
         $this->curl->init(self::API_STREAM . '/' . $this->token);
