@@ -18,11 +18,11 @@ final class Temperature
 
     private function validate(): bool
     {
-        if (!$this->validateCRC()) {
+        if (!$this->validateCRC($this->entity->id())) {
             return false;
         }
 
-        if (!$this->validateTemperature($this->getTemperature())) {
+        if (!$this->validateTemperature($this->getTemperature(), $this->entity->id())) {
             return false;
         }
 
@@ -31,10 +31,7 @@ final class Temperature
 
     public function temperature(string $scale = 'celsius'): string
     {
-        if (!$this->validate()) {
-            return 'error';
-        }
-
+        $this->validate();
         $celsius = $this->celsius($this->getTemperature());
 
         if ($scale === 'celsius') {
@@ -89,9 +86,15 @@ final class Temperature
         return (float) number_format($rawTempTrimmed / 1000, 3);
     }
 
-    private function validateCRC(): bool
+    private function validateCRC(string $sensorID): bool
     {
-        return !(false === strpos($this->entity->measurement(), 'YES'));
+        if (strpos($this->entity->measurement(), 'YES')) {
+            return true;
+        }
+
+        throw new UnexpectedValueException(
+            $sensorID . ': CRC check. Check sensor wiring and pull up resistor value.'
+        );
     }
 
     private function getTemperature(): int
@@ -100,9 +103,15 @@ final class Temperature
         return (int) trim($rawTemp, 't=');
     }
 
-    private function validateTemperature(int $temperature): bool
+    private function validateTemperature(int $temperature, string $sensorID): bool
     {
-        return $temperature !== 127687 && $temperature !== 85000 && $temperature !== 00000;
+        if ($temperature !== 127687 && $temperature !== 85000 && $temperature !== 00000) {
+            return TRUE;
+        }
+
+        throw new UnexpectedValueException(
+            $sensorID . ': Value out of range. Check sensor wiring.'
+        );
     }
 
     public function __toString(): string
