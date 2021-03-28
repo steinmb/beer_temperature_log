@@ -29,13 +29,14 @@ class Alarm
     public function checkLimits(Temperature $temperature): string
     {
         $status = '';
+        $currentTemperature = $temperature->temperature();
 
         if ($this->highLimit($temperature)) {
-            $status = 'Batch: ' . $this->brewSession->sessionId . ' - High limit ' . $temperature->temperature() . 'ºC reached';
+            $status = 'Batch: ' . $this->brewSession->sessionId . ' - High limit ' . $this->brewSession->high_limit . 'C reached: ' . $currentTemperature;
         }
 
         if ($this->lowLimit($temperature)) {
-            $status = 'Batch: ' . $this->brewSession->sessionId . ' - Low limit ' . $temperature->temperature() . 'ºC reached';
+            $status = 'Batch: ' . $this->brewSession->sessionId . ' - Low limit ' . $this->brewSession->low_limit . 'C reached: ' . $currentTemperature;
         }
 
         return $status;
