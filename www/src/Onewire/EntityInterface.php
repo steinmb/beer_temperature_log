@@ -8,4 +8,5 @@ interface EntityInterface
     public function id(): string;
     public function getSensorType(): string;
     public function getData(): string;
+    public function measurement(): string;
 }

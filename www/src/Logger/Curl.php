@@ -64,7 +64,7 @@ final class Curl
         $result = curl_setopt($this->ch, $option, $value);
         if (!$result) {
             throw new UnexpectedValueException(
-                'Setting curl options failed: ' . $option . ' ' . $value
+                'Setting curl options failed.'
             );
         }
     }
