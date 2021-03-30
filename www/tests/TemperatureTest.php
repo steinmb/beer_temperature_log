@@ -92,33 +92,40 @@ final class TemperatureTest extends TestCase
 
     public function testBadCrc(): void
     {
-        $measurement = '25 00 4b 46 ff ff 07 10 cc : crc=cc NO
-                        25 00 4b 46 ff ff 07 10 cc t=20000';
-        $this->temperature = new Temperature(new DataEntity(
-                '28-1234567',
+        $this->expectException(UnexpectedValueException::class);
+        $sensor = '28-1234567';
+        $measurement = <<<SENSOR
+        25 00 4b 46 ff ff 07 10 cc : crc=cc NO
+        25 00 4b 46 ff ff 07 10 cc t=20000';
+        SENSOR;
+        $temperatureProbe = new Temperature(new DataEntity(
+                $sensor,
                 'temperature',
                 $measurement,
                 new SystemClockFixed(new dateTimeImmutable('16.07.2018 13.01.00')))
         );
-
-        self::assertEquals('error', $this->temperature->temperature());
+        $temperatureProbe->temperature();
     }
 
     public function testInvalidTemperature(): void
     {
-        $invalidValues = ['85000', '127687', '0'];
+        $sensor = '28-1234567';
+        $invalidValues = ['3333', '85000', '127687', '0'];
+        $this->expectException(UnexpectedValueException::class);
+        $expected = <<<SENSOR
+        25 00 4b 46 ff ff 07 10 cc : crc=cc YES
+        25 00 4b 46 ff ff 07 10 cc t=
+        SENSOR;
 
         foreach ($invalidValues as $invalidValue) {
-            $measurement = '25 00 4b 46 ff ff 07 10 cc : crc=cc YES
-                            25 00 4b 46 ff ff 07 10 cc t=' . $invalidValue;
-            $this->temperature = new Temperature(new DataEntity(
-                    '28-1234567',
+            $measurement = $expected . $invalidValue;
+            $temperatureProbe = new Temperature(new DataEntity(
+                    $sensor,
                     'temperature',
                     $measurement,
                     new SystemClockFixed(new dateTimeImmutable('16.07.2018 13.01.00')))
             );
-
-            self::assertEquals('error', $this->temperature->temperature());
+            $temperatureProbe->temperature();
         }
     }
 
