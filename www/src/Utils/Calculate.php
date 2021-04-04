@@ -25,7 +25,7 @@ final class Calculate
     /**
      * @param array $log
      * @param string $last
-     * @param $time
+     * @param int $time
      *
      * @return array
      *
