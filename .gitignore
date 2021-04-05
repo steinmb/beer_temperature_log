@@ -5,9 +5,8 @@ www/temperatur.png
 .RData
 beer_temperature_log.Rproj
 .idea
-www/vendor
 vendor/
 .phpunit.result.cache
 
 # Application setting file.
-/www/settings.php
+settings.php

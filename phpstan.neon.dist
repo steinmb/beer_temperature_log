@@ -1,0 +1,7 @@
+parameters:
+    level: 3
+    paths:
+        - www
+        - src
+    excludes_analyse:
+        - 'www/vendor'
