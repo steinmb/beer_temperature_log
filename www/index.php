@@ -18,7 +18,7 @@ use steinmb\Onewire\Sensor;
 use steinmb\SystemClock;
 use steinmb\Onewire\Temperature;
 
-include_once __DIR__ . '/vendor/autoload.php';
+include_once __DIR__ . '/../vendor/autoload.php';
 
 RuntimeEnvironment::setSetting('BREW_ROOT', __DIR__);
 $loggerService = new Logger('temperature');
