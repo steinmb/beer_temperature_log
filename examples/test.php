@@ -15,7 +15,7 @@ use steinmb\Onewire\Temperature;
 use steinmb\RuntimeEnvironment;
 use steinmb\SystemClock;
 
-include_once __DIR__ . '/vendor/autoload.php';
+include_once __DIR__ . '/../vendor/autoload.php';
 
 RuntimeEnvironment::init();
 $batches = RuntimeEnvironment::getSetting('BATCH');

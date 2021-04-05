@@ -6,7 +6,7 @@ use steinmb\Onewire\Sensor;
 use steinmb\RuntimeEnvironment;
 use steinmb\SystemClock;
 
-include_once __DIR__ . '/vendor/autoload.php';
+include_once __DIR__ . '/../vendor/autoload.php';
 
 RuntimeEnvironment::setSetting('BREW_ROOT', __DIR__);
 

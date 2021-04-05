@@ -4,7 +4,7 @@ use steinmb\Logger\ConsoleHandler;
 use steinmb\Logger\FileStorageHandler;
 use steinmb\Logger\Logger;
 
-include_once __DIR__ . '/vendor/autoload.php';
+include_once __DIR__ . '/../vendor/autoload.php';
 
 $logService = new Logger('Demo');
 $fileLogger = $logService->pushHandler(new FileStorageHandler('test1.csv'));
