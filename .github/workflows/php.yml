@@ -8,11 +8,8 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Validate composer files
-      working-directory: ./www
       run: composer validate --no-check-all --strict
     - name: Install Composer dependencies
-      working-directory: ./www
       run: composer install --prefer-dist --no-progress --no-suggest
     - name: Run tests
-      working-directory: ./www
       run: php vendor/bin/phpunit tests
