@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace steinmb;
+namespace steinmb\Utils;
 
-use steinmb\Utils\Calculate;
 use PHPUnit\Framework\TestCase;
+use UnexpectedValueException;
 
 /**
  * Class CalculateTest
@@ -34,13 +34,13 @@ class CalculateTest extends TestCase
 
     public function testMeanCannotUseSingleValue(): void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         Calculate::mean([2]);
     }
 
     public function testMeanCannotUseEmpty(): void
     {
-        $this->expectException(\UnexpectedValueException::class);
+        $this->expectException(UnexpectedValueException::class);
         Calculate::mean([]);
     }
 
