@@ -24,14 +24,10 @@ final class Calculate
 
     /**
      * @param array $log
-     * @param string $last
-     * @param int $time
-     *
      * @return array
-     *
      * @todo CPU and memory intensive on large log files.
      */
-    private function reverse(array $log, string $last, $time): array
+    private function reverse(array $log): array
     {
         if (!$log) {
             return [];
@@ -42,35 +38,28 @@ final class Calculate
         $y = [];
 
         foreach (array_reverse($log) as $key => $row) {
-            $row = explode(', ', $row);
-            $y[] = 1000 * $row[2];
+            $y[] = 1000 * $row;
             $x = $key + 1;
             $x = (string) $x;
             $x2[] = bcpow($x, $x);
-
-            if (strtotime($row[0]) <= strtotime($last[0]) - ($time * 60)) {
-                break;
-            }
         }
 
         return ['x' => $x, 'x2' => $x2, 'y' => $y];
     }
 
-    private function lastValues(string $values): array
+    /**
+     * Method of Least Squares (linear regression).
+     *
+     * @param array $lastEntries
+     * @return string
+     */
+    public function calculateTrend(array $lastEntries): string
     {
-        $log = explode("\n" , $values);
-        array_pop($log);
-
-        return $log;
-    }
-
-    public function calculateTrend(int $time, string $lastMeasurement, string $lastEntries): string
-    {
-        $reversed = $this->reverse($this->lastValues($lastEntries), $lastMeasurement, $time);
-        if (!$reversed) {
+        if (!$lastEntries) {
             return '';
         }
 
+        $reversed = $this->reverse($lastEntries);
         $y = array_reverse($reversed['y']);
         $samples = (string) $reversed['x'];
         $x = range(1, $reversed['x']);

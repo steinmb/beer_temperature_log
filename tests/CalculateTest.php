@@ -81,14 +81,14 @@ class CalculateTest extends TestCase
 
     public function testTrend(): void
     {
-        $lastEntries = <<<TXT
-        2021-02-23 09:21:05, 28-0000098101de, 15.687
-        2021-02-23 09:21:05, 28-0000098101de, 16.687
-        2021-02-23 09:21:05, 28-0000098101de, 16.687
-        2021-02-23 09:21:05, 28-0000098101de, 17.687
-        TXT;
+        $lastEntries = [
+            15.687,
+            16.687,
+            16.687,
+            17.687,
+        ];
         $calc = new Calculate();
-        $trend = $calc->calculateTrend(4, '20', $lastEntries);
+        $trend = $calc->calculateTrend($lastEntries);
         self::assertEquals('32.258064516129', $trend, 'Failed calculating trend data');
     }
 }
