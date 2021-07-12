@@ -8,8 +8,8 @@ use steinmb\RuntimeEnvironment;
 final class OneWire implements OneWireInterface
 {
     public const slaveFile = 'w1_slave';
-    private $sensors;
-    private $directory;
+    private string $sensors;
+    private string $directory;
 
     public function __construct(string $directory = '', string $sensors = '')
     {
