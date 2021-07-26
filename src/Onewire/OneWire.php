@@ -42,7 +42,7 @@ final class OneWire implements OneWireInterface
         $content = dir($this->directory());
 
         while (false !== ($entry = $content->read())) {
-            if (false !== strpos($entry, '10-') || false !== strpos($entry, '28-')) {
+            if (str_contains($entry, '10-') || str_contains($entry, '28-')) {
                 $temperatureSensors[] = $entry;
             }
         }

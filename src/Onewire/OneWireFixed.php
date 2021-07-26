@@ -24,7 +24,7 @@ class OneWireFixed implements OneWireInterface
     {
         $temperatureSensors = [];
         foreach ($this->allSensors() as $sensor) {
-            if (false !== strpos($sensor, '10-') || false !== strpos($sensor, '28-')) {
+            if (str_contains($sensor, '10-') || str_contains($sensor, '28-')) {
                 $temperatureSensors[] = $sensor;
             }
         }
