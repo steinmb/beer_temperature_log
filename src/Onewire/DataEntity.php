@@ -7,21 +7,15 @@ use steinmb\Clock;
 final class DataEntity implements EntityInterface
 {
     private const format = 'Y-m-d H:i:s';
-    private $id;
-    private $type;
-    private $measurement;
-    private $time;
+    private \DateTimeImmutable $time;
 
     public function __construct(
-        string $id,
-        string $type,
-        string $measurement,
+        private string $id,
+        private string $type,
+        private string $measurement,
         Clock $time
     )
     {
-        $this->id = $id;
-        $this->type = $type;
-        $this->measurement = $measurement;
         $this->time = $time->currentTime();
     }
 

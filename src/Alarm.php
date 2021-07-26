@@ -7,9 +7,7 @@ use UnexpectedValueException;
 
 class Alarm
 {
-    private $brewSession;
-
-    public function __construct(BrewSessionInterface $brewSession)
+    public function __construct(private BrewSessionInterface $brewSession)
     {
         if (!$brewSession->high_limit) {
             throw new UnexpectedValueException(
@@ -22,8 +20,6 @@ class Alarm
                 'No high temperature limit defined in session ' . $brewSession->sessionId
             );
         }
-
-        $this->brewSession = $brewSession;
     }
 
     public function checkLimits(Temperature $temperature): string

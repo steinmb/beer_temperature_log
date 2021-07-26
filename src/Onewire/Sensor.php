@@ -8,20 +8,12 @@ use steinmb\EntityFactory;
 final class Sensor
 {
     private const sensorType = 'temperature';
-    private $oneWire;
-    private $clock;
-    private $itemFactory;
 
     public function __construct(
-      OneWireInterface $oneWire,
-      Clock $clock,
-      EntityFactory $itemFactory
-    )
-    {
-        $this->oneWire = $oneWire;
-        $this->clock = $clock;
-        $this->itemFactory = $itemFactory;
-    }
+      private OneWireInterface $oneWire,
+      private Clock $clock,
+      private EntityFactory $itemFactory
+    ) {}
 
     public function getTemperatureSensors(): array
     {
