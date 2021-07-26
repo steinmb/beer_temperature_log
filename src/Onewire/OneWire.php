@@ -72,8 +72,13 @@ final class OneWire implements OneWireInterface
       return $fileContent;
     }
 
-    /**
-     * Initialize one wire GPIO bus by loading 1 wires drivers.
+    public function __toString(): string
+    {
+      return implode(PHP_EOL, $this->allSensors());
+    }
+
+  /**
+     * Initialize the GPIO bus by loading the 1-Wire kernel driver.
      */
     public function initW1(): void
     {
