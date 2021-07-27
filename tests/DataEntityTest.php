@@ -9,7 +9,7 @@ use steinmb\SystemClockFixed;
  */
 final class DataEntityTest extends TestCase
 {
-    private $entity;
+    private DataEntity $entity;
 
     public function setup(): void
     {

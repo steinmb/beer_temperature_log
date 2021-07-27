@@ -6,7 +6,7 @@ use RuntimeException;
 
 final class RuntimeEnvironment
 {
-    private static $settings = [
+    private static array $settings = [
         'BREW_ROOT' => '',
         'DEMO_MODE' => FALSE,
         'LOG_DIRECTORY' => '../../brewlogs',
