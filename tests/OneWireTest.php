@@ -2,7 +2,6 @@
 
 use steinmb\Onewire\OneWire;
 use PHPUnit\Framework\TestCase;
-use steinmb\Onewire\Sensor;
 
 /**
  * Class OneWireTest
@@ -11,14 +10,14 @@ use steinmb\Onewire\Sensor;
  */
 final class OneWireTest extends TestCase
 {
-    private $OneWire;
+    private OneWire $oneWire;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->OneWire = new OneWire(
+        $this->oneWire = new OneWire(
           __DIR__ . '/test_data',
-          __DIR__ . '/test_data/w1_master_slaves'
+          __DIR__ . '/test_data/w1_master_slaves',
         );
     }
 
@@ -26,13 +25,13 @@ final class OneWireTest extends TestCase
     {
         self::assertInstanceOf(
           OneWire::class,
-          new OneWire(),
+          $this->oneWire,
         );
     }
 
     public function testAllSensors(): void
     {
-        self::assertCount(5, $this->OneWire->allSensors());
+        self::assertCount(5, $this->oneWire->allSensors());
     }
 
 }

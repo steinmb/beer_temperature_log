@@ -8,21 +8,19 @@ use steinmb\RuntimeEnvironment;
 final class OneWire implements OneWireInterface
 {
     public const slaveFile = 'w1_slave';
-    private string $sensors;
-    private string $directory;
 
-    public function __construct(string $directory = '', string $sensors = '')
+    public function __construct(
+      private string $directory = '',
+      private string $sensors = '',
+    )
     {
         if (!$sensors) {
-            $sensors = RuntimeEnvironment::getSetting('SENSORS');
+            $this->sensors = RuntimeEnvironment::getSetting('SENSORS');
         }
 
         if (!$directory) {
-            $directory = RuntimeEnvironment::getSetting('SENSOR_DIRECTORY');
+            $this->directory = RuntimeEnvironment::getSetting('SENSOR_DIRECTORY');
         }
-
-        $this->sensors = $sensors;
-        $this->directory = $directory;
     }
 
     private function directory(): string
