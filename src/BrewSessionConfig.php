@@ -6,12 +6,7 @@ use UnexpectedValueException;
 
 final class BrewSessionConfig
 {
-    private $settings;
-
-    public function __construct($settings)
-    {
-        $this->settings = $settings;
-    }
+    public function __construct(private $settings) {}
 
     public function sessionIdentity(string $probe): BrewSessionInterface
     {
