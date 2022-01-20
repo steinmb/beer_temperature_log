@@ -10,8 +10,8 @@ use UnexpectedValueException;
  */
 final class BrewSessionConfigTest extends TestCase
 {
-    private $brewSessionConfig;
-    private $brewSession;
+    private BrewSessionConfig $brewSessionConfig;
+    private BrewSessionInterface $brewSession;
 
     public function setUp(): void
     {
