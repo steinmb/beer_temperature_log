@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace steinmb;
-
 use PHPUnit\Framework\TestCase;
-use UnexpectedValueException;
+use steinmb\AmbiguousSessionId;
+use steinmb\BrewSessionConfig;
+use steinmb\BrewSessionInterface;
 
 /**
  * @coversDefaultClass \steinmb\BrewSessionConfig
