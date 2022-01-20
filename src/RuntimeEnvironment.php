@@ -7,7 +7,7 @@ use RuntimeException;
 final class RuntimeEnvironment
 {
     private static array $settings = [
-        'BREW_ROOT' => '',
+        'BREW_ROOT' => __DIR__,
         'DEMO_MODE' => FALSE,
         'LOG_DIRECTORY' => '../../brewlogs',
         'LOG_INFO' => 'info.log',
