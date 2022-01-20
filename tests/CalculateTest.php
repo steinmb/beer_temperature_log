@@ -1,12 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace steinmb\Utils;
-
 use PHPUnit\Framework\TestCase;
-use UnexpectedValueException;
+use steinmb\Utils\Calculate;
 
 /**
- * Class CalculateTest
+ * Class CalculateTest.
  *
  * @covers \steinmb\Utils\Calculate
  */
