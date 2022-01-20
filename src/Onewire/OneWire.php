@@ -54,7 +54,7 @@ final class OneWire implements OneWireInterface
         return explode(PHP_EOL, $sensors);
     }
 
-    public function content(string $sensor, $retries = 3): string
+    public function content(string $sensor, int $retries = 3): string
     {
       $fileContent = '';
 
