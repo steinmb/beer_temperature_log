@@ -40,7 +40,8 @@ final class Temperature
         }
 
         $result = $temperature + $this->offset;
-        return (string) number_format($result, 3);
+
+        return number_format($result, 3);
     }
 
     public function highLimit(BrewSessionInterface $brewSession, Temperature $temperature): bool
