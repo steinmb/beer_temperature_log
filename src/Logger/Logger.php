@@ -7,13 +7,9 @@ use steinmb\Formatters\NormaliseFormatter;
 
 final class Logger implements LoggerInterface
 {
-    private $name;
-    private $handlers = [];
+    private array $handlers = [];
 
-    public function __construct(string $name)
-    {
-        $this->name = $name;
-    }
+    public function __construct(private string $name) {}
 
     /**
      * Return a new cloned instance with the name changed.
