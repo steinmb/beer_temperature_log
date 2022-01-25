@@ -99,7 +99,7 @@ final class Temperature
 
     private function validateTemperature(int $temperature, string $sensorID): bool
     {
-        if ($temperature !== 127687 && $temperature !== 85000 && $temperature !== 00000) {
+        if ($temperature !== 127687 && $temperature !== 85000 && $temperature !== 00000 && $temperature !== -1250) {
             return TRUE;
         }
 
