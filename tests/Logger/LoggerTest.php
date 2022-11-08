@@ -1,8 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace steinmb\Logger;
+namespace Logger;
 
 use PHPUnit\Framework\TestCase;
+use steinmb\Logger\Handlers\NullHandler;
+use steinmb\Logger\Logger;
 
 /**
  * @coversDefaultClass \steinmb\Logger\Logger

@@ -1,7 +1,7 @@
 <?php declare(strict_types=1);
 
-use steinmb\Logger\ConsoleHandler;
-use steinmb\Logger\FileStorageHandler;
+use steinmb\Logger\Handlers\ConsoleHandler;
+use steinmb\Logger\Handlers\FileStorageHandler;
 use steinmb\Logger\Logger;
 
 include_once __DIR__ . '/../vendor/autoload.php';

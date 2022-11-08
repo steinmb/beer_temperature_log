@@ -2,6 +2,8 @@
 
 namespace steinmb\Logger;
 
+use steinmb\Logger\Handlers\HandlerInterface;
+
 interface LoggerInterface
 {
 

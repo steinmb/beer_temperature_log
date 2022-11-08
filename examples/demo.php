@@ -8,7 +8,7 @@ use steinmb\BrewSessionConfig;
 use steinmb\EntityFactory;
 use steinmb\RuntimeEnvironment;
 use steinmb\Logger\Logger;
-use steinmb\Logger\FileStorageHandler;
+use steinmb\Logger\Handlers\FileStorageHandler;
 use steinmb\Onewire\Sensor;
 use steinmb\SystemClock;
 use steinmb\Onewire\OneWire;

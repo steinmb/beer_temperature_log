@@ -1,14 +1,7 @@
 <?php declare(strict_types=1);
 
-use steinmb\Alarm;
-use steinmb\BrewSession;
 use steinmb\BrewSessionConfig;
 use steinmb\EntityFactory;
-use steinmb\Logger\Curl;
-use steinmb\Logger\FileStorageHandler;
-use steinmb\Logger\JsonDecode;
-use steinmb\Logger\Logger;
-use steinmb\Logger\TelegramHandler;
 use steinmb\Onewire\OneWire;
 use steinmb\Onewire\Sensor;
 use steinmb\Onewire\Temperature;
@@ -29,5 +22,3 @@ foreach ($probes as $probe) {
 	var_dump($brewTemperature );
 	echo $brewTemperature . PHP_EOL;
 }
-
-

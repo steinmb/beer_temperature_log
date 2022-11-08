@@ -4,6 +4,8 @@ namespace steinmb\Logger;
 
 use steinmb\Formatters\FormatterInterface;
 use steinmb\Formatters\NormaliseFormatter;
+use steinmb\Logger\Handlers\FileStorageHandler;
+use steinmb\Logger\Handlers\HandlerInterface;
 
 final class Logger implements LoggerInterface
 {

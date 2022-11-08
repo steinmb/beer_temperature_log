@@ -1,16 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace steinmb\Logger;
+namespace Logger\Handlers;
 
 use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use steinmb\Formatters\NullFormatter;
+use steinmb\Logger\Handlers\FileStorageHandler;
 use steinmb\Onewire\DataEntity;
 use steinmb\Onewire\Temperature;
 use steinmb\SystemClockFixed;
 
 /**
- * @coversDefaultClass \steinmb\Logger\FileStorageHandler
+ * @coversDefaultClass \steinmb\Logger\Handlers\FileStorageHandler
  */
 class FileStorageHandlerTest extends TestCase
 {

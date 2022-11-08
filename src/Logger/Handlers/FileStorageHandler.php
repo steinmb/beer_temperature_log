@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace steinmb\Logger;
+namespace steinmb\Logger\Handlers;
 
 use steinmb\Formatters\FormatterInterface;
 use steinmb\RuntimeEnvironment;
