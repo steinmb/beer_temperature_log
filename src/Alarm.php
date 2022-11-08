@@ -7,7 +7,7 @@ use UnexpectedValueException;
 
 class Alarm
 {
-    public function __construct(private BrewSessionInterface $brewSession)
+    public function __construct(private readonly BrewSessionInterface $brewSession)
     {
         if (!$brewSession->high_limit) {
             throw new UnexpectedValueException(

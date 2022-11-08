@@ -6,7 +6,7 @@ use DateTimeImmutable;
 
 final class SystemClockFixed implements Clock
 {
-    private $dateTime;
+    private DateTimeImmutable $dateTime;
 
     public function __construct(DateTimeImmutable $dateTime)
     {

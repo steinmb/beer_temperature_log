@@ -4,11 +4,11 @@ namespace steinmb;
 
 final class BrewSession implements BrewSessionInterface
 {
-    public $sessionId;
-    public $probe;
-    public $ambient;
-    public $low_limit;
-    public $high_limit;
+    public string $sessionId;
+    public string $probe;
+    public string $ambient;
+    public int|float $low_limit;
+    public int|float $high_limit;
 
     public function __construct(
         string $sessionId = '',
