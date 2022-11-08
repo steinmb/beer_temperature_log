@@ -2,17 +2,18 @@
 
 namespace steinmb\Onewire;
 
+use DateTimeImmutable;
 use steinmb\Clock;
 
 final class DataEntity implements EntityInterface
 {
     private const format = 'Y-m-d H:i:s';
-    private \DateTimeImmutable $time;
+    private DateTimeImmutable $time;
 
     public function __construct(
-        private string $id,
-        private string $type,
-        private string $measurement,
+        private readonly string $id,
+        private readonly string $type,
+        private readonly string $measurement,
         Clock $time
     )
     {
@@ -21,7 +22,7 @@ final class DataEntity implements EntityInterface
 
     public function __toString(): string
     {
-        return "{$this->id}, {$this->type}, {$this->measurement}, {$this->time->format($this::format)}";
+        return "$this->id, $this->type, $this->measurement, $this->time->format($this::format)";
     }
 
     public function timeStamp(): string
@@ -46,6 +47,6 @@ final class DataEntity implements EntityInterface
 
     public function getData(): string
     {
-        return "{$this->id}, {$this->type}, {$this->measurement}";
+        return "$this->id, $this->type, $this->measurement";
     }
 }

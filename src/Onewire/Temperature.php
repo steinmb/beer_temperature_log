@@ -7,7 +7,7 @@ use UnexpectedValueException;
 
 final class Temperature
 {
-    public function __construct(public EntityInterface $entity, private float $offset = 0) {}
+    public function __construct(public EntityInterface $entity, private readonly float $offset = 0) {}
 
     private function validate(): bool
     {

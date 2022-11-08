@@ -10,9 +10,9 @@ final class Sensor
     private const sensorType = 'temperature';
 
     public function __construct(
-      private OneWireInterface $oneWire,
-      private Clock $clock,
-      private EntityFactory $itemFactory
+      private readonly OneWireInterface $oneWire,
+      private readonly Clock $clock,
+      private readonly EntityFactory $itemFactory
     ) {}
 
     public function getTemperatureSensors(): array
