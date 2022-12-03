@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace steinmb;
 
@@ -13,7 +13,7 @@ final class RuntimeEnvironment
         'LOG_INFO' => 'info.log',
         'SENSOR_DIRECTORY' => '/sys/bus/w1/devices',
         'SENSORS' => '/sys/bus/w1/devices/w1_bus_master1/w1_master_slaves',
-        'TEST_DATA' => '/test_data',
+        'TEST_DATA' => __DIR__ . '/tests/test_data',
     ];
 
     public static function init(): void
