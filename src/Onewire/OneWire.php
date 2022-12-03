@@ -80,7 +80,13 @@ final class OneWire implements OneWireInterface
      */
     public function initW1(): void
     {
-        echo exec('sudo modprobe w1-gpio');
-        echo exec('sudo modprobe w1-therm');
+        if (PHP_OS !== 'Linux') {
+            echo 'Error: Loading one wire drivers only supported on Linux systems.';
+            return;
+        }
+
+        echo "You need to run the following commands as root or with sudo: \n";
+        echo "sudo modprobe w1-gpio \n";
+        echo "sudo modprobe w1-therm \n";
     }
 }
