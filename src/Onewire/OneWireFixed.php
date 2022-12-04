@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace steinmb\Onewire;
 
 class OneWireFixed implements OneWireInterface
@@ -12,11 +14,11 @@ class OneWireFixed implements OneWireInterface
     public function allSensors(): array
     {
         return [
-            '3a-0000001e4a9f',
-            '10-000802a4ef03',
-            '10-000802a55696',
-            '10-000802be7340',
-            '28-0000098101de',
+          '3a-0000001e4a9f',
+          '10-000802a4ef03',
+          '10-000802a55696',
+          '10-000802be7340',
+          '28-0000098101de',
         ];
     }
 
