@@ -8,6 +8,7 @@ use steinmb\RuntimeEnvironment;
 final class OneWire implements OneWireInterface
 {
     public const slaveFile = 'w1_slave';
+    public const master_slave = 'w1_master_slaves';
 
     public function __construct(
       private string $directory = '',
@@ -25,23 +26,22 @@ final class OneWire implements OneWireInterface
 
     private function directory(): string
     {
+        if (!file_exists($this->directory)) {
+            throw new RuntimeException(
+              'Directory: ' . $this->directory . ' Not found. OneWire support perhaps not loaded.'
+            );
+        }
+
         return $this->directory;
     }
 
     public function temperatureSensors(): array
     {
-        if (!file_exists($this->directory())) {
-            throw new RuntimeException(
-                'Directory: ' . $this->directory() . ' Not found. OneWire support perhaps not loaded.'
-            );
-        }
-
         $temperatureSensors = [];
-        $content = dir($this->directory());
 
-        while (false !== ($entry = $content->read())) {
-            if (str_contains($entry, '10-') || str_contains($entry, '28-')) {
-                $temperatureSensors[] = $entry;
+        foreach ($this->allSensors() as $sensor) {
+            if (str_contains($sensor, '10-') || str_contains($sensor, '28-')) {
+                $temperatureSensors[] = $sensor;
             }
         }
 
@@ -50,8 +50,12 @@ final class OneWire implements OneWireInterface
 
     public function allSensors(): array
     {
-        $sensors = rtrim(file_get_contents($this->sensors), PHP_EOL);
-        return explode(PHP_EOL, $sensors);
+        $sensors = file($this->directory() . '/' . $this::master_slave);
+        if ($sensors === false) {
+            return [];
+        }
+
+        return $sensors;
     }
 
     public function content(string $sensor, int $retries = 3): string
