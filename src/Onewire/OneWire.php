@@ -12,13 +12,8 @@ final class OneWire implements OneWireInterface
 
     public function __construct(
       private string $directory = '',
-      private string $sensors = '',
     )
     {
-        if (!$sensors) {
-            $this->sensors = RuntimeEnvironment::getSetting('SENSORS');
-        }
-
         if (!$directory) {
             $this->directory = RuntimeEnvironment::getSetting('SENSOR_DIRECTORY');
         }
