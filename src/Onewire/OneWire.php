@@ -11,23 +11,23 @@ final class OneWire implements OneWireInterface
     public const master_slave = 'w1_master_slaves';
 
     public function __construct(
-      private string $directory = '',
+      private string $sensorDirectory = '',
     )
     {
-        if (!$directory) {
-            $this->directory = RuntimeEnvironment::getSetting('SENSOR_DIRECTORY');
+        if (!$sensorDirectory) {
+            $this->sensorDirectory = RuntimeEnvironment::getSetting('SENSOR_DIRECTORY');
         }
     }
 
     private function directory(): string
     {
-        if (!file_exists($this->directory)) {
+        if (!file_exists($this->sensorDirectory)) {
             throw new RuntimeException(
-              'Directory: ' . $this->directory . ' Not found. OneWire support perhaps not loaded.'
+              'Directory: ' . $this->sensorDirectory . ' Not found. OneWire support perhaps not loaded.'
             );
         }
 
-        return $this->directory;
+        return $this->sensorDirectory;
     }
 
     public function temperatureSensors(): array
@@ -58,7 +58,7 @@ final class OneWire implements OneWireInterface
       $fileContent = '';
 
       while ($retries) {
-        $fileContent = file_get_contents($this->directory . '/' . $sensor . '/' . $this::slaveFile);
+        $fileContent = file_get_contents($this->sensorDirectory . '/' . $sensor . '/' . $this::slaveFile);
         if ($fileContent) {
           return $fileContent;
         }
