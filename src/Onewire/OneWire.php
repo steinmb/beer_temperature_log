@@ -1,4 +1,4 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace steinmb\Onewire;
 
@@ -45,7 +45,7 @@ final class OneWire implements OneWireInterface
 
     public function allSensors(): array
     {
-        $sensors = file($this->directory() . '/' . $this::master_slave);
+        $sensors = file($this->directory() . '/' . $this::master_slave, FILE_IGNORE_NEW_LINES);
         if ($sensors === false) {
             return [];
         }
