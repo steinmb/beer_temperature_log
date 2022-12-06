@@ -69,6 +69,25 @@ final class OneWire implements OneWireInterface
       return $fileContent;
     }
 
+    public function readSensor(string $sensor, int $retries = 3): Dto
+    {
+        $sensorData = '';
+
+        while ($retries) {
+            $sensorData = file_get_contents($this->directory() . '/' . $sensor . '/' . $this::slaveFile);
+            if ($sensorData) {
+                break;
+            }
+            $retries--;
+            sleep(1);
+        }
+
+        return new Dto(
+          $sensor,
+          $sensorData,
+        );
+    }
+
     public function __toString(): string
     {
       return implode(PHP_EOL, $this->allSensors());
