@@ -3,7 +3,6 @@
 namespace steinmb\Onewire;
 
 use RuntimeException;
-use steinmb\RuntimeEnvironment;
 
 final class OneWire implements OneWireInterface
 {
@@ -15,7 +14,7 @@ final class OneWire implements OneWireInterface
     )
     {
         if (!$sensorDirectory) {
-            $this->sensorDirectory = RuntimeEnvironment::getSetting('SENSOR_DIRECTORY');
+            $this->sensorDirectory = '/sys/bus/w1/devices';
         }
     }
 
