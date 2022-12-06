@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace steinmb\Onewire;
 
@@ -11,8 +13,7 @@ final class OneWire implements OneWireInterface
 
     public function __construct(
       private string $sensorDirectory = '',
-    )
-    {
+    ) {
         if (!$sensorDirectory) {
             $this->sensorDirectory = '/sys/bus/w1/devices';
         }
@@ -54,18 +55,18 @@ final class OneWire implements OneWireInterface
 
     public function content(string $sensor, int $retries = 3): string
     {
-      $fileContent = '';
+        $fileContent = '';
 
-      while ($retries) {
-        $fileContent = file_get_contents($this->sensorDirectory . '/' . $sensor . '/' . $this::slaveFile);
-        if ($fileContent) {
-          return $fileContent;
+        while ($retries) {
+            $fileContent = file_get_contents($this->sensorDirectory . '/' . $sensor . '/' . $this::slaveFile);
+            if ($fileContent) {
+                return $fileContent;
+            }
+            $retries--;
+            sleep(1);
         }
-        $retries--;
-        sleep(1);
-      }
 
-      return $fileContent;
+        return $fileContent;
     }
 
     public function readSensor(string $sensor, int $retries = 3): Dto
@@ -89,10 +90,10 @@ final class OneWire implements OneWireInterface
 
     public function __toString(): string
     {
-      return implode(PHP_EOL, $this->allSensors());
+        return implode(PHP_EOL, $this->allSensors());
     }
 
-  /**
+    /**
      * Initialize the GPIO bus by loading the 1-Wire kernel driver.
      */
     public function initW1(): void
