@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace steinmb\Onewire;
 
@@ -13,7 +15,8 @@ final class Sensor
       private readonly OneWireInterface $oneWire,
       private readonly Clock $clock,
       private readonly EntityFactory $itemFactory
-    ) {}
+    ) {
+    }
 
     public function getTemperatureSensors(): array
     {
