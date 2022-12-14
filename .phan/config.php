@@ -16,7 +16,7 @@ return [
     // that functions removed in php 7.0 exist.
     // (See `backward_compatibility_checks` for additional options)
     // TODO: Set this.
-    'target_php_version' => 8.0,
+    'target_php_version' => 8.1,
 
     // A list of directories that should be parsed for class and
     // method information. After excluding the directories

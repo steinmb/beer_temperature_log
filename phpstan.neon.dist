@@ -3,5 +3,5 @@ parameters:
     paths:
         - www
         - src
-    excludes_analyse:
+    excludePaths:
         - 'www/vendor'
