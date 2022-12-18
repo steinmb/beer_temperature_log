@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-use steinmb\Onewire\DataEntity;
 use PHPUnit\Framework\TestCase;
+use steinmb\DataEntity;
 use steinmb\SystemClockFixed;
 
 /**
- * @coversDefaultClass \steinmb\Onewire\DataEntity
+ * @coversDefaultClass DataEntity
  */
 final class DataEntityTest extends TestCase
 {
@@ -39,7 +39,7 @@ final class DataEntityTest extends TestCase
     }
 
     /**
-     * @covers \steinmb\Onewire\DataEntity::timeStamp
+     * @covers \steinmb\DataEntity::timeStamp
      */
     public function testTimestamp(): void
     {

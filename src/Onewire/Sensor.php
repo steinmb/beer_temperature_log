@@ -6,6 +6,7 @@ namespace steinmb\Onewire;
 
 use steinmb\Clock;
 use steinmb\EntityFactory;
+use steinmb\EntityInterface;
 
 final class Sensor
 {

@@ -1,6 +1,8 @@
-<?php declare(strict_types=1);
+<?php
 
-namespace steinmb\Onewire;
+declare(strict_types=1);
+
+namespace steinmb;
 
 interface EntityInterface
 {

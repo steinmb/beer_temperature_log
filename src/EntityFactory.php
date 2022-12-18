@@ -2,8 +2,6 @@
 
 namespace steinmb;
 
-use steinmb\Onewire\DataEntity;
-use steinmb\Onewire\EntityInterface;
 use steinmb\Onewire\OneWireInterface;
 
 final class EntityFactory
@@ -14,7 +12,7 @@ final class EntityFactory
       OneWireInterface $oneWire,
       string $sensor,
       string $sensorType
-    ): EntityInterface
+    ): DataEntity
     {
         return new DataEntity(
           $sensor,

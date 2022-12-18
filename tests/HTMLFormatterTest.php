@@ -1,9 +1,9 @@
-<?php declare(strict_types=1);
+<?php
 
-use steinmb\EntityFactory;
+declare(strict_types=1);
+
 use steinmb\Formatters\HTMLFormatter;
 use PHPUnit\Framework\TestCase;
-use steinmb\Onewire\DataEntity;
 use steinmb\Onewire\OneWireFixed;
 use steinmb\Onewire\Sensor;
 use steinmb\Onewire\Temperature;
@@ -12,7 +12,7 @@ use steinmb\SystemClockFixed;
 /**
  * Class HTMLFormatterTest
  *
- * @covers \steinmb\Formatters\HTMLFormatter
+ * @covers ::HTMLFormatter
  */
 final class HTMLFormatterTest extends TestCase
 {
@@ -26,19 +26,21 @@ final class HTMLFormatterTest extends TestCase
         parent::setUp();
         $measurement = '25 00 4b 46 ff ff 07 10 cc : crc=cc YES
                         25 00 4b 46 ff ff 07 10 cc t=20000';
-        $this->temperature = new Temperature(new DataEntity(
-                '28-1234567',
-                'temperature',
-                $measurement,
-                new SystemClockFixed(new dateTimeImmutable('16.07.2018 13.01.00')))
+        $this->temperature = new Temperature(new \steinmb\DataEntity(
+            '28-1234567',
+            'temperature',
+            $measurement,
+            new SystemClockFixed(new dateTimeImmutable('16.07.2018 13.01.00')))
         );
+
         $this->sensor = new Sensor(
             new OneWireFixed(),
             new SystemClockFixed(new DateTimeImmutable('16.07.1970 03:55')),
-            new EntityFactory()
+            new \steinmb\EntityFactory()
         );
+
         $this->sensors = $this->sensor->getTemperatureSensors();
-        $this->entity = new DataEntity(
+        $this->entity = new \steinmb\DataEntity(
             '10-123456789',
             'temp',
             '20.000',

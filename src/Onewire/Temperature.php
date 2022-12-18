@@ -1,8 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace steinmb\Onewire;
 
 use steinmb\BrewSessionInterface;
+use steinmb\EntityInterface;
 use UnexpectedValueException;
 
 final class Temperature

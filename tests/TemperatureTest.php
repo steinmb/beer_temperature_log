@@ -3,7 +3,7 @@
 use PHPUnit\Framework\TestCase;
 use steinmb\BrewSessionConfig;
 use steinmb\BrewSessionInterface;
-use steinmb\Onewire\DataEntity;
+use steinmb\DataEntity;
 use steinmb\Onewire\Temperature;
 use steinmb\SystemClock;
 use steinmb\SystemClockFixed;

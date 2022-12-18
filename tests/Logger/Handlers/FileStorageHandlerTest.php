@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Logger\Handlers;
 
@@ -6,7 +8,7 @@ use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 use steinmb\Formatters\NullFormatter;
 use steinmb\Logger\Handlers\FileStorageHandler;
-use steinmb\Onewire\DataEntity;
+use steinmb\DataEntity;
 use steinmb\Onewire\Temperature;
 use steinmb\SystemClockFixed;
 

@@ -1,9 +1,10 @@
-<?php declare(strict_types=1);
+<?php
 
-namespace steinmb\Onewire;
+declare(strict_types=1);
+
+namespace steinmb;
 
 use DateTimeImmutable;
-use steinmb\Clock;
 
 final class DataEntity implements EntityInterface
 {

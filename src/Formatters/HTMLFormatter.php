@@ -2,7 +2,7 @@
 
 namespace steinmb\Formatters;
 
-use steinmb\Onewire\EntityInterface;
+use steinmb\EntityInterface;
 use steinmb\Onewire\Temperature;
 
 final class HTMLFormatter extends NormaliseFormatter
