@@ -1,24 +1,23 @@
-<?php declare(strict_types=1);
+<?php
 
-use steinmb\BrewSessionConfig;
-use steinmb\EntityFactory;
+declare(strict_types=1);
+
+/**
+ * @file test.php
+ *   Tests OneWire basic functions. Scan for sensors and get sensor data.
+ */
+
 use steinmb\Onewire\OneWire;
-use steinmb\Onewire\Sensor;
-use steinmb\Onewire\Temperature;
-use steinmb\RuntimeEnvironment;
-use steinmb\SystemClock;
+use steinmb\Onewire\SensorFactory;
 
 include_once __DIR__ . '/../vendor/autoload.php';
 
-RuntimeEnvironment::init();
-$batches = RuntimeEnvironment::getSetting('BATCH');
-$brewSessionConfig = new BrewSessionConfig($batches);
-$sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
-$probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
+$oneWire = new OneWire(__DIR__ . '/../tests/data_all_valid');
+$sensorFactory = new SensorFactory($oneWire);
+$ids = $oneWire->allSensors();
 
-print_r($probes);
-foreach ($probes as $probe) {
-	$brewTemperature = new Temperature($sensor->createEntity($probe));
-	var_dump($brewTemperature );
-	echo $brewTemperature . PHP_EOL;
+foreach ($ids as $id) {
+    $sensor = $sensorFactory->createSensor($id);
+    echo $sensor->sensorValue() . PHP_EOL;
+    echo $sensor->temperature('celsius', -1) . PHP_EOL;
 }
