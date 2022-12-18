@@ -1,4 +1,10 @@
-<?php declare(strict_types = 1);
+<?php
+
+/**
+ * Example demo application.
+ */
+
+declare(strict_types = 1);
 
 include_once __DIR__ . '/../vendor/autoload.php';
 
@@ -15,11 +21,13 @@ use steinmb\Onewire\OneWire;
 use steinmb\Onewire\Temperature;
 use steinmb\Utils\Calculate;
 
-RuntimeEnvironment::init();
-RuntimeEnvironment::setSetting('SENSOR_DIRECTORY', __DIR__ . '/../tests/test_data');
-RuntimeEnvironment::setSetting('SENSORS', __DIR__ . '/../tests/test_data/w1_master_slaves');
+$oneWire = new OneWire(__DIR__ . '/../tests/data_all_valid');
+$sensorFactory = new \steinmb\Onewire\SensorFactory($oneWire);
+$sensor = new Sensor(
+  $oneWire,
+  new SystemClock(), new EntityFactory(),
+);
 
-$sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
 $trendCalculator = new Calculate();
 $brewSessionConfig = new BrewSessionConfig(RuntimeEnvironment::getSetting('BATCH'));
