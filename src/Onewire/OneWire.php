@@ -11,9 +11,7 @@ final class OneWire implements OneWireInterface
     public const slaveFile = 'w1_slave';
     public const master_slave = 'w1_master_slaves';
 
-    public function __construct(
-      private string $sensorDirectory = '',
-    ) {
+    public function __construct(private string $sensorDirectory = '',) {
         if (!$sensorDirectory) {
             $this->sensorDirectory = '/sys/bus/w1/devices';
         }
