@@ -2,21 +2,24 @@
 
 namespace steinmb\Onewire;
 
+use UnexpectedValueException;
+
 class SensorFactory
 {
-    public function __construct(private OneWireInterface $oneWire) {}
+    public function __construct(private readonly OneWireInterface $oneWire) {}
 
-    public function createSensor(string $Id): Sensors
+    public function createSensor(string $id): Sensors
     {
 
-        if (str_contains($Id, '10-') || str_contains($Id, '28-')) {
+        if (str_contains($id, '10-') || str_contains($id, '28-')) {
             return new TemperatureSensor(
-              $this->oneWire
+              $this->oneWire,
+              $id,
             );
         }
 
-        throw new \UnexpectedValueException(
-            'Unknown sensor type: ' . $Id
+        throw new UnexpectedValueException(
+            'Unknown sensor type: ' . $id
         );
 
     }
