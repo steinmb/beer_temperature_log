@@ -10,9 +10,9 @@ use UnexpectedValueException;
 
 final class FileStorageHandler implements HandlerInterface
 {
-    private $directory;
+    private readonly string $directory;
     private string $message = '';
-    private string $stream;
+    private readonly string $stream;
 
     public function __construct(string $fileName, string $directory = '')
     {
@@ -29,13 +29,12 @@ final class FileStorageHandler implements HandlerInterface
 
     private function storage(): void
     {
+        $directory = $this->getDirFromStream($this->stream);
 
-        $this->getDirFromStream($this->stream);
-
-        if (!file_exists($this->directory) && !mkdir($this->directory, 0755,
+        if (!file_exists($directory) && !mkdir($directory, 0755,
             true) && !is_dir($this->directory)) {
             throw new UnexpectedValueException(
-              'Unable to create log directory: ' . $this->directory
+              'Unable to create log directory: ' . $directory
             );
         }
 
@@ -196,20 +195,18 @@ final class FileStorageHandler implements HandlerInterface
             $result = fclose($this->stream);
         }
 
-        $this->stream = '';
-
         return $result;
     }
 
-    private function getDirFromStream(string $stream): void
+    private function getDirFromStream(string $stream): string
     {
         $pos = strpos($stream, '://');
         if ($pos === false) {
-            $this->directory = dirname($stream);
+            return dirname($stream);
         }
 
         if (strpos($stream, 'file://') === 0) {
-            $this->directory = dirname(substr($stream, 7));
+            return dirname(substr($stream, 7));
         }
 
     }
