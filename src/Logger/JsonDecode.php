@@ -9,10 +9,6 @@ use RuntimeException;
 
 final class JsonDecode
 {
-    /**
-     * @param string $data
-     * @return array
-     */
     public function decode(string $data): array
     {
         if (!$data) {
