@@ -121,10 +121,6 @@ final class FileStorageHandler implements HandlerInterface
     /**
      * Sets buffer size, according to the number of lines to retrieve.
      * This gives a performance boost when reading a few lines from the file.
-     *
-     * @param int $lines
-     * @param bool $adaptive
-     * @return int
      */
     private function bufferSize(int $lines = 1, bool $adaptive = true): int
     {
