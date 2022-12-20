@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace steinmb;
 
@@ -11,13 +13,13 @@ class Alarm
     {
         if (!$brewSession->high_limit) {
             throw new UnexpectedValueException(
-                'No high temperature limit defined in session ' . $brewSession->sessionId
+              'No high temperature limit defined in session ' . $brewSession->sessionId
             );
         }
 
         if (!$brewSession->low_limit) {
             throw new UnexpectedValueException(
-                'No high temperature limit defined in session ' . $brewSession->sessionId
+              'No high temperature limit defined in session ' . $brewSession->sessionId
             );
         }
     }
