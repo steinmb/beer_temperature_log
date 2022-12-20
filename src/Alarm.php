@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace steinmb;
 
 use steinmb\Onewire\Temperature;
+use steinmb\Onewire\TemperatureSensor;
 use UnexpectedValueException;
 
 class Alarm
@@ -24,7 +25,7 @@ class Alarm
         }
     }
 
-    public function checkLimits(Temperature $temperature): string
+    public function checkLimits(TemperatureSensor $temperature): string
     {
         $status = '';
         $currentTemperature = $temperature->temperature();
@@ -40,12 +41,12 @@ class Alarm
         return $status;
     }
 
-    private function highLimit(Temperature $temperature): bool
+    private function highLimit(TemperatureSensor $temperature): bool
     {
         return !($this->brewSession->high_limit > $temperature->temperature());
     }
 
-    private function lowLimit(Temperature $temperature): bool
+    private function lowLimit(TemperatureSensor $temperature): bool
     {
         return !($this->brewSession->low_limit < $temperature->temperature());
     }

@@ -5,30 +5,25 @@ declare(strict_types=1);
 use steinmb\Alarm;
 use steinmb\BrewSession;
 use steinmb\BrewSessionConfig;
-use steinmb\EntityFactory;
 use steinmb\Logger\Curl;
 use steinmb\Logger\Handlers\FileStorageHandler;
 use steinmb\Logger\JsonDecode;
 use steinmb\Logger\Logger;
 use steinmb\Logger\Handlers\TelegramHandler;
 use steinmb\Onewire\OneWire;
-use steinmb\Onewire\Sensor;
-use steinmb\Onewire\Temperature;
 use steinmb\RuntimeEnvironment;
-use steinmb\SystemClock;
 
 include_once __DIR__ . '/vendor/autoload.php';
 
 RuntimeEnvironment::init();
 $brewSessionConfig = new BrewSessionConfig(RuntimeEnvironment::getSetting('BATCH'));
+$oneWire = new OneWire(__DIR__ . '/tests/data_all_valid');
+$sensorFactory = New steinmb\Onewire\SensorFactory($oneWire);
 
-$sensor = new Sensor(
-  new OneWire(__DIR__ . '/tests/data_all_valid'),
-  new SystemClock(),
-  new EntityFactory()
-);
-
-$probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.') : $sensor->getTemperatureSensors();
+$sensors = [];
+foreach ($oneWire->allSensors() as $id) {
+    $sensors[] = $sensorFactory->createSensor($id);
+}
 
 $alarmLogger = new Logger('Alarms');
 $alarmLogger->pushHandler(
@@ -49,14 +44,12 @@ if (RuntimeEnvironment::getSetting('TELEGRAM_ALARM')) {
     );
 }
 
-foreach ($probes as $probe) {
-    $brewSession = $brewSessionConfig->sessionIdentity($probe);
+foreach ($sensors as $probe) {
     $alarmStatus = '';
+    $brewSession = $brewSessionConfig->sessionIdentity($probe->id);
 
     if ($brewSession instanceof BrewSession) {
-        $brewTemperature = new Temperature($sensor->createEntity($brewSession->probe));
-        $alarm = new Alarm($brewSession);
-        $alarmStatus = $alarm->checkLimits($brewTemperature);
+        $alarmStatus = (new Alarm($brewSession))->checkLimits($probe);
     }
 
     if ($alarmStatus) {
