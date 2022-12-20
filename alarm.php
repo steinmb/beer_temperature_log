@@ -20,12 +20,18 @@ use steinmb\SystemClock;
 include_once __DIR__ . '/vendor/autoload.php';
 
 RuntimeEnvironment::init();
-$batches = RuntimeEnvironment::getSetting('BATCH');
-$brewSessionConfig = new BrewSessionConfig($batches);
+$brewSessionConfig = new BrewSessionConfig(RuntimeEnvironment::getSetting('BATCH'));
+
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.') : $sensor->getTemperatureSensors();
+
 $alarmLogger = new Logger('Alarms');
-$alarmLogger->pushHandler(new FileStorageHandler('alarms.txt', RuntimeEnvironment::getSetting('LOG_DIRECTORY')));
+$alarmLogger->pushHandler(
+  new FileStorageHandler(
+    'alarms.txt',
+    RuntimeEnvironment::getSetting('LOG_DIRECTORY')
+  )
+);
 
 if (RuntimeEnvironment::getSetting('TELEGRAM_ALARM')) {
     $alarmLogger->pushHandler(
@@ -33,7 +39,7 @@ if (RuntimeEnvironment::getSetting('TELEGRAM_ALARM')) {
         RuntimeEnvironment::getSetting('TELEGRAM_ALARM')['TOKEN'],
         RuntimeEnvironment::getSetting('TELEGRAM_ALARM')['CHANNEL'],
         new JsonDecode(),
-        new Curl()
+        new Curl(),
       )
     );
 }

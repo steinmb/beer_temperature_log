@@ -1,9 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace steinmb\Logger\Handlers;
 
 use RuntimeException;
 use steinmb\Formatters\FormatterInterface;
+use steinmb\Logger\Curl;
+use steinmb\Logger\JsonDecode;
 
 final class TelegramHandler implements HandlerInterface
 {
@@ -31,17 +35,20 @@ final class TelegramHandler implements HandlerInterface
         return '';
     }
 
-    public function write(array $message, FormatterInterface $formatter = NULL): void
+    public function write(array $message, FormatterInterface $formatter = null): void
     {
         $url = self::BOT_API . $this->token . '/SendMessage';
         $this->curl->init($url);
-        $this->curl->setOption(CURLOPT_POSTFIELDS, http_build_query([
+        $this->curl->setOption(
+          CURLOPT_POSTFIELDS,
+          http_build_query([
             'text' => $message['message'],
             'chat_id' => $this->channel,
             'parse_mode' => $this->parseMode,
             'disable_web_page_preview' => $this->disableWebPagePreview,
             'disable_notification' => $this->disableNotification,
-        ]));
+          ])
+        );
         $this->result($this->curl->curl());
         $this->messages[] = $message['message'];
         $this->lastMessage = $message['message'];
@@ -53,7 +60,7 @@ final class TelegramHandler implements HandlerInterface
 
         if ($resultDecoded['ok'] === false) {
             throw new RuntimeException(
-                'Telegram API error. Description: ' . $resultDecoded['description']
+              'Telegram API error. Description: ' . $resultDecoded['description']
             );
         }
 
