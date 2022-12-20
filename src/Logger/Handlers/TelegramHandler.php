@@ -16,19 +16,14 @@ final class TelegramHandler implements HandlerInterface
     private $disableWebPagePreview;
     private $disableNotification;
     private $messages = [];
-    private $lastMessage = '';
-    private $token;
-    private $channel;
-    private $jsonDecode;
-    private $curl;
+    private string $lastMessage = '';
 
-    public function __construct(string $token, string $channel, JsonDecode $jsonDecode, Curl $curl)
-    {
-        $this->token = $token;
-        $this->channel = $channel;
-        $this->jsonDecode = $jsonDecode;
-        $this->curl = $curl;
-    }
+    public function __construct(
+      private readonly string $token,
+      private readonly string $channel,
+      private readonly JsonDecode $jsonDecode,
+      private readonly Curl $curl,
+    ) {}
 
     public function read(): string
     {
