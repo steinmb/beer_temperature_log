@@ -205,6 +205,7 @@ final class FileStorageHandler implements HandlerInterface
             return dirname(substr($stream, 7));
         }
 
+        return '';
     }
 
     public function __destruct()
