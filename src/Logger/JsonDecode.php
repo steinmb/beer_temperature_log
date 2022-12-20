@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace steinmb\Logger;
 
@@ -24,8 +26,8 @@ final class JsonDecode
         try {
             $result = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
-        throw new RuntimeException(
-                'Failed to decode data: ' . $e
+            throw new RuntimeException(
+              'Failed to decode data: ' . $e
             );
         }
 
