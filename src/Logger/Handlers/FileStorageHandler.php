@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace steinmb\Logger\Handlers;
 
@@ -9,8 +11,8 @@ use UnexpectedValueException;
 final class FileStorageHandler implements HandlerInterface
 {
     private $directory;
-    private $message = '';
-    private $stream;
+    private string $message = '';
+    private string $stream;
 
     public function __construct(string $fileName, string $directory = '')
     {
@@ -193,7 +195,7 @@ final class FileStorageHandler implements HandlerInterface
             $result = fclose($this->stream);
         }
 
-        $this->stream = null;
+        $this->stream = '';
 
         return $result;
     }
