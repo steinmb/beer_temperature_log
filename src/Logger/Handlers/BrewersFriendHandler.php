@@ -1,10 +1,14 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace steinmb\Logger\Handlers;
 
 use JsonException;
 use RuntimeException;
 use steinmb\Formatters\FormatterInterface;
+use steinmb\Logger\Curl;
+use steinmb\Logger\JsonDecode;
 
 final class BrewersFriendHandler implements HandlerInterface
 {
@@ -18,8 +22,12 @@ final class BrewersFriendHandler implements HandlerInterface
     private $jsonDecode;
     private $curl;
 
-    public function __construct(string $sessionId, string $token, JsonDecode $jsonDecode, Curl $curl)
-    {
+    public function __construct(
+      string $sessionId,
+      string $token,
+      JsonDecode $jsonDecode,
+      Curl $curl,
+    ) {
         $this->token = $token;
         $this->sessionId = $sessionId;
         $this->jsonDecode = $jsonDecode;
