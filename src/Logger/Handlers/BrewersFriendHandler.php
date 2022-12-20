@@ -17,22 +17,13 @@ final class BrewersFriendHandler implements HandlerInterface
     private const API_FERMENTATION = 'https://api.brewersfriend.com/v1/fermentation';
     private $messages = [];
     private $lastMessage = '';
-    private $token;
-    private $sessionId;
-    private $jsonDecode;
-    private $curl;
 
     public function __construct(
-      string $sessionId,
-      string $token,
-      JsonDecode $jsonDecode,
-      Curl $curl,
-    ) {
-        $this->token = $token;
-        $this->sessionId = $sessionId;
-        $this->jsonDecode = $jsonDecode;
-        $this->curl = $curl;
-    }
+      private readonly string $sessionId,
+      private readonly string $token,
+      private readonly JsonDecode $jsonDecode,
+      private readonly Curl $curl,
+    ) {}
 
     public function read(): string
     {
