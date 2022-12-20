@@ -17,12 +17,13 @@ final class FileStorageHandler implements HandlerInterface
     public function __construct(string $fileName, string $directory = '')
     {
         if (!$directory) {
-            $this->directory = RuntimeEnvironment::getSetting('LOG_DIRECTORY');
+            $logDirectory = RuntimeEnvironment::getSetting('LOG_DIRECTORY');
         } else {
-            $this->directory = $directory;
+            $logDirectory = $directory;
         }
 
-        $this->stream = $this->directory . '/'. $fileName;
+        $this->directory = $logDirectory;
+        $this->stream = $logDirectory . '/'. $fileName;
         $this->storage();
     }
 
