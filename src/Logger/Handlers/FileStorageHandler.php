@@ -201,7 +201,7 @@ final class FileStorageHandler implements HandlerInterface
             return dirname($stream);
         }
 
-        if (strpos($stream, 'file://') === 0) {
+        if (str_starts_with($stream, 'file://')) {
             return dirname(substr($stream, 7));
         }
 
