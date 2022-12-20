@@ -22,7 +22,12 @@ include_once __DIR__ . '/vendor/autoload.php';
 RuntimeEnvironment::init();
 $brewSessionConfig = new BrewSessionConfig(RuntimeEnvironment::getSetting('BATCH'));
 
-$sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
+$sensor = new Sensor(
+  new OneWire(__DIR__ . '/tests/data_all_valid'),
+  new SystemClock(),
+  new EntityFactory()
+);
+
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.') : $sensor->getTemperatureSensors();
 
 $alarmLogger = new Logger('Alarms');
