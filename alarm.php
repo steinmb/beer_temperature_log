@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use steinmb\Alarm;
 use steinmb\BrewSession;
@@ -21,18 +23,18 @@ RuntimeEnvironment::init();
 $batches = RuntimeEnvironment::getSetting('BATCH');
 $brewSessionConfig = new BrewSessionConfig($batches);
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
-$probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
+$probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.') : $sensor->getTemperatureSensors();
 $alarmLogger = new Logger('Alarms');
 $alarmLogger->pushHandler(new FileStorageHandler('alarms.txt', RuntimeEnvironment::getSetting('LOG_DIRECTORY')));
 
 if (RuntimeEnvironment::getSetting('TELEGRAM_ALARM')) {
     $alarmLogger->pushHandler(
-        new TelegramHandler(
-            RuntimeEnvironment::getSetting('TELEGRAM_ALARM')['TOKEN'],
-            RuntimeEnvironment::getSetting('TELEGRAM_ALARM')['CHANNEL'],
-            new JsonDecode(),
-            new Curl()
-        )
+      new TelegramHandler(
+        RuntimeEnvironment::getSetting('TELEGRAM_ALARM')['TOKEN'],
+        RuntimeEnvironment::getSetting('TELEGRAM_ALARM')['CHANNEL'],
+        new JsonDecode(),
+        new Curl()
+      )
     );
 }
 
