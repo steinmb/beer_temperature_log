@@ -15,7 +15,7 @@ final class JsonDecode
             return [];
         }
 
-        if (strpos($data, '<html>') === 0) {
+        if (str_starts_with($data, '<html>')) {
             return [];
         }
 
