@@ -1,10 +1,10 @@
-<?php declare(strict_types=1);
+<?php
 
 /**
- * @file cron.php
- *
  * Reads and store data from all attached sensors.
  */
+
+declare(strict_types=1);
 
 use steinmb\BrewSession;
 use steinmb\BrewSessionConfig;
@@ -28,6 +28,7 @@ $batches = RuntimeEnvironment::getSetting('BATCH');
 $brewSessionConfig = new BrewSessionConfig($batches);
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
+
 $loggerService = new Logger('temperature');
 $fileLogger = new Logger('Files');
 
