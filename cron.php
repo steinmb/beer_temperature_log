@@ -9,12 +9,13 @@ declare(strict_types=1);
 use steinmb\BrewSession;
 use steinmb\BrewSessionConfig;
 use steinmb\EntityFactory;
-use steinmb\Logger\BrewersFriendHandler;
+use steinmb\Logger\Handlers\BrewersFriendHandler;
 use steinmb\Logger\Curl;
 use steinmb\Logger\JsonDecode;
-use steinmb\Logger\TelegramHandler;
+use steinmb\Logger\Handlers\TelegramHandler;
+use steinmb\Onewire\SensorFactory;
 use steinmb\RuntimeEnvironment;
-use steinmb\Logger\FileStorageHandler;
+use steinmb\Logger\Handlers\FileStorageHandler;
 use steinmb\Logger\Logger;
 use steinmb\Onewire\OneWire;
 use steinmb\Onewire\Sensor;
@@ -24,8 +25,15 @@ use steinmb\SystemClock;
 include_once __DIR__ . '/vendor/autoload.php';
 
 RuntimeEnvironment::init();
-$batches = RuntimeEnvironment::getSetting('BATCH');
-$brewSessionConfig = new BrewSessionConfig($batches);
+$oneWire = new OneWire();
+$sensorFactory = new SensorFactory($oneWire);
+$brewSessionConfig = new BrewSessionConfig(RuntimeEnvironment::getSetting('BATCH'));
+
+$sensors = [];
+foreach ($oneWire->allSensors() as $id) {
+    $sensors[] = $sensorFactory->createSensor($id);
+}
+
 $sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
 
@@ -54,7 +62,7 @@ if (RuntimeEnvironment::getSetting('TELEGRAM')) {
     );
 }
 
-foreach ($probes as $probe) {
+foreach ($sensors as $probe) {
     $brewSession = $brewSessionConfig->sessionIdentity($probe);
     if ($brewSession instanceof BrewSession) {
         $brewTemperature = new Temperature($sensor->createEntity($brewSession->probe));
