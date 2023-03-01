@@ -1,9 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 /**
  * @file index.php
  *
- * Create web interface interface.
+ * Creates a web interface.
  */
 
 use steinmb\EntityFactory;
@@ -12,7 +14,7 @@ use steinmb\RuntimeEnvironment;
 use steinmb\Block;
 use steinmb\Formatters\HTMLFormatter;
 use steinmb\Utils\Calculate;
-use steinmb\Logger\FileStorageHandler;
+use steinmb\Logger\Handlers\FileStorageHandler;
 use steinmb\Onewire\OneWire;
 use steinmb\Onewire\Sensor;
 use steinmb\SystemClock;
@@ -22,7 +24,7 @@ include_once __DIR__ . '/../vendor/autoload.php';
 
 RuntimeEnvironment::setSetting('BREW_ROOT', __DIR__);
 $loggerService = new Logger('temperature');
-$sensor = new Sensor(new OneWire, new SystemClock(), new EntityFactory());
+$sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
 $probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
 $trendInterval = 30;
 $trendCalculator = new Calculate();
