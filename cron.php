@@ -34,9 +34,6 @@ foreach ($oneWire->allSensors() as $id) {
     $sensors[] = $sensorFactory->createSensor($id);
 }
 
-$sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
-$probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
-
 $loggerService = new Logger('temperature');
 $fileLogger = new Logger('Files');
 
@@ -63,17 +60,32 @@ if (RuntimeEnvironment::getSetting('TELEGRAM')) {
 }
 
 foreach ($sensors as $probe) {
-    $brewSession = $brewSessionConfig->sessionIdentity($probe);
+    $brewSession = $brewSessionConfig->sessionIdentity($probe->id);
+
     if ($brewSession instanceof BrewSession) {
-        $brewTemperature = new Temperature($sensor->createEntity($brewSession->probe));
-        $fileLogger = new Logger('Files');
+        $ambientId = $brewSession->ambient;
+        $ambientSensor = '';
+
+        foreach ($sensors as $sensor) {
+            if ($sensor->id === $ambientId) {
+                $ambientSensor = $sensor;
+            }
+        }
+
+        if (!$ambientSensor) {
+            throw new RuntimeException(
+                'Ambient sensor: ' . $brewSession->ambient . ' in session: ' . $brewSession->sessionId . ' not found');
+        }
+
         $context = [
             'brewSession' => $brewSession,
-            'sensor' => $sensor,
-            'temperature' => $brewTemperature,
-            'ambient' => new Temperature($sensor->createEntity($brewSession->ambient)),
+            'sensor' => $probe,
+            'temperature' => $probe->temperature(),
+            'ambient' => $ambientSensor,
         ];
         $loggerService->write('', $context);
+
+        $fileLogger = new Logger('Files');
         $fileLogger->pushHandler(new FileStorageHandler(
             $probe . '.csv',
             RuntimeEnvironment::getSetting('LOG_DIRECTORY') . '/' . $brewSession->sessionId
