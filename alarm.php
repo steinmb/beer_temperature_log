@@ -17,7 +17,7 @@ include_once __DIR__ . '/vendor/autoload.php';
 
 RuntimeEnvironment::init();
 $brewSessionConfig = new BrewSessionConfig(RuntimeEnvironment::getSetting('BATCH'));
-$oneWire = new OneWire(__DIR__ . '/tests/data_all_valid');
+$oneWire = new OneWire();
 $sensorFactory = New steinmb\Onewire\SensorFactory($oneWire);
 
 $sensors = [];

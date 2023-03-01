@@ -8,7 +8,6 @@ declare(strict_types=1);
 
 use steinmb\BrewSession;
 use steinmb\BrewSessionConfig;
-use steinmb\EntityFactory;
 use steinmb\Logger\Handlers\BrewersFriendHandler;
 use steinmb\Logger\Curl;
 use steinmb\Logger\JsonDecode;
@@ -18,8 +17,6 @@ use steinmb\RuntimeEnvironment;
 use steinmb\Logger\Handlers\FileStorageHandler;
 use steinmb\Logger\Logger;
 use steinmb\Onewire\OneWire;
-use steinmb\Onewire\Sensor;
-use steinmb\Onewire\Temperature;
 use steinmb\SystemClock;
 
 include_once __DIR__ . '/vendor/autoload.php';
@@ -60,6 +57,10 @@ if (RuntimeEnvironment::getSetting('TELEGRAM')) {
     );
 }
 
+/**
+ * Create a logfile pr. sensor with ambient sensor temperature.
+ * Write logs to file, Telegram, Brewers Friend etc.
+ */
 foreach ($sensors as $probe) {
     $brewSession = $brewSessionConfig->sessionIdentity($probe->id);
 
