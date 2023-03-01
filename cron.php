@@ -36,6 +36,7 @@ foreach ($oneWire->allSensors() as $id) {
 
 $loggerService = new Logger('temperature');
 $fileLogger = new Logger('Files');
+$clockService = new SystemClock();
 
 if (RuntimeEnvironment::getSetting('BREWERS_FRIEND')) {
     $loggerService->pushHandler(
@@ -80,14 +81,16 @@ foreach ($sensors as $probe) {
         $context = [
             'brewSession' => $brewSession,
             'sensor' => $probe,
+            'ambient_sensor' => $ambientSensor,
+            'ambient' => $ambientSensor->temperature(),
             'temperature' => $probe->temperature(),
-            'ambient' => $ambientSensor,
+            'clock' => $clockService->currentTime(),
         ];
         $loggerService->write('', $context);
 
         $fileLogger = new Logger('Files');
         $fileLogger->pushHandler(new FileStorageHandler(
-            $probe . '.csv',
+            $probe->id . '.csv',
             RuntimeEnvironment::getSetting('LOG_DIRECTORY') . '/' . $brewSession->sessionId
         ));
         $fileLogger->write('', $context);

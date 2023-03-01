@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace steinmb\Logger\Handlers;
 
+use steinmb\Enums\DateFormat;
 use steinmb\Formatters\FormatterInterface;
 use steinmb\RuntimeEnvironment;
 use UnexpectedValueException;
@@ -75,15 +76,15 @@ final class FileStorageHandler implements HandlerInterface
 
         $brewSession = $record['context']['brewSession'];
         $temperature = $record['context']['temperature'];
-        $ambient = $record['context']['ambient'];
-
+        $ambient_temperature = $record['context']['ambient'];
+        $time = $record['context']['clock'];
         $message = [
-            $temperature->entity->timeStamp(),
+            $time->format(DateFormat::DateTime->value),
             $brewSession->sessionId,
             $brewSession->probe,
-            $temperature->temperature(),
+            $temperature,
             $brewSession->ambient,
-            $ambient->temperature(),
+            $ambient_temperature,
         ];
 
         return implode(', ', $message);

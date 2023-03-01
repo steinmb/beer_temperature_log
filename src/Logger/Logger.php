@@ -2,6 +2,7 @@
 
 namespace steinmb\Logger;
 
+use steinmb\Enums\DateFormat;
 use steinmb\Formatters\FormatterInterface;
 use steinmb\Formatters\NormaliseFormatter;
 use steinmb\Logger\Handlers\FileStorageHandler;
@@ -36,13 +37,13 @@ final class Logger implements LoggerInterface
     {
         $brewSession = $context['brewSession'];
         $temperature = $context['temperature'];
-        $ambient = $context['ambient'];
-
+        $ambient_temperature = $context['ambient'];
+        $time = $context['clock'];
         $message = [
-            $temperature->entity->timeStamp(),
+            $time->format(DateFormat::DateTime->value),
             'Brew session: ' . $brewSession->sessionId,
-            'Fermentor: ' . $brewSession->probe . ' ' . $temperature->temperature(),
-            'Ambient: ' . $brewSession->ambient . ' ' . $ambient->temperature(),
+            'Fermentor: ' . $brewSession->probe . ' ' . $temperature,
+            'Ambient: ' . $brewSession->ambient . ' ' . $ambient_temperature,
         ];
 
         return implode(PHP_EOL, $message);
