@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace steinmb;
 
-use steinmb\Onewire\Temperature;
 use steinmb\Onewire\TemperatureSensor;
 use UnexpectedValueException;
 
-class Alarm
+final class Alarm
 {
     public function __construct(private readonly BrewSessionInterface $brewSession)
     {
