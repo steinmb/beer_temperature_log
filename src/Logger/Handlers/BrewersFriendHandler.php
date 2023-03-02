@@ -90,12 +90,12 @@ final class BrewersFriendHandler implements HandlerInterface
         $this->lastMessage = $payload;
     }
 
-    private function result($result): array
+    private function result($result): void
     {
         $resultDecoded = $this->jsonDecode->decode($result);
 
         if ($resultDecoded['message'] === 'success') {
-            return $resultDecoded;
+            return;
         }
 
         if ($resultDecoded['message'] === false) {
