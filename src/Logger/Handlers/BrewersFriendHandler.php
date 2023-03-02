@@ -15,8 +15,8 @@ final class BrewersFriendHandler implements HandlerInterface
     private const API_BREWSESSIONS = 'https://api.brewersfriend.com/v1/brewsessions';
     private const API_STREAM = 'https://log.brewersfriend.com/stream';
     private const API_FERMENTATION = 'https://api.brewersfriend.com/v1/fermentation';
-    private $messages = [];
-    private $lastMessage = '';
+    private array $messages = [];
+    private string $lastMessage = '';
 
     public function __construct(
       private readonly string $sessionId,
@@ -121,5 +121,6 @@ final class BrewersFriendHandler implements HandlerInterface
     }
 
     public function close(): void
-    {}
+    {
+    }
 }
