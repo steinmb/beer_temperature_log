@@ -28,7 +28,7 @@
         }
     },
     "require-dev": {
-        "phan/phan": "4.x",
+        "phan/phan": "5.x",
         "phpstan/phpstan": "^1.9",
         "phpunit/phpunit": "^10"
     }
