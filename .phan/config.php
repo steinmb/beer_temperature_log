@@ -16,7 +16,7 @@ return [
     // that functions removed in php 7.0 exist.
     // (See `backward_compatibility_checks` for additional options)
     // TODO: Set this.
-    'target_php_version' => 8.1,
+    'target_php_version' => 8.2,
 
     // A list of directories that should be parsed for class and
     // method information. After excluding the directories
@@ -28,6 +28,7 @@ return [
     'directory_list' => [
         'www',
         'vendor/symfony/console',
+        'src'
     ],
 
     // A regex used to match every file name that you want to
