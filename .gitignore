@@ -11,3 +11,4 @@ build/
 
 # Application setting file.
 settings.php
+/.phpunit.cache
