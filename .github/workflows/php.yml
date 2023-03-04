@@ -7,20 +7,27 @@ on:
   pull_request:
 
 jobs:
-  - name: Setup PHP and tools
-    id: setup-php
-    uses: shivammathur/setup-php@v2
-    with:
-      php-version: '8.2'
-      coverage: xdebug
-      extensions: bcmath, mbstring, xdebug
-      toos: phpunit, composer
+  php:
+    name: Setup PHP and tools
+    runs-on: ubuntu-latest
 
-  - name: Print PHP version
-    run: echo ${{ steps.setup-php.outputs.php-version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup PHP and tools
+        uses: shivammathur/setup-php@v2
+  
+        with:
+          php-version: '8.2'
+          coverage: xdebug
+          extensions: bcmath, mbstring, xdebug
+          toos: phpunit, composer
 
-  - name: Install Composer dependencies
-    run: composer install --prefer-dist --no-progress --no-suggest
+      - name: Print PHP version
+        run: echo ${{ steps.setup-php.outputs.php-version }}
 
-  - name: Run tests
-    run: php vendor/bin/phpunit tests
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-progress --no-suggest
+
+      - name: Run tests
+        run: php vendor/bin/phpunit tests
