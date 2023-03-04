@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace steinmb\Logger;
 
@@ -12,7 +14,9 @@ final class Logger implements LoggerInterface
 {
     private array $handlers = [];
 
-    public function __construct(private string $name) {}
+    public function __construct(private string $name)
+    {
+    }
 
     /**
      * Return a new cloned instance with the name changed.
@@ -31,22 +35,6 @@ final class Logger implements LoggerInterface
     public function getName(): string
     {
         return $this->name;
-    }
-
-    private function message(array $context): string
-    {
-        $brewSession = $context['brewSession'];
-        $temperature = $context['temperature'];
-        $ambient_temperature = $context['ambient'];
-        $time = $context['clock'];
-        $message = [
-            $time->format(DateFormat::DateTime->value),
-            'Brew session: ' . $brewSession->sessionId,
-            'Fermentor: ' . $brewSession->probe . ' ' . $temperature,
-            'Ambient: ' . $brewSession->ambient . ' ' . $ambient_temperature,
-        ];
-
-        return implode(PHP_EOL, $message);
     }
 
     public function write(string $message, $context = []): void
@@ -74,6 +62,22 @@ final class Logger implements LoggerInterface
         foreach ($this->handlers as $handler) {
             $handler->write($record, $handler->formatter);
         }
+    }
+
+    private function message(array $context): string
+    {
+        $brewSession = $context['brewSession'];
+        $temperature = $context['temperature'];
+        $ambient_temperature = $context['ambient'];
+        $time = $context['clock'];
+        $message = [
+            $time->format(DateFormat::DateTime->value),
+            'Brew session: ' . $brewSession->sessionId,
+            'Fermentor: ' . $brewSession->probe . ' ' . $temperature,
+            'Ambient: ' . $brewSession->ambient . ' ' . $ambient_temperature,
+        ];
+
+        return implode(PHP_EOL, $message);
     }
 
     public function read(): string
@@ -107,7 +111,7 @@ final class Logger implements LoggerInterface
         return '';
     }
 
-    public function pushHandler(HandlerInterface $handler, FormatterInterface $formatter = NULL): self
+    public function pushHandler(HandlerInterface $handler, FormatterInterface $formatter = null): self
     {
         array_unshift($this->handlers, $handler);
 
