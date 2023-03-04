@@ -6,11 +6,6 @@ namespace steinmb\Onewire;
 
 class OneWireFixed implements OneWireInterface
 {
-
-    public function __construct(string $directory = '')
-    {
-    }
-
     public function allSensors(): array
     {
         return [

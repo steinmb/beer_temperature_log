@@ -1,18 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace steinmb;
 
 use steinmb\Formatters\HTMLFormatter;
-use steinmb\Onewire\EntityInterface;
 use steinmb\Onewire\Temperature;
 
-final class Block
+final readonly class Block
 {
-    private $formatter;
 
-    public function __construct(HTMLFormatter $formatter)
+    public function __construct(private HTMLFormatter $formatter)
     {
-        $this->formatter = $formatter;
     }
 
     public function unorderedLists(Temperature $temperature, EntityInterface $entity): string
