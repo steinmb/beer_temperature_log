@@ -6,13 +6,12 @@ namespace steinmb;
 
 final class AmbiguousSessionId implements BrewSessionInterface
 {
-    public string $sessionId = '';
-    public string $probe = '';
-    public string $ambient = '';
-    public float $low_limit = 0;
-    public float $high_limit = 0;
-
-    public function __construct()
-    {
+    public function __construct(
+        public string $sessionId = '',
+        public string $probe = '',
+        public string $ambient = '',
+        public float $low_limit = 0,
+        public float $high_limit = 0,
+    ) {
     }
 }

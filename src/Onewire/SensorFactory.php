@@ -1,14 +1,16 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace steinmb\Onewire;
 
 use UnexpectedValueException;
 
-class SensorFactory
+final readonly class SensorFactory
 {
-    public function __construct(private readonly OneWireInterface $oneWire) {}
+    public function __construct(private OneWireInterface $oneWire) {}
 
-    public function createSensor(string $id): Sensors
+    public function createSensor(string $id): TemperatureSensor
     {
 
         if (str_contains($id, '10-') || str_contains($id, '28-')) {
@@ -22,5 +24,19 @@ class SensorFactory
             'Unknown sensor type: ' . $id
         );
 
+    }
+
+    /**
+     * @return TemperatureSensor[]
+     */
+    public function allSensors(): array
+    {
+        $sensors = [];
+
+        foreach ($this->oneWire->allSensors() as $id) {
+            $sensors[] = $this->createSensor($id);
+        }
+
+        return $sensors;
     }
 }

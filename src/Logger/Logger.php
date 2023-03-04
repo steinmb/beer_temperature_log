@@ -110,6 +110,7 @@ final class Logger implements LoggerInterface
     public function pushHandler(HandlerInterface $handler, FormatterInterface $formatter = NULL): self
     {
         array_unshift($this->handlers, $handler);
+
         if (!$formatter) {
             $this->handlers[0]->formatter = new NormaliseFormatter();
         } else {

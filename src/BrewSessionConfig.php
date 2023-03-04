@@ -4,32 +4,34 @@ declare(strict_types=1);
 
 namespace steinmb;
 
+use steinmb\Onewire\Sensors;
+use steinmb\Onewire\TemperatureSensor;
 use UnexpectedValueException;
 
 final class BrewSessionConfig
 {
     public function __construct(private $settings) {}
 
-    public function sessionIdentity(string $probe): BrewSessionInterface
+    public function sessionIdentity(TemperatureSensor $sensor): BrewSessionInterface
     {
         foreach ($this->settings as $batchID => $setting) {
-            if ($setting['probe'] === $probe) {
+            if ($setting['probe'] === $sensor->id) {
                 return new BrewSession(
                     (string) $batchID,
-                    $probe,
+                    $sensor->id,
                     $setting['ambient'],
                     $setting['low_limit'],
                     $setting['high_limit']
                 );
             }
 
-            if ($setting['ambient'] === $probe) {
+            if ($setting['ambient'] === $sensor->id) {
                 return new AmbiguousSessionId();
             }
         }
 
         throw new UnexpectedValueException(
-            'Probe: ' . $probe . ' not found.'
+            'Probe: ' . $sensor->id . ' not found.'
         );
     }
 

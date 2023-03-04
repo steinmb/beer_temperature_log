@@ -6,5 +6,11 @@ namespace steinmb;
 
 interface BrewSessionInterface
 {
-    public function __construct();
+    public function __construct(
+        string $sessionId,
+        string $probe,
+        string $ambient,
+        float $low_limit,
+        float $high_limit,
+    );
 }

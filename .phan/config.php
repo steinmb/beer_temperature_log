@@ -28,7 +28,8 @@ return [
     'directory_list' => [
         'www',
         'vendor/symfony/console',
-        'src'
+        'src',
+        'examples',
     ],
 
     // A regex used to match every file name that you want to
