@@ -21,7 +21,7 @@ jobs:
           php-version: '8.2'
           coverage: xdebug
           extensions: bcmath, mbstring, xdebug
-          toos: phpunit, composer
+          tools: phpunit, composer
 
       - name: Print PHP version
         run: echo ${{ steps.setup-php.outputs.php-version }}
