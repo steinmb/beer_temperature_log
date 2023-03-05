@@ -19,12 +19,7 @@ RuntimeEnvironment::init();
 $brewSessionConfig = new BrewSessionConfig(RuntimeEnvironment::getSetting('BATCH'));
 $oneWire = new OneWire();
 $sensorFactory = New steinmb\Onewire\SensorFactory($oneWire);
-
-$sensors = [];
-foreach ($oneWire->allSensors() as $id) {
-    $sensors[] = $sensorFactory->createSensor($id);
-}
-
+$sensors = $sensorFactory->allSensors();
 $alarmLogger = new Logger('Alarms');
 $alarmLogger->pushHandler(
   new FileStorageHandler(
@@ -46,7 +41,7 @@ if (RuntimeEnvironment::getSetting('TELEGRAM_ALARM')) {
 
 foreach ($sensors as $probe) {
     $alarmStatus = '';
-    $brewSession = $brewSessionConfig->sessionIdentity($probe->id);
+    $brewSession = $brewSessionConfig->sessionIdentity($probe);
 
     if ($brewSession instanceof BrewSession) {
         $alarmStatus = (new Alarm($brewSession))->checkLimits($probe);

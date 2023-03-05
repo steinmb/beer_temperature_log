@@ -100,4 +100,8 @@ class TemperatureSensor implements Sensors
         );
     }
 
+    public function __toString(): string
+    {
+        return $this->id . ', ' . $this->temperature();
+    }
 }
