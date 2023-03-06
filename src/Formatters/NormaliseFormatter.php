@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace steinmb\Formatters;
 
+use steinmb\Enums\DateFormat;
 use steinmb\SystemClock;
 
 class NormaliseFormatter implements FormatterInterface
 {
-    private const standardTimeFormat = 'Y-m-d H:i:s';
     private string $dateFormat;
 
     public function __construct(?string $dateFormat = null)
     {
-        $this->dateFormat = $dateFormat ?? self::standardTimeFormat;
+        $this->dateFormat = $dateFormat ?? DateFormat::DateTime->value;
     }
 
     public function format(string $record): string
