@@ -8,7 +8,6 @@ declare(strict_types=1);
  * Creates a web interface.
  */
 
-use steinmb\EntityFactory;
 use steinmb\Logger\Logger;
 use steinmb\RuntimeEnvironment;
 use steinmb\Block;
@@ -16,27 +15,29 @@ use steinmb\Formatters\HTMLFormatter;
 use steinmb\Utils\Calculate;
 use steinmb\Logger\Handlers\FileStorageHandler;
 use steinmb\Onewire\OneWire;
-use steinmb\Onewire\Sensor;
 use steinmb\SystemClock;
-use steinmb\Onewire\Temperature;
 
 include_once __DIR__ . '/../vendor/autoload.php';
 
-RuntimeEnvironment::setSetting('BREW_ROOT', __DIR__);
+RuntimeEnvironment::init();
+$oneWire = new OneWire();
+$sensorFactory = New steinmb\Onewire\SensorFactory($oneWire);
+$sensors = $sensorFactory->allSensors();
 $loggerService = new Logger('temperature');
-$sensor = new Sensor(new OneWire(), new SystemClock(), new EntityFactory());
-$probes = (!$sensor->getTemperatureSensors()) ? exit('No probes found.'): $sensor->getTemperatureSensors();
+$clockService = new SystemClock();
+
 $trendInterval = 30;
 $trendCalculator = new Calculate();
 $htmlFormatter = new HTMLFormatter();
 $blocks = [];
 
-foreach ($probes as $probe) {
-    $fileLogger = new FileStorageHandler($probe . '.csv');
+foreach ($sensors as $sensor) {
+    $fileLogger = new FileStorageHandler($sensor->id . '.csv');
     $lastReading = $fileLogger->lastEntry();
-    $entity = $sensor->createEntity($probe);
+    $timestamp = $clockService->currentTime();
+
     $block = new Block(new HTMLFormatter());
-    $blocks[] = $block->unorderedLists(new Temperature($entity), $entity);
+    $blocks[] = $block->unorderedLists($sensor, $clockService);
 
     if ($lastReading) {
         $blocks[] = $htmlFormatter->trendList(
@@ -47,7 +48,7 @@ foreach ($probes as $probe) {
             ),
             $trendInterval,
             $lastReading,
-            $entity
+            $sensor
         );
     }
     $fileLogger->close();

@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace steinmb\Formatters;
 
-use steinmb\EntityInterface;
-use steinmb\Onewire\Temperature;
+use steinmb\Clock;
+use steinmb\Enums\DateFormat;
+use steinmb\Onewire\TemperatureSensor;
 
 final class HTMLFormatter extends NormaliseFormatter
 {
@@ -55,24 +56,25 @@ final class HTMLFormatter extends NormaliseFormatter
         return '<li>' . $element . '</li>';
     }
 
-    public function unorderedList(Temperature $sensor, EntityInterface $entity): string
+    public function unorderedList(TemperatureSensor $sensor, Clock $dateTime): string
     {
+        $timestamp = $dateTime->currentTime();
         return $this->unordered(
-            $entity->id(),
+            $sensor->id,
             [
-                $entity->timeStamp(),
+                $timestamp->format(DateFormat::DateTime->value),
                 $sensor->temperature(),
             ]
         );
     }
 
-    public function trendList(string $trend, int $minutes, string $lastMeasurement, EntityInterface $entity): string
+    public function trendList(string $trend, int $minutes, string $lastMeasurement, TemperatureSensor $sensor): string
     {
         $elements = explode(', ', $lastMeasurement);
         $elements[] = 'Trend: ' . $trend . ' the last ' . $minutes . 'min';
 
         return $this->unordered(
-            $entity->id(),
+            $sensor->id,
             $elements
         );
     }

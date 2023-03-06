@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace steinmb;
 
 use steinmb\Formatters\HTMLFormatter;
-use steinmb\Onewire\Temperature;
+use steinmb\Onewire\TemperatureSensor;
 
 final readonly class Block
 {
@@ -14,8 +14,8 @@ final readonly class Block
     {
     }
 
-    public function unorderedLists(Temperature $temperature, EntityInterface $entity): string
+    public function unorderedLists(TemperatureSensor $temperature, Clock $dateTime): string
     {
-        return $this->formatter->unorderedList($temperature, $entity);
+        return $this->formatter->unorderedList($temperature, $dateTime);
     }
 }
