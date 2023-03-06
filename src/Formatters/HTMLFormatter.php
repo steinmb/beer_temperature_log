@@ -63,7 +63,12 @@ final class HTMLFormatter extends NormaliseFormatter
         );
     }
 
-    public function trendList(string $trend, int $minutes, string $lastMeasurement, string $sensor_id): string
+    public function trendList(
+        string $trend,
+        int $minutes,
+        string $lastMeasurement,
+        string $sensor_id
+    ): string
     {
         $elements = explode(', ', $lastMeasurement);
         $elements[] = 'Trend: ' . $trend . ' the last ' . $minutes . 'min';
