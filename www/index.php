@@ -49,7 +49,7 @@ foreach ($sensors as $sensor) {
             ),
             $trendInterval,
             $lastReading,
-            $sensor
+            $sensor->id
         );
     }
     $fileLogger->close();

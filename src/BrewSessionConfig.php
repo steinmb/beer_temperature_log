@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace steinmb;
 
-use steinmb\Onewire\Sensors;
 use steinmb\Onewire\TemperatureSensor;
 use UnexpectedValueException;
 

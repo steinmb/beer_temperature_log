@@ -12,7 +12,7 @@ final class Alarm
     private const HIGH = 'High limit';
     private const LOW = 'Low limit';
 
-    public function __construct(private readonly BrewSession $brewSession)
+    public function __construct(private readonly BrewSessionInterface $brewSession)
     {
         if (!$brewSession->high_limit) {
             throw new UnexpectedValueException(
