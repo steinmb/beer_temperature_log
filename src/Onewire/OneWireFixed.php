@@ -4,8 +4,12 @@ declare(strict_types=1);
 
 namespace steinmb\Onewire;
 
-class OneWireFixed implements OneWireInterface
+readonly class OneWireFixed implements OneWireInterface
 {
+    public function __construct(private string $content = '')
+    {
+    }
+
     public function allSensors(): array
     {
         return [
@@ -31,6 +35,10 @@ class OneWireFixed implements OneWireInterface
 
     public function content(string $sensor): string
     {
+        if ($this->content) {
+            return $this->content;
+        }
+
         return '25 00 4b 46 ff ff 07 10 cc : crc=cc YES 
         25 00 4b 46 ff ff 07 10 cc t=18312';
     }

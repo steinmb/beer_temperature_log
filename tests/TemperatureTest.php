@@ -102,20 +102,14 @@ final class TemperatureTest extends TestCase
 
     public function testBadCrc(): void
     {
-        $this->expectException(UnexpectedValueException::class);
-        $sensor = '28-1234567';
-        $measurement = <<<SENSOR
+        $oneWire = <<<SENSOR
         25 00 4b 46 ff ff 07 10 cc : crc=cc NO
         25 00 4b 46 ff ff 07 10 cc t=20000';
         SENSOR;
-
-        $temperatureProbe = new Temperature(new DataEntity(
-                $sensor,
-                'temperature',
-                $measurement,
-                new SystemClockFixed(new dateTimeImmutable('16.07.2018 13.01.00')))
-        );
-        $temperatureProbe->temperature();
+        $factory = new SensorFactory(new OneWireFixed($oneWire));
+        $this->expectException(UnexpectedValueException::class);
+        $sensor = $factory->createSensor('28-1234567');
+        $sensor->temperature();
     }
 
     public function testInvalidTemperature(): void
