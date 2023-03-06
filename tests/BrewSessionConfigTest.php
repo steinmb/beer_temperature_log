@@ -4,6 +4,8 @@ use PHPUnit\Framework\TestCase;
 use steinmb\AmbiguousSessionId;
 use steinmb\BrewSessionConfig;
 use steinmb\BrewSessionInterface;
+use steinmb\Onewire\OneWireFixed;
+use steinmb\Onewire\SensorFactory;
 
 /**
  * @coversDefaultClass \steinmb\BrewSessionConfig
@@ -12,10 +14,12 @@ final class BrewSessionConfigTest extends TestCase
 {
     private BrewSessionConfig $brewSessionConfig;
     private BrewSessionInterface $brewSession;
+    private SensorFactory $sensorFactory;
 
     public function setUp(): void
     {
         parent::setUp();
+
         $settings = [
             '100' => [
                 'probe' => '28-0000098101de',
@@ -30,19 +34,11 @@ final class BrewSessionConfigTest extends TestCase
                 'high_limit' => 26,
                 ],
         ];
-        $this->brewSessionConfig = new BrewSessionConfig($settings);
-        $this->brewSession = $this->brewSessionConfig->sessionIdentity('28-0000098101de');
-    }
 
-    /**
-     * @covers ::sessionIdentity
-     */
-    public function testUnknownProbe(): void
-    {
-        $probe = 'unknown';
-        $this->expectException(UnexpectedValueException::class);
-        $this->expectExceptionMessage('Probe: ' . $probe . ' not found.');
-        $this->brewSessionConfig->sessionIdentity($probe);
+        $this->brewSessionConfig = new BrewSessionConfig($settings);
+        $this->sensorFactory = new SensorFactory(new OneWireFixed());
+        $sensor = $this->sensorFactory->createSensor('28-0000098101de');
+        $this->brewSession = $this->brewSessionConfig->sessionIdentity($sensor);
     }
 
     /**
@@ -75,9 +71,10 @@ final class BrewSessionConfigTest extends TestCase
      */
     public function testAmbiguousSessionId(): void
     {
+        $sensor = $this->sensorFactory->createSensor('10-000802be73fa');
         self::assertEquals(
             new AmbiguousSessionId(),
-            $this->brewSessionConfig->sessionIdentity('10-000802be73fa')
+            $this->brewSessionConfig->sessionIdentity($sensor)
         );
     }
 }
