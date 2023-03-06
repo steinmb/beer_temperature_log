@@ -6,13 +6,11 @@ namespace steinmb;
 
 use DateTimeImmutable;
 
-final class SystemClockFixed implements Clock
+final readonly class SystemClockFixed implements Clock
 {
-    private DateTimeImmutable $dateTime;
 
-    public function __construct(DateTimeImmutable $dateTime)
+    public function __construct(private DateTimeImmutable $dateTime)
     {
-        $this->dateTime = $dateTime;
     }
 
     public function currentTime(): DateTimeImmutable
