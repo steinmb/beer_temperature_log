@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace steinmb\Formatters;
 
-use steinmb\Clock;
-use steinmb\Enums\DateFormat;
-use steinmb\Onewire\TemperatureSensor;
-
 final class HTMLFormatter extends NormaliseFormatter
 {
     public function formatMultiple(string $title, array $records): string
@@ -56,25 +52,24 @@ final class HTMLFormatter extends NormaliseFormatter
         return '<li>' . $element . '</li>';
     }
 
-    public function unorderedList(TemperatureSensor $sensor, Clock $dateTime): string
+    public function unorderedList(string $sensorId, $temperature, string $dateTime): string
     {
-        $timestamp = $dateTime->currentTime();
         return $this->unordered(
-            $sensor->id,
+            $sensorId,
             [
-                $timestamp->format(DateFormat::DateTime->value),
-                $sensor->temperature(),
+                $dateTime,
+                $temperature,
             ]
         );
     }
 
-    public function trendList(string $trend, int $minutes, string $lastMeasurement, TemperatureSensor $sensor): string
+    public function trendList(string $trend, int $minutes, string $lastMeasurement, string $sensor_id): string
     {
         $elements = explode(', ', $lastMeasurement);
         $elements[] = 'Trend: ' . $trend . ' the last ' . $minutes . 'min';
 
         return $this->unordered(
-            $sensor->id,
+            $sensor_id,
             $elements
         );
     }

@@ -25,6 +25,7 @@ $sensorFactory = New steinmb\Onewire\SensorFactory($oneWire);
 $sensors = $sensorFactory->allSensors();
 $loggerService = new Logger('temperature');
 $clockService = new SystemClock();
+$htmlFormatter = new HTMLFormatter();
 
 $trendInterval = 30;
 $trendCalculator = new Calculate();
@@ -36,8 +37,8 @@ foreach ($sensors as $sensor) {
     $lastReading = $fileLogger->lastEntry();
     $timestamp = $clockService->currentTime();
 
-    $block = new Block(new HTMLFormatter());
-    $blocks[] = $block->unorderedLists($sensor, $clockService);
+    $block = new Block($htmlFormatter, $sensor, $clockService);
+    $blocks[] = $block->unorderedList();
 
     if ($lastReading) {
         $blocks[] = $htmlFormatter->trendList(
