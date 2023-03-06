@@ -6,11 +6,11 @@ namespace steinmb\Onewire;
 
 use UnexpectedValueException;
 
-class TemperatureSensor implements Sensors
+readonly class TemperatureSensor implements Sensors
 {
     public function __construct(
-      private readonly OneWireInterface $interface,
-      readonly public string $id,
+      private OneWireInterface $interface,
+      public string $id,
     ) {}
 
     public function sensorValue(): int

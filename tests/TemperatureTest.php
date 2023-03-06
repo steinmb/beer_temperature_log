@@ -1,92 +1,102 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 use PHPUnit\Framework\TestCase;
-use steinmb\BrewSessionConfig;
-use steinmb\BrewSessionInterface;
-use steinmb\DataEntity;
-use steinmb\Onewire\Temperature;
-use steinmb\SystemClock;
+use steinmb\Onewire\OneWireFixed;
+use steinmb\Onewire\SensorFactory;
 use steinmb\SystemClockFixed;
 
 /**
  * Class TemperatureTest
  *
- * @covers \steinmb\Onewire\Temperature
+ * @covers \steinmb\Onewire\TemperatureSensor
  */
 final class TemperatureTest extends TestCase
 {
-    private $temperature;
-    private $temperatureOffset;
-    /**
-     * @var BrewSessionInterface
-     */
-    private $brewSession;
+    private SensorFactory $sensorFactory;
+    private SystemClockFixed $timestamp;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $measurement = '25 00 4b 46 ff ff 07 10 cc : crc=cc YES
-                        25 00 4b 46 ff ff 07 10 cc t=20000';
-        $this->temperature = new Temperature(new DataEntity(
-            '28-1234567',
-            'temperature',
-            $measurement,
-            new SystemClockFixed(new dateTimeImmutable('16.07.2018 13.01.00')))
+
+        $this->sensorFactory = new SensorFactory(new OneWireFixed());
+        $this->timestamp = new SystemClockFixed(
+            new dateTimeImmutable('16.07.1970 03:55'),
         );
-        $this->temperatureOffset = new Temperature(new DataEntity(
-            '28-1234567',
-            'temperature',
-            $measurement,
-            new SystemClockFixed(new dateTimeImmutable('16.07.2018 13.01.00'))),
-            -0.5
-        );
-        $settings = [
-            '100' => [
-                'probe' => '28-0000098101de',
-                'ambient' => '10-000802be73fa',
-                'low_limit' => 15,
-                'high_limit' => 23,
-            ],
-            'AA' => [
-                'probe' => '10-000802a55696',
-                'ambient' => '10-000802be73fa',
-                'low_limit' => 17,
-                'high_limit' => 26,
-            ],
-        ];
-        $brewSessionConfig = new BrewSessionConfig($settings);
-        $this->brewSession = $brewSessionConfig->sessionIdentity('28-0000098101de');
+
+
+//        $measurement = '25 00 4b 46 ff ff 07 10 cc : crc=cc YES
+//                        25 00 4b 46 ff ff 07 10 cc t=20000';
+//        $this->temperature = new Temperature(new DataEntity(
+//            '28-1234567',
+//            'temperature',
+//            $measurement,
+//            new SystemClockFixed(new dateTimeImmutable('16.07.2018 13.01.00')))
+//        );
+//        $this->temperatureOffset = new Temperature(new DataEntity(
+//            '28-1234567',
+//            'temperature',
+//            $measurement,
+//            new SystemClockFixed(new dateTimeImmutable('16.07.2018 13.01.00'))),
+//            -0.5
+//        );
+//        $settings = [
+//            '100' => [
+//                'probe' => '28-0000098101de',
+//                'ambient' => '10-000802be73fa',
+//                'low_limit' => 15,
+//                'high_limit' => 23,
+//            ],
+//            'AA' => [
+//                'probe' => '10-000802a55696',
+//                'ambient' => '10-000802be73fa',
+//                'low_limit' => 17,
+//                'high_limit' => 26,
+//            ],
+//        ];
+//        $brewSessionConfig = new BrewSessionConfig($settings);
+//        $this->brewSession = $brewSessionConfig->sessionIdentity('28-0000098101de');
 
     }
 
+    /**
+     * @covers ::temperature()
+     */
     public function testCelsius(): void
     {
-        self::assertEquals('20.000', $this->temperature->temperature());
-        self::assertEquals('20.000', $this->temperature->temperature('celsius'));
+        $sensor = $this->sensorFactory->createSensor('28-0000098101de');
+        self::assertEquals('18.312', $sensor->temperature());
+        self::assertEquals('18.312', $sensor->temperature('celsius'));
     }
 
     public function testFahrenheit(): void
     {
-        self::assertEquals('68.000', $this->temperature->temperature('fahrenheit'));
+        $sensor = $this->sensorFactory->createSensor('28-0000098101de');
+        self::assertEquals('64.962', $sensor->temperature('fahrenheit'));
     }
 
     public function testKevin(): void
     {
-        self::assertEquals('293.150', $this->temperature->temperature('kelvin'));
+        $sensor = $this->sensorFactory->createSensor('28-0000098101de');
+        self::assertEquals('291.462', $sensor->temperature('kelvin'));
     }
 
     public function testCelsiusOffset(): void
     {
-        self::assertEquals('19.500', $this->temperatureOffset->temperature('celsius'));
+        $sensor = $this->sensorFactory->createSensor('28-0000098101de');
+        self::assertEquals('19.500', $sensor->temperature('celsius', 1.188));
     }
 
     public function testUnknownScale(): void
     {
         $this->expectException(UnexpectedValueException::class);
         $unknownScale = 'parsec';
+        $sensor = $this->sensorFactory->createSensor('28-0000098101de');
         self::assertEquals('Unknown temperature scale: ' . $unknownScale,
-            $this->temperature->temperature($unknownScale),
-            'Failed detecting a uknown temperature scale.'
+            $sensor->temperature($unknownScale),
+            'Failed detecting a unknown temperature scale.'
         );
     }
 
@@ -98,6 +108,7 @@ final class TemperatureTest extends TestCase
         25 00 4b 46 ff ff 07 10 cc : crc=cc NO
         25 00 4b 46 ff ff 07 10 cc t=20000';
         SENSOR;
+
         $temperatureProbe = new Temperature(new DataEntity(
                 $sensor,
                 'temperature',
