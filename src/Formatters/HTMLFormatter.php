@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace steinmb\Formatters;
 
@@ -7,12 +9,6 @@ use steinmb\Onewire\Temperature;
 
 final class HTMLFormatter extends NormaliseFormatter
 {
-    public function format($record): string
-    {
-        $element = parent::format($record);
-        return '<p>' . $element . '</p>';
-    }
-
     public function formatMultiple(string $title, array $records): string
     {
         $elements = [];
@@ -21,6 +17,37 @@ final class HTMLFormatter extends NormaliseFormatter
         }
 
         return $this->unordered($title, $elements);
+    }
+
+    public function format($record): string
+    {
+        $element = parent::format($record);
+        return '<p>' . $element . '</p>';
+    }
+
+    private function unordered(string $title, array $listElements): string
+    {
+        $htmlUnorderedList = [
+            'prefix' => '<div class="block">',
+            'title' => '<h2 class="title">' . $title . '</h2><ul>',
+            'elements' => $this->listElements($listElements),
+            'suffix' => '</ul></div>',
+        ];
+
+        return implode(PHP_EOL, $htmlUnorderedList);
+    }
+
+    private function listElements(array $list): string
+    {
+        $elements = '';
+        foreach ($list as $index => $listElement) {
+            if ($index !== 0) {
+                $elements .= PHP_EOL;
+            }
+            $elements .= $this->listItem($listElement);
+        }
+
+        return $elements;
     }
 
     private function listItem(string $element): string
@@ -48,30 +75,5 @@ final class HTMLFormatter extends NormaliseFormatter
             $entity->id(),
             $elements
         );
-    }
-
-    private function listElements(array $list): string
-    {
-        $elements = '';
-        foreach ($list as $index => $listElement) {
-            if ($index !== 0) {
-                $elements .= PHP_EOL;
-            }
-            $elements .= $this->listItem($listElement);
-        }
-
-        return $elements;
-    }
-
-    private function unordered(string $title, array $listElements): string
-    {
-        $htmlUnorderedList = [
-            'prefix' => '<div class="block">',
-            'title' => '<h2 class="title">' . $title . '</h2><ul>',
-            'elements' => $this->listElements($listElements),
-            'suffix' => '</ul></div>',
-        ];
-
-        return implode(PHP_EOL, $htmlUnorderedList);
     }
 }

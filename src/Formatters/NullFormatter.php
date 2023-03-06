@@ -1,12 +1,11 @@
 <?php
 
+declare(strict_types=1);
 
 namespace steinmb\Formatters;
 
-
-class NullFormatter implements FormatterInterface
+final class NullFormatter implements FormatterInterface
 {
-
     public function format(string $record): string
     {
         return $record;
