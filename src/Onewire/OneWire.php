@@ -8,12 +8,13 @@ use RuntimeException;
 
 final class OneWire implements OneWireInterface
 {
-    public const slaveFile = 'w1_slave';
-    public const master_slave = 'w1_master_slaves';
+    private const slaveFile = 'w1_slave';
+    private const master_slave = 'w1_master_slaves';
+    private const W1Devices = '/sys/bus/w1/devices';
 
     public function __construct(private string $sensorDirectory = '') {
         if (!$sensorDirectory) {
-            $this->sensorDirectory = '/sys/bus/w1/devices';
+            $this->sensorDirectory = self::W1Devices;
         }
     }
 
