@@ -8,8 +8,9 @@ use RuntimeException;
 
 final class OneWire implements OneWireInterface
 {
-    private const slaveFile = 'w1_slave';
-    private const master_slave = 'w1_master_slaves';
+    private const SlaveFile = 'w1_slave';
+    private const Slaves = 'w1_master_slaves';
+    private const Buses = 'w1_bus_master';
     private const W1Devices = '/sys/bus/w1/devices';
 
     public function __construct(private string $sensorDirectory = '') {
@@ -26,7 +27,18 @@ final class OneWire implements OneWireInterface
             );
         }
 
-        return $this->sensorDirectory;
+        $buses = $this->busDirectory();
+        return $buses[0];
+    }
+
+    /**
+     * Find all buse created by attached devices.
+     *
+     * @return string[]
+     */
+    private function busDirectory(): array
+    {
+        return [$this->sensorDirectory . '/' . self::Buses . '1'];
     }
 
     public function temperatureSensors(): array
@@ -44,7 +56,8 @@ final class OneWire implements OneWireInterface
 
     public function allSensors(): array
     {
-        $sensors = file($this->directory() . '/' . $this::master_slave, FILE_IGNORE_NEW_LINES);
+        $sensors = file($this->directory() . '/' . $this::Slaves, FILE_IGNORE_NEW_LINES);
+
         if ($sensors === false) {
             return [];
         }
@@ -57,7 +70,7 @@ final class OneWire implements OneWireInterface
         $fileContent = '';
 
         while ($retries) {
-            $fileContent = file_get_contents($this->sensorDirectory . '/' . $sensor . '/' . $this::slaveFile);
+            $fileContent = file_get_contents($this->directory() . '/' . $sensor . '/' . $this::SlaveFile);
             if ($fileContent) {
                 return $fileContent;
             }
@@ -73,7 +86,7 @@ final class OneWire implements OneWireInterface
         $sensorData = '';
 
         while ($retries) {
-            $sensorData = file_get_contents($this->directory() . '/' . $sensor . '/' . $this::slaveFile);
+            $sensorData = file_get_contents($this->directory() . '/' . $sensor . '/' . $this::SlaveFile);
             if ($sensorData) {
                 break;
             }
