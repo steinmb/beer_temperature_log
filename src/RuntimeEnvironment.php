@@ -9,19 +9,20 @@ use RuntimeException;
 final class RuntimeEnvironment
 {
     private static array $settings = [
-        'BREW_ROOT' => __DIR__,
+        'BREW_ROOT' => __DIR__ . '/..',
         'DEMO_MODE' => FALSE,
-        'LOG_DIRECTORY' => '../../brewlogs',
+        'LOG_DIRECTORY' => __DIR__ . '/../../brewlogs',
         'LOG_INFO' => 'info.log',
-        'TEST_DATA' => __DIR__ . '/tests/test_data',
+        'TEST_DATA' => __DIR__ . '/../tests/test_data',
     ];
 
     public static function init(): void
     {
         $configuration = [];
+        $settings = self::$settings['BREW_ROOT'] . '/settings.php';
 
-        if (file_exists(__DIR__ . '/../settings.php')) {
-            include_once __DIR__ . '/../settings.php';
+        if (file_exists($settings)) {
+            include_once $settings;
             $mergedSettings = array_merge(self::$settings, $configuration);
             self::$settings = $mergedSettings;
         }
@@ -33,7 +34,6 @@ final class RuntimeEnvironment
 
     public static function getSetting($setting)
     {
-
         if (!self::$settings['BREW_ROOT']) {
             self::setSetting('BREW_ROOT', dirname(__DIR__));
         }
