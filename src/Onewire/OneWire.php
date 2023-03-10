@@ -31,6 +31,11 @@ final class OneWire implements OneWireInterface
         return $buses[0];
     }
 
+    /**
+     * Find all buse created by attached devices.
+     *
+     * @return string[]
+     */
     private function busDirectory(): array
     {
         return [$this->sensorDirectory . '/' . self::Buses . '1'];
@@ -65,7 +70,7 @@ final class OneWire implements OneWireInterface
         $fileContent = '';
 
         while ($retries) {
-            $fileContent = file_get_contents($this->sensorDirectory . '/' . $sensor . '/' . $this::SlaveFile);
+            $fileContent = file_get_contents($this->directory() . '/' . $sensor . '/' . $this::SlaveFile);
             if ($fileContent) {
                 return $fileContent;
             }
