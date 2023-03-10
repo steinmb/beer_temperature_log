@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types = 1);
 
 use steinmb\Onewire\OneWire;
 use PHPUnit\Framework\TestCase;
@@ -15,10 +17,8 @@ final class OneWireTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->oneWire = new OneWire(
-          __DIR__ . '/test_data',
-          __DIR__ . '/test_data/w1_master_slaves',
-        );
+
+        $this->oneWire = new OneWire(__DIR__ . '/test_data');
     }
 
     public function testOneWire(): void
@@ -31,6 +31,7 @@ final class OneWireTest extends TestCase
 
     public function testAllSensors(): void
     {
+        $sensors = $this->oneWire->allSensors();
         self::assertCount(5, $this->oneWire->allSensors());
     }
 
