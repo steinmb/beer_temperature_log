@@ -55,7 +55,9 @@ foreach ($sensors as $sensor) {
     $fileLogger->close();
 }
 
-if (file_exists(RuntimeEnvironment::getSetting('BREW_ROOT') . '/temperatur.png')) {
-    $graph = RuntimeEnvironment::getSetting('BREW_ROOT') . '/temperatur.png';
+$graphFile = __DIR__ . '/temperature.phg';
+
+if (file_exists($graphFile)) {
+    $graph = $graphFile;
 }
 include 'page.php';

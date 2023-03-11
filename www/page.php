@@ -10,7 +10,7 @@
 <body>
     <?php
     if (isset($graph)) {
-        print '<img alt="temperatur log" class="graph" src="' . $graph . '">';
+        print '<img alt="Temperature log" class="graph" src="' . $graph . '">';
     }
     ?>
     <div class="content">

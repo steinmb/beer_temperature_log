@@ -20,8 +20,8 @@ plotggplot <- function(log = "und", sensorer = 0) {
       theme(
         legend.position = "right",
         panel.background = element_rect(fill = '#EFEFEF'),
-        panel.grid.major = element_line(size = 0.5, linetype = 'solid', colour = '#666666'),
-        panel.grid.minor = element_line(size = 0.25, linetype = 'solid', colour = '#999999')
+        panel.grid.major = element_line(linewidth = 0.5, linetype = 'solid', colour = '#666666'),
+        panel.grid.minor = element_line(linewidth = 0.25, linetype = 'solid', colour = '#999999')
       ) +
       scale_colour_discrete(name = "Sensor")
   }
@@ -32,4 +32,3 @@ plotggplot <- function(log = "und", sensorer = 0) {
 
   return(result)
 }
-

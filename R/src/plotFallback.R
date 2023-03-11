@@ -23,7 +23,7 @@ plotFallback <- function(log = "und", sensorer = 0) {
 
     legend(
       "bottomright",
-      c("gjæringskar"),
+      "gjæringskar",
       pch = 22,
       col = "red",
       pt.bg = "red",

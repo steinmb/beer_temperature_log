@@ -24,7 +24,7 @@ if (inherits(ggplotLibrary, "try-error")) {
 # Configuration
 args <- commandArgs(TRUE) # Enable reading arguments from shell.
 plot_directory <- "../www"
-plot_filename <- "temperatur.png"
+plot_filename <- "temperature.png"
 plot_height <- 21.1666
 plot_width <- 49.3888
 resolution <- 150
@@ -32,6 +32,7 @@ units <- "cm"
 temp_log <- args[1]
 min_temp <- as.numeric(args[2])
 max_temp <- as.numeric(args[3])
+setwd(paste0(getwd(), '/R'))
 
 if (is.na(temp_log)) {
   temp_log <- "data/demo.csv"
@@ -50,25 +51,15 @@ if (is.na(max_temp)) {
 }
 
 # Read logfile into a dataframe.
-log <- read.csv(temp_log, header = F)
-
-# Find number of temperatur sensors.
-sensorer <- ncol(log) - 1
-
-# Rename columns.
-if (sensorer == 1) {
-  cat("Data from", sensorer, "probe(s) found.\n")
-  colnames(log) <- c("datestamp", "temp1")
-}
-
-if (sensorer == 2) {
-  cat("Data from", sensorer, "probe(s) found.\n")
-  head(log, n = 10)
-  colnames(log) <- c("datestamp", "temp1", "temp2")
-}
+source("src/rename_columns.R")
+log_file <- read.csv(temp_log, header = F)
+head(log_file)
+sensorer <- ncol(log_file) - 1
+named_columns <- rename_columns(log_file)
+head(named_columns)
 
 # Alter date and time to POSIX standard.
-log$datestamp <- as.POSIXct(log$datestamp)
+named_columns$datestamp <- as.POSIXct(named_columns$datestamp)
 
 if (!ggplotLibrary) {
   cat("Plotting using fallback method.\n")
@@ -81,18 +72,19 @@ if (!ggplotLibrary) {
     bg = "transparent"
   )
   par(mar = c(10, 5, 5, 4) + 0.1)
-  source("src/plotFallback.r")
-  plotFallback(log, sensorer)
+  source("src/plotFallback.R")
+  plotFallback(named_columns, sensorer)
   dev.off() # Cleaning up. Close device(s) after we are done using it.
 }
 
-  filename <- paste(plot_directory, plot_filename, sep = "/")
-  filename
+filename <- paste(plot_directory, plot_filename, sep = "/")
+filename
+
 if (ggplotLibrary) {
   cat("Plotting using ggplot2.\n")
-  source("src/plotggplot.r")
-  colnames(log) <- c("datestamp", "ambient", "fermentation")
-  tempPlot <- plotggplot(log, sensorer)
+  source("src/plotggplot.R")
+  colnames(log_file) <- c("datestamp", "ambient", "fermentation")
+  tempPlot <- plotggplot(named_columns, sensorer)
   ggsave(
     path = plot_directory,
     filename = plot_filename,
@@ -103,5 +95,5 @@ if (ggplotLibrary) {
     plot = tempPlot
   )
 }
-summary(log)
 
+summary(named_columns)
