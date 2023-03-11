@@ -23,7 +23,7 @@ if (inherits(ggplotLibrary, "try-error")) {
 
 # Configuration
 args <- commandArgs(TRUE) # Enable reading arguments from shell.
-plot_directory <- "../www"
+plot_directory <- "./www"
 plot_filename <- "temperature.png"
 plot_height <- 21.1666
 plot_width <- 49.3888
@@ -32,10 +32,9 @@ units <- "cm"
 temp_log <- args[1]
 min_temp <- as.numeric(args[2])
 max_temp <- as.numeric(args[3])
-setwd(paste0(getwd(), '/R'))
 
 if (is.na(temp_log)) {
-  temp_log <- "data/demo.csv"
+  temp_log <- "./R/data/demo.csv"
   cat("Name of temperature file not defined, loading demo data\n")
   cat("Usage:\n  Rscript <this_file> temp_log <min_temperatur> <max_temperatur>\n")
   cat("Basic example:\n  Rscript temp_log_auto.R temperatur.log\n")
@@ -51,7 +50,7 @@ if (is.na(max_temp)) {
 }
 
 # Read logfile into a dataframe.
-source("src/rename_columns.R")
+source("./R/src/rename_columns.R")
 log_file <- read.csv(temp_log, header = F)
 head(log_file)
 sensorer <- ncol(log_file) - 1
@@ -72,7 +71,7 @@ if (!ggplotLibrary) {
     bg = "transparent"
   )
   par(mar = c(10, 5, 5, 4) + 0.1)
-  source("src/plotFallback.R")
+  source("./R/src/plotFallback.R")
   plotFallback(named_columns, sensorer)
   dev.off() # Cleaning up. Close device(s) after we are done using it.
 }
@@ -82,7 +81,7 @@ filename
 
 if (ggplotLibrary) {
   cat("Plotting using ggplot2.\n")
-  source("src/plotggplot.R")
+  source("./R/src/plotggplot.R")
   colnames(log_file) <- c("datestamp", "ambient", "fermentation")
   tempPlot <- plotggplot(named_columns, sensorer)
   ggsave(
