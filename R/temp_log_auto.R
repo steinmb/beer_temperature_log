@@ -13,7 +13,7 @@ if (inherits(ggplotLibrary, "try-error")) {
   writeLines("There was an error. ggplot2 library missing")
   ggplotLibrary <- FALSE
 } else {
-  writeLines("ggplot2 plotting system found (http://ggplot2.org)")
+  writeLines("ggplot2 plotting system found (https://ggplot2.tidyverse.org/)")
   ggplotLibrary <- TRUE
   if (inherits(reshapeLibrary, "try-error")) {
     writeLines("There was an error. reshape2 library missing")   
@@ -23,7 +23,7 @@ if (inherits(ggplotLibrary, "try-error")) {
 
 # Configuration
 args <- commandArgs(TRUE) # Enable reading arguments from shell.
-plot_directory <- "www"
+plot_directory <- "../www"
 plot_filename <- "temperatur.png"
 plot_height <- 21.1666
 plot_width <- 49.3888
@@ -34,7 +34,7 @@ min_temp <- as.numeric(args[2])
 max_temp <- as.numeric(args[3])
 
 if (is.na(temp_log)) {
-  temp_log <- "demo/demo.csv"
+  temp_log <- "data/demo.csv"
   cat("Name of temperature file not defined, loading demo data\n")
   cat("Usage:\n  Rscript <this_file> temp_log <min_temperatur> <max_temperatur>\n")
   cat("Basic example:\n  Rscript temp_log_auto.R temperatur.log\n")
@@ -53,7 +53,7 @@ if (is.na(max_temp)) {
 log <- read.csv(temp_log, header = F)
 
 # Find number of temperatur sensors.
-sensorer = ncol(log) - 1
+sensorer <- ncol(log) - 1
 
 # Rename columns.
 if (sensorer == 1) {
@@ -81,7 +81,7 @@ if (!ggplotLibrary) {
     bg = "transparent"
   )
   par(mar = c(10, 5, 5, 4) + 0.1)
-  source("plotFallback.r")
+  source("src/plotFallback.r")
   plotFallback(log, sensorer)
   dev.off() # Cleaning up. Close device(s) after we are done using it.
 }
@@ -90,7 +90,7 @@ if (!ggplotLibrary) {
   filename
 if (ggplotLibrary) {
   cat("Plotting using ggplot2.\n")
-  source("plotggplot.r")
+  source("src/plotggplot.r")
   colnames(log) <- c("datestamp", "ambient", "fermentation")
   tempPlot <- plotggplot(log, sensorer)
   ggsave(
