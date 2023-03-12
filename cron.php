@@ -1,10 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * Reads and store data from all attached sensors.
  */
-
-declare(strict_types=1);
 
 use steinmb\BrewSession;
 use steinmb\BrewSessionConfig;
