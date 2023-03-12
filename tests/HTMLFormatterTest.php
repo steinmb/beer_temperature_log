@@ -10,7 +10,7 @@ use steinmb\SystemClockFixed;
 /**
  * Class HTMLFormatterTest
  *
- * @covers ::HTMLFormatter
+ * @covers steinmb\Formatters\HTMLFormatter
  */
 final class HTMLFormatterTest extends TestCase
 {
@@ -27,6 +27,7 @@ final class HTMLFormatterTest extends TestCase
         );
     }
 
+    /** @covers steinmb\Formatters\HTMLFormatter::unorderedList */
     public function testUnorderedList(): void
     {
         $expected = <<<HTML
@@ -59,6 +60,7 @@ final class HTMLFormatterTest extends TestCase
         );
     }
 
+    /** @covers steinmb\Formatters\HTMLFormatter::trendList */
     public function testTrend(): void
     {
         $expected = <<<HTML
