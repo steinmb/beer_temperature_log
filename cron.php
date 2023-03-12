@@ -57,7 +57,7 @@ if (RuntimeEnvironment::getSetting('TELEGRAM')) {
  * Write logs to file, Telegram, Brewers Friend etc.
  */
 foreach ($sensors as $probe) {
-    $brewSession = $brewSessionConfig->sessionIdentity($probe->id);
+    $brewSession = $brewSessionConfig->sessionIdentity($probe);
 
     if ($brewSession instanceof BrewSession) {
         $ambientId = $brewSession->ambient;
