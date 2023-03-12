@@ -10,10 +10,10 @@ final class RuntimeEnvironment
 {
     private static array $settings = [
         'BREW_ROOT' => __DIR__ . '/..',
-        'DEMO_MODE' => FALSE,
         'LOG_DIRECTORY' => __DIR__ . '/../../brewlogs',
-        'LOG_INFO' => 'info.log',
         'TEST_DATA' => __DIR__ . '/../tests/test_data',
+        'DEMO_MODE' => FALSE,
+        'LOG_INFO' => 'info.log',
     ];
 
     public static function init(): void
