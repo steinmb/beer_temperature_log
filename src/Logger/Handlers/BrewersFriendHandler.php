@@ -63,8 +63,8 @@ final class BrewersFriendHandler implements HandlerInterface
                 'name' => $brewSession->probe,
                 'device_source' => 'DS18B20 Sensor',
                 'report_source' => 'BrewPi',
-                'temp' => $temperature->temperature(),
-                'ambient' => $ambient->temperature(),
+                'temp' => $temperature,
+                'ambient' => $ambient,
                 'temp_unit' => 'C',
             ], JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
