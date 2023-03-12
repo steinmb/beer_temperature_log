@@ -9,7 +9,7 @@ use UnexpectedValueException;
 readonly class TemperatureSensor implements Sensors
 {
     public function __construct(
-      private OneWireInterface $interface,
+      private OneWireInterface $oneWire,
       public string $id,
     ) {}
 
@@ -21,7 +21,7 @@ readonly class TemperatureSensor implements Sensors
 
     public function rawValue(): string
     {
-        return $this->interface->content($this->id);
+        return $this->oneWire->content($this->id);
     }
 
     public function temperature(string $scale = 'celsius', float $offset = 0): string
