@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace steinmb\Logger\Handlers;
 
@@ -6,8 +8,8 @@ use steinmb\Formatters\FormatterInterface;
 
 final class ConsoleHandler implements HandlerInterface
 {
-    private $messages = [];
-    private $lastMessage = '';
+    private array $messages = [];
+    private string $lastMessage = '';
 
     public function read(): string
     {

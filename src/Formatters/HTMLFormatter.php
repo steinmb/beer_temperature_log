@@ -9,6 +9,7 @@ final class HTMLFormatter extends NormaliseFormatter
     public function formatMultiple(string $title, array $records): string
     {
         $elements = [];
+
         foreach ($records as $record) {
             $elements[] = parent::format($record);
         }
@@ -37,10 +38,12 @@ final class HTMLFormatter extends NormaliseFormatter
     private function listElements(array $list): string
     {
         $elements = '';
+
         foreach ($list as $index => $listElement) {
             if ($index !== 0) {
                 $elements .= PHP_EOL;
             }
+
             $elements .= $this->listItem($listElement);
         }
 
@@ -59,7 +62,7 @@ final class HTMLFormatter extends NormaliseFormatter
             [
                 $dateTime,
                 $temperature,
-            ]
+            ],
         );
     }
 
@@ -75,7 +78,7 @@ final class HTMLFormatter extends NormaliseFormatter
 
         return $this->unordered(
             $sensor_id,
-            $elements
+            $elements,
         );
     }
 }
