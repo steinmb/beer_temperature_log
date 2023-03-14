@@ -16,7 +16,6 @@ class FileStorageHandlerTest extends TestCase
     private const testDirectory =  __DIR__ . '/Fixtures';
 
     private FileStorageHandler $fileStorage;
-    private NullFormatter $formatter;
 
     public function setUp(): void
     {
@@ -29,8 +28,8 @@ class FileStorageHandlerTest extends TestCase
         $measurement = '25 00 4b 46 ff ff 07 10 cc : crc=cc YES
                         25 00 4b 46 ff ff 07 10 cc t=20000';
 
-        $this->fileStorage = new FileStorageHandler('test.csv', self::testDirectory);
-        $this->formatter = new NullFormatter();
+        $formatter = new NullFormatter();
+        $this->fileStorage = new FileStorageHandler('test.csv', self::testDirectory, $formatter);
     }
 
     /**
@@ -39,7 +38,7 @@ class FileStorageHandlerTest extends TestCase
     public function testRead(): void
     {
         $randomRecord = uniqid('Test', true);
-        $this->fileStorage->write(['message' => $randomRecord], $this->formatter);
+        $this->fileStorage->write(['message' => $randomRecord]);
         self::assertSame($randomRecord, $this->fileStorage->lastEntries(1));
     }
 
@@ -50,8 +49,8 @@ class FileStorageHandlerTest extends TestCase
     {
         $randomRecord = uniqid('Test', true);
         $randomRecord2 = uniqid('Test', true);
-        $this->fileStorage->write(['message' => $randomRecord], $this->formatter);
-        $this->fileStorage->write(['message' => $randomRecord2], $this->formatter);
+        $this->fileStorage->write(['message' => $randomRecord]);
+        $this->fileStorage->write(['message' => $randomRecord2]);
         self::assertSame(
             $randomRecord . PHP_EOL . $randomRecord2,
             $this->fileStorage->lastEntries(2)
@@ -63,7 +62,7 @@ class FileStorageHandlerTest extends TestCase
      */
     public function testWrite(): void
     {
-        $this->fileStorage->write(['message' => 'Test string'], $this->formatter);
+        $this->fileStorage->write(['message' => 'Test string']);
         self::assertSame('Test string', $this->fileStorage->lastEntry());
     }
 
