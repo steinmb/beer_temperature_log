@@ -20,7 +20,8 @@ use steinmb\SystemClock;
 include_once __DIR__ . '/../vendor/autoload.php';
 
 RuntimeEnvironment::init();
-$oneWire = new OneWire();
+//$oneWire = new OneWire();
+$oneWire = new OneWire(__DIR__ . '/../tests/data_all_valid');
 $sensorFactory = New steinmb\Onewire\SensorFactory($oneWire);
 $sensors = $sensorFactory->allSensors();
 $loggerService = new Logger('temperature');
@@ -55,7 +56,7 @@ foreach ($sensors as $sensor) {
     $fileLogger->close();
 }
 
-$graphFile = __DIR__ . '/temperature.phg';
+$graphFile = __DIR__ . '/temperature.png';
 
 if (file_exists($graphFile)) {
     $graph = $graphFile;

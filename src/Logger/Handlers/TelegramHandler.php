@@ -30,7 +30,7 @@ final class TelegramHandler implements HandlerInterface
         return '';
     }
 
-    public function write(array $message, FormatterInterface $formatter = null): void
+    public function write(array $message): void
     {
         $url = self::BOT_API . $this->token . '/SendMessage';
         $this->curl->init($url);
@@ -42,7 +42,7 @@ final class TelegramHandler implements HandlerInterface
             'parse_mode' => $this->parseMode,
             'disable_web_page_preview' => $this->disableWebPagePreview,
             'disable_notification' => $this->disableNotification,
-          ])
+          ]),
         );
         $this->result($this->curl->curl());
         $this->messages[] = $message['message'];

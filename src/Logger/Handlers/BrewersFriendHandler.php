@@ -73,7 +73,7 @@ final class BrewersFriendHandler implements HandlerInterface
         return $payload;
     }
 
-    public function write(array $message, FormatterInterface $formatter = NULL): void
+    public function write(array $message): void
     {
         $payload = $this->message($message);
         $this->curl->init(self::API_STREAM . '/' . $this->token);

@@ -11,10 +11,11 @@
     "require": {
         "php": ">=8.2",
         "ext-bcmath": "*",
-        "ext-sockets": "*",
         "ext-curl": "*",
         "ext-json": "*",
-        "ext-mbstring": "*"
+        "ext-mbstring": "*",
+        "ext-sockets": "*",
+        "psr/log": "^3.0"
     },
     "config": {
         "sort-packages": true,

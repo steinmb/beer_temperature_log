@@ -6,9 +6,13 @@ use steinmb\Logger\Logger;
 
 include_once __DIR__ . '/../vendor/autoload.php';
 
-$logService = new Logger('Demo');
-$fileLogger = $logService->pushHandler(new FileStorageHandler('test1.csv'));
-$console = $fileLogger->withName('Console logger')->pushHandler(new ConsoleHandler());
+$formatter = new \steinmb\Formatters\NormaliseFormatter();
+$consoleHandler = new ConsoleHandler();
+$fileHandler = new FileStorageHandler('test1.csv');
+$logger = new Logger('Demo');
+
+$fileLogger = $logger->pushHandler($fileHandler);
+$console = $fileLogger->withName('Console logger')->pushHandler($consoleHandler);
 
 $fileLogger->write('Logger: Test data');
 $console->write('Test data 1');

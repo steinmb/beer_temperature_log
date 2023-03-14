@@ -1,13 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace steinmb\Logger\Handlers;
-
-use steinmb\Formatters\FormatterInterface;
 
 interface HandlerInterface
 {
     public function read(): string;
-    public function write(array $message, FormatterInterface $formatter);
+    public function write(array $message);
     public function lastEntry(): string;
     public function close();
 }

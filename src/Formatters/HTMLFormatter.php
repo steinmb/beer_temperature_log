@@ -20,6 +20,7 @@ final class HTMLFormatter extends NormaliseFormatter
     public function format($record): string
     {
         $element = parent::format($record);
+
         return '<p>' . $element . '</p>';
     }
 

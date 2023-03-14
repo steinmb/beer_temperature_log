@@ -6,6 +6,7 @@ namespace steinmb\Logger\Handlers;
 
 use steinmb\Enums\DateFormat;
 use steinmb\Formatters\FormatterInterface;
+use steinmb\Formatters\NormaliseFormatter;
 use steinmb\RuntimeEnvironment;
 use UnexpectedValueException;
 
@@ -14,9 +15,15 @@ final class FileStorageHandler implements HandlerInterface
     private readonly string $directory;
     private string $message = '';
     private readonly string $stream;
+    private FormatterInterface|NormaliseFormatter $formatter;
 
-    public function __construct(string $fileName, string $directory = '')
-    {
+    public function __construct(
+        string $fileName,
+        string $directory = '',
+        FormatterInterface $formatter = null,
+    ) {
+        $this->formatter = $formatter ?? new NormaliseFormatter();
+
         if (!$directory) {
             $logDirectory = RuntimeEnvironment::getSetting('LOG_DIRECTORY');
         } else {
@@ -90,9 +97,9 @@ final class FileStorageHandler implements HandlerInterface
         return implode(', ', $message);
     }
 
-    public function write(array $message, FormatterInterface $formatter): void
+    public function write(array $message): void
     {
-        $fileMessage = $formatter->format($this->message($message));
+        $fileMessage = $this->formatter->format($this->message($message));
         $stream = fopen($this->stream, 'ab+');
 
         $result = fwrite($stream, $fileMessage . PHP_EOL);

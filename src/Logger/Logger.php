@@ -4,14 +4,16 @@ declare(strict_types=1);
 
 namespace steinmb\Logger;
 
+use Psr\Log\AbstractLogger;
 use steinmb\Enums\DateFormat;
-use steinmb\Formatters\FormatterInterface;
-use steinmb\Formatters\NormaliseFormatter;
 use steinmb\Logger\Handlers\FileStorageHandler;
 use steinmb\Logger\Handlers\HandlerInterface;
 
-final class Logger implements LoggerInterface
+final class Logger extends AbstractLogger implements LoggerInterface
 {
+    /**
+     * @var HandlerInterface[]
+     */
     private array $handlers = [];
 
     public function __construct(private string $name)
@@ -60,7 +62,7 @@ final class Logger implements LoggerInterface
         ];
 
         foreach ($this->handlers as $handler) {
-            $handler->write($record, $handler->formatter);
+            $handler->write($record);
         }
     }
 
@@ -111,16 +113,9 @@ final class Logger implements LoggerInterface
         return '';
     }
 
-    public function pushHandler(HandlerInterface $handler, FormatterInterface $formatter = null): self
+    public function pushHandler(HandlerInterface $handler): self
     {
         array_unshift($this->handlers, $handler);
-
-        if (!$formatter) {
-            $this->handlers[0]->formatter = new NormaliseFormatter();
-        } else {
-            $this->handlers[0]->formatter = $formatter;
-        }
-
         return $this;
     }
 
@@ -129,5 +124,10 @@ final class Logger implements LoggerInterface
         foreach ($this->handlers as $handler) {
             $handler->close();
         }
+    }
+
+    public function log($level, \Stringable|string $message, array $context = []): void
+    {
+        // TODO: Implement log() method.
     }
 }
