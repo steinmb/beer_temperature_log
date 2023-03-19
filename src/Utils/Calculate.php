@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace steinmb\Utils;
 
@@ -6,21 +8,6 @@ use UnexpectedValueException;
 
 final class Calculate
 {
-    private $trend;
-    private const ranges = [
-        'stable' => 0.1,
-        'slowly' => 0.21,
-        'steady' => 0.3,
-        'medium' => 0.9,
-        'fast' => 2,
-        ];
-
-    public function __construct() {}
-
-    public function getTrend()
-    {
-        return $this->trend;
-    }
 
     /**
      * @param array $measurements
@@ -65,12 +52,12 @@ final class Calculate
         return array_reverse($log);
     }
 
-    public function calculateTrend(int $time, string $lastMeasurement, string $lastEntries): string
+    public function calculateTrend(int $time, string $lastMeasurement, string $lastEntries): Trend
     {
         $reversed = $this->reverse($this->toArray($lastEntries), $lastMeasurement, $time);
 
         if (!$reversed) {
-            return '';
+            return new Trend(0);
         }
 
         $y = array_reverse($reversed['y']);
@@ -91,7 +78,8 @@ final class Calculate
             $x2Summary = bcadd((string) $x2Summary, $item, 10);
         }
 
-        return $this->vector($samples, $xySummary, $xSummary, $ySummary, $x2Summary);
+        $vector = $this->vector($samples, $xySummary, $xSummary, $ySummary, $x2Summary);
+        return new Trend($vector);
     }
 
     private function vector($samples, $xySummary, $xSummary, $ySummary, $x2Summary): string
@@ -106,37 +94,8 @@ final class Calculate
         return '';
     }
 
-    /**
-     * Create human friendly trend labels.
-     */
-    private function createTrendLabels(): string
-    {
-        if ($this->trend === null) {
-            return '';
-        }
 
-        $speed = '';
-        foreach (self::ranges as $key => $range) {
-            if (ltrim($this->trend, '-') > $range) {
-                $speed = $key;
-            }
-        }
-
-        return $this->direction() . ' ' . $speed;
-    }
-
-    private function direction(): string
-    {
-        $direction = 'increasing';
-
-        if ($this->trend < 0) {
-            $direction = 'decreasing';
-        }
-
-        return $direction;
-    }
-
-    public static function mean(array $values)
+    public static function mean(array $values): float|int
     {
         if (!$values) {
             throw new UnexpectedValueException(

@@ -54,7 +54,7 @@ foreach ($sensorFactory->allSensors() as $sensor) {
     print $result . ' ' . $sensor->temperature('fahrenheit') . 'ºF' . PHP_EOL;
     print $result . ' ' . $sensor->temperature('kelvin') . 'ºK' . PHP_EOL;
     print $sensor . PHP_EOL;
-    print 'Trend: ' . $trend . PHP_EOL;
+    print 'Trend: ' . $trend->getTrend() . PHP_EOL;
     $loggerService->write((string) $sensor->temperature());
     $loggerService->close();
 }

@@ -47,7 +47,7 @@ foreach ($sensors as $sensor) {
                 $trendInterval,
                 $lastReading,
                 $fileLogger->lastEntries($trendInterval)
-            ),
+            )->getTrend(),
             $trendInterval,
             $lastReading,
             $sensor->id

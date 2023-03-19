@@ -23,5 +23,5 @@ $lastEntries = <<<LOG
 
 $calculator = new \steinmb\Utils\Calculate();
 $trend = $calculator->calculateTrend(40, $lastMeasurement, $lastEntries);
-echo $trend . PHP_EOL;
+echo $trend->getTrend() . PHP_EOL;
 

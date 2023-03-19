@@ -98,6 +98,6 @@ class CalculateTest extends TestCase
         LOG;
     $calc = new Calculate();
     $trend = $calc->calculateTrend(6, '20', $lastEntries);
-    self::assertEquals('0.010302066398', $trend, 'Failed calculating trend data');
+    self::assertEquals('0.010302066398', $trend->getTrend(), 'Failed calculating trend data');
   }
 }
