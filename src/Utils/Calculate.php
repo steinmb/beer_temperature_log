@@ -43,7 +43,8 @@ final class Calculate
 
         foreach ($measurements as $key => $measurement) {
             $measurement = explode(', ', $measurement);
-            $y[] = 1000 * $measurement[2];
+            $sample = (float) $measurement[2];
+            $y[] = 1000 * $sample;
             $x = $key + 1;
             $x = (string) $x;
             $x2[] = bcpow($x, $x);
