@@ -31,7 +31,7 @@ final class Calculate
      *
      * @todo CPU and memory intensive on large log files.
      */
-    private function reverse(array $log, string $last, $time): array
+    private function reverse(array $log, string $last, int $time): array
     {
         if (!$log) {
             return [];
@@ -56,7 +56,7 @@ final class Calculate
         return ['x' => $x, 'x2' => $x2, 'y' => $y];
     }
 
-    private function lastValues(string $values): array
+    private function toArray(string $values): array
     {
         $log = explode("\n" , $values);
         array_pop($log);
@@ -66,7 +66,8 @@ final class Calculate
 
     public function calculateTrend(int $time, string $lastMeasurement, string $lastEntries): string
     {
-        $reversed = $this->reverse($this->lastValues($lastEntries), $lastMeasurement, $time);
+        $reversed = $this->reverse($this->toArray($lastEntries), $lastMeasurement, $time);
+
         if (!$reversed) {
             return '';
         }
