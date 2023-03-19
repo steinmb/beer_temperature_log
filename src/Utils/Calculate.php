@@ -23,17 +23,17 @@ final class Calculate
     }
 
     /**
-     * @param array $log
-     * @param string $last
+     * @param array $measurements
+     * @param string $lastMeasurement
      * @param int $time
      *
      * @return array
      *
      * @todo CPU and memory intensive on large log files.
      */
-    private function reverse(array $log, string $last, int $time): array
+    private function reverse(array $measurements, string $lastMeasurement, int $time): array
     {
-        if (!$log) {
+        if (!$measurements) {
             return [];
         }
 
@@ -41,14 +41,14 @@ final class Calculate
         $x2 = [];
         $y = [];
 
-        foreach (array_reverse($log) as $key => $row) {
-            $row = explode(', ', $row);
-            $y[] = 1000 * $row[2];
+        foreach ($measurements as $key => $measurement) {
+            $measurement = explode(', ', $measurement);
+            $y[] = 1000 * $measurement[2];
             $x = $key + 1;
             $x = (string) $x;
             $x2[] = bcpow($x, $x);
 
-            if (strtotime($row[0]) <= strtotime($last[0]) - ($time * 60)) {
+            if (strtotime($measurement[0]) <= strtotime($lastMeasurement[0]) - ($time * 60)) {
                 break;
             }
         }
@@ -61,7 +61,7 @@ final class Calculate
         $log = explode("\n" , $values);
         array_pop($log);
 
-        return $log;
+        return array_reverse($log);
     }
 
     public function calculateTrend(int $time, string $lastMeasurement, string $lastEntries): string
