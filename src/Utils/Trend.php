@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace steinmb\Utils;
 
+use steinmb\Enums\TrendFormat;
+
 final class Trend
 {
     private const ranges = [
@@ -30,18 +32,35 @@ final class Trend
      */
     public function createTrendLabels(): string
     {
-        if ($this->trend === null) {
-            return '';
+        if ($this->trend < 0) {
+            return $this->isFalling();
         }
 
-        $speed = '';
-        foreach (self::ranges as $key => $range) {
-            if ($this->trend > $range) {
-                $speed = $key;
+        if ($this->trend === '' || $this->trend <= TrendFormat::Stable->speed()) {
+            return TrendFormat::Stable->value;
+        }
+
+        foreach (array_reverse(TrendFormat::cases()) as $range) {
+            $speed = $range->speed();
+
+            if ($this->trend >= $speed) {
+                return "$range->value {$this->direction()} ($speed)";
             }
         }
 
-        return $this->direction() . ' ' . $speed;
+        return '';
+    }
+
+    private function isFalling(): string
+    {
+//        TrendFormat::cases();
+
+        foreach (TrendFormat::cases() as $case) {
+            $speed = $case->speed();
+            if ($this->trend <= $speed) {
+                return "$case->value {$this->direction()} ($speed)";
+            }
+        }
     }
 
     private function direction(): string

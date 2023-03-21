@@ -1,8 +1,9 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Utils;
-//20.351111111111113
-//20.351111111113
+
 use PHPUnit\Framework\TestCase;
 use steinmb\Utils\Calculate;
 use UnexpectedValueException;
@@ -14,8 +15,8 @@ use UnexpectedValueException;
  */
 class CalculateTest extends TestCase
 {
-  private $values = [];
-  private $xResult = [];
+  private array $values;
+  private array $xResult;
 
   protected function setUp(): void
   {
