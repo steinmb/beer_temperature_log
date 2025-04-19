@@ -20,7 +20,7 @@ final class FileStorageHandler implements HandlerInterface
     public function __construct(
         string $fileName,
         string $directory = '',
-        FormatterInterface $formatter = null,
+        ?FormatterInterface $formatter = null,
     ) {
         $this->formatter = $formatter ?? new NormaliseFormatter();
 

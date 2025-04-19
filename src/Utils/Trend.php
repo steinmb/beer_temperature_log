@@ -8,7 +8,7 @@ use steinmb\Enums\TrendFormat;
 
 final class Trend
 {
-    private const ranges = [
+    private const array ranges = [
         'stable' => [0.1, 0.2],
         'slowly' => [0.2, 0.3],
         'steady' => [0.3, 0.9],
@@ -26,7 +26,7 @@ final class Trend
     }
 
     /**
-     * Create human friendly trend labels.
+     * Create human-friendly trend labels.
      *
      * @return string
      */
