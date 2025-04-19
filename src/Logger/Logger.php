@@ -11,9 +11,7 @@ use steinmb\Logger\Handlers\HandlerInterface;
 
 final class Logger extends AbstractLogger implements LoggerInterface
 {
-    /**
-     * @var HandlerInterface[]
-     */
+    /** @var HandlerInterface[] */
     private array $handlers = [];
 
     public function __construct(private string $name)
