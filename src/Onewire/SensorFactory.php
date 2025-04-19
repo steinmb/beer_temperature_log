@@ -8,22 +8,23 @@ use UnexpectedValueException;
 
 final readonly class SensorFactory
 {
-    public function __construct(private OneWireInterface $oneWire) {}
+    public function __construct(private OneWireInterface $oneWire)
+    {
+    }
 
     public function createSensor(string $id): TemperatureSensor
     {
 
         if (str_contains($id, '10-') || str_contains($id, '28-')) {
             return new TemperatureSensor(
-              $this->oneWire,
-              $id,
+                $this->oneWire,
+                $id,
             );
         }
 
         throw new UnexpectedValueException(
             'Unknown sensor type: ' . $id
         );
-
     }
 
     /**

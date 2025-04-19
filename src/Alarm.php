@@ -16,13 +16,13 @@ final class Alarm
     {
         if (!$brewSession->high_limit) {
             throw new UnexpectedValueException(
-              'No high temperature limit defined in session ' . $brewSession->sessionId
+                'No high temperature limit defined in session ' . $brewSession->sessionId
             );
         }
 
         if (!$brewSession->low_limit) {
             throw new UnexpectedValueException(
-              'No high temperature limit defined in session ' . $brewSession->sessionId
+                'No high temperature limit defined in session ' . $brewSession->sessionId
             );
         }
     }
@@ -42,7 +42,7 @@ final class Alarm
 
     private function statusMessage(string $message, TemperatureSensor $temperature): string
     {
-      return 'Batch: ' . $this->brewSession->sessionId . ' - ' . $message . ' ' . $this->brewSession->high_limit . 'C reached: ' . $temperature->temperature();
+        return 'Batch: ' . $this->brewSession->sessionId . ' - ' . $message . ' ' . $this->brewSession->high_limit . 'C reached: ' . $temperature->temperature();
     }
 
     private function highLimit(TemperatureSensor $temperature): bool

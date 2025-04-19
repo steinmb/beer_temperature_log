@@ -85,5 +85,4 @@ final class Trend
 
         return $direction;
     }
-
 }

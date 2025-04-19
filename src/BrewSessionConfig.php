@@ -9,7 +9,9 @@ use UnexpectedValueException;
 
 final class BrewSessionConfig
 {
-    public function __construct(private $settings) {}
+    public function __construct(private $settings)
+    {
+    }
 
     public function sessionIdentity(TemperatureSensor $sensor): BrewSessionInterface
     {

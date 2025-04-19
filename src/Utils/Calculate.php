@@ -8,7 +8,6 @@ use UnexpectedValueException;
 
 final class Calculate
 {
-
     /**
      * @param array $measurements
      * @param string $lastMeasurement
@@ -46,7 +45,7 @@ final class Calculate
 
     private function toArray(string $values): array
     {
-        $log = explode("\n" , $values);
+        $log = explode("\n", $values);
         array_pop($log);
 
         return array_reverse($log);
@@ -99,7 +98,7 @@ final class Calculate
     {
         if (!$values) {
             throw new UnexpectedValueException(
-              'Cannot calculate on a empty data set.'
+                'Cannot calculate on a empty data set.'
             );
         }
 

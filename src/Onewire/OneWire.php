@@ -13,7 +13,8 @@ final class OneWire implements OneWireInterface
     private const Buses = 'w1_bus_master';
     private const W1Devices = '/sys/bus/w1/devices';
 
-    public function __construct(private string $sensorDirectory = '') {
+    public function __construct(private string $sensorDirectory = '')
+    {
         if (!$sensorDirectory) {
             $this->sensorDirectory = self::W1Devices;
         }
@@ -23,7 +24,7 @@ final class OneWire implements OneWireInterface
     {
         if (!file_exists($this->sensorDirectory)) {
             throw new RuntimeException(
-              'Directory: ' . $this->sensorDirectory . ' Not found. OneWire support perhaps not loaded.'
+                'Directory: ' . $this->sensorDirectory . ' Not found. OneWire support perhaps not loaded.'
             );
         }
 
@@ -95,8 +96,8 @@ final class OneWire implements OneWireInterface
         }
 
         return new Dto(
-          $sensor,
-          $sensorData,
+            $sensor,
+            $sensorData,
         );
     }
 

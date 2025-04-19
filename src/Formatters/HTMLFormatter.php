@@ -72,8 +72,7 @@ final class HTMLFormatter extends NormaliseFormatter
         int $minutes,
         string $lastMeasurement,
         string $sensor_id
-    ): string
-    {
+    ): string {
         $elements = explode(', ', $lastMeasurement);
         $elements[] = 'Trend: ' . $trend . ' the last ' . $minutes . 'min';
 

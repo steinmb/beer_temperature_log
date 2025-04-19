@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace steinmb\Logger;
 
@@ -36,7 +38,8 @@ final class Curl
                     }
 
                     throw new RuntimeException(
-                        'Curl failed' . $curlErrno . ' ' . $curlError);
+                        'Curl failed' . $curlErrno . ' ' . $curlError
+                    );
                 }
                 continue;
             }

@@ -31,7 +31,7 @@ final class FileStorageHandler implements HandlerInterface
         }
 
         $this->directory = $logDirectory;
-        $this->stream = $logDirectory . '/'. $fileName;
+        $this->stream = $logDirectory . '/' . $fileName;
         $this->storage();
     }
 
@@ -39,19 +39,23 @@ final class FileStorageHandler implements HandlerInterface
     {
         $directory = $this->getDirFromStream($this->stream);
 
-        if (!file_exists($directory) && !mkdir($directory, 0755,
-            true) && !is_dir($this->directory)) {
+        if (
+            !file_exists($directory) && !mkdir(
+                $directory,
+                0755,
+                true
+            ) && !is_dir($this->directory)
+        ) {
             throw new UnexpectedValueException(
-              'Unable to create log directory: ' . $directory
+                'Unable to create log directory: ' . $directory
             );
         }
 
         if (!file_exists($this->stream) && !fopen($this->stream, 'wb+')) {
             throw new UnexpectedValueException(
-              'Unable to open or create log file: ' . $this->stream
+                'Unable to open or create log file: ' . $this->stream
             );
         }
-
     }
 
     public function read(): string
@@ -68,7 +72,7 @@ final class FileStorageHandler implements HandlerInterface
 
         if ($content === false) {
             throw new UnexpectedValueException(
-              'Unable to read: ' . $stream
+                'Unable to read: ' . $stream
             );
         }
 
@@ -164,7 +168,6 @@ final class FileStorageHandler implements HandlerInterface
 
         $output = '';
         while (ftell($f) > 0 && $lines >= 0) {
-
             // Figure out how far back we should jump.
             $seek = min(ftell($f), $buffer);
 
@@ -179,7 +182,6 @@ final class FileStorageHandler implements HandlerInterface
 
             // Decrease our line counter.
             $lines -= substr_count($chunk, "\n");
-
         }
 
         // Because of buffer size we might have read too many lines.

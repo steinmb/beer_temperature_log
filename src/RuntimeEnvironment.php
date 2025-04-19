@@ -12,7 +12,7 @@ final class RuntimeEnvironment
         'BREW_ROOT' => __DIR__ . '/..',
         'LOG_DIRECTORY' => __DIR__ . '/../../brewlogs',
         'TEST_DATA' => __DIR__ . '/../tests/test_data',
-        'DEMO_MODE' => FALSE,
+        'DEMO_MODE' => false,
         'LOG_INFO' => 'info.log',
     ];
 

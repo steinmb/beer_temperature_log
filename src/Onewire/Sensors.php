@@ -6,7 +6,7 @@ namespace steinmb\Onewire;
 
 interface Sensors
 {
-    public function __construct(OneWireInterface $interface,  string $id);
+    public function __construct(OneWireInterface $interface, string $id);
 
     public function sensorValue();
 
