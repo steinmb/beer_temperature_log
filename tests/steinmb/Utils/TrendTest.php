@@ -27,12 +27,21 @@ class TrendTest extends TestCase
         self::assertEquals($expected_result, $trend->createTrendLabels());
 
         $trend = new Trend('-0.95');
-        self::assertEquals('decreasing ' , TrendFormat::Slowly->value, $trend->createTrendLabels());
+        self::assertEquals(
+            'decreasing medium' ,
+            TrendFormat::Slowly->value, $trend->createTrendLabels()
+        );
 
-        $trend = new Trend('-0.1');
-        self::assertEquals('', $trend->createTrendLabels());
+        $trend = new Trend('-0.5');
+        self::assertEquals(
+            'decreasing steady',
+            $trend->createTrendLabels()
+        );
 
-        $trend = new Trend('0.5');
-        self::assertEquals('', $trend->createTrendLabels());
+        $trend = new Trend('0.1');
+        self::assertEquals(
+            'decreasing stable',
+            $trend->createTrendLabels()
+        );
     }
 }

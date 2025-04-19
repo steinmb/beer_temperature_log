@@ -12,6 +12,17 @@ enum TrendFormat: string
     case Medium = 'medium';
     case Fast = 'fast';
 
+    public function description(): string
+    {
+        return match ($this) {
+            self::Stable => throw new \Exception('To be implemented'),
+            self::Slowly => throw new \Exception('To be implemented'),
+            self::Steady => throw new \Exception('To be implemented'),
+            self::Medium => throw new \Exception('To be implemented'),
+            self::Fast => throw new \Exception('To be implemented'),
+        };
+    }
+
     public function speed(): string
     {
         return match ($this) {

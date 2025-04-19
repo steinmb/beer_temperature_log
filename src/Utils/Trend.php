@@ -9,11 +9,11 @@ use steinmb\Enums\TrendFormat;
 final class Trend
 {
     private const ranges = [
-        'stable' => 0.1,
-        'slowly' => 0.21,
-        'steady' => 0.3,
-        'medium' => 0.9,
-        'fast' => 2,
+        'stable' => [0.1, 0.2],
+        'slowly' => [0.2, 0.3],
+        'steady' => [0.3, 0.9],
+        'medium' => [0.9, 2],
+        'fast' => [2, 5],
     ];
 
     public function __construct(readonly public string $trend)
@@ -32,11 +32,15 @@ final class Trend
      */
     public function createTrendLabels(): string
     {
+        if ($this->trend === '') {
+            return TrendFormat::Stable->value;
+        }
+
         if ($this->trend < 0) {
             return $this->isFalling();
         }
 
-        if ($this->trend === '' || $this->trend <= TrendFormat::Stable->speed()) {
+        if ($this->trend <= TrendFormat::Stable->speed()) {
             return TrendFormat::Stable->value;
         }
 
@@ -53,12 +57,20 @@ final class Trend
 
     private function isFalling(): string
     {
-//        TrendFormat::cases();
+        foreach (TrendFormat::cases() as $case) {
+            $ranges[$case->value] = (float) $case->speed() + (float) $this->trend;
+        }
+
+        sort($ranges, SORT_NUMERIC);
+        foreach ($ranges as $range) {
+        }
 
         foreach (TrendFormat::cases() as $case) {
             $speed = $case->speed();
+            $difference[$case->value] = (float) $speed + (float) $this->trend;
+
             if ($this->trend <= $speed) {
-                return "$case->value {$this->direction()} ($speed)";
+//                return "$case->value {$this->direction()} ($speed)";
             }
         }
     }
