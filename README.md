@@ -1,5 +1,9 @@
 # 1-Wire temperature logger
 
+[![Code quality](https://github.com/steinmb/beer_temperature_log/actions/workflows/code_quality.yml/badge.svg)](https://github.com/steinmb/beer_temperature_log/actions/workflows/code_quality.yml)
+[![Linting](https://github.com/steinmb/beer_temperature_log/actions/workflows/linter.yml/badge.svg)](https://github.com/steinmb/beer_temperature_log/actions/workflows/linter.yml)
+[![Run tests code coverage](https://github.com/steinmb/beer_temperature_log/actions/workflows/php.yml/badge.svg)](https://github.com/steinmb/beer_temperature_log/actions/workflows/php.yml)
+
 Reads temperature data from one or multiple [1-Wire](https://en.wikipedia.org/wiki/1-Wire) sensors. Data can be written to file(s) or external systems. Allows you to define fermentation ranges and batch numbers.
 
 As a home brewer I wanted to monitor the beer during the fermentation but not use any pre-built solutions out there. Written in modern PHP is and pretty generic and can be used in your own projects without having to brew beer though making beer is generally a good thing.
