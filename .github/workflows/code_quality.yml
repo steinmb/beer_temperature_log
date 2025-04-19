@@ -26,5 +26,8 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           tools: composer, phpstan
 
+      - name: Install dependencies
+        run: composer install --prefer-dist --no-progress
+
       - name: Run PHPStan
         run: phpstan --level=3 --error-format=github analyse src tests
