@@ -10,6 +10,9 @@ jobs:
   php:
     name: Setup PHP and tools
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-versions: [ '8.4', '8.5' ]
 
     steps:
       - name: Checkout
@@ -18,13 +21,10 @@ jobs:
         uses: shivammathur/setup-php@v2
 
         with:
-          php-version: '8.2'
+          php-version: ${{ matrix.php-versions }}
           coverage: none
           extensions: bcmath, mbstring, xdebug
           tools: phpunit, composer
-
-      - name: Print PHP version
-        run: echo ${{ steps.setup-php.outputs.php-version }}
 
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-progress
