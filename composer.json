@@ -29,6 +29,7 @@
         }
     },
     "require-dev": {
+        "roave/security-advisories": "dev-latest",
         "phan/phan": "5.x",
         "phpstan/phpstan": "^2.1.12",
         "phpunit/phpunit": "^12"
