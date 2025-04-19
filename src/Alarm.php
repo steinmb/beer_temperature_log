@@ -9,8 +9,8 @@ use UnexpectedValueException;
 
 final class Alarm
 {
-    private const HIGH = 'High limit';
-    private const LOW = 'Low limit';
+    private const string HIGH = 'High limit';
+    private const string LOW = 'Low limit';
 
     public function __construct(private readonly BrewSession $brewSession)
     {
@@ -42,7 +42,8 @@ final class Alarm
 
     private function statusMessage(string $message, TemperatureSensor $temperature): string
     {
-        return 'Batch: ' . $this->brewSession->sessionId . ' - ' . $message . ' ' . $this->brewSession->high_limit . 'C reached: ' . $temperature->temperature();
+        return 'Batch: ' . $this->brewSession->sessionId . ' - ' . $message . ' '
+            . $this->brewSession->high_limit . 'C reached: ' . $temperature->temperature();
     }
 
     private function highLimit(TemperatureSensor $temperature): bool

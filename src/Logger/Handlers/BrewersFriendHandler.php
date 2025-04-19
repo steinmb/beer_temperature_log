@@ -112,7 +112,8 @@ final class BrewersFriendHandler implements HandlerInterface
         }
 
         throw new RuntimeException(
-            'BrewersFriend unknown API error. Description: ' . $resultDecoded["message"] . ' ' . $resultDecoded['detail']
+            'BrewersFriend unknown API error. Description: '
+            . $resultDecoded["message"] . ' ' . $resultDecoded['detail']
         );
     }
 
