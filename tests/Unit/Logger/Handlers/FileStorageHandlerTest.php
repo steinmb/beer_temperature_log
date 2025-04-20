@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Logger\Handlers;
+namespace Unit\Logger\Handlers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -13,7 +13,7 @@ use steinmb\Logger\Handlers\FileStorageHandler;
 #[CoversClass(NullFormatter::class)]
 class FileStorageHandlerTest extends TestCase
 {
-    private const string testDirectory =  __DIR__ . '/Fixtures';
+    private const string TEST_DIRECTORY =  __DIR__ . '/Fixtures';
 
     private FileStorageHandler $fileStorage;
 
@@ -21,15 +21,15 @@ class FileStorageHandlerTest extends TestCase
     {
         parent::setUp();
 
-        if (!self::testDirectory) {
-            mkdir(self::testDirectory);
+        if (!self::TEST_DIRECTORY) {
+            mkdir(self::TEST_DIRECTORY);
         }
 
         $measurement = '25 00 4b 46 ff ff 07 10 cc : crc=cc YES
                         25 00 4b 46 ff ff 07 10 cc t=20000';
 
         $formatter = new NullFormatter();
-        $this->fileStorage = new FileStorageHandler('test.csv', self::testDirectory, $formatter);
+        $this->fileStorage = new FileStorageHandler('test.csv', self::TEST_DIRECTORY, $formatter);
     }
 
     public function testRead(): void
@@ -63,10 +63,10 @@ class FileStorageHandlerTest extends TestCase
 
         $this->fileStorage->close();
 
-        foreach (glob(self::testDirectory . '/*.csv') as $file) {
+        foreach (glob(self::TEST_DIRECTORY . '/*.csv') as $file) {
             unlink($file);
         }
 
-        rmdir(self::testDirectory);
+        rmdir(self::TEST_DIRECTORY);
     }
 }

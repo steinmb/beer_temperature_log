@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace steinmb\Utils;
+namespace Unit\Utils;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use steinmb\Enums\TrendFormat;
+use steinmb\Utils\Trend;
 
 #[CoversClass(Trend::class)]
 #[CoversClass(TrendFormat::class)]

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Utils;
+namespace Unit\Utils;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -68,7 +68,7 @@ class CalculateTest extends TestCase
         self::assertEquals(1, $xSquare[3], 'Failed to calculate mean value distance square.');
     }
 
-    public function testMean_b1(): void
+    public function testMeanB1(): void
     {
         $result = Calculate::meanDistance($this->values);
         $xResult = Calculate::b1($result, $this->xResult);
@@ -78,7 +78,7 @@ class CalculateTest extends TestCase
         self::assertEquals(1.5, $xResult[3], 'Doh!');
     }
 
-    public function test_b1Summary(): void
+    public function testB1Summary(): void
     {
         $regression = Calculate::b1Summary($this->xResult, $this->values);
         self::assertEquals(1, $regression);
