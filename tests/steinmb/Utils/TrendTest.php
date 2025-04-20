@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace steinmb\Utils;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use steinmb\Enums\TrendFormat;
 
+#[CoversClass(Trend::class)]
+#[CoversClass(TrendFormat::class)]
 class TrendTest extends TestCase
 {
-    /** @covers \steinmb\Utils\Trend */
     public function testCreateTrendLabels(): void
     {
         $trend = new Trend('');

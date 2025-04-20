@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace Logger\Handlers;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use steinmb\Formatters\NullFormatter;
 use steinmb\Logger\Handlers\FileStorageHandler;
 
-/**
- * @coversDefaultClass \steinmb\Logger\Handlers\FileStorageHandler
- */
+#[CoversClass(FileStorageHandler::class)]
+#[CoversClass(NullFormatter::class)]
 class FileStorageHandlerTest extends TestCase
 {
-    private const testDirectory =  __DIR__ . '/Fixtures';
+    private const string testDirectory =  __DIR__ . '/Fixtures';
 
     private FileStorageHandler $fileStorage;
 
@@ -32,9 +32,6 @@ class FileStorageHandlerTest extends TestCase
         $this->fileStorage = new FileStorageHandler('test.csv', self::testDirectory, $formatter);
     }
 
-    /**
-     * @covers ::lastEntries
-     */
     public function testRead(): void
     {
         $randomRecord = uniqid('Test', true);
@@ -42,9 +39,6 @@ class FileStorageHandlerTest extends TestCase
         self::assertSame($randomRecord, $this->fileStorage->lastEntries(1));
     }
 
-    /**
-     * @covers ::lastEntries
-     */
     public function testReadMultiple(): void
     {
         $randomRecord = uniqid('Test', true);
@@ -57,9 +51,6 @@ class FileStorageHandlerTest extends TestCase
         );
     }
 
-    /**
-     * @covers ::write
-     */
     public function testWrite(): void
     {
         $this->fileStorage->write(['message' => 'Test string']);

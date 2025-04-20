@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace Utils;
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use steinmb\Utils\Calculate;
+use steinmb\Utils\Trend;
 use UnexpectedValueException;
 
-/**
- * Class CalculateTest.
- *
- * @covers \steinmb\Utils\Calculate
- */
+#[CoversClass(Calculate::class)]
+#[CoversClass(Trend::class)]
 class CalculateTest extends TestCase
 {
   private array $values;
