@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Unit\Logger\Handlers;
+namespace steinmb\Tests\Unit\Logger\Handlers;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -11,7 +11,7 @@ use steinmb\Logger\Handlers\FileStorageHandler;
 
 #[CoversClass(FileStorageHandler::class)]
 #[CoversClass(NullFormatter::class)]
-class FileStorageHandlerTest extends TestCase
+final class FileStorageHandlerTest extends TestCase
 {
     private const string TEST_DIRECTORY =  __DIR__ . '/Fixtures';
 

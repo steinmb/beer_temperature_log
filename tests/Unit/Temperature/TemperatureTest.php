@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace steinmb\Tests\Unit\Temperature;
+
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use steinmb\Alarm;
@@ -10,6 +12,7 @@ use steinmb\BrewSessionConfig;
 use steinmb\Onewire\OneWireFixed;
 use steinmb\Onewire\SensorFactory;
 use steinmb\Onewire\TemperatureSensor;
+use UnexpectedValueException;
 
 #[CoversClass(TemperatureSensor::class)]
 #[CoversClass(OneWireFixed::class)]

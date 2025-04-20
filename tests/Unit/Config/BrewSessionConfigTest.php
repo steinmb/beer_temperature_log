@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace steinmb\Tests\Unit\Config;
+
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use steinmb\AmbiguousSessionId;

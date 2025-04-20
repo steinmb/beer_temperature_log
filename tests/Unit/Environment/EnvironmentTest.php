@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace steinmb\Tests\Unit\Environment;
+
 use PHPUnit\Framework\Attributes\CoversClass;
 use steinmb\RuntimeEnvironment;
 use PHPUnit\Framework\TestCase;

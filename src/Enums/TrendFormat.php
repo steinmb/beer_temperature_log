@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace steinmb\Enums;
 
+use Exception;
+
 enum TrendFormat: string
 {
     case Stable = 'stable';
@@ -15,11 +17,11 @@ enum TrendFormat: string
     public function description(): string
     {
         return match ($this) {
-            self::Stable => throw new \Exception('To be implemented'),
-            self::Slowly => throw new \Exception('To be implemented'),
-            self::Steady => throw new \Exception('To be implemented'),
-            self::Medium => throw new \Exception('To be implemented'),
-            self::Fast => throw new \Exception('To be implemented'),
+            self::Stable => throw new Exception('To be implemented'),
+            self::Slowly => throw new Exception('To be implemented'),
+            self::Steady => throw new Exception('To be implemented'),
+            self::Medium => throw new Exception('To be implemented'),
+            self::Fast => throw new Exception('To be implemented'),
         };
     }
 

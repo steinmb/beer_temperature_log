@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace steinmb\Tests\Unit\OneWire;
+
 use PHPUnit\Framework\Attributes\CoversClass;
 use steinmb\Onewire\OneWire;
 use PHPUnit\Framework\TestCase;
@@ -15,7 +17,7 @@ final class OneWireTest extends TestCase
     {
         parent::setUp();
 
-        $this->oneWire = new OneWire(__DIR__ . '/test_data');
+        $this->oneWire = new OneWire(__DIR__ . '/../../test_data');
     }
 
     public function testOneWire(): void

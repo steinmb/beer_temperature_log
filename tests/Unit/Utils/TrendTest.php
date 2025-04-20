@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Unit\Utils;
+namespace steinmb\Tests\Unit\Utils;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -11,7 +11,7 @@ use steinmb\Utils\Trend;
 
 #[CoversClass(Trend::class)]
 #[CoversClass(TrendFormat::class)]
-class TrendTest extends TestCase
+final class TrendTest extends TestCase
 {
     public function testCreateTrendLabels(): void
     {

@@ -74,7 +74,7 @@ final class HTMLFormatter extends NormaliseFormatter
         string $sensor_id
     ): string {
         $elements = explode(', ', $lastMeasurement);
-        $elements[] = 'Trend: ' . $trend . ' the last ' . $minutes . 'min';
+        $elements[] = 'Trend: ' . $trend . ' the last ' . $minutes . ' min';
 
         return $this->unordered(
             $sensor_id,

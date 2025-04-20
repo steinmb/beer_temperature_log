@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Unit\Utils;
+namespace steinmb\Tests\Unit\Utils;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
@@ -12,7 +12,7 @@ use UnexpectedValueException;
 
 #[CoversClass(Calculate::class)]
 #[CoversClass(Trend::class)]
-class CalculateTest extends TestCase
+final class CalculateTest extends TestCase
 {
     private array $values;
     private array $xResult;
