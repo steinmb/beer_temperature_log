@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use steinmb\Onewire\OneWire;
@@ -21,8 +21,8 @@ final class OneWireTest extends TestCase
     public function testOneWire(): void
     {
         self::assertInstanceOf(
-          OneWire::class,
-          $this->oneWire,
+            OneWire::class,
+            $this->oneWire,
         );
     }
 
@@ -31,5 +31,4 @@ final class OneWireTest extends TestCase
         $sensors = $this->oneWire->allSensors();
         self::assertCount(5, $this->oneWire->allSensors());
     }
-
 }

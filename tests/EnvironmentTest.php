@@ -9,7 +9,6 @@ use PHPUnit\Framework\TestCase;
 #[CoversClass(RuntimeEnvironment::class)]
 final class EnvironmentTest extends TestCase
 {
-
     public function testDefault(): void
     {
         self::assertNotEquals('', RuntimeEnvironment::getSetting('BREW_ROOT'));
@@ -20,9 +19,8 @@ final class EnvironmentTest extends TestCase
         $newValue = 'newfile.log';
         RuntimeEnvironment::setSetting('LOG_INFO', $newValue);
         self::assertEquals(
-          $newValue,
-          RuntimeEnvironment::getSetting('LOG_INFO')
+            $newValue,
+            RuntimeEnvironment::getSetting('LOG_INFO')
         );
     }
-
 }

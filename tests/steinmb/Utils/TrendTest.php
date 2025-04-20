@@ -30,8 +30,9 @@ class TrendTest extends TestCase
 
         $trend = new Trend('-0.95');
         self::assertEquals(
-            'decreasing medium' ,
-            TrendFormat::Slowly->value, $trend->createTrendLabels()
+            'decreasing medium',
+            TrendFormat::Slowly->value,
+            $trend->createTrendLabels()
         );
 
         $trend = new Trend('-0.5');

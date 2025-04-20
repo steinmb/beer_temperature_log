@@ -58,7 +58,8 @@ final class TemperatureTest extends TestCase
         $this->expectException(UnexpectedValueException::class);
         $unknownScale = 'parsec';
         $sensor = $this->sensorFactory->createSensor('28-0000098101de');
-        self::assertEquals('Unknown temperature scale: ' . $unknownScale,
+        self::assertEquals(
+            'Unknown temperature scale: ' . $unknownScale,
             $sensor->temperature($unknownScale),
             'Failed detecting a unknown temperature scale.'
         );
