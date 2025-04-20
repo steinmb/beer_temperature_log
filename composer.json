@@ -35,7 +35,7 @@
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
-        "squizlabs/php_codesniffer": "^3.12.2",
+        "squizlabs/php_codesniffer": "dev-master",
         "phan/phan": "5.x",
         "phpstan/phpstan": "^2.1.12",
         "phpunit/phpunit": "^12"
