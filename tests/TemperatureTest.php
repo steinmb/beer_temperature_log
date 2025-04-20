@@ -11,9 +11,6 @@ use steinmb\Onewire\OneWireFixed;
 use steinmb\Onewire\SensorFactory;
 use steinmb\Onewire\TemperatureSensor;
 
-/**
- * Class TemperatureTest
- */
 #[CoversClass(TemperatureSensor::class)]
 #[CoversClass(OneWireFixed::class)]
 #[CoversClass(SensorFactory::class)]
@@ -31,9 +28,6 @@ final class TemperatureTest extends TestCase
         $this->sensorFactory = new SensorFactory(new OneWireFixed());
     }
 
-    #[Covers('steinmb\Onewire\TemperatureSensor::temperature')]
-    #[Covers('steinmb\Onewire\OneWireFixed::readData')]
-    #[Covers('steinmb\Onewire\SensorFactory::createSensor')]
     public function testCelsius(): void
     {
         $sensor = $this->sensorFactory->createSensor('28-0000098101de');
