@@ -3,5 +3,7 @@
     <description>PSR12 with exceptions</description>
     <rule ref="PSR12"/>
 
+    <!-- Temporary exclusion until PHPCS supports PHP 8.4 hooked properties in interfaces
+         See: https://github.com/PHPCSStandards/PHP_CodeSniffer/issues/734 -->
     <exclude-pattern>src/BrewSessionInterface.php</exclude-pattern>
 </ruleset>
