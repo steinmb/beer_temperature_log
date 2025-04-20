@@ -1,13 +1,12 @@
-<?php declare(strict_types=1);
+<?php
 
+declare(strict_types=1);
+
+use PHPUnit\Framework\Attributes\CoversClass;
 use steinmb\RuntimeEnvironment;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class EnvironmentTest
- *
- * @covers \steinmb\RuntimeEnvironment
- */
+#[CoversClass(RuntimeEnvironment::class)]
 final class EnvironmentTest extends TestCase
 {
 

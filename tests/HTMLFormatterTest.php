@@ -2,16 +2,14 @@
 
 declare(strict_types=1);
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use steinmb\Enums\DateFormat;
 use steinmb\Formatters\HTMLFormatter;
 use PHPUnit\Framework\TestCase;
 use steinmb\SystemClockFixed;
 
-/**
- * Class HTMLFormatterTest
- *
- * @covers steinmb\Formatters\HTMLFormatter
- */
+#[CoversClass(steinmb\Formatters\HTMLFormatter::class)]
+#[CoversClass(SystemClockFixed::class)]
 final class HTMLFormatterTest extends TestCase
 {
     private SystemClockFixed $timestamp;
@@ -27,7 +25,6 @@ final class HTMLFormatterTest extends TestCase
         );
     }
 
-    /** @covers steinmb\Formatters\HTMLFormatter::unorderedList */
     public function testUnorderedList(): void
     {
         $expected = <<<HTML
@@ -60,7 +57,6 @@ final class HTMLFormatterTest extends TestCase
         );
     }
 
-    /** @covers steinmb\Formatters\HTMLFormatter::trendList */
     public function testTrend(): void
     {
         $expected = <<<HTML

@@ -2,14 +2,11 @@
 
 declare(strict_types = 1);
 
+use PHPUnit\Framework\Attributes\CoversClass;
 use steinmb\Onewire\OneWire;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class OneWireTest
- *
- * @covers \steinmb\Onewire\OneWire
- */
+#[CoversClass(OneWire::class)]
 final class OneWireTest extends TestCase
 {
     private OneWire $oneWire;
