@@ -28,6 +28,11 @@
             "steinmb\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "steinmb\\Tests\\": "tests/"
+        }
+    },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
         "squizlabs/php_codesniffer": "^3.12.2",
