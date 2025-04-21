@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace steinmb\Formatters;
 
+use steinmb\Utils\Trend;
+
 final class HTMLFormatter extends NormaliseFormatter
 {
     public function formatMultiple(string $title, array $records): string
@@ -68,13 +70,13 @@ final class HTMLFormatter extends NormaliseFormatter
     }
 
     public function trendList(
-        string $trend,
+        Trend $trend,
         int $minutes,
         string $lastMeasurement,
         string $sensor_id
     ): string {
         $elements = explode(', ', $lastMeasurement);
-        $elements[] = 'Trend: ' . $trend . ' the last ' . $minutes . ' min';
+        $elements[] = 'Trend: ' . $trend->trend . ' the last ' . $minutes . ' min';
 
         return $this->unordered(
             $sensor_id,

@@ -59,7 +59,7 @@ final class Calculate
         }
 
         $vector = $this->vector($samples, $xySummary, $xSummary, $ySummary, $x2Summary);
-        return new Trend($vector);
+        return new Trend((float) $vector);
     }
 
     private function vector($samples, $xySummary, $xSummary, $ySummary, $x2Summary): string

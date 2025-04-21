@@ -9,19 +9,14 @@ use PHPUnit\Framework\TestCase;
 use steinmb\Enums\TrendFormat;
 use steinmb\Utils\Calculate;
 use steinmb\Utils\Trend;
+use steinmb\ValueObjects\Range;
 
 #[CoversClass(Trend::class)]
 #[CoversClass(TrendFormat::class)]
 #[CoversClass(Calculate::class)]
+#[CoversClass(Range::class)]
 final class TrendTest extends TestCase
 {
-    private Trend $trend;
-
-    public function setUp(): void
-    {
-        $this->trend = new Trend('');
-    }
-
     public function testCalculateTrend(): void
     {
         $log = [
@@ -48,35 +43,76 @@ final class TrendTest extends TestCase
 
     public function testCreateTrendLabels(): void
     {
-        self::assertEquals(TrendFormat::Stable->value, $this->trend->createTrendLabels());
+//        $trend = new Trend(0.21);
+//        $foo = TrendFormat::Stable->speed();
+//        $bar = TrendFormat::Slowly->value;
+//        $foobar = $foo->withinRange(0.21);
+//        $trend = new Trend(0.11);
+//        $result = $trend->createTrendLabels();
 
-        $trend = new Trend(TrendFormat::Stable->speed());
-        self::assertEquals(TrendFormat::Stable->value, $trend->createTrendLabels());
+//        self::assertEquals(TrendFormat::Stable->value, $this->trend->createTrendLabels());
+//        self::assertEquals(TrendFormat::Stable->value, $trend->createTrendLabels());
+//
+//        $trend = new Trend(TrendFormat::Slowly->speed());
+//        $expected_result = TrendFormat::Slowly->value . ' increasing (' . TrendFormat::Slowly->speed() . ')';
+//        self::assertEquals($expected_result, $trend->createTrendLabels());
+//
+//        $trend = new Trend(TrendFormat::Fast->speed());
+//        $expected_result = TrendFormat::Fast->value . ' increasing (' . TrendFormat::Fast->speed() . ')';
+//        self::assertEquals($expected_result, $trend->createTrendLabels());
 
-        $trend = new Trend(TrendFormat::Slowly->speed());
-        $expected_result = TrendFormat::Slowly->value . ' increasing (' . TrendFormat::Slowly->speed() . ')';
-        self::assertEquals($expected_result, $trend->createTrendLabels());
-
-        $trend = new Trend(TrendFormat::Fast->speed());
-        $expected_result = TrendFormat::Fast->value . ' increasing (' . TrendFormat::Fast->speed() . ')';
-        self::assertEquals($expected_result, $trend->createTrendLabels());
-
-        $trend = new Trend('-0.95');
+        $trend = new Trend(0.1);
         self::assertEquals(
-            'decreasing medium',
-            TrendFormat::Slowly->value,
+            'stable',
+            $trend->createTrendLabels(),
+        );
+        $trend = new Trend(-0.1);
+        self::assertEquals(
+            'stable',
             $trend->createTrendLabels(),
         );
 
-        $trend = new Trend('-0.5');
+        $trend = new Trend(0.3);
         self::assertEquals(
-            'decreasing steady',
+            'slowly',
+            $trend->createTrendLabels(),
+        );
+        $trend = new Trend(-0.3);
+        self::assertEquals(
+            'slowly',
             $trend->createTrendLabels(),
         );
 
-        $trend = new Trend('0.1');
+        $trend = new Trend(0.4);
         self::assertEquals(
-            'decreasing stable',
+            'steady',
+            $trend->createTrendLabels(),
+        );
+        $trend = new Trend(-0.4);
+        self::assertEquals(
+            'steady',
+            $trend->createTrendLabels(),
+        );
+
+        $trend = new Trend(0.92);
+        self::assertEquals(
+            'medium',
+            $trend->createTrendLabels(),
+        );
+        $trend = new Trend(-0.92);
+        self::assertEquals(
+            'medium',
+            $trend->createTrendLabels(),
+        );
+
+        $trend = new Trend(3);
+        self::assertEquals(
+            'fast',
+            $trend->createTrendLabels(),
+        );
+        $trend = new Trend(-3);
+        self::assertEquals(
+            'fast',
             $trend->createTrendLabels(),
         );
     }

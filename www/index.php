@@ -42,14 +42,15 @@ foreach ($sensors as $sensor) {
     $blocks[] = $block->unorderedList();
 
     if ($lastReading) {
+        $lastReadings = $fileLogger->lastEntries(10);
         $calculatedTrend = $trendCalculator->calculateTrend(
             $trendInterval,
             $lastReading,
-            $fileLogger->lastEntries($trendInterval),
+            $loggerService->toArray($lastReadings),
         );
 
         $blocks[] = $htmlFormatter->trendList(
-            $calculatedTrend->getTrend(),
+            $calculatedTrend,
             $trendInterval,
             $lastReading,
             $sensor->id,

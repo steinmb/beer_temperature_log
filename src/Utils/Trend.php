@@ -6,21 +6,13 @@ namespace steinmb\Utils;
 
 use steinmb\Enums\TrendFormat;
 
-final class Trend
+final readonly class Trend
 {
-    private const array SPEED_RANGES = [
-        'stable' => [0.1, 0.2],
-        'slowly' => [0.2, 0.3],
-        'steady' => [0.3, 0.9],
-        'medium' => [0.9, 2],
-        'fast' => [2, 5],
-    ];
-
-    public function __construct(readonly public string $trend)
+    public function __construct(public float $trend)
     {
     }
 
-    public function getTrend(): string
+    public function getTrend(): float
     {
         return $this->trend;
     }
@@ -32,51 +24,24 @@ final class Trend
      */
     public function createTrendLabels(): string
     {
-        if ($this->trend === '') {
-            return TrendFormat::Stable->value;
-        }
+        foreach (TrendFormat::cases() as $case) {
+            $range = $case->speed();
 
-        if ($this->trend < 0) {
-            return $this->isFalling();
-        }
+            if ($this->trend < 0) {
+                $string = $range->negativeWithinRange($this->trend);
+            } else {
+                $string = $range->withinRange($this->trend);
+            }
 
-        if ($this->trend <= TrendFormat::Stable->speed()) {
-            return TrendFormat::Stable->value;
-        }
-
-        foreach (array_reverse(TrendFormat::cases()) as $range) {
-            $speed = $range->speed();
-
-            if ($this->trend >= $speed) {
-                return "$range->value {$this->direction()} ($speed)";
+            if ($string === true) {
+                return $case->value;
             }
         }
 
-        return '';
+        return 'unknown';
     }
 
-    private function isFalling(): string
-    {
-        foreach (TrendFormat::cases() as $case) {
-            $ranges[$case->value] = (float) $case->speed() + (float) $this->trend;
-        }
-
-        sort($ranges, SORT_NUMERIC);
-        foreach ($ranges as $range) {
-        }
-
-        foreach (TrendFormat::cases() as $case) {
-            $speed = $case->speed();
-            $difference[$case->value] = (float) $speed + (float) $this->trend;
-
-            if ($this->trend <= $speed) {
-//                return "$case->value {$this->direction()} ($speed)";
-            }
-        }
-        return '';
-    }
-
-    private function direction(): string
+    public function direction(): string
     {
         $direction = 'increasing';
 

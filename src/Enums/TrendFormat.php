@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace steinmb\Enums;
 
 use Exception;
+use steinmb\ValueObjects\Range;
 
 enum TrendFormat: string
 {
@@ -28,14 +29,14 @@ enum TrendFormat: string
         };
     }
 
-    public function speed(): string
+    public function speed(): Range
     {
         return match ($this) {
-            self::Stable => '0.1',
-            self::Slowly => '0.21',
-            self::Steady => '0.3',
-            self::Medium => '0.9',
-            self::Fast => '2',
+            self::Stable => new Range(0.1, 0.2),
+            self::Slowly => new Range(0.21, 0.3),
+            self::Steady => new Range(0.31, 0.9),
+            self::Medium => new Range(0.91, 2),
+            self::Fast => new Range(2.01, 5),
         };
     }
 }
