@@ -4,47 +4,44 @@ declare(strict_types=1);
 
 namespace steinmb\Utils;
 
-final class Trend
-{
-    private const ranges = [
-        'stable' => 0.1,
-        'slowly' => 0.21,
-        'steady' => 0.3,
-        'medium' => 0.9,
-        'fast' => 2,
-    ];
+use steinmb\Enums\TrendFormat;
 
-    public function __construct(readonly public string $trend)
+final readonly class Trend
+{
+    public function __construct(public float $trend)
     {
     }
 
-    public function getTrend(): string
+    public function getTrend(): float
     {
         return $this->trend;
     }
 
     /**
-     * Create human friendly trend labels.
+     * Create human-friendly trend labels.
      *
      * @return string
      */
     public function createTrendLabels(): string
     {
-        if ($this->trend === null) {
-            return '';
-        }
+        foreach (TrendFormat::cases() as $case) {
+            $range = $case->speed();
 
-        $speed = '';
-        foreach (self::ranges as $key => $range) {
-            if ($this->trend > $range) {
-                $speed = $key;
+            if ($this->trend < 0) {
+                $string = $range->negativeWithinRange($this->trend);
+            } else {
+                $string = $range->withinRange($this->trend);
+            }
+
+            if ($string === true) {
+                return $case->value;
             }
         }
 
-        return $this->direction() . ' ' . $speed;
+        return 'unknown';
     }
 
-    private function direction(): string
+    public function direction(): string
     {
         $direction = 'increasing';
 
@@ -54,5 +51,4 @@ final class Trend
 
         return $direction;
     }
-
 }

@@ -8,14 +8,15 @@ use RuntimeException;
 
 final class OneWire implements OneWireInterface
 {
-    private const SlaveFile = 'w1_slave';
-    private const Slaves = 'w1_master_slaves';
-    private const Buses = 'w1_bus_master';
-    private const W1Devices = '/sys/bus/w1/devices';
+    private const string SLAVE_FILE = 'w1_slave';
+    private const string SLAVES = 'w1_master_slaves';
+    private const string BUSES = 'w1_bus_master';
+    private const string W1DEVICES = '/sys/bus/w1/devices';
 
-    public function __construct(private string $sensorDirectory = '') {
+    public function __construct(private string $sensorDirectory = '')
+    {
         if (!$sensorDirectory) {
-            $this->sensorDirectory = self::W1Devices;
+            $this->sensorDirectory = self::W1DEVICES;
         }
     }
 
@@ -23,7 +24,7 @@ final class OneWire implements OneWireInterface
     {
         if (!file_exists($this->sensorDirectory)) {
             throw new RuntimeException(
-              'Directory: ' . $this->sensorDirectory . ' Not found. OneWire support perhaps not loaded.'
+                'Directory: ' . $this->sensorDirectory . ' Not found. OneWire support perhaps not loaded.'
             );
         }
 
@@ -38,7 +39,7 @@ final class OneWire implements OneWireInterface
      */
     private function busDirectory(): array
     {
-        return [$this->sensorDirectory . '/' . self::Buses . '1'];
+        return [$this->sensorDirectory . '/' . self::BUSES . '1'];
     }
 
     public function temperatureSensors(): array
@@ -56,7 +57,7 @@ final class OneWire implements OneWireInterface
 
     public function allSensors(): array
     {
-        $sensors = file($this->directory() . '/' . $this::Slaves, FILE_IGNORE_NEW_LINES);
+        $sensors = file($this->directory() . '/' . $this::SLAVES, FILE_IGNORE_NEW_LINES);
 
         if ($sensors === false) {
             return [];
@@ -70,7 +71,7 @@ final class OneWire implements OneWireInterface
         $fileContent = '';
 
         while ($retries) {
-            $fileContent = file_get_contents($this->directory() . '/' . $sensor . '/' . $this::SlaveFile);
+            $fileContent = file_get_contents($this->directory() . '/' . $sensor . '/' . $this::SLAVE_FILE);
             if ($fileContent) {
                 return $fileContent;
             }
@@ -86,7 +87,7 @@ final class OneWire implements OneWireInterface
         $sensorData = '';
 
         while ($retries) {
-            $sensorData = file_get_contents($this->directory() . '/' . $sensor . '/' . $this::SlaveFile);
+            $sensorData = file_get_contents($this->directory() . '/' . $sensor . '/' . $this::SLAVE_FILE);
             if ($sensorData) {
                 break;
             }
@@ -95,8 +96,8 @@ final class OneWire implements OneWireInterface
         }
 
         return new Dto(
-          $sensor,
-          $sensorData,
+            $sensor,
+            $sensorData,
         );
     }
 

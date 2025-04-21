@@ -19,11 +19,12 @@ final class TelegramHandler implements HandlerInterface
     private string $lastMessage = '';
 
     public function __construct(
-      private readonly string $token,
-      private readonly string $channel,
-      private readonly JsonDecode $jsonDecode,
-      private readonly Curl $curl,
-    ) {}
+        private readonly string $token,
+        private readonly string $channel,
+        private readonly JsonDecode $jsonDecode,
+        private readonly Curl $curl,
+    ) {
+    }
 
     public function read(): string
     {
@@ -35,14 +36,14 @@ final class TelegramHandler implements HandlerInterface
         $url = self::BOT_API . $this->token . '/SendMessage';
         $this->curl->init($url);
         $this->curl->setOption(
-          CURLOPT_POSTFIELDS,
-          http_build_query([
+            CURLOPT_POSTFIELDS,
+            http_build_query([
             'text' => $message['message'],
             'chat_id' => $this->channel,
             'parse_mode' => $this->parseMode,
             'disable_web_page_preview' => $this->disableWebPagePreview,
             'disable_notification' => $this->disableNotification,
-          ]),
+            ]),
         );
         $this->result($this->curl->curl());
         $this->messages[] = $message['message'];
@@ -55,7 +56,7 @@ final class TelegramHandler implements HandlerInterface
 
         if ($resultDecoded['ok'] === false) {
             throw new RuntimeException(
-              'Telegram API error. Description: ' . $resultDecoded['description']
+                'Telegram API error. Description: ' . $resultDecoded['description']
             );
         }
 

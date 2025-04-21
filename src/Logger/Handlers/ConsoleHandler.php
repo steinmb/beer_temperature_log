@@ -43,5 +43,7 @@ final class ConsoleHandler implements HandlerInterface
         return $this->lastMessage;
     }
 
-    public function close(): void {}
+    public function close(): void
+    {
+    }
 }

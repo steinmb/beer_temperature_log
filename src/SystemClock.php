@@ -8,10 +8,8 @@ use DateTimeImmutable;
 
 final class SystemClock implements Clock
 {
-
     public function currentTime(): DateTimeImmutable
     {
         return new DateTimeImmutable();
     }
-
 }

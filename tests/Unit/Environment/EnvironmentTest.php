@@ -1,16 +1,16 @@
-<?php declare(strict_types=1);
+<?php
 
+declare(strict_types=1);
+
+namespace steinmb\Tests\Unit\Environment;
+
+use PHPUnit\Framework\Attributes\CoversClass;
 use steinmb\RuntimeEnvironment;
 use PHPUnit\Framework\TestCase;
 
-/**
- * Class EnvironmentTest
- *
- * @covers \steinmb\RuntimeEnvironment
- */
+#[CoversClass(RuntimeEnvironment::class)]
 final class EnvironmentTest extends TestCase
 {
-
     public function testDefault(): void
     {
         self::assertNotEquals('', RuntimeEnvironment::getSetting('BREW_ROOT'));
@@ -21,9 +21,8 @@ final class EnvironmentTest extends TestCase
         $newValue = 'newfile.log';
         RuntimeEnvironment::setSetting('LOG_INFO', $newValue);
         self::assertEquals(
-          $newValue,
-          RuntimeEnvironment::getSetting('LOG_INFO')
+            $newValue,
+            RuntimeEnvironment::getSetting('LOG_INFO')
         );
     }
-
 }

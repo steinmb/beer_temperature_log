@@ -1,17 +1,19 @@
-<?php declare(strict_types=1);
+<?php
 
-namespace Logger;
+declare(strict_types=1);
 
+namespace steinmb\Tests\Unit\Logger;
+
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use steinmb\Logger\Handlers\NullHandler;
 use steinmb\Logger\Logger;
 
-/**
- * @coversDefaultClass \steinmb\Logger\Logger
- */
+#[CoversClass(Logger::class)]
+#[CoversClass(NullHandler::class)]
 final class LoggerTest extends TestCase
 {
-    private $logger;
+    private Logger $logger;
 
     public function setUp(): void
     {
@@ -20,26 +22,17 @@ final class LoggerTest extends TestCase
         $this->logger = $logger->pushHandler(new NullHandler());
     }
 
-    /**
-     * @covers ::withName
-     */
     public function testWithName(): void
     {
         $logger2 = $this->logger->withName('Test2');
         self::assertSame('Test2', $logger2->getName());
     }
 
-    /**
-     * @covers ::read
-     */
     public function testRead(): void
     {
         self::assertSame('Test data from NullHandler', $this->logger->read());
     }
 
-    /**
-     * @covers ::lastEntry
-     */
     public function testLastEntry(): void
     {
         $this->logger->write('This is the first message');

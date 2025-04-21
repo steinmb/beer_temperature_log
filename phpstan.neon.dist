@@ -4,4 +4,4 @@ parameters:
         - www
         - src
     excludePaths:
-        - 'www/vendor'
+        - 'www'

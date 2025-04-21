@@ -20,7 +20,7 @@ final class FileStorageHandler implements HandlerInterface
     public function __construct(
         string $fileName,
         string $directory = '',
-        FormatterInterface $formatter = null,
+        ?FormatterInterface $formatter = null,
     ) {
         $this->formatter = $formatter ?? new NormaliseFormatter();
 
@@ -31,7 +31,7 @@ final class FileStorageHandler implements HandlerInterface
         }
 
         $this->directory = $logDirectory;
-        $this->stream = $logDirectory . '/'. $fileName;
+        $this->stream = $logDirectory . '/' . $fileName;
         $this->storage();
     }
 
@@ -39,19 +39,23 @@ final class FileStorageHandler implements HandlerInterface
     {
         $directory = $this->getDirFromStream($this->stream);
 
-        if (!file_exists($directory) && !mkdir($directory, 0755,
-            true) && !is_dir($this->directory)) {
+        if (
+            !file_exists($directory) && !mkdir(
+                $directory,
+                0755,
+                true
+            ) && !is_dir($this->directory)
+        ) {
             throw new UnexpectedValueException(
-              'Unable to create log directory: ' . $directory
+                'Unable to create log directory: ' . $directory
             );
         }
 
         if (!file_exists($this->stream) && !fopen($this->stream, 'wb+')) {
             throw new UnexpectedValueException(
-              'Unable to open or create log file: ' . $this->stream
+                'Unable to open or create log file: ' . $this->stream
             );
         }
-
     }
 
     public function read(): string
@@ -68,7 +72,7 @@ final class FileStorageHandler implements HandlerInterface
 
         if ($content === false) {
             throw new UnexpectedValueException(
-              'Unable to read: ' . $stream
+                'Unable to read: ' . $stream
             );
         }
 
@@ -130,14 +134,12 @@ final class FileStorageHandler implements HandlerInterface
      * Sets buffer size, according to the number of lines to retrieve.
      * This gives a performance boost when reading a few lines from the file.
      */
-    private function bufferSize(int $lines = 1, bool $adaptive = true): int
+    private function bufferSize(int $lines = 1): int
     {
-        if (!$adaptive) {
-            return 4096;
-        }
         if ($lines < 2) {
             return 64;
         }
+
         if ($lines < 10) {
             return 512;
         }
@@ -145,26 +147,25 @@ final class FileStorageHandler implements HandlerInterface
         return 4094;
     }
 
-    private function tailFile(int $lines = 1, bool $adaptive = true): ?string
+    private function tailFile(int $lines = 1): ?string
     {
-        $f = @fopen($this->stream, "rb");
+        $f = fopen($this->stream, "rb");
         if ($f === false) {
             return null;
         }
 
-        $buffer = $this->bufferSize($lines, $adaptive);
-        // Jump to last character.
+        $buffer = $this->bufferSize($lines);
+        // Jump to the last character.
         fseek($f, -1, SEEK_END);
 
-        // Read it and adjust line number if necessary, otherwise the result would be
-        // wrong if file doesn't end with a blank line.
+        // Read it and adjust the line number if necessary, otherwise the result would be
+        // wrong if the file doesn't end with a blank line.
         if (fread($f, 1) !== "\n") {
             --$lines;
         }
 
         $output = '';
         while (ftell($f) > 0 && $lines >= 0) {
-
             // Figure out how far back we should jump.
             $seek = min(ftell($f), $buffer);
 
@@ -179,12 +180,11 @@ final class FileStorageHandler implements HandlerInterface
 
             // Decrease our line counter.
             $lines -= substr_count($chunk, "\n");
-
         }
 
-        // Because of buffer size we might have read too many lines.
+        // Because of buffer size, we might have read too many lines.
         while ($lines++ < 0) {
-            // Find first newline and remove all text before that
+            // Find the first newline and remove all text before that.
             $output = substr($output, strpos($output, "\n") + 1);
         }
         fclose($f);

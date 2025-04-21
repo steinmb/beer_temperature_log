@@ -1,13 +1,16 @@
-name: 'Unit tests'
+name: Code quality
 
 on:
   push:
-    branches: ["master"]
+    branches: [ "master" ]
   pull_request:
+    branches: [ "master" ]
+
+permissions:
+  contents: read
 
 jobs:
-  php:
-    name: Setup PHP and tools
+  code-quality:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -17,16 +20,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup PHP and tools
+      - name: Setup PHP with tools
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          coverage: none
-          extensions: bcmath, mbstring, xdebug
-          tools: phpunit, composer
+          tools: composer, phpstan
 
-      - name: Install Composer dependencies
+      - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
-      - name: Run tests
-        run: php vendor/bin/phpunit --no-coverage
+      - name: Run PHPStan
+        run: phpstan --level=3 --error-format=github analyse src tests

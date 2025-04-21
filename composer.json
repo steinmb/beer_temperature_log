@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.4",
         "ext-bcmath": "*",
         "ext-curl": "*",
         "ext-json": "*",
@@ -20,7 +20,7 @@
     "config": {
         "sort-packages": true,
         "platform": {
-            "php": "8.2"
+            "php": "8.4"
         }
     },
     "autoload": {
@@ -28,9 +28,16 @@
             "steinmb\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "steinmb\\Tests\\": "tests/"
+        }
+    },
     "require-dev": {
+        "roave/security-advisories": "dev-latest",
+        "squizlabs/php_codesniffer": "dev-master",
         "phan/phan": "5.x",
-        "phpstan/phpstan": "^1.9",
-        "phpunit/phpunit": "^10"
+        "phpstan/phpstan": "^2.1.12",
+        "phpunit/phpunit": "^12"
     }
 }

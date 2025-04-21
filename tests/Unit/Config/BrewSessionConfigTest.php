@@ -1,15 +1,25 @@
-<?php declare(strict_types=1);
+<?php
 
+declare(strict_types=1);
+
+namespace steinmb\Tests\Unit\Config;
+
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use steinmb\AmbiguousSessionId;
+use steinmb\BrewSession;
 use steinmb\BrewSessionConfig;
 use steinmb\BrewSessionInterface;
 use steinmb\Onewire\OneWireFixed;
 use steinmb\Onewire\SensorFactory;
+use steinmb\Onewire\TemperatureSensor;
 
-/**
- * @coversDefaultClass \steinmb\BrewSessionConfig
- */
+#[CoversClass(BrewSessionConfig::class)]
+#[CoversClass(AmbiguousSessionId::class)]
+#[CoversClass(BrewSession::class)]
+#[CoversClass(OneWireFixed::class)]
+#[CoversClass(SensorFactory::class)]
+#[CoversClass(TemperatureSensor::class)]
 final class BrewSessionConfigTest extends TestCase
 {
     private BrewSessionConfig $brewSessionConfig;
@@ -41,9 +51,6 @@ final class BrewSessionConfigTest extends TestCase
         $this->brewSession = $this->brewSessionConfig->sessionIdentity($sensor);
     }
 
-    /**
-     * @covers ::sessionIdentity
-     */
     public function testSession(): void
     {
         self::assertEquals(
@@ -66,9 +73,6 @@ final class BrewSessionConfigTest extends TestCase
         );
     }
 
-    /**
-     * @covers ::sessionIdentity
-     */
     public function testAmbiguousSessionId(): void
     {
         $sensor = $this->sensorFactory->createSensor('10-000802be73fa');

@@ -2,16 +2,19 @@
 
 declare(strict_types=1);
 
+namespace steinmb\Tests\Unit\Formatters;
+
+use DateTimeImmutable;
+use PHPUnit\Framework\Attributes\CoversClass;
 use steinmb\Enums\DateFormat;
 use steinmb\Formatters\HTMLFormatter;
 use PHPUnit\Framework\TestCase;
 use steinmb\SystemClockFixed;
+use steinmb\Utils\Trend;
 
-/**
- * Class HTMLFormatterTest
- *
- * @covers steinmb\Formatters\HTMLFormatter
- */
+#[CoversClass(HTMLFormatter::class)]
+#[CoversClass(SystemClockFixed::class)]
+#[CoversClass(Trend::class)]
 final class HTMLFormatterTest extends TestCase
 {
     private SystemClockFixed $timestamp;
@@ -27,7 +30,6 @@ final class HTMLFormatterTest extends TestCase
         );
     }
 
-    /** @covers steinmb\Formatters\HTMLFormatter::unorderedList */
     public function testUnorderedList(): void
     {
         $expected = <<<HTML
@@ -60,7 +62,6 @@ final class HTMLFormatterTest extends TestCase
         );
     }
 
-    /** @covers steinmb\Formatters\HTMLFormatter::trendList */
     public function testTrend(): void
     {
         $expected = <<<HTML
@@ -70,12 +71,12 @@ final class HTMLFormatterTest extends TestCase
             <li>21.3</li>
             <li>21.5</li>
             <li>22</li>
-            <li>Trend: 1.000001 the last 30min</li>
+            <li>Trend: 1.000001 the last 30 min</li>
             </ul></div>
             HTML;
 
         $htmlList = $this->htmlFormatter->trendList(
-            '1.000001',
+            new Trend(1.000001),
             30,
             '21.2, 21.3, 21.5, 22',
             '10-123456789',

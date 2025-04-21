@@ -25,7 +25,7 @@ RuntimeEnvironment::init();
 $oneWire = new OneWire();
 $sensorFactory = new SensorFactory($oneWire);
 $brewSessionConfig = new BrewSessionConfig(RuntimeEnvironment::getSetting('BATCH'));
-$sensors =$sensorFactory->allSensors();
+$sensors = $sensorFactory->allSensors();
 $loggerService = new Logger('temperature');
 $fileLogger = new Logger('Files');
 $clockService = new SystemClock();

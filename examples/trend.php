@@ -2,6 +2,9 @@
 
 declare(strict_types=1);
 
+use steinmb\Logger\Logger;
+use steinmb\Utils\Calculate;
+
 include_once __DIR__ . '/../vendor/autoload.php';
 
 $lastMeasurement = '2016-01-23 21:00:35, 21, 20';
@@ -21,7 +24,7 @@ $lastEntries = <<<LOG
     2016-01-23 21:00:35, 19, 20
     LOG;
 
-$calculator = new \steinmb\Utils\Calculate();
-$trend = $calculator->calculateTrend(40, $lastMeasurement, $lastEntries);
+$calculator = new Calculate();
+$loggerService = new Logger('Demo');
+$trend = $calculator->calculateTrend(40, $lastMeasurement, $loggerService->toArray($lastEntries));
 echo $trend->getTrend() . PHP_EOL;
-

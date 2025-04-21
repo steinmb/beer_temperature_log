@@ -23,7 +23,7 @@ final class JsonDecode
             $result = json_decode($data, true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
             throw new RuntimeException(
-              'Failed to decode data: ' . $e
+                'Failed to decode data: ' . $e
             );
         }
 

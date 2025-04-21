@@ -8,29 +8,18 @@ use UnexpectedValueException;
 
 final class Calculate
 {
-
     /**
-     * @param array $measurements
-     * @param string $lastMeasurement
-     * @param int $time
-     *
-     * @return array
-     *
-     * @todo CPU and memory intensive on large log files.
+     * @todo CPU and memory intensive on large data sets.
      */
     private function reverse(array $measurements, string $lastMeasurement, int $time): array
     {
-        if (!$measurements) {
-            return [];
-        }
-
         $x = '';
         $x2 = [];
         $y = [];
 
         foreach ($measurements as $key => $measurement) {
             $measurement = explode(', ', $measurement);
-            $sample = (float) $measurement[2];
+            $sample = (float) $measurement[1];
             $y[] = 1000 * $sample;
             $x = $key + 1;
             $x = (string) $x;
@@ -44,22 +33,13 @@ final class Calculate
         return ['x' => $x, 'x2' => $x2, 'y' => $y];
     }
 
-    private function toArray(string $values): array
+    public function calculateTrend(int $time, string $lastMeasurement, array $lastEntries): Trend
     {
-        $log = explode("\n" , $values);
-        array_pop($log);
-
-        return array_reverse($log);
-    }
-
-    public function calculateTrend(int $time, string $lastMeasurement, string $lastEntries): Trend
-    {
-        $reversed = $this->reverse($this->toArray($lastEntries), $lastMeasurement, $time);
-
-        if (!$reversed) {
-            return new Trend(0);
+        if ($lastEntries === []) {
+            throw new UnexpectedValueException();
         }
 
+        $reversed = $this->reverse($lastEntries, $lastMeasurement, $time);
         $y = array_reverse($reversed['y']);
         $samples = (string) $reversed['x'];
         $x = range(1, $reversed['x']);
@@ -79,7 +59,7 @@ final class Calculate
         }
 
         $vector = $this->vector($samples, $xySummary, $xSummary, $ySummary, $x2Summary);
-        return new Trend($vector);
+        return new Trend((float) $vector);
     }
 
     private function vector($samples, $xySummary, $xSummary, $ySummary, $x2Summary): string
@@ -94,12 +74,11 @@ final class Calculate
         return '';
     }
 
-
     public static function mean(array $values): float|int
     {
         if (!$values) {
             throw new UnexpectedValueException(
-              'Cannot calculate on a empty data set.'
+                'Cannot calculate on a empty data set.'
             );
         }
 

@@ -9,9 +9,10 @@ use UnexpectedValueException;
 readonly class TemperatureSensor implements Sensors
 {
     public function __construct(
-      private OneWireInterface $oneWire,
-      public string $id,
-    ) {}
+        private OneWireInterface $oneWire,
+        public string $id,
+    ) {
+    }
 
     public function sensorValue(): int
     {
@@ -41,7 +42,7 @@ readonly class TemperatureSensor implements Sensors
             $temperature = $this->kevin($celsius);
         } else {
             throw new UnexpectedValueException(
-              'Unknown temperature scale: ' . $scale
+                'Unknown temperature scale: ' . $scale
             );
         }
 
@@ -65,7 +66,7 @@ readonly class TemperatureSensor implements Sensors
 
     private function fahrenheit(float $celsius): float
     {
-        return $celsius * (9/5) + 32;
+        return $celsius * (9 / 5) + 32;
     }
 
     private function kevin(float $celsius): float
@@ -85,7 +86,7 @@ readonly class TemperatureSensor implements Sensors
         }
 
         throw new UnexpectedValueException(
-          $this->id . ': CRC check. Check sensor wiring and pull up resistor value.'
+            $this->id . ': CRC check. Check sensor wiring and pull up resistor value.'
         );
     }
 
@@ -96,7 +97,7 @@ readonly class TemperatureSensor implements Sensors
         }
 
         throw new UnexpectedValueException(
-          $this->id . ": Value ($temperature) out of range. Check sensor and wiring."
+            $this->id . ": Value ($temperature) out of range. Check sensor and wiring."
         );
     }
 

@@ -1,4 +1,6 @@
-<?php declare(strict_types = 1);
+<?php
+
+declare(strict_types=1);
 
 namespace steinmb\Logger;
 
@@ -6,7 +8,6 @@ use steinmb\Logger\Handlers\HandlerInterface;
 
 interface LoggerInterface
 {
-
     public function __construct(string $name);
 
     public function pushHandler(HandlerInterface $handler);
@@ -18,5 +19,4 @@ interface LoggerInterface
     public function close(): void;
 
     public function lastEntry(): string;
-
 }

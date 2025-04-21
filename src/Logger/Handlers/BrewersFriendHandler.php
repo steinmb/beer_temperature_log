@@ -19,11 +19,12 @@ final class BrewersFriendHandler implements HandlerInterface
     private string $lastMessage = '';
 
     public function __construct(
-      private readonly string $sessionId,
-      private readonly string $token,
-      private readonly JsonDecode $jsonDecode,
-      private readonly Curl $curl,
-    ) {}
+        private readonly string $sessionId,
+        private readonly string $token,
+        private readonly JsonDecode $jsonDecode,
+        private readonly Curl $curl,
+    ) {
+    }
 
     public function read(): string
     {
@@ -77,11 +78,11 @@ final class BrewersFriendHandler implements HandlerInterface
     {
         $payload = $this->message($message);
         $this->curl->init(self::API_STREAM . '/' . $this->token);
-        $this->curl->setOption( CURLOPT_POST, 1);
-        $this->curl->setOption( CURLOPT_FOLLOWLOCATION, 1);
+        $this->curl->setOption(CURLOPT_POST, 1);
+        $this->curl->setOption(CURLOPT_FOLLOWLOCATION, 1);
         $this->curl->setOption(CURLOPT_HTTPHEADER, ['X-API-Key: ' . $this->token]);
-        $this->curl->setOption( CURLOPT_POSTFIELDS, $payload);
-        $this->curl->setOption( CURLOPT_HTTPHEADER, [
+        $this->curl->setOption(CURLOPT_POSTFIELDS, $payload);
+        $this->curl->setOption(CURLOPT_HTTPHEADER, [
             'X-API-Key: ' . $this->token,
             'Content-Type: application/json',
         ]);
@@ -111,7 +112,8 @@ final class BrewersFriendHandler implements HandlerInterface
         }
 
         throw new RuntimeException(
-            'BrewersFriend unknown API error. Description: ' . $resultDecoded["message"] . ' ' . $resultDecoded['detail']
+            'BrewersFriend unknown API error. Description: '
+            . $resultDecoded["message"] . ' ' . $resultDecoded['detail']
         );
     }
 

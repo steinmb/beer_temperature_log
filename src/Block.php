@@ -10,7 +10,6 @@ use steinmb\Onewire\TemperatureSensor;
 
 final readonly class Block
 {
-
     public function __construct(
         private HTMLFormatter $formatter,
         private TemperatureSensor $temperature,

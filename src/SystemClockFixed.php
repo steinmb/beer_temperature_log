@@ -8,8 +8,7 @@ use DateTimeImmutable;
 
 final readonly class SystemClockFixed implements Clock
 {
-
-    public function __construct(private DateTimeImmutable $dateTime)
+    public function __construct(private dateTimeImmutable $dateTime)
     {
     }
 
