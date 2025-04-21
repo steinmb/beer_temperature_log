@@ -89,18 +89,18 @@ final class CalculateTest extends TestCase
     public function testTrend(): void
     {
         $lastEntries = <<<LOG
-        2021-02-23 09:20:05, 15.687, 15.687
-        2021-02-23 09:25:10, 15.687, 16.687
-        2021-02-23 09:30:15, 15.687, 16.687
-        2021-02-23 09:35:20, 15.687, 17.687
-        2021-02-23 09:40:25, 15.687, 17.687
-        2021-02-23 09:45:05, 15.687, 17.687
-        2021-02-23 09:50:05, 15.687, 17.687
-        2021-02-23 09:55:05, 15.687, 17.687
+        2021-02-23 09:20:05, 14.687
+        2021-02-23 09:25:10, 15.900
+        2021-02-23 09:30:15, 15.687
+        2021-02-23 09:35:20, 15.687
+        2021-02-23 09:40:25, 15.687
+        2021-02-23 09:45:05, 16.000
+        2021-02-23 09:55:05, 16.687
+        2021-02-23 10:05:05, 15.687
         LOG;
         $calc = new Calculate();
         $loggerService = new Logger('test');
         $trend = $calc->calculateTrend(6, '20', $loggerService->toArray($lastEntries));
-        self::assertEquals('0.010302066398', $trend->getTrend(), 'Failed calculating trend data');
+        self::assertEquals('0.007096979074', $trend->getTrend());
     }
 }

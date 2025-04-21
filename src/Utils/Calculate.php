@@ -9,12 +9,6 @@ use UnexpectedValueException;
 final class Calculate
 {
     /**
-     * @param array $measurements
-     * @param string $lastMeasurement
-     * @param int $time
-     *
-     * @return array
-     *
      * @todo CPU and memory intensive on large data sets.
      */
     private function reverse(array $measurements, string $lastMeasurement, int $time): array
@@ -79,7 +73,6 @@ final class Calculate
 
         return '';
     }
-
 
     public static function mean(array $values): float|int
     {
