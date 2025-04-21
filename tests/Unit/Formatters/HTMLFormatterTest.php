@@ -10,9 +10,11 @@ use steinmb\Enums\DateFormat;
 use steinmb\Formatters\HTMLFormatter;
 use PHPUnit\Framework\TestCase;
 use steinmb\SystemClockFixed;
+use steinmb\Utils\Trend;
 
 #[CoversClass(HTMLFormatter::class)]
 #[CoversClass(SystemClockFixed::class)]
+#[CoversClass(Trend::class)]
 final class HTMLFormatterTest extends TestCase
 {
     private SystemClockFixed $timestamp;
@@ -74,7 +76,7 @@ final class HTMLFormatterTest extends TestCase
             HTML;
 
         $htmlList = $this->htmlFormatter->trendList(
-            '1.000001',
+            new Trend(1.000001),
             30,
             '21.2, 21.3, 21.5, 22',
             '10-123456789',
