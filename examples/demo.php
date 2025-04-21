@@ -19,6 +19,7 @@ use steinmb\Logger\Handlers\FileStorageHandler;
 use steinmb\SystemClock;
 use steinmb\Onewire\OneWire;
 use steinmb\Utils\Calculate;
+use steinmb\Utils\Trend;
 
 RuntimeEnvironment::init();
 $brewSessionConfig = new BrewSessionConfig(RuntimeEnvironment::getSetting('BATCH'));
@@ -31,13 +32,19 @@ foreach ($sensorFactory->allSensors() as $sensor) {
     $loggerService = new Logger('Demo');
     $loggerService->pushHandler(new FileStorageHandler($sensor->id . '.csv'));
     $now = $clockService->currentTime();
-    $trend = $trendCalculator->calculateTrend(
-        15,
-        $loggerService->lastEntry(),
-        $loggerService->lastEntries(15)
-    );
-    $brewSession = $brewSessionConfig->sessionIdentity($sensor);
+
+    $lastEntries = $loggerService->lastEntries(15);
+    if ($lastEntries !== '') {
+        $foo = $loggerService->toArray($lastEntries);
+        $trend = $trendCalculator->calculateTrend(
+            15,
+            $loggerService->lastEntry(),
+            $loggerService->toArray($lastEntries),
+        );
+    }
+
     $alarmStatus = '';
+    $brewSession = $brewSessionConfig->sessionIdentity($sensor);
 
     if ($brewSession instanceof BrewSession) {
         $alarm = new Alarm($brewSession);
@@ -54,7 +61,11 @@ foreach ($sensorFactory->allSensors() as $sensor) {
     print $result . ' ' . $sensor->temperature('fahrenheit') . 'ºF' . PHP_EOL;
     print $result . ' ' . $sensor->temperature('kelvin') . 'ºK' . PHP_EOL;
     print $sensor . PHP_EOL;
-    print 'Trend: ' . $trend->getTrend() . PHP_EOL;
-    $loggerService->write((string) $sensor->temperature());
+
+    if (isset($trend) && $trend instanceof Trend) {
+        print 'Trend: ' . $trend->getTrend() . PHP_EOL;
+    }
+
+    $loggerService->write($sensor->temperature());
     $loggerService->close();
 }

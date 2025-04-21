@@ -111,6 +111,17 @@ final class Logger extends AbstractLogger implements LoggerInterface
         return '';
     }
 
+    public function toArray(string $values): array
+    {
+        $log = explode("\n", $values);
+        if (count($log) <= 1) {
+            return $log;
+        }
+
+        array_pop($log);
+        return array_reverse($log);
+    }
+
     public function pushHandler(HandlerInterface $handler): self
     {
         array_unshift($this->handlers, $handler);
@@ -124,8 +135,9 @@ final class Logger extends AbstractLogger implements LoggerInterface
         }
     }
 
-    public function log($level, \Stringable|string $message, array $context = []): void
+    public function log($level, string|\Stringable $message, array $context = []): void
     {
-        // TODO: Implement log() method.
+        $messageString = $message instanceof \Stringable ? $message->__toString() : $message;
+        $this->write($messageString, $context);
     }
 }

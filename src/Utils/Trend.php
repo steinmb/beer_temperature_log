@@ -8,7 +8,7 @@ use steinmb\Enums\TrendFormat;
 
 final class Trend
 {
-    private const array RANGES = [
+    private const array SPEED_RANGES = [
         'stable' => [0.1, 0.2],
         'slowly' => [0.2, 0.3],
         'steady' => [0.3, 0.9],
@@ -73,6 +73,7 @@ final class Trend
 //                return "$case->value {$this->direction()} ($speed)";
             }
         }
+        return '';
     }
 
     private function direction(): string

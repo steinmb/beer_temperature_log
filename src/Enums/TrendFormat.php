@@ -14,6 +14,9 @@ enum TrendFormat: string
     case Medium = 'medium';
     case Fast = 'fast';
 
+    /**
+     * @throws Exception
+     */
     public function description(): string
     {
         return match ($this) {

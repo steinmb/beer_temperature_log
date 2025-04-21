@@ -6,12 +6,14 @@ namespace steinmb\Tests\Unit\Utils;
 
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
+use steinmb\Logger\Logger;
 use steinmb\Utils\Calculate;
 use steinmb\Utils\Trend;
 use UnexpectedValueException;
 
 #[CoversClass(Calculate::class)]
 #[CoversClass(Trend::class)]
+#[CoversClass(Logger::class)]
 final class CalculateTest extends TestCase
 {
     private array $values;
@@ -97,7 +99,8 @@ final class CalculateTest extends TestCase
         2021-02-23 09:55:05, 15.687, 17.687
         LOG;
         $calc = new Calculate();
-        $trend = $calc->calculateTrend(6, '20', $lastEntries);
+        $loggerService = new Logger('test');
+        $trend = $calc->calculateTrend(6, '20', $loggerService->toArray($lastEntries));
         self::assertEquals('0.010302066398', $trend->getTrend(), 'Failed calculating trend data');
     }
 }
