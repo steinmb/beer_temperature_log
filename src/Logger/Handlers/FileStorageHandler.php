@@ -134,14 +134,12 @@ final class FileStorageHandler implements HandlerInterface
      * Sets buffer size, according to the number of lines to retrieve.
      * This gives a performance boost when reading a few lines from the file.
      */
-    private function bufferSize(int $lines = 1, bool $adaptive = true): int
+    private function bufferSize(int $lines = 1): int
     {
-        if (!$adaptive) {
-            return 4096;
-        }
         if ($lines < 2) {
             return 64;
         }
+
         if ($lines < 10) {
             return 512;
         }
@@ -149,19 +147,19 @@ final class FileStorageHandler implements HandlerInterface
         return 4094;
     }
 
-    private function tailFile(int $lines = 1, bool $adaptive = true): ?string
+    private function tailFile(int $lines = 1): ?string
     {
-        $f = @fopen($this->stream, "rb");
+        $f = fopen($this->stream, "rb");
         if ($f === false) {
             return null;
         }
 
-        $buffer = $this->bufferSize($lines, $adaptive);
-        // Jump to last character.
+        $buffer = $this->bufferSize($lines);
+        // Jump to the last character.
         fseek($f, -1, SEEK_END);
 
-        // Read it and adjust line number if necessary, otherwise the result would be
-        // wrong if file doesn't end with a blank line.
+        // Read it and adjust the line number if necessary, otherwise the result would be
+        // wrong if the file doesn't end with a blank line.
         if (fread($f, 1) !== "\n") {
             --$lines;
         }
@@ -184,9 +182,9 @@ final class FileStorageHandler implements HandlerInterface
             $lines -= substr_count($chunk, "\n");
         }
 
-        // Because of buffer size we might have read too many lines.
+        // Because of buffer size, we might have read too many lines.
         while ($lines++ < 0) {
-            // Find first newline and remove all text before that
+            // Find the first newline and remove all text before that.
             $output = substr($output, strpos($output, "\n") + 1);
         }
         fclose($f);
