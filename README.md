@@ -85,7 +85,7 @@ $configuration['TELEGRAM_ALARM'] = [
 
 ## Usage
 
-Have a look in the `examples` directory.
+Examples can be found in the `/examples` directory.
 
 ### Example, find all 1-Wire sensors
 
