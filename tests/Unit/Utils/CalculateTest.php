@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace steinmb\Tests\Unit\Utils;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use steinmb\Logger\Logger;
 use steinmb\Utils\Calculate;
@@ -12,8 +13,7 @@ use steinmb\Utils\Trend;
 use UnexpectedValueException;
 
 #[CoversClass(Calculate::class)]
-#[CoversClass(Trend::class)]
-#[CoversClass(Logger::class)]
+#[UsesClass(Trend::class)]
 final class CalculateTest extends TestCase
 {
     private array $values;

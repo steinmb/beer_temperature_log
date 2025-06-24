@@ -6,6 +6,7 @@ namespace steinmb\Tests\Unit\Formatters;
 
 use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use steinmb\Enums\DateFormat;
 use steinmb\Formatters\HTMLFormatter;
 use PHPUnit\Framework\TestCase;
@@ -13,8 +14,7 @@ use steinmb\SystemClockFixed;
 use steinmb\Utils\Trend;
 
 #[CoversClass(HTMLFormatter::class)]
-#[CoversClass(SystemClockFixed::class)]
-#[CoversClass(Trend::class)]
+#[UsesClass(SystemClockFixed::class)]
 final class HTMLFormatterTest extends TestCase
 {
     private SystemClockFixed $timestamp;

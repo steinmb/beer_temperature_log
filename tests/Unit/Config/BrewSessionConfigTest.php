@@ -5,21 +5,16 @@ declare(strict_types=1);
 namespace steinmb\Tests\Unit\Config;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use steinmb\AmbiguousSessionId;
-use steinmb\BrewSession;
 use steinmb\BrewSessionConfig;
 use steinmb\BrewSessionInterface;
 use steinmb\Onewire\OneWireFixed;
 use steinmb\Onewire\SensorFactory;
-use steinmb\Onewire\TemperatureSensor;
 
 #[CoversClass(BrewSessionConfig::class)]
-#[CoversClass(AmbiguousSessionId::class)]
-#[CoversClass(BrewSession::class)]
-#[CoversClass(OneWireFixed::class)]
-#[CoversClass(SensorFactory::class)]
-#[CoversClass(TemperatureSensor::class)]
+#[UsesClass(AmbiguousSessionId::class)]
 final class BrewSessionConfigTest extends TestCase
 {
     private BrewSessionConfig $brewSessionConfig;
