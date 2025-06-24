@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace steinmb\Tests\Unit\Logger;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use steinmb\Logger\Handlers\NullHandler;
 use steinmb\Logger\Logger;
 
 #[CoversClass(Logger::class)]
-#[CoversClass(NullHandler::class)]
+#[UsesClass(NullHandler::class)]
 final class LoggerTest extends TestCase
 {
     private Logger $logger;

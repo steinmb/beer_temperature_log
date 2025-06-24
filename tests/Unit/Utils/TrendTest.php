@@ -5,16 +5,14 @@ declare(strict_types=1);
 namespace steinmb\Tests\Unit\Utils;
 
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\UsesClass;
 use PHPUnit\Framework\TestCase;
 use steinmb\Enums\TrendFormat;
 use steinmb\Utils\Calculate;
 use steinmb\Utils\Trend;
-use steinmb\ValueObjects\Range;
 
 #[CoversClass(Trend::class)]
-#[CoversClass(TrendFormat::class)]
-#[CoversClass(Calculate::class)]
-#[CoversClass(Range::class)]
+#[UsesClass(TrendFormat::class)]
 final class TrendTest extends TestCase
 {
     public function testCalculateTrend(): void
@@ -43,24 +41,6 @@ final class TrendTest extends TestCase
 
     public function testCreateTrendLabels(): void
     {
-//        $trend = new Trend(0.21);
-//        $foo = TrendFormat::Stable->speed();
-//        $bar = TrendFormat::Slowly->value;
-//        $foobar = $foo->withinRange(0.21);
-//        $trend = new Trend(0.11);
-//        $result = $trend->createTrendLabels();
-
-//        self::assertEquals(TrendFormat::Stable->value, $this->trend->createTrendLabels());
-//        self::assertEquals(TrendFormat::Stable->value, $trend->createTrendLabels());
-//
-//        $trend = new Trend(TrendFormat::Slowly->speed());
-//        $expected_result = TrendFormat::Slowly->value . ' increasing (' . TrendFormat::Slowly->speed() . ')';
-//        self::assertEquals($expected_result, $trend->createTrendLabels());
-//
-//        $trend = new Trend(TrendFormat::Fast->speed());
-//        $expected_result = TrendFormat::Fast->value . ' increasing (' . TrendFormat::Fast->speed() . ')';
-//        self::assertEquals($expected_result, $trend->createTrendLabels());
-
         $trend = new Trend(0.1);
         self::assertEquals(
             'stable',
